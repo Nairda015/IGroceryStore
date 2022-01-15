@@ -6,13 +6,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserBasket.Api", "UserBaske
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UserBasket", "UserBasket", "{959393F6-FF89-490B-889E-D2F24B2DF605}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shops", "Shops", "{2DDCE09B-DF46-4875-99DF-6AC246BF2B99}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Stores", "Stores", "{2DDCE09B-DF46-4875-99DF-6AC246BF2B99}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Products", "Products", "{51E807A8-E7D2-4349-B5C2-EB780D82641A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shops.Core", "Shops\Shops.Core\Shops.Core.csproj", "{FDA44412-BC78-4DE3-851B-1B1F4A02FF3F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stores.Core", "Shops\Stores.Core\Stores.Core.csproj", "{FDA44412-BC78-4DE3-851B-1B1F4A02FF3F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shops.Api", "Shops\Shops.Api\Shops.Api.csproj", "{48CB628E-4D69-4F6D-B533-A5C11F5E8E65}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stores.Api", "Shops\Stores.Api\Stores.Api.csproj", "{48CB628E-4D69-4F6D-B533-A5C11F5E8E65}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Products.Api", "Products\Products.Api\Products.Api.csproj", "{29B589AC-707B-4C53-9E88-F22888311229}"
 EndProject

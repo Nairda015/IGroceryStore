@@ -9,7 +9,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Products\Products.Api\Products.Api.csproj" />
-      <ProjectReference Include="..\Shops\Shops.Api\Shops.Api.csproj" />
+      <ProjectReference Include="..\Shops\Stores.Api\Stores.Api.csproj" />
       <ProjectReference Include="..\UserBasket\UserBasket.Api\UserBasket.Api.csproj" />
     </ItemGroup>
 

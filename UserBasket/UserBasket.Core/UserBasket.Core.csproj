@@ -8,4 +8,8 @@
         <RootNamespace>IGroceryStore.UserBasket.Core</RootNamespace>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\Shared\Shared.Abstraction\Shared.Abstraction.csproj" />
+    </ItemGroup>
+
 </Project>

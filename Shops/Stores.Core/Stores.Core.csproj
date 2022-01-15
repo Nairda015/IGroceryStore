@@ -4,12 +4,12 @@
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <AssemblyName>IGroceryStore.Shops.Api</AssemblyName>
-        <RootNamespace>IGroceryStore.Shops.Api</RootNamespace>
+        <AssemblyName>IGroceryStore.Stores.Core</AssemblyName>
+        <RootNamespace>IGroceryStore.Stores.Core</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Shops.Core\Shops.Core.csproj" />
+      <Folder Include="Features" />
     </ItemGroup>
 
 </Project>

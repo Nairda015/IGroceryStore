@@ -1,16 +1,14 @@
-﻿namespace IGroceryStore.UserBasket.Core.ValueObjects;
+﻿using IGroceryStore.UserBasket.Core.Exceptions;
+
+namespace IGroceryStore.UserBasket.Core.ValueObjects;
 
 public record UserId
 {
-    public Guid Value { get; set; }
+    public Guid Value { get; }
 
     public UserId(Guid value)
     {
-        if (value == Guid.Empty)
-        {
-            throw new NotImplementedException();
-        }
-        
+        if (value == Guid.Empty) throw new InvalidUserIdException(value);
         Value = value;
     }
     
