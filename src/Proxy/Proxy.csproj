@@ -13,4 +13,8 @@
       <ProjectReference Include="..\UserBasket\UserBasket.Api\UserBasket.Api.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Yarp.ReverseProxy" Version="1.0.0" />
+    </ItemGroup>
+
 </Project>

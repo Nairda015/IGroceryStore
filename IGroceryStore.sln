@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserBasket.Core", "UserBasket\UserBasket.Core\UserBasket.Core.csproj", "{2AF5DDC3-75A2-41CF-BB26-CE6EEF42A117}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserBasket.Core", "src\UserBasket\UserBasket.Core\UserBasket.Core.csproj", "{2AF5DDC3-75A2-41CF-BB26-CE6EEF42A117}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserBasket.Api", "UserBasket\UserBasket.Api\UserBasket.Api.csproj", "{4DDB74BB-8173-4BE8-B891-C04CDC727603}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserBasket.Api", "src\UserBasket\UserBasket.Api\UserBasket.Api.csproj", "{4DDB74BB-8173-4BE8-B891-C04CDC727603}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UserBasket", "UserBasket", "{959393F6-FF89-490B-889E-D2F24B2DF605}"
 EndProject
@@ -10,23 +10,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Stores", "Stores", "{2DDCE0
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Products", "Products", "{51E807A8-E7D2-4349-B5C2-EB780D82641A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stores.Core", "Shops\Stores.Core\Stores.Core.csproj", "{FDA44412-BC78-4DE3-851B-1B1F4A02FF3F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stores.Core", "src\Shops\Stores.Core\Stores.Core.csproj", "{FDA44412-BC78-4DE3-851B-1B1F4A02FF3F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stores.Api", "Shops\Stores.Api\Stores.Api.csproj", "{48CB628E-4D69-4F6D-B533-A5C11F5E8E65}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stores.Api", "src\Shops\Stores.Api\Stores.Api.csproj", "{48CB628E-4D69-4F6D-B533-A5C11F5E8E65}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Products.Api", "Products\Products.Api\Products.Api.csproj", "{29B589AC-707B-4C53-9E88-F22888311229}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Products.Api", "src\Products\Products.Api\Products.Api.csproj", "{29B589AC-707B-4C53-9E88-F22888311229}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Products.Core", "Products\Products.Core\Products.Core.csproj", "{D8778F33-AEFD-4F9F-AE08-14BF1B13B503}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Products.Core", "src\Products\Products.Core\Products.Core.csproj", "{D8778F33-AEFD-4F9F-AE08-14BF1B13B503}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Proxy", "Proxy", "{6C0BB8B9-A523-4078-BA71-01985EC8F403}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proxy", "Proxy\Proxy.csproj", "{5D755251-9525-4EDC-A169-8900F17F88B5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proxy", "src\Proxy\Proxy.csproj", "{5D755251-9525-4EDC-A169-8900F17F88B5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{DC323AE4-1C76-4AEB-BD0E-139B47A5F4ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Abstraction", "Shared\Shared.Abstraction\Shared.Abstraction.csproj", "{757B8F60-561B-4E7F-9AA7-D1537452FFD0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Abstraction", "src\Shared\Shared.Abstraction\Shared.Abstraction.csproj", "{757B8F60-561B-4E7F-9AA7-D1537452FFD0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared\Shared.csproj", "{F086A490-C28A-4DF9-A05E-8D765CF0FD62}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "src\Shared\Shared\Shared.csproj", "{F086A490-C28A-4DF9-A05E-8D765CF0FD62}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
