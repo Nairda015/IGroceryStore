@@ -13,5 +13,11 @@ public class Product
     public string Brand { get; set; }
     public string Size { get; set; }
     public string Country { get; set; }
-    public List<Alergen> Alergens { get; set; }
+    public List<Allergen> Allergens { get; set; }
+    public bool IsObsolete { get; private set; }
+    
+    public void MarkAsObsolete()
+    {
+        IsObsolete = true;
+    }
 }

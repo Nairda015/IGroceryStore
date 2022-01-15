@@ -1,6 +1,6 @@
 ﻿namespace IGroceryStore.Products.Core.Entities;
 
-public class Alergen
+public class Allergen
 {
     public Guid Id { get; set; }
     public string Name { get; set; }

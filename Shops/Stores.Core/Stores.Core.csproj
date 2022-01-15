@@ -9,7 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Features" />
+      <ProjectReference Include="..\..\Shared\Shared.Abstraction\Shared.Abstraction.csproj" />
     </ItemGroup>
 
 </Project>
