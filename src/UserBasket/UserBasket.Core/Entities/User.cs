@@ -1,8 +1,9 @@
 ﻿using IGroceryStore.UserBasket.Core.ValueObjects;
+//using Microsoft.
 
 namespace IGroceryStore.UserBasket.Core.Entities;
 
-public class User
+public class User 
 {
     private User()
     {

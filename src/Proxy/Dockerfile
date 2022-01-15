@@ -5,8 +5,8 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["Proxy/Proxy.csproj", "Proxy/"]
-RUN dotnet restore "Proxy/Proxy.csproj"
+COPY ["src/Proxy/Proxy.csproj", "Proxy/"]
+RUN dotnet restore "src/Proxy/Proxy.csproj"
 COPY . .
 WORKDIR "/src/Proxy"
 RUN dotnet build "Proxy.csproj" -c Release -o /app/build
