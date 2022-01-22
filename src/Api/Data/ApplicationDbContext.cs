@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
+﻿using Duende.IdentityServer.EntityFramework.Options;
+using IGroceryStore.Api.Models;
+using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using Duende.IdentityServer.EntityFramework.Options;
-using Proxy.Models;
 
-namespace Proxy.Data;
+namespace IGroceryStore.Api.Data;
 
 public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>
 {

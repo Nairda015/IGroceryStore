@@ -4,12 +4,12 @@
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <AssemblyName>IGroceryStore.UserBasket.Api</AssemblyName>
-        <RootNamespace>IGroceryStore.UserBasket.Api</RootNamespace>
+        <AssemblyName>IGroceryStore.Products.Contracts</AssemblyName>
+        <RootNamespace>IGroceryStore.Products.Contracts</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\UserBasket.Core\UserBasket.Core.csproj" />
+      <ProjectReference Include="..\Products.Core\Products.Core.csproj" />
     </ItemGroup>
 
 </Project>

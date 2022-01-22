@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace Proxy.Models;
+namespace IGroceryStore.Api.Models;
 
 public class ApplicationUser : IdentityUser
 {

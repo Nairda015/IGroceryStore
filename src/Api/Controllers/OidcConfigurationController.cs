@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Proxy.Controllers;
+namespace IGroceryStore.Api.Controllers;
 
 public class OidcConfigurationController : Controller
 {

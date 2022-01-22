@@ -1,9 +1,10 @@
+using IGroceryStore.Api.Data;
+using IGroceryStore.Api.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Proxy.Data;
-using Proxy.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -12,6 +12,7 @@
         <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+        <RootNamespace>IGroceryStore.Api</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
