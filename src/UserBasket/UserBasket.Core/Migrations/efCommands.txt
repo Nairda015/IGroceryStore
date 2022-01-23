@@ -1,0 +1,2 @@
+dotnet ef migrations add Init -s ..\..\Api -c BasketDbContext
+dotnet ef database update -s ..\..\Api -c BasketDbContext

@@ -10,10 +10,11 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Shared\Shared.Abstraction\Shared.Abstraction.csproj" />
+      <ProjectReference Include="..\..\Shared\Shared\Shared.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+      <Folder Include="Repositories" />
     </ItemGroup>
 
 </Project>

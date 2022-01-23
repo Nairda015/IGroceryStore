@@ -24,6 +24,9 @@
         <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.1" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.1" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.1" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+        <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.2.3" />
+        <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.2.3" />
     </ItemGroup>
 
     <ItemGroup>
@@ -34,6 +37,11 @@
         <Content Remove="$(SpaRoot)**" />
         <None Remove="$(SpaRoot)**" />
         <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\Products\Products.Contracts\Products.Contracts.csproj" />
+      <ProjectReference Include="..\Shops\Stores.Contracts\Stores.Contracts.csproj" />
+      <ProjectReference Include="..\UserBasket\UserBasket.Contracts\UserBasket.Contracts.csproj" />
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
