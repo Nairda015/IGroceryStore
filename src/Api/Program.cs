@@ -1,5 +1,6 @@
 using IGroceryStore.Api.Data;
 using IGroceryStore.Api.Models;
+using IGroceryStore.Baskets.Core;
 using IGroceryStore.Shared;
 using IGroceryStore.Shared.Abstraction.Services;
 using IGroceryStore.Shared.Services;

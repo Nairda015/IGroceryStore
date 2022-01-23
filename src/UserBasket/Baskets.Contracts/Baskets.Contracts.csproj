@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <AssemblyName>IGroceryStore.UserBasket.Contracts</AssemblyName>
+        <RootNamespace>IGroceryStore.UserBasket.Contracts</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Baskets.Core\Baskets.Core.csproj" />
+    </ItemGroup>
+
+</Project>
