@@ -1,6 +1,6 @@
 ﻿namespace IGroceryStore.Baskets.Core.Entities;
 
-public class Product
+internal class Product
 {
     public Guid Id { get; set; }
     public string Name { get; set; }

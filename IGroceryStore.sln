@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Baskets.Core", "src\UserBasket\Baskets.Core\Baskets.Core.csproj", "{2AF5DDC3-75A2-41CF-BB26-CE6EEF42A117}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Baskets.Core", "src\Baskets\Baskets.Core\Baskets.Core.csproj", "{2AF5DDC3-75A2-41CF-BB26-CE6EEF42A117}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Baskets.Contracts", "src\UserBasket\Baskets.Contracts\Baskets.Contracts.csproj", "{4DDB74BB-8173-4BE8-B891-C04CDC727603}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Baskets.Contracts", "src\Baskets\Baskets.Contracts\Baskets.Contracts.csproj", "{4DDB74BB-8173-4BE8-B891-C04CDC727603}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Baskets", "Baskets", "{959393F6-FF89-490B-889E-D2F24B2DF605}"
 EndProject
@@ -31,6 +31,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "xTests", "xTests", "{E795DE89-913A-4B75-B579-45FFB612EE53}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Baskets.UnitTests", "tests\Baskets\Baskets.UnitTests\Baskets.UnitTests.csproj", "{4BE58296-F624-4C03-A9D2-1E5D3061000E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Users", "Users", "{DAB96D2A-A8E0-419A-A030-A39596BC9F96}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Users.Core", "src\Users\Users.Core\Users.Core.csproj", "{705137AC-A585-4DA0-80E1-A6AEDA0A8B78}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Users.Contracts", "src\Users\Users.Contracts\Users.Contracts.csproj", "{9EFBA892-DA33-4E8B-BE43-06C2CD184732}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -82,6 +88,14 @@ Global
 		{4BE58296-F624-4C03-A9D2-1E5D3061000E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4BE58296-F624-4C03-A9D2-1E5D3061000E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4BE58296-F624-4C03-A9D2-1E5D3061000E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{705137AC-A585-4DA0-80E1-A6AEDA0A8B78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{705137AC-A585-4DA0-80E1-A6AEDA0A8B78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{705137AC-A585-4DA0-80E1-A6AEDA0A8B78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{705137AC-A585-4DA0-80E1-A6AEDA0A8B78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9EFBA892-DA33-4E8B-BE43-06C2CD184732}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9EFBA892-DA33-4E8B-BE43-06C2CD184732}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9EFBA892-DA33-4E8B-BE43-06C2CD184732}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9EFBA892-DA33-4E8B-BE43-06C2CD184732}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{4DDB74BB-8173-4BE8-B891-C04CDC727603} = {959393F6-FF89-490B-889E-D2F24B2DF605}
@@ -93,5 +107,7 @@ Global
 		{757B8F60-561B-4E7F-9AA7-D1537452FFD0} = {DC323AE4-1C76-4AEB-BD0E-139B47A5F4ED}
 		{F086A490-C28A-4DF9-A05E-8D765CF0FD62} = {DC323AE4-1C76-4AEB-BD0E-139B47A5F4ED}
 		{4BE58296-F624-4C03-A9D2-1E5D3061000E} = {E795DE89-913A-4B75-B579-45FFB612EE53}
+		{705137AC-A585-4DA0-80E1-A6AEDA0A8B78} = {DAB96D2A-A8E0-419A-A030-A39596BC9F96}
+		{9EFBA892-DA33-4E8B-BE43-06C2CD184732} = {DAB96D2A-A8E0-419A-A030-A39596BC9F96}
 	EndGlobalSection
 EndGlobal

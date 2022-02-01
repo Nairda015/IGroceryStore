@@ -1,28 +1,24 @@
 ﻿using IGroceryStore.Baskets.Core.ValueObjects;
-
-//using Microsoft.
-
 namespace IGroceryStore.Baskets.Core.Entities;
 
-public class User 
+internal class User 
 {
     private User()
     {
         
     }
 
-    internal User(UserId id, string firstName, string lastName, string email, string password)
+    internal User(UserId id, string firstName, string lastName)
     {
         Id = id;
         FirstName = firstName;
         LastName = lastName;
-        Email = email;
-        Password = password;
     }
     
     public Guid Id { get; }
     public string FirstName { get; private set; }
     public string LastName { get; private set; }
-    public string Email { get; private set; }
-    public string Password { get; private set; }
+
+    public List<Basket> Baskets { get; private set; }
+
 }

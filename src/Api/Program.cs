@@ -1,28 +1,30 @@
-using IGroceryStore.Api.Data;
-using IGroceryStore.Api.Models;
 using IGroceryStore.Baskets.Core;
 using IGroceryStore.Shared;
 using IGroceryStore.Shared.Abstraction.Services;
 using IGroceryStore.Shared.Services;
-using IGroceryStore.UserBasket.Core;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Db
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite(connectionString));
+// builder.Services.AddDbContext<ApplicationDbContext>(options =>
+//     options.UseSqlite(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddIdentityServer()
-    .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+// Auth
+// builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+//     .AddEntityFrameworkStores<ApplicationDbContext>();
+//
+// builder.Services.AddIdentityServer()
+//     .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
 
-// 
+builder.Services.AddAuthentication()
+    .AddIdentityServerJwt();
+
+
+// Services
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<ICurrentUserService, CurrentUserService>();
@@ -30,11 +32,8 @@ builder.Services.AddSingleton<ICurrentUserService, CurrentUserService>();
 builder.Services.AddShared();
 builder.Services.AddBaskets(builder.Configuration);
 
-//
 
-builder.Services.AddAuthentication()
-    .AddIdentityServerJwt();
-
+// MVC/Razor
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
