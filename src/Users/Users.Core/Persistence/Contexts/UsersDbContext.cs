@@ -2,9 +2,10 @@
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Services;
 using IGroceryStore.Users.Core.Entities;
+using IGroceryStore.Users.Core.Persistence.Seeders;
 using Microsoft.EntityFrameworkCore;
 
-namespace IGroceryStore.Users.Core.Persistence;
+namespace IGroceryStore.Users.Core.Persistence.Contexts;
 
 public class UsersDbContext : DbContext
 {

@@ -2,7 +2,9 @@ using IGroceryStore.Baskets.Core;
 using IGroceryStore.Shared;
 using IGroceryStore.Shared.Abstraction.Services;
 using IGroceryStore.Shared.Services;
+using IGroceryStore.Users.Core;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,10 +29,18 @@ builder.Services.AddAuthentication()
 // Services
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<ICurrentUserService, CurrentUserService>();
 
 builder.Services.AddShared();
 builder.Services.AddBaskets(builder.Configuration);
+builder.Services.AddUsers(builder.Configuration);
+
+builder.Services.AddLogging(loggingBuilder => {
+    loggingBuilder.AddConsole()
+        .AddFilter(DbLoggerCategory.Database.Command.Name, LogLevel.Information);
+    loggingBuilder.AddDebug();
+});
 
 
 // MVC/Razor
@@ -45,7 +55,6 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
-    
 }
 else
 {
@@ -53,7 +62,7 @@ else
     app.UseHsts();
 }
 
-app.UseSwagger();
+app.UseSwagger(x => x.RouteTemplate = "docs/{documentName}/swagger.json");
 app.UseSwaggerUI(options =>
 {
     options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
@@ -63,17 +72,18 @@ app.UseSwaggerUI(options =>
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+app.UseShared();
+//app.UseAuthentication();
+//app.UseIdentityServer();
+//app.UseAuthorization();
 
-app.UseAuthentication();
-app.UseIdentityServer();
-app.UseAuthorization();
+// app.MapControllerRoute(
+//     name: "default",
+//     pattern: "{controller}/{action=Index}/{id?}");
+// app.MapRazorPages();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller}/{action=Index}/{id?}");
-app.MapRazorPages();
+app.UseEndpoints(x => x.MapControllers());
 
 app.MapFallbackToFile("index.html");
-;
 
 app.Run();

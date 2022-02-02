@@ -1,6 +1,7 @@
 ﻿using IGroceryStore.Users.Core.Entities;
+using IGroceryStore.Users.Core.Persistence.Contexts;
 
-namespace IGroceryStore.Users.Core.Persistence;
+namespace IGroceryStore.Users.Core.Persistence.Seeders;
 
 public static class UsersDbSeed
 {

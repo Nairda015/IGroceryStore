@@ -5,7 +5,7 @@ namespace IGroceryStore.Users.Core.Entities;
 
 public class User : AuditableEntity
 {
-    private User()
+    public User()
     {
         
     }
@@ -23,16 +23,16 @@ public class User : AuditableEntity
         _passwordHash = passwordHash;
     }
     
+    private Password _passwordHash;
+    private ushort _accessFailedCount;
+    private DateTime _lockoutEnd;
     public UserId Id { get; }
     public FirstName FirstName { get; private set; }
     public LastName LastName { get; private set; }
     public Email Email { get; private set; }
-    private Password _passwordHash;
     public bool TwoFactorEnabled { get; private set; } = false;
     public bool EmailConfirmed { get; private set; }
-    private ushort _accessFailedCount;
     public bool LockoutEnabled { get; private set; }
-    private DateTime _lockoutEnd;
 
     //TODO: generate
     public string ConcurrencyStamp { get; private set; }
