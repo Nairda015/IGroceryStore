@@ -2,20 +2,19 @@
 
 namespace IGroceryStore.Users.Core.ValueObjects;
 
-public record Password
+public record PasswordHash
 {
     public string Value { get; }
     
-    public Password(string value)
+    public PasswordHash(string value)
     {
         if (value is null)
         {
             throw new InvalidPasswordException();
         }
         Value = value;
-        throw new NotImplementedException();
     }
     
-    public static implicit operator string(Password password) => password.Value;
-    public static implicit operator Password(string value) => new(value);
+    public static implicit operator string(PasswordHash passwordHash) => passwordHash.Value;
+    public static implicit operator PasswordHash(string value) => new(value);
 }

@@ -24,7 +24,7 @@ public static class Extensions
         services.AddDbContext<UsersDbContext>(ctx => 
             ctx.UseNpgsql(options.ConnectionString)
             .EnableSensitiveDataLogging(enableSensitiveData));
-        
+
         return services;
     }
 }

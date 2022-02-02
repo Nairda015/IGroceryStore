@@ -5,5 +5,5 @@ namespace IGroceryStore.Users.Core.Factories;
 
 public interface IUserFactory
 {
-    User Create(UserId id, FirstName firstName, LastName lastName, Email email, Password password);
+    User Create(UserId id, FirstName firstName, LastName lastName, Email email, string password);
 }

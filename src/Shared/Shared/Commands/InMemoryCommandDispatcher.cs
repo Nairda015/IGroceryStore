@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace IGroceryStore.Shared.Commands;
 
-public class InMemoryCommandDispatcher : ICommandDispatcher
+internal sealed class InMemoryCommandDispatcher : ICommandDispatcher
 {
     private readonly IServiceProvider _serviceProvider;
 
@@ -22,5 +22,17 @@ public class InMemoryCommandDispatcher : ICommandDispatcher
         }
 
         return await (Task<TResult>) method.Invoke(handler, new object[] {command, cancellationToken});
+    }
+
+    public async Task DispatchAsync<TCommand>(TCommand command, CancellationToken cancellationToken = default) where TCommand : class, ICommand
+    {
+        if (command is null)
+        {
+            return;
+        }
+
+        using var scope = _serviceProvider.CreateScope();
+        var handler = scope.ServiceProvider.GetRequiredService<ICommandHandler<TCommand>>();
+        await handler.HandleAsync(command, cancellationToken);
     }
 }

@@ -1,4 +1,6 @@
 ﻿using IGroceryStore.Shared.Abstraction.Common;
+using IGroceryStore.Shared.Services;
+using IGroceryStore.Users.Core.Exceptions;
 using IGroceryStore.Users.Core.ValueObjects;
 
 namespace IGroceryStore.Users.Core.Entities;
@@ -14,7 +16,7 @@ public class User : AuditableEntity
         FirstName firstName,
         LastName lastName,
         Email email,
-        Password passwordHash)
+        PasswordHash passwordHash)
     {
         Id = id;
         FirstName = firstName;
@@ -23,7 +25,7 @@ public class User : AuditableEntity
         _passwordHash = passwordHash;
     }
     
-    private Password _passwordHash;
+    private PasswordHash _passwordHash;
     private ushort _accessFailedCount;
     private DateTime _lockoutEnd;
     public UserId Id { get; }
@@ -35,13 +37,17 @@ public class User : AuditableEntity
     public bool LockoutEnabled { get; private set; }
 
     //TODO: generate
-    public string ConcurrencyStamp { get; private set; }
-    public string SecurityStamp { get; private set; }
-    private void UpdatePassword(string password)
+    public string ConcurrencyStamp { get; private set; } = "";
+    public string SecurityStamp { get; private set; } = "";
+    private void UpdatePassword(string password, string oldPassword)
     {
-        //TODO: add hashing
-        _passwordHash = password;
-        throw new NotImplementedException();
+        if (!HashingService.ValidatePassword(oldPassword, _passwordHash))
+        {
+            _accessFailedCount++;
+            throw new IncorrectPasswordException();
+        }
+            
+        _passwordHash = HashingService.HashPassword(password);
     }
     
     private void UpdateEmail(string email)

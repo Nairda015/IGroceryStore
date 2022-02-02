@@ -17,7 +17,7 @@ public class AddBasketController : ApiControllerBase
         _commandDispatcher = commandDispatcher;
     }
 
-    [HttpPost("/api/baskets")]
+    [HttpPost("/baskets")]
     public async Task<ActionResult<Guid>> AddBasket([FromBody] AddBasket command, CancellationToken cancellationToken)
     {
         var result = await _commandDispatcher.DispatchAsync(command, cancellationToken);

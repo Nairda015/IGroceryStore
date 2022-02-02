@@ -10,8 +10,8 @@ internal sealed class UserDbConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
-        var passwordConverter = new ValueConverter<Password, string>(l => l.ToString(),
-            l => new Password(l));
+        var passwordConverter = new ValueConverter<PasswordHash, string>(l => l.ToString(),
+            l => new PasswordHash(l));
         
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id)
@@ -24,7 +24,7 @@ internal sealed class UserDbConfiguration : IEntityTypeConfiguration<User>
         builder.Property(x => x.LastName)
             .HasConversion(x => x.Value, x => new LastName(x));
         builder
-            .Property(typeof(Password), "_passwordHash")
+            .Property(typeof(PasswordHash), "_passwordHash")
             .HasConversion(passwordConverter)
             .HasColumnName("PasswordHash");
         
