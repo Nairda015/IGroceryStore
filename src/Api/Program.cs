@@ -1,12 +1,21 @@
 using IGroceryStore.Baskets.Core;
 using IGroceryStore.Shared;
 using IGroceryStore.Shared.Abstraction.Services;
+using IGroceryStore.Shared.Options;
 using IGroceryStore.Shared.Services;
 using IGroceryStore.Users.Core;
+using IGroceryStore.Users.Core.Features.Users;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+var envName = builder.Environment.EnvironmentName;
+
+//AWS
+builder.Configuration.AddSystemsManager("/Production/IGroceryStore", TimeSpan.FromSeconds(5));
+
+//Config
+builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Users:JwtSettings"));
 
 // Db
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -24,6 +33,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddAuthentication()
     .AddIdentityServerJwt();
+
 
 
 // Services

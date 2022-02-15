@@ -41,7 +41,7 @@ public class User : AuditableEntity
     public string SecurityStamp { get; private set; } = "";
     private void UpdatePassword(string password, string oldPassword)
     {
-        if (!HashingService.ValidatePassword(oldPassword, _passwordHash))
+        if (!HashingService.ValidatePassword(oldPassword, _passwordHash.Value))
         {
             _accessFailedCount++;
             throw new IncorrectPasswordException();
@@ -74,27 +74,15 @@ public class User : AuditableEntity
         _accessFailedCount = 0;
     }
     
-    internal bool Login(string email, string password)
+    internal bool Login(string password)
     {
-        throw new NotImplementedException();
-        if (Email != email)
-        {
-            return false;
-        }
-
-        if (_passwordHash != password)
+        if (!HashingService.ValidatePassword(password, _passwordHash.Value))
         {
             _accessFailedCount++;
             return false;
         }
-
-        if (_accessFailedCount > 5)
-        {
-            Lock();
-            return false;
-        }
-
-        return true;
-        
+        if (_accessFailedCount <= 5) return true;
+        Lock();
+        return false;
     }
 }

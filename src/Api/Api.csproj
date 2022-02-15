@@ -16,6 +16,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Amazon.Extensions.Configuration.SystemsManager" Version="3.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" Version="6.0.1" />
         <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.1" />
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.1" />
@@ -27,10 +28,6 @@
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
         <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.2.3" />
         <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.2.3" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
     </ItemGroup>
     <ItemGroup>
         <!-- Don't publish the SPA source files, but do show them in the project files list -->
