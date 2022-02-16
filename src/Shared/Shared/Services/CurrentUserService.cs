@@ -20,7 +20,7 @@ public class CurrentUserService : ICurrentUserService
     {
         get
         {
-            var id = User?.FindFirst(x => x.Type == Claims.Name.Id)?.Value;
+            var id = User?.FindFirst(x => x.Type == Claims.Name.UserId)?.Value;
             if (id is null) return null;
             return Guid.Parse(id);
         }

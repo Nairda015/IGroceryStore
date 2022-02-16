@@ -1,12 +1,14 @@
+using System.Text;
 using IGroceryStore.Baskets.Core;
 using IGroceryStore.Shared;
 using IGroceryStore.Shared.Abstraction.Services;
 using IGroceryStore.Shared.Options;
 using IGroceryStore.Shared.Services;
 using IGroceryStore.Users.Core;
-using IGroceryStore.Users.Core.Features.Users;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Tokens = IGroceryStore.Shared.Abstraction.Constants.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 var envName = builder.Environment.EnvironmentName;
@@ -15,28 +17,24 @@ var envName = builder.Environment.EnvironmentName;
 builder.Configuration.AddSystemsManager("/Production/IGroceryStore", TimeSpan.FromSeconds(5));
 
 //Config
-builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Users:JwtSettings"));
+var userSection = builder.Configuration.GetSection("Users:JwtSettings");
+builder.Services.Configure<JwtSettings>(userSection);
+var jwtSettings = userSection.Get<JwtSettings>();
 
-// Db
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-// builder.Services.AddDbContext<ApplicationDbContext>(options =>
-//     options.UseSqlite(connectionString));
+//Db
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-
-// Auth
-// builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-//     .AddEntityFrameworkStores<ApplicationDbContext>();
-//
-// builder.Services.AddIdentityServer()
-//     .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
-
-builder.Services.AddAuthentication()
-    .AddIdentityServerJwt();
+//Auth
+builder.Services.AddAuthentication(x =>
+    {
+        x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(jwtBearerOptions => Options(jwtBearerOptions, Tokens.Audience.Access))
+    .AddJwtBearer(Tokens.Audience.Refresh, jwtBearerOptions => Options(jwtBearerOptions, Tokens.Audience.Refresh));
 
 
-
-// Services
+//Services
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddHttpContextAccessor();
@@ -56,7 +54,6 @@ builder.Services.AddLogging(loggingBuilder => {
 // MVC/Razor
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-
 
 
 var app = builder.Build();
@@ -81,20 +78,47 @@ app.UseSwaggerUI(options =>
 });
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
 app.UseRouting();
+
 app.UseShared();
-//app.UseAuthentication();
-//app.UseIdentityServer();
-//app.UseAuthorization();
 
-// app.MapControllerRoute(
-//     name: "default",
-//     pattern: "{controller}/{action=Index}/{id?}");
-// app.MapRazorPages();
+app.UseAuthentication();
+app.UseAuthorization();
 
+app.UseStaticFiles();
 app.UseEndpoints(x => x.MapControllers());
-
+app.MapGet("/", () => "HelloFromIGroceryStore");
 app.MapFallbackToFile("index.html");
 
 app.Run();
+
+JwtBearerOptions Options(JwtBearerOptions jwtBearerOptions, string audience)
+{
+    jwtBearerOptions.RequireHttpsMetadata = false;
+    jwtBearerOptions.SaveToken = true;
+    jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings.Key)),
+        ValidIssuer = jwtSettings.Issuer,
+        ValidateAudience = true,
+        ValidAudience = audience,
+        ValidateLifetime = true, 
+        ClockSkew = TimeSpan.FromSeconds(jwtSettings.ClockSkew)
+    };
+    if (audience == Tokens.Audience.Access)
+    {
+        jwtBearerOptions.Events = new JwtBearerEvents
+        {
+            OnAuthenticationFailed = context =>
+            {
+                if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+                {
+                    context.Response.Headers.Add("Token-Expired", "true");
+                }
+                return Task.CompletedTask;
+            }
+        };
+    }
+    return jwtBearerOptions;
+}

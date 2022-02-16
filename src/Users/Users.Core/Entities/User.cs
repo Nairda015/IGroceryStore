@@ -9,7 +9,6 @@ public class User : AuditableEntity
 {
     public User()
     {
-        
     }
 
     internal User(UserId id,
@@ -24,8 +23,9 @@ public class User : AuditableEntity
         Email = email;
         _passwordHash = passwordHash;
     }
-    
+
     private PasswordHash _passwordHash;
+    private List<string> _refreshTokens;
     private ushort _accessFailedCount;
     private DateTime _lockoutEnd;
     public UserId Id { get; }
@@ -62,7 +62,7 @@ public class User : AuditableEntity
         throw new NotImplementedException();
     }
 
-    internal void Lock()
+    private void Lock()
     {
         LockoutEnabled = true;
         _lockoutEnd = DateTime.Now.AddMinutes(5);
@@ -84,5 +84,22 @@ public class User : AuditableEntity
         if (_accessFailedCount <= 5) return true;
         Lock();
         return false;
+    }
+
+    internal void AddRefreshToken(string refreshToken)
+    {
+        _refreshTokens ??= new List<string>();
+        _refreshTokens.Add(refreshToken);
+    }
+
+    public bool TokenExist(string refreshToken)
+    {
+        return _refreshTokens.Contains(refreshToken);
+    }
+
+    public void UpdateRefreshToken(string oldRefreshToken, string newRefreshToken)
+    {
+        _refreshTokens.Remove(oldRefreshToken);
+        _refreshTokens.Add(newRefreshToken);
     }
 }

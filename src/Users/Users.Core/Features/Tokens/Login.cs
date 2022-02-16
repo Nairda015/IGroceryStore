@@ -6,10 +6,10 @@ using IGroceryStore.Users.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace IGroceryStore.Users.Core.Features.Users;
+namespace IGroceryStore.Users.Core.Features.Tokens;
 
 public record Login(string Email, string Password) : ICommand<LoginResult>;
-public record LoginResult(Guid UserId, string Token);
+public record LoginResult(Guid UserId, ReadModels.Tokens Tokens);
 
 public class LoginController : ApiControllerBase
 {
@@ -20,7 +20,7 @@ public class LoginController : ApiControllerBase
         _dispatcher = dispatcher;
     }
     
-    [HttpPost("users/login")]
+    [HttpPost("tokens/login")]
     public async Task<ActionResult<LoginResult>> Login([FromBody] Login command)
     {
         var result = await _dispatcher.DispatchAsync(command);
@@ -43,11 +43,22 @@ public class LoginHandler : ICommandHandler<Login, LoginResult>
     {
         var (email, password) = command;
         var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == email, cancellationToken);
-        
         if (user is null) throw new InvalidCredentialsException();
-        if (!user.Login(password)) throw new InvalidCredentialsException();
         
-        var token = _tokenManager.GenerateAccessToken(user);
-        return new LoginResult(user.Id, token);
+        if (!user.Login(password)) throw new InvalidCredentialsException();
+        var (refreshToken, jwt) = _tokenManager.GenerateRefreshToken(user);
+
+        user.AddRefreshToken(refreshToken);
+
+        _context.Users.Update(user);
+        await _context.SaveChangesAsync(cancellationToken);
+        
+        var tokens = new ReadModels.Tokens
+        {
+            AccessToken = _tokenManager.GenerateAccessToken(user),
+            RefreshToken = jwt
+        };
+        
+        return new LoginResult(user.Id, tokens);
     }
 }

@@ -23,10 +23,18 @@ internal sealed class UserDbConfiguration : IEntityTypeConfiguration<User>
             .HasConversion(x => x.Value, x => new Email(x));
         builder.Property(x => x.LastName)
             .HasConversion(x => x.Value, x => new LastName(x));
+        
+        builder
+            .Property(typeof(List<string>), "_refreshTokens")
+            .HasColumnName("RefreshTokens")
+            .IsRequired(false)
+            .HasColumnType("jsonb");
+        
         builder
             .Property(typeof(PasswordHash), "_passwordHash")
             .HasConversion(passwordConverter)
             .HasColumnName("PasswordHash");
+        
         
         builder
             .Property(typeof(ushort), "_accessFailedCount")

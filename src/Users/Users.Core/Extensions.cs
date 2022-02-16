@@ -1,9 +1,7 @@
-﻿using IGroceryStore.Shared.Abstraction.Services;
-using IGroceryStore.Shared.Commands;
+﻿using IGroceryStore.Shared.Commands;
 using IGroceryStore.Shared.Options;
 using IGroceryStore.Shared.Queries;
 using IGroceryStore.Users.Core.Factories;
-using IGroceryStore.Users.Core.Features.Users;
 using IGroceryStore.Users.Core.Persistence.Contexts;
 using IGroceryStore.Users.Core.Services;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +18,10 @@ public static class Extensions
         services.AddQueries();
         services.AddSingleton<IUserFactory, UserFactory>();
         services.AddScoped<ITokenManager, JwtTokenManager>();
+
+        services.AddAuthorization();
+        
+        
 
         var enableSensitiveData = configuration.GetValue<bool>("EnableSensitiveData");
 
