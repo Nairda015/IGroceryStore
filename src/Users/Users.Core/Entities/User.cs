@@ -25,7 +25,7 @@ public class User : AuditableEntity
     }
 
     private PasswordHash _passwordHash;
-    private List<string> _refreshTokens;
+    private List<RefreshToken> _refreshTokens;
     private ushort _accessFailedCount;
     private DateTime _lockoutEnd;
     public UserId Id { get; }
@@ -86,20 +86,29 @@ public class User : AuditableEntity
         return false;
     }
 
-    internal void AddRefreshToken(string refreshToken)
+    internal void AddRefreshToken(RefreshToken refreshToken)
     {
-        _refreshTokens ??= new List<string>();
+        _refreshTokens ??= new List<RefreshToken>();
         _refreshTokens.Add(refreshToken);
     }
 
-    public bool TokenExist(string refreshToken)
+    public bool TokenExist(RefreshToken refreshToken)
+        => _refreshTokens.Exists(x => x.Equals(refreshToken));
+    public bool TokenExist(string token)
+        => _refreshTokens.Exists(x => x.Value == token);
+    
+    public void UpdateRefreshToken(string oldTokenValue, string newTokenValue)
     {
-        return _refreshTokens.Contains(refreshToken);
+        var token = _refreshTokens.First(x => x.Value == oldTokenValue);
+        var newToken = token with {Value = newTokenValue};
+        _refreshTokens.RemoveAll(x => x.Value == oldTokenValue);
+        _refreshTokens.Add(newToken);
     }
 
-    public void UpdateRefreshToken(string oldRefreshToken, string newRefreshToken)
+    public void TryRemoveOldRefreshToken(string userAgent)
     {
-        _refreshTokens.Remove(oldRefreshToken);
-        _refreshTokens.Add(newRefreshToken);
+        _refreshTokens ??= new List<RefreshToken>();
+        if (!_refreshTokens.Exists(x => x.UserAgent == userAgent)) return;
+        _refreshTokens.RemoveAll(x => x.UserAgent == userAgent);
     }
 }

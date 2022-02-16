@@ -1,14 +1,14 @@
 using System.Text;
 using IGroceryStore.Baskets.Core;
 using IGroceryStore.Shared;
+using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Abstraction.Services;
 using IGroceryStore.Shared.Options;
 using IGroceryStore.Shared.Services;
 using IGroceryStore.Users.Core;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Tokens = IGroceryStore.Shared.Abstraction.Constants.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 var envName = builder.Environment.EnvironmentName;
@@ -25,14 +25,13 @@ var jwtSettings = userSection.Get<JwtSettings>();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 //Auth
-builder.Services.AddAuthentication(x =>
-    {
-        x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    })
-    .AddJwtBearer(jwtBearerOptions => Options(jwtBearerOptions, Tokens.Audience.Access))
-    .AddJwtBearer(Tokens.Audience.Refresh, jwtBearerOptions => Options(jwtBearerOptions, Tokens.Audience.Refresh));
-
+var authenticationBuilder = builder.Services.AddAuthentication(x =>
+{
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(jwtBearerOptions => Options(jwtBearerOptions, Tokens.Audience.Access))
+.AddJwtBearer(Tokens.Audience.Refresh, jwtBearerOptions => Options(jwtBearerOptions, Tokens.Audience.Refresh));
 
 //Services
 builder.Services.AddSwaggerGen();

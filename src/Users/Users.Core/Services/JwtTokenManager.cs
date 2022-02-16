@@ -36,14 +36,13 @@ public class JwtTokenManager : ITokenManager
             .MustVerifySignature()
             .Decode<IDictionary<string, object>>(token);
     }
-    
+
     public (string refreshToken, string jwt) GenerateRefreshToken(User user)
     {
         var randomNumber = new byte[32];
-        using (var rng = RandomNumberGenerator.Create()){
-            rng.GetBytes(randomNumber);
-            Convert.ToBase64String(randomNumber);
-        }
+        using var rng = RandomNumberGenerator.Create();
+        rng.GetBytes(randomNumber);
+        var randomString=  Convert.ToBase64String(randomNumber);
 
         var refreshToken = Encoding.ASCII.GetString(randomNumber);
 

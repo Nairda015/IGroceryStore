@@ -9,7 +9,7 @@ public static class Claims
         public const string UserId  = "user-id";
         public const string Role  = ClaimTypes.Role;
         public const string RefreshToken  = "refresh-token";
-        public const string Expire  = "expire";
+        public const string Expire  = "exp";
     }
     
     

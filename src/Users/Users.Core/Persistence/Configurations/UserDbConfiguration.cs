@@ -25,7 +25,7 @@ internal sealed class UserDbConfiguration : IEntityTypeConfiguration<User>
             .HasConversion(x => x.Value, x => new LastName(x));
         
         builder
-            .Property(typeof(List<string>), "_refreshTokens")
+            .Property(typeof(List<RefreshToken>), "_refreshTokens")
             .HasColumnName("RefreshTokens")
             .IsRequired(false)
             .HasColumnType("jsonb");

@@ -5,6 +5,7 @@ using IGroceryStore.Users.Core.Persistence;
 using IGroceryStore.Users.Core.Persistence.Contexts;
 using IGroceryStore.Users.Core.ReadModels;
 using IGroceryStore.Users.Core.ValueObjects;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,6 +23,7 @@ public class GetUsersController : ApiControllerBase
     }
     
     [HttpGet("/users")]
+    [Authorize]
     public async Task<UsersReadModel> Get()
     {
         var result = await _dispatcher.QueryAsync(new GetUsers());
