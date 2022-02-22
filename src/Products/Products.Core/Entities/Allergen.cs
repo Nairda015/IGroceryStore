@@ -1,6 +1,8 @@
-﻿namespace IGroceryStore.Products.Core.Entities;
+﻿using IGroceryStore.Shared.Abstraction.Common;
 
-public class Allergen
+namespace IGroceryStore.Products.Core.Entities;
+
+public class Allergen : AuditableEntity
 {
     public Guid Id { get; set; }
     public string Name { get; set; }

@@ -1,6 +1,8 @@
 ﻿using IGroceryStore.Baskets.Core.Entities;
+using IGroceryStore.Baskets.Core.Exceptions;
 using IGroceryStore.Baskets.Core.ValueObjects;
 using IGroceryStore.Shared.Abstraction.Services;
+using IGroceryStore.Shared.Exceptions;
 
 namespace IGroceryStore.Baskets.Core.Factories;
 
@@ -14,7 +16,10 @@ internal sealed class BasketFactory : IBasketFactory
     }
 
     public Basket Create(BasketName name)
-     => new(Guid.NewGuid(), _currentUserService.UserId, name);
+    {
+        var userId = _currentUserService.UserId ?? throw new InvalidUserIdException();
+        return new Basket(Guid.NewGuid(), userId, name);
+    }
 }
 
 internal interface IBasketFactory

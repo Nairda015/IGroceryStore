@@ -1,5 +1,6 @@
 ﻿using IGroceryStore.Baskets.Core.Entities;
 using IGroceryStore.Baskets.Core.ValueObjects;
+using IGroceryStore.Shared.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

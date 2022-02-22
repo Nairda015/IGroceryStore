@@ -36,12 +36,20 @@
         <Content Remove="$(SpaRoot)**" />
         <None Remove="$(SpaRoot)**" />
         <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+        <None Remove="ClientApp\**" />
+        <Content Remove="ClientApp\**" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\Baskets\Baskets.Contracts\Baskets.Contracts.csproj" />
       <ProjectReference Include="..\Products\Products.Contracts\Products.Contracts.csproj" />
       <ProjectReference Include="..\Shops\Stores.Contracts\Stores.Contracts.csproj" />
       <ProjectReference Include="..\Users\Users.Contracts\Users.Contracts.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+      <Compile Remove="ClientApp\**" />
+    </ItemGroup>
+    <ItemGroup>
+      <EmbeddedResource Remove="ClientApp\**" />
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

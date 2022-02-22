@@ -4,6 +4,7 @@ using IGroceryStore.Baskets.Core.Entities;
 using IGroceryStore.Baskets.Core.Exceptions;
 using IGroceryStore.Baskets.Core.Factories;
 using IGroceryStore.Shared.Abstraction.Services;
+using IGroceryStore.Shared.Exceptions;
 using Moq;
 using Xunit;
 

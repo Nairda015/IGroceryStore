@@ -5,7 +5,7 @@ namespace IGroceryStore.Products.Core.Exceptions;
 
 public class InvalidBarCodeException : GroceryStoreException
 {
-    public InvalidBarCodeException() : base($"Invalid bar code")
+    public InvalidBarCodeException() : base("Invalid bar code")
     {
     }
 

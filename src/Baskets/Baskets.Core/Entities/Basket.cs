@@ -1,23 +1,42 @@
 ﻿using IGroceryStore.Baskets.Core.ValueObjects;
+using IGroceryStore.Shared.ValueObjects;
 
 namespace IGroceryStore.Baskets.Core.Entities;
 
 internal class Basket
 {
-    public Guid Id { get; }
+    //private public maybe can share to friends?
+    public BasketId Id { get; }
     public UserId OwnerId { get; }
     public BasketName Name { get; private set; }
-    public ISet<Product> Products { get; private set; } = new HashSet<Product>();
+    
+    private ISet<Product> _products = new HashSet<Product>();
+    public ISet<Product> Products => _products;
 
     private Basket()
     {
         
     }
 
-    internal Basket(Guid id, UserId ownerId, BasketName name)
+    internal Basket(BasketId id, UserId ownerId, BasketName name)
     {
         Id = id;
         OwnerId = ownerId;
         Name = name;
     }
+    
+    internal void AddProduct(Product product)
+    {
+        _products.Add(product);
+    }
+    
+    internal void RemoveProduct(Product product)
+    {
+        _products.Remove(product);
+    }
+    
+    internal void UpdateName(BasketName name)
+    {
+        Name = name;
+    } 
 }

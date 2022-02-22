@@ -21,6 +21,7 @@
       <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.3.6" />
       <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
       <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+      <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.25.0" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.1">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -29,6 +30,10 @@
       <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.2" />
       <PackageReference Include="Scrutor" Version="3.3.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Events" />
     </ItemGroup>
 
 </Project>

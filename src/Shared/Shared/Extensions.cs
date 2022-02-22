@@ -1,5 +1,8 @@
 ﻿using IGroceryStore.Shared.Exceptions;
+using IGroceryStore.Shared.Options;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Azure.Cosmos;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace IGroceryStore.Shared;
