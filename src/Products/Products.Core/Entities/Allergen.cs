@@ -1,10 +1,16 @@
-﻿using IGroceryStore.Shared.Abstraction.Common;
+﻿using IGroceryStore.Products.Core.ValueObjects;
+using IGroceryStore.Shared.Abstraction.Common;
 
 namespace IGroceryStore.Products.Core.Entities;
 
 public class Allergen : AuditableEntity
 {
-    public Guid Id { get; set; }
-    public string Name { get; set; }
-    public string Code { get; set; }
+    public AllergenId Id { get; set; }
+    public AllergenName Name { get; set; }
+    public AllergenCode Code { get; set; }
 }
+
+
+
+
+

@@ -2,8 +2,8 @@
 
 namespace IGroceryStore.Products.Core.Entities;
 
-public class Category
+public class Brand
 {
-    public CategoryId Id { get; set; }
+    public BrandId Id { get; set; }
     public string Name { get; set; }
 }

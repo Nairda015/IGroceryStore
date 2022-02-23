@@ -1,4 +1,5 @@
-﻿using IGroceryStore.Products.Core.Exceptions;
+﻿using System.Net;
+using IGroceryStore.Shared.Abstraction.Exceptions;
 
 namespace IGroceryStore.Products.Core.ValueObjects;
 
@@ -16,4 +17,13 @@ public record BarCode
     public static implicit operator BarCode(string barcode) => new(barcode);
     
     public static implicit operator string(BarCode barCode) => barCode.Value;
+}
+
+public class InvalidBarCodeException : GroceryStoreException
+{
+    public InvalidBarCodeException() : base("Invalid bar code")
+    {
+    }
+
+    public override HttpStatusCode StatusCode => HttpStatusCode.BadRequest;
 }

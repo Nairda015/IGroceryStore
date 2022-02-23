@@ -18,6 +18,9 @@ public class ProductsDbContext : DbContext
     }
 
     internal DbSet<Product> Products => Set<Product>();
+    internal DbSet<Category> Categories => Set<Category>();
+    internal DbSet<Allergen> Allergens => Set<Allergen>();
+    internal DbSet<Brand> Brands => Set<Brand>();
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
     {

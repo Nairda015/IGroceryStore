@@ -2,8 +2,9 @@
 
 namespace IGroceryStore.Products.Core.Entities;
 
-public class Category
+public class Country
 {
-    public CategoryId Id { get; set; }
+    public CountryId Id { get; set; }
     public string Name { get; set; }
+    public string Code { get; set; }
 }

@@ -6,18 +6,17 @@ namespace IGroceryStore.Products.Core.Entities;
 
 internal class Product : AuditableEntity
 {
-    //Data modeling session for NoSql
     public ProductId Id { get; set; }
     public ProductName Name { get; set; }
-    public string Description { get; set; }
-    public string ImageUrl { get; set; }
+    public Description Description { get; set; }
+    public Uri ImageUrl { get; set; }
     public BarCode BarCode { get; set; }
-    public string Brand { get; set; }
-    public string Size { get; set; }
-    public string Country { get; set; }
-    public List<Allergen> Allergens { get; set; }
+    public Quantity Quantity { get; set; }
     
     public int CategoryId { get; set; }
+    public Country Country { get; set; }
+    public List<Allergen> Allergens { get; set; }
+    public Brand Brand { get; set; }
     public Category Category { get; set; }
     internal bool IsObsolete { get; private set; }
     

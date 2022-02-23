@@ -16,7 +16,7 @@ public static class ProductsDbSeed
         {
             Id = Guid.NewGuid(),
             Name = "TEST",
-            Brand = "TEST",
+            Brand = new Brand(),
         };
         context.Products.Add(product);
         await context.SaveChangesAsync();

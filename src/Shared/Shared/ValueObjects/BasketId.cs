@@ -13,5 +13,5 @@ public class BasketId
     }
     
     public static implicit operator Guid(BasketId id) => id.Value;
-    public static implicit operator BasketId(Guid value) => new(value);
+    public static implicit operator BasketId(Guid id) => new(id);
 }
