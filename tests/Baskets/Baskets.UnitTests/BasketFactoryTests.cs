@@ -44,7 +44,7 @@ public class BasketFactoryTests
         Action action = () => sut.Create("Codzienne");
 
         action.Should().Throw<InvalidUserIdException>()
-            .WithMessage($"Invalid User Id: {userId}");
+            .WithMessage("Invalid User Id");
     }
     
     [Theory]
