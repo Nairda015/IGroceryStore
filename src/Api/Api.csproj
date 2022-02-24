@@ -52,29 +52,30 @@
       <EmbeddedResource Remove="ClientApp\**" />
     </ItemGroup>
 
-    <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
-        <!-- Ensure Node.js is installed -->
-        <Exec Command="node --version" ContinueOnError="true">
-            <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
-        </Exec>
-        <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
-        <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
-        <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
-    </Target>
+<!--    <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">-->
+<!--        &lt;!&ndash; Ensure Node.js is installed &ndash;&gt;-->
+<!--        <Exec Command="node &#45;&#45;version" ContinueOnError="true">-->
+<!--            <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />-->
+<!--        </Exec>-->
+<!--        <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />-->
+<!--        <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />-->
+<!--        <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />-->
+<!--    </Target>-->
 
-    <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
-        <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
-        <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
-        <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />
+<!--    <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">-->
+<!--        &lt;!&ndash; As part of publishing, ensure the JS resources are freshly built in production mode &ndash;&gt;-->
+<!--        <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />-->
+<!--        <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build" />-->
 
-        <!-- Include the newly-built files in the publish output -->
-        <ItemGroup>
-            <DistFiles Include="$(SpaRoot)build\**" />
-            <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
-                <RelativePath>wwwroot\%(RecursiveDir)%(FileName)%(Extension)</RelativePath>
-                <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-                <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-            </ResolvedFileToPublish>
-        </ItemGroup>
-    </Target>
+<!--        &lt;!&ndash; Include the newly-built files in the publish output &ndash;&gt;-->
+<!--        <ItemGroup>-->
+<!--            <DistFiles Include="$(SpaRoot)build\**" />-->
+<!--            <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">-->
+<!--                <RelativePath>wwwroot\%(RecursiveDir)%(FileName)%(Extension)</RelativePath>-->
+<!--                <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>-->
+<!--                <ExcludeFromSingleFile>true</ExcludeFromSingleFile>-->
+<!--            </ResolvedFileToPublish>-->
+<!--        </ItemGroup>-->
+<!--    </Target>-->
+<!--    -->
 </Project>

@@ -5,16 +5,17 @@ namespace IGroceryStore.Products.Core.ValueObjects;
 
 public class AllergenId
 {
-    public Guid Value { get; }
+    public ulong Value { get; }
 
-    public AllergenId(Guid value)
+    public AllergenId(ulong value)
     {
-        if (value == Guid.Empty) throw new InvalidAllergenIdException();
+        //TODO: validate
+        //if (value == Guid.Empty) throw new InvalidAllergenIdException();
         Value = value;
     }
     
-    public static implicit operator Guid(AllergenId id) => id.Value;
-    public static implicit operator AllergenId(Guid id) => new(id);
+    public static implicit operator ulong(AllergenId id) => id.Value;
+    public static implicit operator AllergenId(ulong id) => new(id);
 }
 
 public class InvalidAllergenIdException : GroceryStoreException

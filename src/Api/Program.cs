@@ -1,5 +1,6 @@
 using System.Text;
 using IGroceryStore.Baskets.Core;
+using IGroceryStore.Products.Core;
 using IGroceryStore.Shared;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Abstraction.Services;
@@ -42,6 +43,7 @@ builder.Services.AddSingleton<ICurrentUserService, CurrentUserService>();
 builder.Services.AddShared();
 builder.Services.AddBaskets(builder.Configuration);
 builder.Services.AddUsers(builder.Configuration);
+builder.Services.AddProducts(builder.Configuration);
 
 builder.Services.AddLogging(loggingBuilder => {
     loggingBuilder.AddConsole()

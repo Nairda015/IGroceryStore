@@ -5,16 +5,20 @@ namespace IGroceryStore.Products.Core.ValueObjects;
 
 public class CountryId
 {
-    public Guid Value { get; }
+    public ulong Value { get; }
 
-    public CountryId(Guid value)
+    private CountryId() : this(0)
+    {}
+    
+    public CountryId(ulong value)
     {
-        if (value == Guid.Empty) throw new InvalidCountryIdException();
+        //TODO: validate
+        //if (value == Guid.Empty) throw new InvalidCountryIdException();
         Value = value;
     }
     
-    public static implicit operator Guid(CountryId id) => id.Value;
-    public static implicit operator CountryId(Guid id) => new(id);
+    public static implicit operator ulong(CountryId id) => id.Value;
+    public static implicit operator CountryId(ulong id) => new(id);
 }
 
 public class InvalidCountryIdException : GroceryStoreException

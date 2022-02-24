@@ -5,16 +5,19 @@ namespace IGroceryStore.Products.Core.ValueObjects;
 
 public class CategoryId
 {
-    public Guid Value { get; }
+    public ulong Value { get; }
+    private CategoryId() : this(0)
+    {}
 
-    public CategoryId(Guid value)
+    public CategoryId(ulong value)
     {
-        if (value == Guid.Empty) throw new InvalidCategoryIdException();
+        //TODO: Validate
+        //if (value ) throw new InvalidCategoryIdException();
         Value = value;
     }
     
-    public static implicit operator Guid(CategoryId id) => id.Value;
-    public static implicit operator CategoryId(Guid id) => new(id);
+    public static implicit operator ulong(CategoryId id) => id.Value;
+    public static implicit operator CategoryId(ulong id) => new(id);
 }
 
 public class InvalidCategoryIdException : GroceryStoreException

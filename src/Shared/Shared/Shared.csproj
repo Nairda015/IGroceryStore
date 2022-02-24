@@ -19,6 +19,7 @@
     <ItemGroup>
       <PackageReference Include="BCrypt.Net-Next" Version="4.0.2" />
       <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.3.6" />
+      <PackageReference Include="IdGen" Version="3.0.0" />
       <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
       <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
       <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.25.0" />

@@ -5,16 +5,19 @@ namespace IGroceryStore.Products.Core.ValueObjects;
 
 public class BrandId
 {
-    public Guid Value { get; }
+    public ulong Value { get; }
 
-    public BrandId(Guid value)
+    private BrandId() : this(0)
+    {}
+    public BrandId(ulong value)
     {
-        if (value == Guid.Empty) throw new InvalidBrandIdException();
+        //TODO: validate
+        //if (value == Guid.Empty) throw new InvalidBrandIdException();
         Value = value;
     }
     
-    public static implicit operator Guid(BrandId id) => id.Value;
-    public static implicit operator BrandId(Guid id) => new(id);
+    public static implicit operator ulong(BrandId id) => id.Value;
+    public static implicit operator BrandId(ulong id) => new(id);
 }
 
 public class InvalidBrandIdException : GroceryStoreException
