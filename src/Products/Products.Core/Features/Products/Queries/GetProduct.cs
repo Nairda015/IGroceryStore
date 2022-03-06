@@ -27,7 +27,7 @@ public class GetProductController : ApiControllerBase
     }
 }
 
-public class GetProductHandler : IQueryHandler<GetProduct, ProductReadModel>
+internal class GetProductHandler : IQueryHandler<GetProduct, ProductReadModel>
 {
     private readonly ProductsDbContext _context;
 

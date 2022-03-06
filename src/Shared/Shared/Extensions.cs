@@ -1,4 +1,5 @@
 ﻿using IGroceryStore.Shared.Exceptions;
+using IGroceryStore.Shared.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -8,8 +9,8 @@ public static class Extensions
 {
     public static IServiceCollection AddShared(this IServiceCollection services)
     {
+        services.AddHostedService<AppInitializer>();
         services.AddScoped<ExceptionMiddleware>();
-        
         return services;
     }
 

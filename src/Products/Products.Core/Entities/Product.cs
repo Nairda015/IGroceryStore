@@ -6,7 +6,7 @@ namespace IGroceryStore.Products.Core.Entities;
 
 internal class Product : AuditableEntity
 {
-    private Product()
+    public Product()
     {
     }
 

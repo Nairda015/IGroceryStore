@@ -24,7 +24,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Abstraction", "src\S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "src\Shared\Shared\Shared.csproj", "{F086A490-C28A-4DF9-A05E-8D765CF0FD62}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "src\Api\Api.csproj", "{F8ED371D-A8D2-43C0-9526-2B5B1026E120}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCore", "src\AspNetCore\AspNetCore.csproj", "{F8ED371D-A8D2-43C0-9526-2B5B1026E120}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Worker", "src\Worker\Worker.csproj", "{13FCD77B-95D7-4FC2-AD7F-FC557C89E08D}"
 EndProject

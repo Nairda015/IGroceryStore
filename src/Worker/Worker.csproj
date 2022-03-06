@@ -7,4 +7,11 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Baskets\Baskets.Core\Baskets.Core.csproj" />
+      <ProjectReference Include="..\Products\Products.Core\Products.Core.csproj" />
+      <ProjectReference Include="..\Shops\Stores.Core\Stores.Core.csproj" />
+      <ProjectReference Include="..\Users\Users.Core\Users.Core.csproj" />
+    </ItemGroup>
+
 </Project>

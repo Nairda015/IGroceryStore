@@ -23,7 +23,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\..\src\Baskets\Baskets.Contracts\Baskets.Contracts.csproj" />
+      <ProjectReference Include="..\..\..\src\Baskets\Baskets.Core\Baskets.Core.csproj" />
     </ItemGroup>
 
 </Project>

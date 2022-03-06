@@ -9,8 +9,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Shared\Shared.Abstraction\Shared.Abstraction.csproj" />
       <ProjectReference Include="..\..\Shared\Shared\Shared.csproj" />
+      <ProjectReference Include="..\Baskets.Contracts\Baskets.Contracts.csproj" />
     </ItemGroup>
 
     <ItemGroup>

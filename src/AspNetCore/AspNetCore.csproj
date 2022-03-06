@@ -12,7 +12,7 @@
         <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
-        <RootNamespace>IGroceryStore.Api</RootNamespace>
+        <RootNamespace>IGroceryStore</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -40,16 +40,16 @@
         <Content Remove="ClientApp\**" />
     </ItemGroup>
     <ItemGroup>
-      <ProjectReference Include="..\Baskets\Baskets.Contracts\Baskets.Contracts.csproj" />
-      <ProjectReference Include="..\Products\Products.Contracts\Products.Contracts.csproj" />
-      <ProjectReference Include="..\Shops\Stores.Contracts\Stores.Contracts.csproj" />
-      <ProjectReference Include="..\Users\Users.Contracts\Users.Contracts.csproj" />
-    </ItemGroup>
-    <ItemGroup>
       <Compile Remove="ClientApp\**" />
     </ItemGroup>
     <ItemGroup>
       <EmbeddedResource Remove="ClientApp\**" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\Baskets\Baskets.Core\Baskets.Core.csproj" />
+      <ProjectReference Include="..\Products\Products.Core\Products.Core.csproj" />
+      <ProjectReference Include="..\Shops\Stores.Core\Stores.Core.csproj" />
+      <ProjectReference Include="..\Users\Users.Core\Users.Core.csproj" />
     </ItemGroup>
 
 <!--    <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">-->

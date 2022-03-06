@@ -1,5 +1,4 @@
-﻿using IGroceryStore.Baskets.Core.ValueObjects;
-using IGroceryStore.Shared.ValueObjects;
+﻿using IGroceryStore.Shared.ValueObjects;
 
 namespace IGroceryStore.Baskets.Core.Entities;
 
@@ -17,7 +16,7 @@ internal class User
         LastName = lastName;
     }
     
-    public Guid Id { get; }
+    public UserId Id { get; }
     public string FirstName { get; private set; }
     public string LastName { get; private set; }
 

@@ -24,9 +24,11 @@ internal sealed class ProductsDbConfiguration : IEntityTypeConfiguration<Product
             .HasConversion(x => x.Value, x => new Description(x));
         
         builder.Property(x => x.BarCode)
+            .IsRequired(false)
             .HasConversion(x => x.Value, x => new BarCode(x));
         
         builder.Property(x => x.ImageUrl)
+            .IsRequired(false)
             .HasConversion(x => x.ToString(), x => new Uri(x));
 
         builder.Property(x => x.IsObsolete)
@@ -43,6 +45,7 @@ internal sealed class ProductsDbConfiguration : IEntityTypeConfiguration<Product
         
         builder
             .Property(e => e.Allergens)
+            .IsRequired(false)
             .HasConversion(
                 x => JsonSerializer.Serialize(x, new JsonSerializerOptions()),
                 x => JsonSerializer.Deserialize<List<Allergen>>(x, new JsonSerializerOptions()));

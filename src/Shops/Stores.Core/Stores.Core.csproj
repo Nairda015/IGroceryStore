@@ -10,6 +10,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Shared\Shared.Abstraction\Shared.Abstraction.csproj" />
+      <ProjectReference Include="..\Stores.Contracts\Stores.Contracts.csproj" />
     </ItemGroup>
 
 </Project>

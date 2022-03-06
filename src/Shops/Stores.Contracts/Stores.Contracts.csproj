@@ -8,8 +8,4 @@
         <RootNamespace>IGroceryStore.Stores.Contracts</RootNamespace>
     </PropertyGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\Stores.Core\Stores.Core.csproj" />
-    </ItemGroup>
-
 </Project>

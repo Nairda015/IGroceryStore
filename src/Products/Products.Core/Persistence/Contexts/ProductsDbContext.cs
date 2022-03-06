@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Core.Persistence.Contexts;
 
-public class ProductsDbContext : DbContext
+internal class ProductsDbContext : DbContext, IGroceryStoreDbContext
 {
     private readonly ICurrentUserService _currentUserService;
     public ProductsDbContext(DbContextOptions<ProductsDbContext> options, 
@@ -21,6 +21,7 @@ public class ProductsDbContext : DbContext
     internal DbSet<Category> Categories => Set<Category>();
     internal DbSet<Allergen> Allergens => Set<Allergen>();
     internal DbSet<Brand> Brands => Set<Brand>();
+    internal DbSet<Country> Countries => Set<Country>();
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
     {

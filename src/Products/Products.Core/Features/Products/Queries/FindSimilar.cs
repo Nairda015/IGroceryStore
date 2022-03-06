@@ -16,7 +16,7 @@ public class FindSimilarController : ApiControllerBase
         _queryDispatcher = queryDispatcher;
     }
 
-    [HttpGet]
+    [HttpGet("products/find-similar/{id:guid}")]
     public async Task<ActionResult<Guid>> Get([FromRoute] Guid id)
     {
         var result = await _queryDispatcher.QueryAsync(new FindSimilar(id));
@@ -25,7 +25,7 @@ public class FindSimilarController : ApiControllerBase
 }
 
 
-public class FindSimilarHandler : IQueryHandler<FindSimilar, Guid>
+internal class FindSimilarHandler : IQueryHandler<FindSimilar, Guid>
 {
     private readonly ProductsDbContext _context;
 

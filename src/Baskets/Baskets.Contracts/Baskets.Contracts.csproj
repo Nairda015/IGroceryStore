@@ -8,8 +8,4 @@
         <RootNamespace>IGroceryStore.UserBasket.Contracts</RootNamespace>
     </PropertyGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\Baskets.Core\Baskets.Core.csproj" />
-    </ItemGroup>
-
 </Project>

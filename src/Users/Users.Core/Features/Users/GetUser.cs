@@ -1,7 +1,6 @@
 ﻿using IGroceryStore.Shared.Abstraction.Queries;
 using IGroceryStore.Shared.Controllers;
 using IGroceryStore.Users.Core.Exceptions;
-using IGroceryStore.Users.Core.Persistence;
 using IGroceryStore.Users.Core.Persistence.Contexts;
 using IGroceryStore.Users.Core.ReadModels;
 using IGroceryStore.Users.Core.ValueObjects;
