@@ -16,6 +16,9 @@ internal record Unit
         if (string.IsNullOrWhiteSpace(name)) throw new InvalidUnitNameException();
         Name = name;
     }
+    
+    public static implicit operator Unit(string unit) => new(unit);
+    public static implicit operator string(Unit unit) => unit.Name;
 };
 
 internal class InvalidUnitNameException : GroceryStoreException

@@ -6,11 +6,33 @@ namespace IGroceryStore.Products.Core.Entities;
 
 internal class Product : AuditableEntity
 {
+    private Product()
+    {
+    }
+
+    internal Product(ProductName name,
+        Description description,
+        Quantity quantity,
+        BrandId brandId,
+        CountryId countryId,
+        CategoryId categoryId)
+    {
+        Id = Guid.NewGuid();
+        Name = name;
+        Description = description;
+        Quantity = quantity;
+        BrandId = brandId;
+        CategoryId = categoryId;
+        CountryId = countryId;
+        IsObsolete = false;
+        Allergens = new List<Allergen>();
+    }
+
     public ProductId Id { get; set; }
     public ProductName Name { get; set; }
     public Description Description { get; set; }
-    public Uri ImageUrl { get; set; }
-    public BarCode BarCode { get; set; }
+    public Uri? ImageUrl { get; set; }
+    public BarCode? BarCode { get; set; }
     public Quantity Quantity { get; set; }
     internal bool IsObsolete { get; private set; }
     

@@ -3,7 +3,7 @@ using IGroceryStore.Shared.Abstraction.Common;
 
 namespace IGroceryStore.Products.Core.Entities;
 
-public class Allergen : AuditableEntity
+internal class Allergen : AuditableEntity
 {
     public AllergenId Id { get; set; }
     public AllergenName Name { get; set; }

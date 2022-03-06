@@ -1,6 +1,6 @@
-﻿using IGroceryStore.Products.Core.DTO;
-using IGroceryStore.Products.Core.Exceptions;
+﻿using IGroceryStore.Products.Core.Exceptions;
 using IGroceryStore.Products.Core.Persistence.Contexts;
+using IGroceryStore.Products.Core.ReadModels;
 using IGroceryStore.Shared.Abstraction.Queries;
 using IGroceryStore.Shared.Controllers;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Core.Features.Products.Queries;
 
-public record GetProduct(Guid Id) : IQuery<ProductDto>;
+public record GetProduct(Guid Id) : IQuery<ProductReadModel>;
 
 public class GetProductController : ApiControllerBase
 {
@@ -20,14 +20,14 @@ public class GetProductController : ApiControllerBase
     }
 
     [HttpGet("{id:guid}")]
-    public async Task<ActionResult<ProductDto>> GetProduct([FromRoute] Guid id)
+    public async Task<ActionResult<ProductReadModel>> GetProduct([FromRoute] Guid id)
     {
         var result = await _dispatcher.QueryAsync(new GetProduct(id));
         return Ok(result);
     }
 }
 
-public class GetProductHandler : IQueryHandler<GetProduct, ProductDto>
+public class GetProductHandler : IQueryHandler<GetProduct, ProductReadModel>
 {
     private readonly ProductsDbContext _context;
 
@@ -36,23 +36,23 @@ public class GetProductHandler : IQueryHandler<GetProduct, ProductDto>
         _context = context;
     }
 
-    public async Task<ProductDto> HandleAsync(GetProduct query, CancellationToken cancellationToken = default)
+    public async Task<ProductReadModel> HandleAsync(GetProduct query, CancellationToken cancellationToken = default)
     {
         var result = await _context.Products
             .AsNoTracking()
-            .Select(x => new ProductDto()
+            .Select(x => new ProductReadModel()
             {
                 Id = x.Id,
                 Name = x.Name,
                 Description = x.Description,
                 BarCode = x.BarCode,
-                Quantity = new QuantityDto(x.Quantity.Amount, x.Quantity.Unit.Name),
+                Quantity = new QuantityReadModel(x.Quantity.Amount, x.Quantity.Unit.Name),
                 IsObsolete = x.IsObsolete,
                 CountryName = x.Country.Name,
                 BrandName = x.Brand.Name,
                 CategoryName = x.Category.Name,
                 Allergens = x.Allergens
-                    .Select(a => new AllergensDto(a.Name, a.Code))
+                    .Select(a => new AllergenReadModel(a.Name, a.Code))
             })
             .FirstOrDefaultAsync(x => x.Id == query.Id, cancellationToken);
 
