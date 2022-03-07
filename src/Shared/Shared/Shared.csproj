@@ -36,7 +36,6 @@
 
     <ItemGroup>
       <Folder Include="Events" />
-      <Folder Include="Templates" />
     </ItemGroup>
 
 </Project>

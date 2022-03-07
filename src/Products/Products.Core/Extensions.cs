@@ -2,6 +2,7 @@
 using IGroceryStore.Shared.Commands;
 using IGroceryStore.Shared.Options;
 using IGroceryStore.Shared.Queries;
+using IGroceryStore.Shared.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,8 +15,8 @@ public static class Extensions
     {
         services.AddCommands();
         services.AddQueries();
-        
-        
+
+        services.AddScoped<ISnowflakeService, SnowflakeService>();
 
         var enableSensitiveData = configuration.GetValue<bool>("EnableSensitiveData");
 

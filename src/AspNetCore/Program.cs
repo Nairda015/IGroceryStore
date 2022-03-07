@@ -71,11 +71,10 @@ else
     app.UseHsts();
 }
 
-app.UseSwagger(x => x.RouteTemplate = "docs/{documentName}/swagger.json");
-app.UseSwaggerUI(options =>
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-    options.RoutePrefix = string.Empty;
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "IGroceryStore");
 });
 
 app.UseHttpsRedirection();

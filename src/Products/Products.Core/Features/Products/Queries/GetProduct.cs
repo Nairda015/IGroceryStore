@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Core.Features.Products.Queries;
 
-public record GetProduct(Guid Id) : IQuery<ProductReadModel>;
+public record GetProduct(Guid Id) : IQuery<ProductDetailsReadModel>;
 
 public class GetProductController : ApiControllerBase
 {
@@ -20,14 +20,14 @@ public class GetProductController : ApiControllerBase
     }
 
     [HttpGet("{id:guid}")]
-    public async Task<ActionResult<ProductReadModel>> GetProduct([FromRoute] Guid id)
+    public async Task<ActionResult<ProductDetailsReadModel>> GetProduct([FromRoute] Guid id)
     {
         var result = await _dispatcher.QueryAsync(new GetProduct(id));
         return Ok(result);
     }
 }
 
-internal class GetProductHandler : IQueryHandler<GetProduct, ProductReadModel>
+internal class GetProductHandler : IQueryHandler<GetProduct, ProductDetailsReadModel>
 {
     private readonly ProductsDbContext _context;
 
@@ -36,11 +36,11 @@ internal class GetProductHandler : IQueryHandler<GetProduct, ProductReadModel>
         _context = context;
     }
 
-    public async Task<ProductReadModel> HandleAsync(GetProduct query, CancellationToken cancellationToken = default)
+    public async Task<ProductDetailsReadModel> HandleAsync(GetProduct query, CancellationToken cancellationToken = default)
     {
         var result = await _context.Products
             .AsNoTracking()
-            .Select(x => new ProductReadModel()
+            .Select(x => new ProductDetailsReadModel()
             {
                 Id = x.Id,
                 Name = x.Name,
