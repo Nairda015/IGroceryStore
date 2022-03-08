@@ -2,7 +2,6 @@
 using IGroceryStore.Products.Core.Persistence.Contexts;
 using IGroceryStore.Products.Core.ValueObjects;
 using IGroceryStore.Shared.Abstraction.Commands;
-using IGroceryStore.Shared.Controllers;
 using IGroceryStore.Shared.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,7 +9,7 @@ namespace IGroceryStore.Products.Core.Features.Allergens.Commands;
 
 public record AddAllergen(string Name, string Code) : ICommand<AllergenId>;
 
-public class AddAllergenController : ApiControllerBase
+public class AddAllergenController : ProductsControllerBase
 {
     private readonly ICommandDispatcher _commandDispatcher;
 
@@ -19,7 +18,7 @@ public class AddAllergenController : ApiControllerBase
         _commandDispatcher = commandDispatcher;
     }
 
-    [HttpPost("products/add-allergen")]
+    [HttpPost("allergens/add-allergen")]
     public async Task<ActionResult> AddAllergen([FromBody] AddAllergen command, CancellationToken cancellationToken)
     {
         var result = await _commandDispatcher.DispatchAsync(command, cancellationToken);

@@ -3,7 +3,6 @@ using IGroceryStore.Products.Core.Persistence.Contexts;
 using IGroceryStore.Products.Core.ReadModels;
 using IGroceryStore.Products.Core.ValueObjects;
 using IGroceryStore.Shared.Abstraction.Commands;
-using IGroceryStore.Shared.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IGroceryStore.Products.Core.Features.Products.Commands;
@@ -15,7 +14,7 @@ public record CreateProduct(string Name,
     CountryId CountryId,
     CategoryId CategoryId) : ICommand<Guid>;
 
-public class CreateProductController : ApiControllerBase
+public class CreateProductController : ProductsControllerBase
 {
     private readonly ICommandDispatcher _commandDispatcher;
 
@@ -47,7 +46,7 @@ internal class CreateProductHandler : ICommandHandler<CreateProduct, Guid>
         var (name, description, quantityReadModel, brandId, countryId, categoryId) = command;
         var quantity = new Quantity(quantityReadModel.Amount, quantityReadModel.Unit);
         var product = new Product(name, description, quantity, brandId, countryId, categoryId);
-        
+
         await _productsDbContext.Products.AddAsync(product, cancellationToken);
         await _productsDbContext.SaveChangesAsync(cancellationToken);
         return product.Id;

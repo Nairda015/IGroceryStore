@@ -2,7 +2,6 @@
 using IGroceryStore.Products.Core.Persistence.Contexts;
 using IGroceryStore.Products.Core.ReadModels;
 using IGroceryStore.Shared.Abstraction.Queries;
-using IGroceryStore.Shared.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,7 +9,7 @@ namespace IGroceryStore.Products.Core.Features.Products.Queries;
 
 public record GetProduct(Guid Id) : IQuery<ProductDetailsReadModel>;
 
-public class GetProductController : ApiControllerBase
+public class GetProductController : ProductsControllerBase
 {
     private readonly IQueryDispatcher _dispatcher;
 
@@ -19,7 +18,7 @@ public class GetProductController : ApiControllerBase
         _dispatcher = dispatcher;
     }
 
-    [HttpGet("{id:guid}")]
+    [HttpGet("products/{id:guid}")]
     public async Task<ActionResult<ProductDetailsReadModel>> GetProduct([FromRoute] Guid id)
     {
         var result = await _dispatcher.QueryAsync(new GetProduct(id));
@@ -38,25 +37,43 @@ internal class GetProductHandler : IQueryHandler<GetProduct, ProductDetailsReadM
 
     public async Task<ProductDetailsReadModel> HandleAsync(GetProduct query, CancellationToken cancellationToken = default)
     {
-        var result = await _context.Products
+        var model = await _context.Products
+            .Include(x => x.Category)
+            .Include(x => x.Brand)
+            .Include(x => x.Country)
             .AsNoTracking()
-            .Select(x => new ProductDetailsReadModel()
+            .Select(x => new
             {
-                Id = x.Id,
-                Name = x.Name,
-                Description = x.Description,
-                BarCode = x.BarCode,
+                x.Id,
+                x.Name,
+                x.Description,
+                x.BarCode,
                 Quantity = new QuantityReadModel(x.Quantity.Amount, x.Quantity.Unit.Name),
-                IsObsolete = x.IsObsolete,
+                x.IsObsolete,
                 CountryName = x.Country.Name,
                 BrandName = x.Brand.Name,
                 CategoryName = x.Category.Name,
-                Allergens = x.Allergens
-                    .Select(a => new AllergenReadModel(a.Name, a.Code))
+                x.Allergens
+                
             })
-            .FirstOrDefaultAsync(x => x.Id == query.Id, cancellationToken);
+            .FirstOrDefaultAsync(x => x.Id.Equals(query.Id), cancellationToken);
+     
+        if (model is null) throw new ProductNotFoundException(query.Id);
+        var result = new ProductDetailsReadModel()
+        {
+            Id = model.Id,
+            Name = model.Name,
+            Description = model.Description,
+            BarCode = model.BarCode,
+            Quantity = model.Quantity,
+            IsObsolete = model.IsObsolete,
+            CountryName = model.CountryName,
+            BrandName = model.BrandName,
+            CategoryName = model.CategoryName,
+        };
+        if (model.Allergens is null) return result;
 
-        if (result is null) throw new ProductNotFoundException(query.Id);
+        result.Allergens = model.Allergens.Select(x => new AllergenReadModel(x.Name, x.Code)); 
         return result;
     }
 }

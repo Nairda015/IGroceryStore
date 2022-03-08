@@ -1,5 +1,4 @@
 ﻿using IGroceryStore.Baskets.Core.Entities;
-using IGroceryStore.Baskets.Core.Exceptions;
 using IGroceryStore.Baskets.Core.ValueObjects;
 using IGroceryStore.Shared.Abstraction.Services;
 using IGroceryStore.Shared.Exceptions;

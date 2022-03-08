@@ -3,15 +3,14 @@ using IGroceryStore.Products.Core.ReadModels;
 using IGroceryStore.Products.Core.ValueObjects;
 using IGroceryStore.Shared.Abstraction.Queries;
 using IGroceryStore.Shared.Common;
-using IGroceryStore.Shared.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Core.Features.Products.Queries;
 
-internal record GetProducts(CategoryId CategoryId, int PageNumber, int PageSize) : IQuery<PaginatedList<ProductReadModel>>;
+internal record GetProducts(ulong CategoryId, int PageNumber, int PageSize) : IQuery<PaginatedList<ProductReadModel>>;
 
-public class GetProductsController : ApiControllerBase
+public class GetProductsController : ProductsControllerBase
 {
     private readonly IQueryDispatcher _queryDispatcher;
 
@@ -20,8 +19,8 @@ public class GetProductsController : ApiControllerBase
         _queryDispatcher = queryDispatcher;
     }
 
-    [HttpGet("/GetProducts/{pageNumber:int}/{pageSize:int}/{categoryId}")]
-    public async Task<ActionResult<PaginatedList<ProductDetailsReadModel>>> GetProducts([FromRoute] int pageNumber, [FromRoute] int pageSize, [FromRoute] CategoryId categoryId, CancellationToken cancellationToken)
+    [HttpGet("products/{pageNumber:int}/{pageSize:int}/{categoryId}")]
+    public async Task<ActionResult<PaginatedList<ProductDetailsReadModel>>> GetProducts([FromRoute] int pageNumber, [FromRoute] int pageSize, [FromRoute] ulong categoryId, CancellationToken cancellationToken)
     {
         var result = await _queryDispatcher.QueryAsync(new GetProducts(categoryId, pageNumber, pageSize), cancellationToken);
         return Ok(result);
@@ -41,7 +40,7 @@ internal class GetProductsHandler : IQueryHandler<GetProducts, PaginatedList<Pro
     {
         var (categoryId, pageNumber, pageSize) = query;
         var products = _productsDbContext.Products
-            .Where(x => x.CategoryId == categoryId.Value)
+            .Where(x => x.CategoryId == categoryId)
             .Select(x => new ProductReadModel()
             {
                 Id = x.Id,

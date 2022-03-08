@@ -1,5 +1,4 @@
 ﻿using IGroceryStore.Shared.Abstraction.Queries;
-using IGroceryStore.Shared.Controllers;
 using IGroceryStore.Users.Core.Exceptions;
 using IGroceryStore.Users.Core.Persistence.Contexts;
 using IGroceryStore.Users.Core.ReadModels;
@@ -11,7 +10,7 @@ namespace IGroceryStore.Users.Core.Features.Users;
 
 public record GetUser(UserId Id) : IQuery<UserReadModel>;
 
-public class GetUserController : ApiControllerBase
+public class GetUserController : UsersControllerBase
 {
     private readonly IQueryDispatcher _dispatcher;
 

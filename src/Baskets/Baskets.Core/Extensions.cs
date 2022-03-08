@@ -1,8 +1,10 @@
 ﻿using IGroceryStore.Baskets.Core.Factories;
 using IGroceryStore.Baskets.Core.Persistence;
 using IGroceryStore.Shared.Commands;
+using IGroceryStore.Shared.Controllers;
 using IGroceryStore.Shared.Options;
 using IGroceryStore.Shared.Queries;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,4 +25,9 @@ public static class Extensions
         
         return services;
     }
+}
+
+[ApiExplorerSettings(GroupName = "Baskets")]
+public abstract class BasketsControllerBase : ApiControllerBase
+{
 }

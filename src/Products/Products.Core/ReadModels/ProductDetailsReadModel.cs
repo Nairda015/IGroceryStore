@@ -6,12 +6,12 @@ public class ProductDetailsReadModel
     public string Name { get; set; }
     public string Description { get; set; }
     public QuantityReadModel Quantity { get; set; }
-    public string BarCode { get; set; }
+    public string? BarCode { get; set; }
     public bool IsObsolete { get; set; }
     public string CountryName { get; set; }
     public string BrandName { get; set; }
     public string CategoryName { get; set; }
-    public IEnumerable<AllergenReadModel> Allergens { get; set; }
+    public IEnumerable<AllergenReadModel>? Allergens { get; set; }
     //TODO: Add img
 }
 

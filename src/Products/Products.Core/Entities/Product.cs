@@ -42,10 +42,18 @@ internal class Product : AuditableEntity
     public Brand Brand { get; set; }
     public CategoryId CategoryId { get; private set; }
     public Category Category { get; set; }
-    public List<Allergen> Allergens { get; set; }
+    public List<Allergen> Allergens { get; private set; }
     
     public void MarkAsObsolete()
     {
         IsObsolete = true;
+    }
+    
+    public void AddAllergen(Allergen allergen)
+    {
+        if(Allergens is null) Allergens = new List<Allergen>();
+        else if (Allergens.Contains(allergen)) return;
+        
+        Allergens.Add(allergen);
     }
 }

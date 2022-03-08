@@ -1,5 +1,4 @@
 ﻿using IGroceryStore.Shared.Exceptions;
-using IGroceryStore.Users.Core.Exceptions;
 
 namespace IGroceryStore.Users.Core.ValueObjects;
 

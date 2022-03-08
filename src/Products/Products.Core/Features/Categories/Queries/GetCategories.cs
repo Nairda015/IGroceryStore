@@ -1,7 +1,6 @@
 ﻿using IGroceryStore.Products.Core.Persistence.Contexts;
 using IGroceryStore.Products.Core.ReadModels;
 using IGroceryStore.Shared.Abstraction.Queries;
-using IGroceryStore.Shared.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,7 +8,8 @@ namespace IGroceryStore.Products.Core.Features.Categories.Queries;
 public record GetCategoriesResult(List<CategoryReadModel> Categories);
 internal record GetCategories : IQuery<GetCategoriesResult>;
 
-public class GetCategoriesController : ApiControllerBase
+
+public class GetCategoriesController : ProductsControllerBase
 {
     private readonly IQueryDispatcher _queryDispatcher;
 

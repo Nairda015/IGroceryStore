@@ -1,13 +1,12 @@
 ﻿using IGroceryStore.Products.Core.Persistence.Contexts;
 using IGroceryStore.Shared.Abstraction.Queries;
-using IGroceryStore.Shared.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IGroceryStore.Products.Core.Features.Products.Queries;
 
 public record FindSimilar(Guid Id) : IQuery<Guid>;
 
-public class FindSimilarController : ApiControllerBase
+public class FindSimilarController : ProductsControllerBase
 {
     private readonly IQueryDispatcher _queryDispatcher;
 

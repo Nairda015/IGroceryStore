@@ -1,5 +1,4 @@
 ﻿using IGroceryStore.Shared.Abstraction.Commands;
-using IGroceryStore.Shared.Controllers;
 using IGroceryStore.Users.Core.Exceptions;
 using IGroceryStore.Users.Core.Persistence.Contexts;
 using IGroceryStore.Users.Core.Services;
@@ -13,7 +12,7 @@ public record Login(string Email, string Password);
 public record LoginWithUserAgent(string Email, string Password, string UserAgent) : ICommand<LoginResult>;
 public record LoginResult(Guid UserId, ReadModels.TokensReadModel Tokens);
 
-public class LoginController : ApiControllerBase
+public class LoginController : UsersControllerBase
 {
     private readonly ICommandDispatcher _dispatcher;
 

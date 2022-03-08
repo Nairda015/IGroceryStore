@@ -1,5 +1,4 @@
 ﻿using IGroceryStore.Shared.Abstraction.Commands;
-using IGroceryStore.Shared.Controllers;
 using IGroceryStore.Users.Core.Exceptions;
 using IGroceryStore.Users.Core.Factories;
 using IGroceryStore.Users.Core.Persistence.Contexts;
@@ -13,7 +12,7 @@ public record Register(string Email,
     string FirstName,
     string LastName) : ICommand;
 
-public class RegisterController : ApiControllerBase
+public class RegisterController : UsersControllerBase
 {
     private readonly ICommandDispatcher _dispatcher;
 

@@ -1,9 +1,11 @@
 ﻿using IGroceryStore.Shared.Commands;
+using IGroceryStore.Shared.Controllers;
 using IGroceryStore.Shared.Options;
 using IGroceryStore.Shared.Queries;
 using IGroceryStore.Users.Core.Factories;
 using IGroceryStore.Users.Core.Persistence.Contexts;
 using IGroceryStore.Users.Core.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,4 +34,9 @@ public static class Extensions
 
         return services;
     }
+}
+
+[ApiExplorerSettings(GroupName = "Users")]
+public abstract class UsersControllerBase : ApiControllerBase
+{
 }

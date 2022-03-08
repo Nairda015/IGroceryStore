@@ -1,6 +1,5 @@
 ﻿using System.Security.Claims;
 using IGroceryStore.Shared.Abstraction.Commands;
-using IGroceryStore.Shared.Controllers;
 using IGroceryStore.Users.Core.Exceptions;
 using IGroceryStore.Users.Core.Persistence.Contexts;
 using IGroceryStore.Users.Core.Services;
@@ -16,7 +15,7 @@ namespace IGroceryStore.Users.Core.Features.Tokens;
 
 public record RefreshTokenCommand(Claim UserId, Claim Token) : ICommand<TokensReadModel>;
 
-public class RefreshController : ApiControllerBase
+public class RefreshController : UsersControllerBase
 {
     private readonly ICommandDispatcher _dispatcher;
 

@@ -1,8 +1,10 @@
 ﻿using IGroceryStore.Products.Core.Persistence.Contexts;
 using IGroceryStore.Shared.Commands;
+using IGroceryStore.Shared.Controllers;
 using IGroceryStore.Shared.Options;
 using IGroceryStore.Shared.Queries;
 using IGroceryStore.Shared.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,4 +29,9 @@ public static class Extensions
 
         return services;
     }
+}
+
+[ApiExplorerSettings(GroupName = "Products")]
+public abstract class ProductsControllerBase : ApiControllerBase
+{
 }

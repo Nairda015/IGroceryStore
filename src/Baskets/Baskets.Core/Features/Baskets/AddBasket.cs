@@ -1,14 +1,13 @@
 ﻿using IGroceryStore.Baskets.Core.Factories;
 using IGroceryStore.Baskets.Core.Persistence;
 using IGroceryStore.Shared.Abstraction.Commands;
-using IGroceryStore.Shared.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IGroceryStore.Baskets.Core.Features.Baskets;
 
 public record AddBasket(string Name) : ICommand<Guid>;
 
-public class AddBasketController : ApiControllerBase
+public class AddBasketController : BasketsControllerBase
 {
     private readonly ICommandDispatcher _commandDispatcher;
 

@@ -1,15 +1,15 @@
 ﻿using IGroceryStore.Products.Core.Persistence.Contexts;
 using IGroceryStore.Products.Core.ReadModels;
 using IGroceryStore.Shared.Abstraction.Queries;
-using IGroceryStore.Shared.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Core.Features.Allergens.Queries;
 
-internal record GetAllergens : IQuery<IEnumerable<AllergenReadModelWithId>>;
+public record GetAllergensResult(IEnumerable<AllergenReadModelWithId> Allergens);
+internal record GetAllergens : IQuery<GetAllergensResult>;
 
-public class GetAllergensController : ApiControllerBase
+public class GetAllergensController : ProductsControllerBase
 {
     private readonly IQueryDispatcher _queryDispatcher;
 
@@ -19,14 +19,14 @@ public class GetAllergensController : ApiControllerBase
     }
 
     [HttpGet("allergens")]
-    public async Task<ActionResult<IEnumerable<AllergenReadModel>>> GetAllergens(CancellationToken cancellationToken)
+    public async Task<ActionResult<GetAllergensResult>> GetAllergens(CancellationToken cancellationToken)
     {
         var result = await _queryDispatcher.QueryAsync(new GetAllergens(), cancellationToken);
         return Ok(result);
     }
 }
 
-internal class GetAllergensHandler : IQueryHandler<GetAllergens, IEnumerable<AllergenReadModelWithId>>
+internal class GetAllergensHandler : IQueryHandler<GetAllergens, GetAllergensResult>
 {
     private readonly ProductsDbContext _context;
 
@@ -35,12 +35,14 @@ internal class GetAllergensHandler : IQueryHandler<GetAllergens, IEnumerable<All
         _context = context;
     }
 
-    public async Task<IEnumerable<AllergenReadModelWithId>> HandleAsync(GetAllergens query,
+    public async Task<GetAllergensResult> HandleAsync(GetAllergens query,
         CancellationToken cancellationToken = default)
     {
-        return await _context.Allergens
+        var allergens =  await _context.Allergens
             .Select(x => new AllergenReadModelWithId(x.Id, x.Name, x.Code))
             .AsNoTracking()
             .ToListAsync(cancellationToken);
+
+        return new GetAllergensResult(allergens);
     }
 }

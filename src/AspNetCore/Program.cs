@@ -8,6 +8,7 @@ using IGroceryStore.Shared.Options;
 using IGroceryStore.Shared.Services;
 using IGroceryStore.Users.Core;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
@@ -35,7 +36,25 @@ var authenticationBuilder = builder.Services.AddAuthentication(x =>
 .AddJwtBearer(Tokens.Audience.Refresh, jwtBearerOptions => Options(jwtBearerOptions, Tokens.Audience.Refresh));
 
 //Services
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c => {
+    c.TagActionsBy(api =>
+    {
+        if (api.GroupName != null)
+        {
+            return new[] { api.GroupName };
+        }
+
+        if (api.ActionDescriptor is ControllerActionDescriptor controllerActionDescriptor)
+        {
+            return new[] { controllerActionDescriptor.ControllerName };
+        }
+
+        throw new InvalidOperationException("Unable to determine tag for endpoint.");
+    });
+
+    c.DocInclusionPredicate((name, api) => true);
+}
+);
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<ICurrentUserService, CurrentUserService>();
