@@ -18,7 +18,9 @@ public class BasketDbContext : DbContext
     }
     
     internal DbSet<Basket> Baskets => Set<Basket>();
-    
+    internal DbSet<User> Users => Set<User>();
+    internal DbSet<Product> Products => Set<Product>();
+
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
     {
         foreach (var entry in ChangeTracker.Entries<AuditableEntity>())

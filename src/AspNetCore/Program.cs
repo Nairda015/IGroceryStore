@@ -1,4 +1,5 @@
 using System.Text;
+using DotNetCore.CAP;
 using IGroceryStore.Baskets.Core;
 using IGroceryStore.Products.Core;
 using IGroceryStore.Shared;
@@ -59,10 +60,21 @@ builder.Services.AddSwaggerGen(c => {
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<ICurrentUserService, CurrentUserService>();
 
+//Modules
 builder.Services.AddShared();
 builder.Services.AddBaskets(builder.Configuration);
 builder.Services.AddUsers(builder.Configuration);
 builder.Services.AddProducts(builder.Configuration);
+
+//Messaging
+
+builder.Services.AddCap(options =>
+{
+    options.UseInMemoryStorage();
+    options.UseRabbitMQ("localhost");
+    options.UseDashboard();
+    //options.ConsumerThreadCount = 0;
+});
 
 builder.Services.AddLogging(loggingBuilder => {
     loggingBuilder.AddConsole()
@@ -96,8 +108,10 @@ app.UseSwaggerUI(c =>
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "IGroceryStore");
 });
 
+
 app.UseHttpsRedirection();
 app.UseRouting();
+app.UseCapDashboard();
 
 app.UseShared();
 

@@ -1,4 +1,5 @@
 ﻿using IGroceryStore.Shared.Abstraction.Queries;
+using IGroceryStore.Shared.ValueObjects;
 using IGroceryStore.Users.Core.Exceptions;
 using IGroceryStore.Users.Core.Persistence.Contexts;
 using IGroceryStore.Users.Core.ReadModels;
@@ -46,3 +47,4 @@ public class GetUserHandler : IQueryHandler<GetUser, UserReadModel>
         return new UserReadModel(user.Id, user.FirstName, user.LastName, user.Email);
     }
 }
+
