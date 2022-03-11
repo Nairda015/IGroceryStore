@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Exceptions;
+using IGroceryStore.Shared.ValueObjects;
 using IGroceryStore.Users.Core.ReadModels;
 using IGroceryStore.Users.Core.ValueObjects;
 

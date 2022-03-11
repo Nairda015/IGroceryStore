@@ -1,4 +1,5 @@
-﻿using IGroceryStore.Users.Core.Entities;
+﻿using IGroceryStore.Shared.ValueObjects;
+using IGroceryStore.Users.Core.Entities;
 using IGroceryStore.Users.Core.ValueObjects;
 
 namespace IGroceryStore.Users.Core.Factories;

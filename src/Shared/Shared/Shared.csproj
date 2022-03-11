@@ -19,6 +19,7 @@
     <ItemGroup>
       <PackageReference Include="BCrypt.Net-Next" Version="4.0.2" />
       <PackageReference Include="Bogus" Version="34.0.1" />
+      <PackageReference Include="DotNetCore.CAP" Version="6.0.1" />
       <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.3.6" />
       <PackageReference Include="IdGen" Version="3.0.0" />
       <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />

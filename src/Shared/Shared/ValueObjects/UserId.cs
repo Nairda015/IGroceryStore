@@ -4,6 +4,10 @@ namespace IGroceryStore.Shared.ValueObjects;
 
 public record UserId
 {
+    
+    public UserId()
+    {
+    }
     public Guid Value { get; }
 
     public UserId(Guid value)

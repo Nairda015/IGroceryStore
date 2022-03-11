@@ -2,6 +2,7 @@
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Exceptions;
 using IGroceryStore.Shared.Services;
+using IGroceryStore.Shared.ValueObjects;
 using IGroceryStore.Users.Core.Exceptions;
 using IGroceryStore.Users.Core.ValueObjects;
 
@@ -86,7 +87,7 @@ public class User : AuditableEntity
     
     internal bool Login(string password)
     {
-        if (TryUnlock()) throw new LoggingTriesExceededException(MaxLoginTry);
+        if (!TryUnlock()) throw new LoggingTriesExceededException(MaxLoginTry);
         
         if (!HashingService.ValidatePassword(password, _passwordHash.Value))
         {
@@ -123,6 +124,8 @@ public class User : AuditableEntity
         if (!_refreshTokens.Exists(x => x.UserAgent == userAgent)) return;
         _refreshTokens.RemoveAll(x => x.UserAgent == userAgent);
     }
+    
+    
 }
 
 internal class LoggingTriesExceededException : GroceryStoreException

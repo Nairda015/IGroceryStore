@@ -13,5 +13,23 @@
       <ProjectReference Include="..\Shops\Stores.Core\Stores.Core.csproj" />
       <ProjectReference Include="..\Users\Users.Core\Users.Core.csproj" />
     </ItemGroup>
+    
+    <ItemGroup>
+        <PackageReference Include="DotNetCore.CAP.RabbitMQ" Version="6.0.1" />
+        <PackageReference Include="DotNetCore.CAP.InMemoryStorage" Version="6.0.1" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <Content Include="appsettings.Development.json">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Include="appsettings.json">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+    </ItemGroup>
 
 </Project>

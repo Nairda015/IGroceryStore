@@ -26,7 +26,6 @@ namespace IGroceryStore.UserBasket.Core.Migrations
             modelBuilder.Entity("IGroceryStore.Baskets.Core.Entities.Basket", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<string>("Name")
@@ -36,7 +35,12 @@ namespace IGroceryStore.UserBasket.Core.Migrations
                     b.Property<Guid>("OwnerId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Baskets", "IGroceryStore.Baskets");
                 });
@@ -44,7 +48,6 @@ namespace IGroceryStore.UserBasket.Core.Migrations
             modelBuilder.Entity("IGroceryStore.Baskets.Core.Entities.Product", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<Guid?>("BasketId")
@@ -54,14 +57,36 @@ namespace IGroceryStore.UserBasket.Core.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("Rating")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
 
                     b.HasIndex("BasketId");
 
-                    b.ToTable("Product", "IGroceryStore.Baskets");
+                    b.ToTable("Products", "IGroceryStore.Baskets");
+                });
+
+            modelBuilder.Entity("IGroceryStore.Baskets.Core.Entities.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users", "IGroceryStore.Baskets");
+                });
+
+            modelBuilder.Entity("IGroceryStore.Baskets.Core.Entities.Basket", b =>
+                {
+                    b.HasOne("IGroceryStore.Baskets.Core.Entities.User", null)
+                        .WithMany("Baskets")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("IGroceryStore.Baskets.Core.Entities.Product", b =>
@@ -74,6 +99,11 @@ namespace IGroceryStore.UserBasket.Core.Migrations
             modelBuilder.Entity("IGroceryStore.Baskets.Core.Entities.Basket", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("IGroceryStore.Baskets.Core.Entities.User", b =>
+                {
+                    b.Navigation("Baskets");
                 });
 #pragma warning restore 612, 618
         }

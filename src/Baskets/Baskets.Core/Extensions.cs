@@ -1,5 +1,6 @@
 ﻿using IGroceryStore.Baskets.Core.Factories;
 using IGroceryStore.Baskets.Core.Persistence;
+using IGroceryStore.Baskets.Core.Subscribers.Users;
 using IGroceryStore.Shared.Commands;
 using IGroceryStore.Shared.Controllers;
 using IGroceryStore.Shared.Options;
@@ -22,6 +23,9 @@ public static class Extensions
         var options = configuration.GetOptions<PostgresOptions>("Postgres");
         services.AddDbContext<BasketDbContext>(ctx => 
             ctx.UseNpgsql(options.ConnectionString));
+        
+        //Subscriptions
+        services.AddTransient<AddUser>();
         
         return services;
     }
