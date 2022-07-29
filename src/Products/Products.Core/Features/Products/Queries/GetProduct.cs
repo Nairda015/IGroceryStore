@@ -1,6 +1,6 @@
-﻿using IGroceryStore.Products.Core.Exceptions;
+﻿using IGroceryStore.Products.Contracts.ReadModels;
+using IGroceryStore.Products.Core.Exceptions;
 using IGroceryStore.Products.Core.Persistence.Contexts;
-using IGroceryStore.Products.Core.ReadModels;
 using IGroceryStore.Shared.Abstraction.Queries;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -71,9 +71,9 @@ internal class GetProductHandler : IQueryHandler<GetProduct, ProductDetailsReadM
             BrandName = model.BrandName,
             CategoryName = model.CategoryName,
         };
-        if (model.Allergens is null) return result;
+        if (model.Allergens.Any()) return result;
 
-        result.Allergens = model.Allergens.Select(x => new AllergenReadModel(x.Name, x.Code)); 
+        result.Allergens = model.Allergens.Select(x => new AllergenReadModel(x.Id, x.Name)); 
         return result;
     }
 }

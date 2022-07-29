@@ -1,12 +1,12 @@
-﻿using IGroceryStore.Products.Core.Persistence.Contexts;
-using IGroceryStore.Products.Core.ReadModels;
+﻿using IGroceryStore.Products.Contracts.ReadModels;
+using IGroceryStore.Products.Core.Persistence.Contexts;
 using IGroceryStore.Shared.Abstraction.Queries;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Core.Features.Allergens.Queries;
 
-public record GetAllergensResult(IEnumerable<AllergenReadModelWithId> Allergens);
+public record GetAllergensResult(IEnumerable<AllergenReadModel> Allergens);
 internal record GetAllergens : IQuery<GetAllergensResult>;
 
 public class GetAllergensController : ProductsControllerBase
@@ -39,7 +39,7 @@ internal class GetAllergensHandler : IQueryHandler<GetAllergens, GetAllergensRes
         CancellationToken cancellationToken = default)
     {
         var allergens =  await _context.Allergens
-            .Select(x => new AllergenReadModelWithId(x.Id, x.Name, x.Code))
+            .Select(x => new AllergenReadModel(x.Id, x.Name))
             .AsNoTracking()
             .ToListAsync(cancellationToken);
 

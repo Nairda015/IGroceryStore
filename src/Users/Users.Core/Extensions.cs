@@ -1,20 +1,26 @@
-﻿using IGroceryStore.Shared.Commands;
+﻿using IGroceryStore.Shared.Abstraction.Common;
+using IGroceryStore.Shared.Abstraction.Constants;
+using IGroceryStore.Shared.Commands;
 using IGroceryStore.Shared.Controllers;
 using IGroceryStore.Shared.Options;
 using IGroceryStore.Shared.Queries;
 using IGroceryStore.Users.Core.Factories;
 using IGroceryStore.Users.Core.Persistence.Contexts;
 using IGroceryStore.Users.Core.Services;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace IGroceryStore.Users.Core;
 
-public static class Extensions
+public class UsersModule : IModule
 {
-    public static IServiceCollection AddUsers(this IServiceCollection services, IConfiguration configuration)
+    public string Name => "Users";
+    public void Register(IServiceCollection services, IConfiguration configuration)
     {
         services.AddCommands();
         services.AddQueries();
@@ -22,17 +28,32 @@ public static class Extensions
         services.AddScoped<ITokenManager, JwtTokenManager>();
 
         services.AddAuthorization();
-        
-        
 
         var enableSensitiveData = configuration.GetValue<bool>("EnableSensitiveData");
 
         var options = configuration.GetOptions<PostgresOptions>("Postgres");
         services.AddDbContext<UsersDbContext>(ctx => 
             ctx.UseNpgsql(options.ConnectionString)
-            .EnableSensitiveDataLogging(enableSensitiveData));
+                .EnableSensitiveDataLogging(enableSensitiveData));
+        
+        
+        var jwtSettings = configuration.GetOptions<JwtSettings>("Users:JwtSettings");
+        var authenticationBuilder = services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(jwtBearerOptions => JwtSettings.Configure(jwtBearerOptions, Tokens.Audience.Access, jwtSettings))
+            .AddJwtBearer(Tokens.Audience.Refresh, jwtBearerOptions => JwtSettings.Configure(jwtBearerOptions, Tokens.Audience.Refresh, jwtSettings));
+    }
 
-        return services;
+    public void Use(IApplicationBuilder app)
+    {
+    }
+
+    public void Expose(IEndpointRouteBuilder endpoints)
+    {
+        endpoints.MapGet($"/{Name}", () => Name);
     }
 }
 

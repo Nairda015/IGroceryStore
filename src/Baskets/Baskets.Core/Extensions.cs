@@ -1,10 +1,13 @@
 ﻿using IGroceryStore.Baskets.Core.Factories;
 using IGroceryStore.Baskets.Core.Persistence;
 using IGroceryStore.Baskets.Core.Subscribers.Users;
+using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Commands;
 using IGroceryStore.Shared.Controllers;
 using IGroceryStore.Shared.Options;
 using IGroceryStore.Shared.Queries;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -12,9 +15,11 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace IGroceryStore.Baskets.Core;
 
-public static class Extensions
+public class BasketsModule : IModule
 {
-    public static IServiceCollection AddBaskets(this IServiceCollection services, IConfiguration configuration)
+    public string Name => "Baskets";
+    
+    public void Register(IServiceCollection services, IConfiguration configuration)
     {
         services.AddCommands();
         services.AddQueries();
@@ -26,8 +31,15 @@ public static class Extensions
         
         //Subscriptions
         services.AddTransient<AddUser>();
-        
-        return services;
+    }
+
+    public void Use(IApplicationBuilder app)
+    {
+    }
+
+    public void Expose(IEndpointRouteBuilder endpoints)
+    {
+        endpoints.MapGet($"/{Name}", () => Name);
     }
 }
 

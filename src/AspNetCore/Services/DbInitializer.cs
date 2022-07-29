@@ -1,15 +1,13 @@
 ﻿using IGroceryStore.Shared.Abstraction.Common;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
-namespace IGroceryStore.Shared.Services;
+namespace IGroceryStore.Services;
 
-internal sealed class AppInitializer : IHostedService
+internal sealed class DbInitializer : IHostedService
 {
     private readonly IServiceProvider _serviceProvider;
 
-    public AppInitializer(IServiceProvider serviceProvider)
+    public DbInitializer(IServiceProvider serviceProvider)
         => _serviceProvider = serviceProvider;
 
     public async Task StartAsync(CancellationToken cancellationToken)

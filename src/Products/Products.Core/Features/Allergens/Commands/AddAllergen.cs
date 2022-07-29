@@ -43,8 +43,7 @@ internal class AddAllergenHandler : ICommandHandler<AddAllergen, AllergenId>
         var allergen = new Allergen()
         {
             Id = _snowflakeService.GenerateId(),
-            Name = name,
-            Code = code
+            Name = name
         };
         
         _productsDbContext.Allergens.Add(allergen);

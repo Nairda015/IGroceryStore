@@ -5,4 +5,5 @@
   &lt;TestAncestor&gt;
     &lt;TestId&gt;xUnit::4BE58296-F624-4C03-A9D2-1E5D3061000E::net6.0::Baskets.UnitTests.BasketFactoryTests&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
-&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
+&lt;/SessionState&gt;</s:String>
+	</wpf:ResourceDictionary>

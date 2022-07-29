@@ -62,6 +62,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stores.UnitTests", "tests\S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Users.UnitTests", "tests\Users\Users.UnitTests\Users.UnitTests.csproj", "{90BAF73D-97DE-4308-894D-4CFBC8546043}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{5DFEA9E6-F600-4B75-BFAB-913D415C5599}"
+	ProjectSection(SolutionItems) = preProject
+		tools\migration.sh = tools\migration.sh
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

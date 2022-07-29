@@ -1,21 +1,19 @@
-﻿namespace IGroceryStore.Shared.Services;
-using BCrypt.Net;
+﻿namespace IGroceryStore.Users.Core.Services;
 
 public static class HashingService
 {
-    
     private static string GetRandomSalt()
     {
-        return BCrypt.GenerateSalt(8);
+        return BCrypt.Net.BCrypt.GenerateSalt(8);
     }
 
     public static string HashPassword(string password)
     {
-        return BCrypt.HashPassword(password, GetRandomSalt());
+        return BCrypt.Net.BCrypt.HashPassword(password, GetRandomSalt());
     }
 
     public static bool ValidatePassword(string password, string correctHash)
     {
-        return BCrypt.Verify(password, correctHash);
+        return BCrypt.Net.BCrypt.Verify(password, correctHash);
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace IGroceryStore.Products.Core.ReadModels;
+﻿namespace IGroceryStore.Products.Contracts.ReadModels;
 
 public class ProductDetailsReadModel
 {
@@ -11,7 +11,7 @@ public class ProductDetailsReadModel
     public string CountryName { get; set; }
     public string BrandName { get; set; }
     public string CategoryName { get; set; }
-    public IEnumerable<AllergenReadModel>? Allergens { get; set; }
+    public IEnumerable<AllergenReadModel> Allergens { get; set; } = new List<AllergenReadModel>();
     //TODO: Add img
 }
 

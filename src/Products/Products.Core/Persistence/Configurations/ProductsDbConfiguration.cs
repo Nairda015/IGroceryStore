@@ -85,11 +85,6 @@ internal sealed class ProductsDbConfiguration : IEntityTypeConfiguration<Product
         builder.Property(x => x.Id)
             .HasConversion(x => x.Value, x => new AllergenId(x));
         
-         
-        builder.Property(x => x.Code)
-            .IsRequired()
-            .HasConversion(x => x.Value, x => new AllergenCode(x));
- 
         builder.Property(x => x.Name)
             .IsRequired()
             .HasConversion(x => x.Value, x => new AllergenName(x));

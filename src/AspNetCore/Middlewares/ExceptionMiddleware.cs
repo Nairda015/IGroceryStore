@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 using IGroceryStore.Shared.Abstraction.Exceptions;
-using Microsoft.AspNetCore.Http;
 
-namespace IGroceryStore.Shared.Exceptions;
+namespace IGroceryStore.Middlewares;
 
 internal sealed class ExceptionMiddleware : IMiddleware
 {
