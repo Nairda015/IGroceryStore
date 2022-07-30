@@ -10,14 +10,15 @@ internal class Product : AuditableEntity
     {
     }
 
-    internal Product(ProductName name,
+    public Product(ProductId id,
+        ProductName name,
         Description description,
         Quantity quantity,
         BrandId brandId,
         CountryId countryId,
         CategoryId categoryId)
     {
-        Id = Guid.NewGuid();
+        Id = id;
         Name = name;
         Description = description;
         Quantity = quantity;

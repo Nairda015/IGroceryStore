@@ -1,10 +1,14 @@
 ﻿using DotNetCore.CAP;
 using IGroceryStore.Shared.Abstraction.Commands;
+using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Users.Contracts.Events;
 using IGroceryStore.Users.Core.Exceptions;
 using IGroceryStore.Users.Core.Factories;
 using IGroceryStore.Users.Core.Persistence.Contexts;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 
 namespace IGroceryStore.Users.Core.Features.Users;
 
@@ -14,20 +18,16 @@ public record Register(string Email,
     string FirstName,
     string LastName) : ICommand;
 
-public class RegisterController : UsersControllerBase
+public class RegisterUserEndpoint : IEndpoint
 {
-    private readonly ICommandDispatcher _dispatcher;
-
-    public RegisterController(ICommandDispatcher dispatcher)
+    public void RegisterEndpoint(IEndpointRouteBuilder endpoints)
     {
-        _dispatcher = dispatcher;
-    }
-    
-    [HttpPost("users/register")]
-    public async Task<ActionResult> Register([FromBody] Register command)
-    {
-        await _dispatcher.DispatchAsync(command);
-        return Ok();
+        endpoints.MapPost("users/register", 
+            async ([FromServices] ICommandDispatcher dispatcher, Register command) =>
+        {
+            await dispatcher.DispatchAsync(command);
+            return Results.Accepted();
+        });
     }
 }
 

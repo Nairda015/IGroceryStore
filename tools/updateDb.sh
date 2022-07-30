@@ -1,17 +1,11 @@
 cd .. || exit
 cd src || exit
 
-echo "Migration name:"
-read -r migrationName
-
 modules=("Users" "Products" "Baskets" "Stores")
 
 for moduleName in "${modules[@]}" ; do
     cd "$moduleName" || exit
-    cd "$moduleName".Core || exit
-    dotnet ef migrations add "$migrationName" -o Persistence/Migrations -s ../../AspNetCore 
+    cd "$moduleName".Core || exit 
     dotnet ef database update -s ../../AspNetCore
     cd ../..
 done
-
- 

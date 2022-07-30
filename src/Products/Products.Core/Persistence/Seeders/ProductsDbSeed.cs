@@ -42,7 +42,7 @@ internal static class ProductsDbSeed
             .ToList();
 
         var productsFaker = new Faker<Product>()
-            .RuleFor(x => x.Id, x => new ProductId(Guid.NewGuid()))
+            .RuleFor(x => x.Id, x => new ProductId(x.Random.UInt()))
             .RuleFor(x => x.Name, x => new ProductName(x.Commerce.ProductName()))
             .RuleFor(x => x.Description, x => new Description(x.Commerce.ProductDescription()))
             .RuleFor(x => x.Quantity, x => new Quantity(x.Random.UInt(1, 20) * 100, x.PickRandom(units)))

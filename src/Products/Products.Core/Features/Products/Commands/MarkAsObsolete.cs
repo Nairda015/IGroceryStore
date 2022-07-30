@@ -18,8 +18,8 @@ public class MarkAsObsoleteController : ProductsControllerBase
         _commandDispatcher = commandDispatcher;
     }
 
-    [HttpPost("products/mark-as-obsolete/{id:guid}")]
-    public async Task<ActionResult> MarkAsObsolete([FromRoute] Guid id, CancellationToken cancellationToken)
+    [HttpPost("products/mark-as-obsolete/{id}")]
+    public async Task<ActionResult> MarkAsObsolete([FromRoute] ulong id, CancellationToken cancellationToken)
     {
         await _commandDispatcher.DispatchAsync(new MarkAsObsolete(id), cancellationToken);
         return Ok();

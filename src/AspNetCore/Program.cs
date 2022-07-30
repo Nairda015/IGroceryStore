@@ -1,5 +1,6 @@
 using DotNetCore.CAP;
 using IGroceryStore.Middlewares;
+using IGroceryStore.Services;
 using IGroceryStore.Shared.Abstraction.Services;
 using IGroceryStore.Shared.Services;
 using Microsoft.AspNetCore.Mvc.Controllers;
@@ -48,7 +49,7 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<ICurrentUserService, CurrentUserService>();
-//builder.Services.AddHostedService<DbInitializer>();
+builder.Services.AddHostedService<DbInitializer>();
 
 //Middlewares
 builder.Services.AddScoped<ExceptionMiddleware>();
@@ -71,7 +72,7 @@ builder.Services.AddLogging(loggingBuilder =>
 
 
 var app = builder.Build();
-
+System.AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

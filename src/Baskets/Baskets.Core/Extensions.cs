@@ -1,4 +1,5 @@
-﻿using IGroceryStore.Baskets.Core.Factories;
+﻿using System.Reflection;
+using IGroceryStore.Baskets.Core.Factories;
 using IGroceryStore.Baskets.Core.Persistence;
 using IGroceryStore.Baskets.Core.Subscribers.Users;
 using IGroceryStore.Shared.Abstraction.Common;
@@ -40,6 +41,17 @@ public class BasketsModule : IModule
     public void Expose(IEndpointRouteBuilder endpoints)
     {
         endpoints.MapGet($"/{Name}", () => Name);
+
+        // var assembly = Assembly.GetAssembly(typeof(BasketsModule));
+        // var moduleEndpoints = assembly!
+        //     .GetTypes()
+        //     .Where(x => typeof(IEndpoint).IsAssignableFrom(x) && x.IsClass)
+        //     .OrderBy(x => x.Name)
+        //     .Select(Activator.CreateInstance)
+        //     .Cast<IEndpoint>()
+        //     .ToList();
+        //
+        // moduleEndpoints.ForEach(x => x.RegisterEndpoint(endpoints));
     }
 }
 

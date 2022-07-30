@@ -1,4 +1,5 @@
-﻿using IGroceryStore.Shared.Abstraction.Common;
+﻿using System.Reflection;
+using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Commands;
 using IGroceryStore.Shared.Controllers;
@@ -54,6 +55,17 @@ public class UsersModule : IModule
     public void Expose(IEndpointRouteBuilder endpoints)
     {
         endpoints.MapGet($"/{Name}", () => Name);
+        
+        var assembly = Assembly.GetAssembly(typeof(UsersModule));
+        var moduleEndpoints = assembly!
+            .GetTypes()
+            .Where(x => typeof(IEndpoint).IsAssignableFrom(x) && x.IsClass)
+            .OrderBy(x => x.Name)
+            .Select(Activator.CreateInstance)
+            .Cast<IEndpoint>()
+            .ToList();
+        
+        moduleEndpoints.ForEach(x => x.RegisterEndpoint(endpoints));
     }
 }
 

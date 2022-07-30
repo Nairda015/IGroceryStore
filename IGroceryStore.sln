@@ -65,6 +65,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{5DFEA9E6-F600-4B75-BFAB-913D415C5599}"
 	ProjectSection(SolutionItems) = preProject
 		tools\migration.sh = tools\migration.sh
+		tools\updateDb.sh = tools\updateDb.sh
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "requests", "requests", "{02241B0B-8C92-40C1-A3AC-F7AC27EDD788}"
+	ProjectSection(SolutionItems) = preProject
+		requests\users.http = requests\users.http
 	EndProjectSection
 EndProject
 Global

@@ -231,3 +231,12 @@ _Pvt_Extensions
 # FAKE - F# Make
 .fake/
 /efCommands.txt
+
+#pgSQL files
+postgres-data
+
+#migrations
+../Users/Users.Core/Persistence/Migrations
+../Baskets/Baskets.Core/Persistence/Migrations
+../Shops/Stores.Core/Persistence/Migrations
+../Products/Products.Core/Persistence/Migrations

@@ -3,11 +3,11 @@ using IGroceryStore.Shared.Abstraction.Exceptions;
 
 namespace IGroceryStore.Products.Core.Exceptions;
 
-public class ProductNotFoundException : GroceryStoreException
+public class CategoryNotFoundException : GroceryStoreException
 {
     public ulong Id { get; }
 
-    public ProductNotFoundException(ulong id) : base($"Product with id {id} not found")
+    public CategoryNotFoundException(ulong id) : base($"Category with id {id} not found")
         => Id = id;
     public override HttpStatusCode StatusCode => HttpStatusCode.NotFound;
 }

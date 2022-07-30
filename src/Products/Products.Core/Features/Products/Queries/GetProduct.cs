@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Core.Features.Products.Queries;
 
-public record GetProduct(Guid Id) : IQuery<ProductDetailsReadModel>;
+public record GetProduct(ulong Id) : IQuery<ProductDetailsReadModel>;
 
 public class GetProductController : ProductsControllerBase
 {
@@ -18,8 +18,8 @@ public class GetProductController : ProductsControllerBase
         _dispatcher = dispatcher;
     }
 
-    [HttpGet("products/{id:guid}")]
-    public async Task<ActionResult<ProductDetailsReadModel>> GetProduct([FromRoute] Guid id)
+    [HttpGet("products/{id}")]
+    public async Task<ActionResult<ProductDetailsReadModel>> GetProduct([FromRoute] ulong id)
     {
         var result = await _dispatcher.QueryAsync(new GetProduct(id));
         return Ok(result);

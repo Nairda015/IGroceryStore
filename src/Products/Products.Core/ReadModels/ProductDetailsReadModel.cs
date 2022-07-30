@@ -2,7 +2,7 @@
 
 public class ProductDetailsReadModel
 {
-    public Guid Id { get; set; }
+    public ulong Id { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
     public QuantityReadModel Quantity { get; set; }
@@ -17,7 +17,7 @@ public class ProductDetailsReadModel
 
 public class ProductReadModel
 {
-    public Guid Id { get; set; }
+    public ulong Id { get; set; }
     public string Name { get; set; }
     public string BrandName { get; set; }
     public QuantityReadModel Quantity { get; set; }

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Core.Features.Products.Commands;
 
-public record AddAllergenToProduct(Guid Id, ulong AllergenId) : ICommand;
+public record AddAllergenToProduct(ulong Id, ulong AllergenId) : ICommand;
 
 public class AddAllergenToProductController : ProductsControllerBase
 {

@@ -2,6 +2,8 @@
 services:
   postgres:
     image: postgres:latest
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
     environment:
       - POSTGRES_PASSWORD=admin
       - POSTGRES_USER=postgres
@@ -9,3 +11,10 @@ services:
       - POSTGRES_PORT=5432
     ports:
       - 5432:5432
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672

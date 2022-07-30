@@ -1,0 +1,11 @@
+POST http://localhost:5000/users/register
+Content-Type: application/json
+
+{
+    "email": "random@email.com",
+    "password": "randomPassword",
+    "confirmPassword": "randomPassword",
+    "firstName": "randomName",
+    "lastName": "randomLastName"
+}
+
