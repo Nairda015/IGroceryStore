@@ -6,13 +6,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Baskets.Contracts", "src\Ba
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Baskets", "Baskets", "{959393F6-FF89-490B-889E-D2F24B2DF605}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Stores", "Stores", "{2DDCE09B-DF46-4875-99DF-6AC246BF2B99}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shops", "Shops", "{2DDCE09B-DF46-4875-99DF-6AC246BF2B99}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Products", "Products", "{51E807A8-E7D2-4349-B5C2-EB780D82641A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stores.Core", "src\Shops\Stores.Core\Stores.Core.csproj", "{FDA44412-BC78-4DE3-851B-1B1F4A02FF3F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shops.Core", "src\Shops\Shops.Core\Shops.Core.csproj", "{FDA44412-BC78-4DE3-851B-1B1F4A02FF3F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stores.Contracts", "src\Shops\Stores.Contracts\Stores.Contracts.csproj", "{48CB628E-4D69-4F6D-B533-A5C11F5E8E65}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shops.Contracts", "src\Shops\Shops.Contracts\Shops.Contracts.csproj", "{48CB628E-4D69-4F6D-B533-A5C11F5E8E65}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Products.Contracts", "src\Products\Products.Contracts\Products.Contracts.csproj", "{29B589AC-707B-4C53-9E88-F22888311229}"
 EndProject
@@ -46,19 +46,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Users", "Users", "{F3EB15AF
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Products", "Products", "{E59C08BA-D7AE-4726-ACED-270B35104447}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Stores", "Stores", "{159E4352-BDA2-41BA-81FA-D722BDC200E5}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shops", "Shops", "{159E4352-BDA2-41BA-81FA-D722BDC200E5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Baskets.IntegrationTests", "tests\Baskets\Baskets.IntegrationTests\Baskets.IntegrationTests.csproj", "{0A86368E-D354-4998-8590-943EADEF867A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Products.IntegrationTests", "tests\Products\Products.IntegrationTests\Products.IntegrationTests.csproj", "{B65B2EA2-E5DD-4A6A-894A-79B16961B50E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stores.IntegrationTests", "tests\Stores.IntegrationTests\Stores.IntegrationTests.csproj", "{32B71E08-83CC-485E-9C2C-B49D078EE8B1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shops.IntegrationTests", "tests\Shops.IntegrationTests\Shops.IntegrationTests.csproj", "{32B71E08-83CC-485E-9C2C-B49D078EE8B1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Users.IntegrationTests", "tests\Users\Users.IntegrationTests\Users.IntegrationTests.csproj", "{492E6B88-37F2-4752-A146-C37B8B3B2C8F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Products.UnitTests", "tests\Products\Products.UnitTests\Products.UnitTests.csproj", "{9B368812-B9E0-4B34-B532-AC90B95D1CBF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stores.UnitTests", "tests\Stores.UnitTests\Stores.UnitTests.csproj", "{5F1ACEEE-21C2-4F25-AC1E-B7FE4C5BF2D9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shops.UnitTests", "tests\Shops.UnitTests\Shops.UnitTests.csproj", "{5F1ACEEE-21C2-4F25-AC1E-B7FE4C5BF2D9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Users.UnitTests", "tests\Users\Users.UnitTests\Users.UnitTests.csproj", "{90BAF73D-97DE-4308-894D-4CFBC8546043}"
 EndProject

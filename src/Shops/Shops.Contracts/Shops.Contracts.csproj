@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <AssemblyName>IGroceryStore.Shops.Contracts</AssemblyName>
+        <RootNamespace>IGroceryStore.Shops.Contracts</RootNamespace>
+    </PropertyGroup>
+
+</Project>

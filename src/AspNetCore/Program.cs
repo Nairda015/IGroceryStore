@@ -49,7 +49,11 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<ICurrentUserService, CurrentUserService>();
-builder.Services.AddHostedService<DbInitializer>();
+
+if (!builder.Environment.IsDevelopment())
+{
+    builder.Services.AddHostedService<DbInitializer>();
+}
 
 //Middlewares
 builder.Services.AddScoped<ExceptionMiddleware>();

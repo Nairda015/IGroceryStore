@@ -41,17 +41,21 @@
         <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
         <None Remove="ClientApp\**" />
         <Content Remove="ClientApp\**" />
+        <None Remove="postgres-data\**" />
+        <Content Remove="postgres-data\**" />
     </ItemGroup>
     <ItemGroup>
       <Compile Remove="ClientApp\**" />
+      <Compile Remove="postgres-data\**" />
     </ItemGroup>
     <ItemGroup>
       <EmbeddedResource Remove="ClientApp\**" />
+      <EmbeddedResource Remove="postgres-data\**" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\Baskets\Baskets.Core\Baskets.Core.csproj" />
       <ProjectReference Include="..\Products\Products.Core\Products.Core.csproj" />
-      <ProjectReference Include="..\Shops\Stores.Core\Stores.Core.csproj" />
+      <ProjectReference Include="..\Shops\Shops.Core\Shops.Core.csproj" />
       <ProjectReference Include="..\Users\Users.Core\Users.Core.csproj" />
     </ItemGroup>
     <ItemGroup>
