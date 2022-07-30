@@ -52,13 +52,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Baskets.IntegrationTests", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Products.IntegrationTests", "tests\Products\Products.IntegrationTests\Products.IntegrationTests.csproj", "{B65B2EA2-E5DD-4A6A-894A-79B16961B50E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shops.IntegrationTests", "tests\Shops.IntegrationTests\Shops.IntegrationTests.csproj", "{32B71E08-83CC-485E-9C2C-B49D078EE8B1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shops.IntegrationTests", "tests\Shops\Shops.IntegrationTests\Shops.IntegrationTests.csproj", "{32B71E08-83CC-485E-9C2C-B49D078EE8B1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Users.IntegrationTests", "tests\Users\Users.IntegrationTests\Users.IntegrationTests.csproj", "{492E6B88-37F2-4752-A146-C37B8B3B2C8F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Products.UnitTests", "tests\Products\Products.UnitTests\Products.UnitTests.csproj", "{9B368812-B9E0-4B34-B532-AC90B95D1CBF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shops.UnitTests", "tests\Shops.UnitTests\Shops.UnitTests.csproj", "{5F1ACEEE-21C2-4F25-AC1E-B7FE4C5BF2D9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shops.UnitTests", "tests\Shops\Shops.UnitTests\Shops.UnitTests.csproj", "{5F1ACEEE-21C2-4F25-AC1E-B7FE4C5BF2D9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Users.UnitTests", "tests\Users\Users.UnitTests\Users.UnitTests.csproj", "{90BAF73D-97DE-4308-894D-4CFBC8546043}"
 EndProject
