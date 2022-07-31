@@ -16,6 +16,7 @@ public static class AppInitializer
             .Where(x => !locations.Contains(x, StringComparer.InvariantCultureIgnoreCase))
             .ToList();
 
+        var moduleAssemblies = new List<Assembly>();
         foreach (var file in files)
         {
             var root = file.Split(ModulePrefix, 2).Last();
@@ -24,11 +25,11 @@ public static class AppInitializer
             var moduleName = root.Split($"{ModulePrefix}")[1]
                 .Split(".", StringSplitOptions.RemoveEmptyEntries)[0];
             var enabled = builder.Configuration.GetValue<bool>($"{moduleName}:ModuleEnabled");
-            
-            if (enabled)
-            {
-                assemblies.Add(AppDomain.CurrentDomain.Load(AssemblyName.GetAssemblyName(file)));
-            }
+
+            if (!enabled) continue;
+            var assembly = AppDomain.CurrentDomain.Load(AssemblyName.GetAssemblyName(file));
+            assemblies.Add(assembly);
+            moduleAssemblies.Add(assembly);
         }
 
         var modules = assemblies
@@ -39,6 +40,6 @@ public static class AppInitializer
             .Cast<IModule>()
             .ToList();
         
-        return new (assemblies.ToList(), modules.ToHashSet());
+        return new AppContext(assemblies.ToList(), moduleAssemblies, modules.ToHashSet());
     }
 }

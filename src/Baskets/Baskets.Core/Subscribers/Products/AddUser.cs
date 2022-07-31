@@ -1,13 +1,13 @@
-﻿using DotNetCore.CAP;
-using IGroceryStore.Baskets.Core.Entities;
+﻿using IGroceryStore.Baskets.Core.Entities;
 using IGroceryStore.Baskets.Core.Persistence;
 using IGroceryStore.Products.Contracts.Events;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace IGroceryStore.Baskets.Core.Subscribers.Products;
 
-public class AddProduct : ICapSubscribe
+public class AddProduct : IConsumer<ProductAdded>
 {
     private readonly ILogger<AddProduct> _logger;
     private readonly BasketDbContext _basketDbContext;
@@ -18,11 +18,10 @@ public class AddProduct : ICapSubscribe
         _basketDbContext = basketDbContext;
     }
 
-    [CapSubscribe(nameof(ProductAdded))]
-    public async Task Handle(ProductAdded productAdded)
+    public async Task Consume(ConsumeContext<ProductAdded> context)
     {
-        var (productId, name, category) = productAdded;
-        if (await _basketDbContext.Products.AnyAsync(x => x.Id.Equals(productAdded.Id))) return;
+        var (productId, name, category) = context.Message;
+        if (await _basketDbContext.Products.AnyAsync(x => x.Id.Equals(productId))) return;
 
         var product = new Product(productId, name, category);
         await _basketDbContext.Products.AddAsync(product);
