@@ -1,6 +1,6 @@
 # IGroceryStore
 [![.NET](https://github.com/Nairda015/IGroceryStore/actions/workflows/dotnet.yml/badge.svg)](https://github.com/Nairda015/IGroceryStore/actions/workflows/dotnet.yml)
-### Loosely coupled monolith app where users will organize shoping lists.
+### Loosely coupled monolith app where users will track pesronal basket price.
 Work in progress...
 
 ## Alredy working (API)
