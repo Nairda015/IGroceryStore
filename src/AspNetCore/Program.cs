@@ -1,15 +1,15 @@
-using DotNetCore.CAP;
 using IGroceryStore.Middlewares;
 using IGroceryStore.Services;
 using IGroceryStore.Shared.Abstraction.Services;
 using IGroceryStore.Shared.Services;
 using Microsoft.EntityFrameworkCore;
 using IGroceryStore.Shared.Configuration;
+using MassTransit;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.ConfigureModules();
 
-var (assemblies, modules) = AppInitializer.Initialize(builder);
+var (assemblies, moduleAssemblies, modules) = AppInitializer.Initialize(builder);
 
 foreach (var module in modules)
 {
@@ -41,12 +41,36 @@ if (!builder.Environment.IsDevelopment())
 builder.Services.AddScoped<ExceptionMiddleware>();
 
 //Messaging
-builder.Services.AddCap(options =>
+builder.Services.AddMassTransit(bus =>
 {
-    options.UseInMemoryStorage();
-    options.UseRabbitMQ("localhost");
-    options.UseDashboard();
-    //options.ConsumerThreadCount = 0;
+    bus.SetKebabCaseEndpointNameFormatter();
+    
+    //TODO: remove later
+    bus.SetInMemorySagaRepositoryProvider();
+
+    foreach (var assembly in moduleAssemblies)
+    {
+        bus.AddConsumers(assembly);
+        bus.AddSagaStateMachines(assembly);
+        bus.AddSagas(assembly);
+        bus.AddActivities(assembly);
+    }
+
+    bus.UsingInMemory((ctx, cfg) =>
+    {
+        cfg.ConfigureEndpoints(ctx);
+    });
+
+    // bus.UsingRabbitMq((ctx, cfg) =>
+    // {
+    //     cfg.Host("localhost", "/", h =>
+    //     {
+    //         h.Username("guest");
+    //         h.Password("guest");
+    //     });
+    //     
+    //     cfg.ConfigureEndpoints(ctx);
+    // });
 });
 
 //Logging
@@ -77,7 +101,6 @@ app.UseSwagger();
 
 app.UseHttpsRedirection();
 app.UseRouting();
-app.UseCapDashboard();
 app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseAuthentication();

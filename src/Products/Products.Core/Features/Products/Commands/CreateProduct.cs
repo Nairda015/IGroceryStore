@@ -1,5 +1,4 @@
-﻿using DotNetCore.CAP;
-using IGroceryStore.Products.Contracts.Events;
+﻿using IGroceryStore.Products.Contracts.Events;
 using IGroceryStore.Products.Contracts.ReadModels;
 using IGroceryStore.Products.Core.Entities;
 using IGroceryStore.Products.Core.Exceptions;
@@ -8,6 +7,7 @@ using IGroceryStore.Products.Core.ValueObjects;
 using IGroceryStore.Shared.Abstraction.Commands;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Services;
+using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -41,12 +41,12 @@ internal class CreateProductHandler : ICommandHandler<CreateProduct, ulong>
 {
     private readonly ProductsDbContext _productsDbContext;
     private readonly ISnowflakeService _snowflakeService;
-    private readonly ICapPublisher _publisher;
+    private readonly IBus _bus;
 
-    public CreateProductHandler(ProductsDbContext productsDbContext, ICapPublisher publisher, ISnowflakeService snowflakeService)
+    public CreateProductHandler(ProductsDbContext productsDbContext, IBus bus, ISnowflakeService snowflakeService)
     {
         _productsDbContext = productsDbContext;
-        _publisher = publisher;
+        _bus = bus;
         _snowflakeService = snowflakeService;
     }
 
@@ -67,7 +67,7 @@ internal class CreateProductHandler : ICommandHandler<CreateProduct, ulong>
         await _productsDbContext.SaveChangesAsync(cancellationToken);
 
         var productAddedEvent = new ProductAdded(product.Id, name, categoryName);
-        await _publisher.PublishAsync(nameof(ProductAdded), productAddedEvent, cancellationToken: cancellationToken);
+        await _bus.Publish(productAddedEvent, cancellationToken: cancellationToken);
         return product.Id;
     }
 }

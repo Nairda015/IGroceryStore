@@ -1,13 +1,13 @@
-﻿using DotNetCore.CAP;
-using IGroceryStore.Baskets.Core.Entities;
+﻿using IGroceryStore.Baskets.Core.Entities;
 using IGroceryStore.Baskets.Core.Persistence;
 using IGroceryStore.Users.Contracts.Events;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace IGroceryStore.Baskets.Core.Subscribers.Users;
 
-public class AddUser : ICapSubscribe
+public class AddUser : IConsumer<UserCreated>
 {
     private readonly ILogger<AddUser> _logger;
     private readonly BasketDbContext _basketDbContext;
@@ -18,12 +18,11 @@ public class AddUser : ICapSubscribe
         _basketDbContext = basketDbContext;
     }
 
-    [CapSubscribe(nameof(UserCreated))]
-    public async Task Handle(UserCreated userCreated)
+    public async Task Consume(ConsumeContext<UserCreated> context)
     {
-        if (await _basketDbContext.Users.AnyAsync(x => x.Id.Equals(userCreated.UserId))) return;
-        
-        var (userId, firstName, lastName) = userCreated;
+        var (userId, firstName, lastName) = context.Message;
+        if (await _basketDbContext.Users.AnyAsync(x => x.Id.Equals(userId))) return;
+
         var user = new User(userId, firstName, lastName);
         await _basketDbContext.Users.AddAsync(user);
         await _basketDbContext.SaveChangesAsync();

@@ -15,11 +15,6 @@
     </ItemGroup>
     
     <ItemGroup>
-        <PackageReference Include="DotNetCore.CAP.RabbitMQ" Version="6.0.1" />
-        <PackageReference Include="DotNetCore.CAP.InMemoryStorage" Version="6.1.0" />
-    </ItemGroup>
-    
-    <ItemGroup>
       <Content Include="appsettings.Development.json">
         <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

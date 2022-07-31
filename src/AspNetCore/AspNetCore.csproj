@@ -30,9 +30,6 @@
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
         <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.4.0" />
         <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.4.0" />
-        <PackageReference Include="DotNetCore.CAP.RabbitMQ" Version="6.0.1" />
-        <PackageReference Include="DotNetCore.CAP.InMemoryStorage" Version="6.1.0" />
-        <PackageReference Include="DotNetCore.CAP.Dashboard" Version="6.1.0" />
     </ItemGroup>
     <ItemGroup>
         <!-- Don't publish the SPA source files, but do show them in the project files list -->

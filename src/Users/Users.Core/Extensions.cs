@@ -21,6 +21,8 @@ public class UsersModule : IModule
     public string Name => "Users";
     public void Register(IServiceCollection services, IConfiguration configuration)
     {
+        services.AddHostedService<Worker>();
+
         services.AddCommands();
         services.AddQueries();
         services.AddSingleton<IUserFactory, UserFactory>();
