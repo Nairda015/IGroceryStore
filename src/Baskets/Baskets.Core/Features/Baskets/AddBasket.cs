@@ -4,26 +4,23 @@ using IGroceryStore.Shared.Abstraction.Commands;
 using IGroceryStore.Shared.Abstraction.Common;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 
 namespace IGroceryStore.Baskets.Core.Features.Baskets;
 
 public record AddBasket(string Name) : ICommand<Guid>;
 
-public class AddBasketController : BasketsControllerBase, IEndpoint
+public class AddBasketEndpoint : IEndpoint
 {
-    private readonly ICommandDispatcher _commandDispatcher;
-
-    public AddBasketController(ICommandDispatcher commandDispatcher)
-    {
-        _commandDispatcher = commandDispatcher;
-    }
-
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints)
     {
-        endpoints.MapPost("/baskets", async (AddBasket command, CancellationToken cancellationToken) =>
+        endpoints.MapPost("/baskets", async(
+            [FromServices] ICommandDispatcher dispatcher,
+            AddBasket command,
+            CancellationToken cancellationToken) =>
         {
-            var result = await _commandDispatcher.DispatchAsync(command, cancellationToken);
+            var result = await dispatcher.DispatchAsync(command, cancellationToken);
             return Results.Ok(result);
         });
     }

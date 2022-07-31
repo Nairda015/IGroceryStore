@@ -1,28 +1,24 @@
 ﻿using IGroceryStore.Products.Contracts.ReadModels;
 using IGroceryStore.Products.Core.Exceptions;
 using IGroceryStore.Products.Core.Persistence.Contexts;
+using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Queries;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Core.Features.Products.Queries;
 
 public record GetProduct(ulong Id) : IQuery<ProductDetailsReadModel>;
 
-public class GetProductController : ProductsControllerBase
+public class GetProductEndpoint : IEndpoint
 {
-    private readonly IQueryDispatcher _dispatcher;
-
-    public GetProductController(IQueryDispatcher dispatcher)
+    public void RegisterEndpoint(IEndpointRouteBuilder endpoints)
     {
-        _dispatcher = dispatcher;
-    }
-
-    [HttpGet("products/{id}")]
-    public async Task<ActionResult<ProductDetailsReadModel>> GetProduct([FromRoute] ulong id)
-    {
-        var result = await _dispatcher.QueryAsync(new GetProduct(id));
-        return Ok(result);
+        endpoints.MapGet("products/{id}",
+            async (IQueryDispatcher dispatcher, ulong id, CancellationToken cancellationToken) =>
+                Results.Ok(await dispatcher.QueryAsync(new GetProduct(id), cancellationToken)));
     }
 }
 

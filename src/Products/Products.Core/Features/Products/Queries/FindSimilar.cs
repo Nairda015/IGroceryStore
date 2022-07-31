@@ -1,30 +1,26 @@
 ﻿using IGroceryStore.Products.Core.Persistence.Contexts;
+using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Queries;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 
 namespace IGroceryStore.Products.Core.Features.Products.Queries;
 
-public record FindSimilar(Guid Id) : IQuery<Guid>;
+public record FindSimilar(ulong Id) : IQuery<ulong>;
 
-public class FindSimilarController : ProductsControllerBase
+public class FindSimilarEndpoint : IEndpoint
 {
-    private readonly IQueryDispatcher _queryDispatcher;
-
-    public FindSimilarController(IQueryDispatcher queryDispatcher)
+    public void RegisterEndpoint(IEndpointRouteBuilder endpoints)
     {
-        _queryDispatcher = queryDispatcher;
-    }
-
-    [HttpGet("products/find-similar/{id:guid}")]
-    public async Task<ActionResult<Guid>> Get([FromRoute] Guid id)
-    {
-        var result = await _queryDispatcher.QueryAsync(new FindSimilar(id));
-        return Ok(result);
+        endpoints.MapGet("products/find-similar/{id}",
+            async (IQueryDispatcher dispatcher, ulong id, CancellationToken cancellationToken) =>
+                Results.Ok(await dispatcher.QueryAsync(new FindSimilar(id), cancellationToken)));
     }
 }
 
 
-internal class FindSimilarHandler : IQueryHandler<FindSimilar, Guid>
+internal class FindSimilarHandler : IQueryHandler<FindSimilar, ulong>
 {
     private readonly ProductsDbContext _context;
 
@@ -33,7 +29,7 @@ internal class FindSimilarHandler : IQueryHandler<FindSimilar, Guid>
         _context = context;
     }
 
-    public Task<Guid> HandleAsync(FindSimilar query, CancellationToken cancellationToken = default)
+    public Task<ulong> HandleAsync(FindSimilar query, CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
     }

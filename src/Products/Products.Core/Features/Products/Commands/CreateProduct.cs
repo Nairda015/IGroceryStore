@@ -6,8 +6,11 @@ using IGroceryStore.Products.Core.Exceptions;
 using IGroceryStore.Products.Core.Persistence.Contexts;
 using IGroceryStore.Products.Core.ValueObjects;
 using IGroceryStore.Shared.Abstraction.Commands;
+using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Services;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Core.Features.Products.Commands;
@@ -19,21 +22,18 @@ public record CreateProduct(string Name,
     CountryId CountryId,
     CategoryId CategoryId) : ICommand<ulong>;
 
-public class CreateProductController : ProductsControllerBase
+public class CreateProductEndpoint : IEndpoint
 {
-    private readonly ICommandDispatcher _commandDispatcher;
-
-    public CreateProductController(ICommandDispatcher commandDispatcher)
+    public void RegisterEndpoint(IEndpointRouteBuilder endpoints)
     {
-        _commandDispatcher = commandDispatcher;
-    }
-
-    [HttpPost("products/create")]
-    public async Task<ActionResult<ulong>> CreateProduct([FromBody] CreateProduct command,
-        CancellationToken cancellationToken)
-    {
-        var result = await _commandDispatcher.DispatchAsync(command, cancellationToken);
-        return Ok(result);
+        endpoints.MapPost("products/create",
+            async (ICommandDispatcher dispatcher,
+                CreateProduct command,
+                CancellationToken cancellationToken) =>
+            {
+                await dispatcher.DispatchAsync(command, cancellationToken);
+                return Results.Accepted();
+            });
     }
 }
 

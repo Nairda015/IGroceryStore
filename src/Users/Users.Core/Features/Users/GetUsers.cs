@@ -1,29 +1,25 @@
-﻿using IGroceryStore.Shared.Abstraction.Queries;
+﻿using IGroceryStore.Shared.Abstraction.Common;
+using IGroceryStore.Shared.Abstraction.Queries;
 using IGroceryStore.Users.Core.Persistence.Contexts;
 using IGroceryStore.Users.Core.ReadModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Users.Core.Features.Users;
 
-public record GetUsers() : IQuery<UsersReadModel>;
+public record GetUsers : IQuery<UsersReadModel>;
 
-public class GetUsersController : UsersControllerBase
+public class GetUsersEndpoint : IEndpoint
 {
-    private readonly IQueryDispatcher _dispatcher;
-
-    public GetUsersController(IQueryDispatcher dispatcher)
+    public void RegisterEndpoint(IEndpointRouteBuilder endpoints)
     {
-        _dispatcher = dispatcher;
-    }
-    
-    [HttpGet("/users")]
-    [Authorize]
-    public async Task<UsersReadModel> Get()
-    {
-        var result = await _dispatcher.QueryAsync(new GetUsers());
-        return result;
+        endpoints.MapGet("/users",
+            [Authorize] async ([FromServices] IQueryDispatcher dispatcher) =>
+                Results.Ok(await dispatcher.QueryAsync(new GetUsers())));
     }
 }
 

@@ -1,9 +1,13 @@
 ﻿using IGroceryStore.Shared.Abstraction.Commands;
+using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Users.Core.Exceptions;
 using IGroceryStore.Users.Core.Persistence.Contexts;
 using IGroceryStore.Users.Core.Services;
 using IGroceryStore.Users.Core.ValueObjects;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Users.Core.Features.Tokens;
@@ -12,22 +16,20 @@ public record Login(string Email, string Password);
 public record LoginWithUserAgent(string Email, string Password, string UserAgent) : ICommand<LoginResult>;
 public record LoginResult(Guid UserId, ReadModels.TokensReadModel Tokens);
 
-public class LoginController : UsersControllerBase
+public class LoginEndpoint : IEndpoint
 {
-    private readonly ICommandDispatcher _dispatcher;
-
-    public LoginController(ICommandDispatcher dispatcher)
+    public void RegisterEndpoint(IEndpointRouteBuilder endpoints)
     {
-        _dispatcher = dispatcher;
-    }
-    
-    [HttpPost("tokens/login")]
-    public async Task<ActionResult<LoginResult>> Login([FromBody] Login command)
-    {
-        var (email, password) = command;
-        var agent = Request.Headers.UserAgent;
-        var result = await _dispatcher.DispatchAsync(new LoginWithUserAgent(email, password, agent));
-        return Ok(result);
+        endpoints.MapPost("tokens/login", async(
+            [FromHeader(Name = "User-Agent")] string agent,
+            [FromServices] ICommandDispatcher dispatcher,
+            Login command,
+            CancellationToken cancellationToken) =>
+        {
+            var (email, password) = command;
+            var result = await dispatcher.DispatchAsync(new LoginWithUserAgent(email, password, agent), cancellationToken);
+            return Results.Ok(result);
+        });
     }
 }
 

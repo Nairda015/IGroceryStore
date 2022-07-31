@@ -2,7 +2,6 @@ using System.Reflection;
 using IGroceryStore.Shared.Abstraction.Common;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace IGroceryStore.Shared.Configuration;
 
@@ -40,19 +39,6 @@ public static class AppInitializer
                 disabledModules.Add(moduleName);
             }
         }
-
-        builder.Services.AddControllers().ConfigureApplicationPartManager(manager =>
-        {
-            var appParts = disabledModules.SelectMany(x => manager.ApplicationParts
-                .Where(part => part.Name.Contains(x, StringComparison.InvariantCultureIgnoreCase))).ToList();
-
-            foreach (var part in appParts)
-            {
-                manager.ApplicationParts.Remove(part);
-            }
-                    
-            manager.FeatureProviders.Add(new CustomControllerFeatureProvider());
-        });
 
         var modules = assemblies
             .SelectMany(x => x.GetTypes())

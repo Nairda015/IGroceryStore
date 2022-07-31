@@ -1,5 +1,4 @@
-﻿using IGroceryStore.Shared.Services;
-using IGroceryStore.Shared.ValueObjects;
+﻿using IGroceryStore.Shared.ValueObjects;
 using IGroceryStore.Users.Core.Entities;
 using IGroceryStore.Users.Core.Services;
 using IGroceryStore.Users.Core.ValueObjects;

@@ -2,14 +2,12 @@
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Commands;
-using IGroceryStore.Shared.Controllers;
 using IGroceryStore.Shared.Options;
 using IGroceryStore.Shared.Queries;
 using IGroceryStore.Users.Core.Factories;
 using IGroceryStore.Users.Core.Persistence.Contexts;
 using IGroceryStore.Users.Core.Services;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -67,9 +65,4 @@ public class UsersModule : IModule
         
         moduleEndpoints.ForEach(x => x.RegisterEndpoint(endpoints));
     }
-}
-
-[ApiExplorerSettings(GroupName = "Users")]
-public abstract class UsersControllerBase : ApiControllerBase
-{
 }

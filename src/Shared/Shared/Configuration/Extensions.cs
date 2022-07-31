@@ -19,7 +19,6 @@ public static class Extensions
             }
         });
 
-
     private static IEnumerable<string> GetSettings(this HostBuilderContext ctx) =>
         Directory.EnumerateFiles(ctx.HostingEnvironment.GetPath(),
             "module.json", SearchOption.AllDirectories);

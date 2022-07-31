@@ -1,7 +1,10 @@
 ﻿using IGroceryStore.Products.Contracts.ReadModels;
 using IGroceryStore.Products.Core.Persistence.Contexts;
+using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Queries;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Core.Features.Allergens.Queries;
@@ -9,20 +12,13 @@ namespace IGroceryStore.Products.Core.Features.Allergens.Queries;
 public record GetAllergensResult(IEnumerable<AllergenReadModel> Allergens);
 internal record GetAllergens : IQuery<GetAllergensResult>;
 
-public class GetAllergensController : ProductsControllerBase
+public class GetAllergensEndpoint : IEndpoint
 {
-    private readonly IQueryDispatcher _queryDispatcher;
-
-    public GetAllergensController(IQueryDispatcher queryDispatcher)
+    public void RegisterEndpoint(IEndpointRouteBuilder endpoints)
     {
-        _queryDispatcher = queryDispatcher;
-    }
-
-    [HttpGet("allergens")]
-    public async Task<ActionResult<GetAllergensResult>> GetAllergens(CancellationToken cancellationToken)
-    {
-        var result = await _queryDispatcher.QueryAsync(new GetAllergens(), cancellationToken);
-        return Ok(result);
+        endpoints.MapGet("allergens",
+            async (IQueryDispatcher dispatcher, CancellationToken cancellationToken) =>
+                Results.Ok(await dispatcher.QueryAsync(new GetAllergens(), cancellationToken)));
     }
 }
 

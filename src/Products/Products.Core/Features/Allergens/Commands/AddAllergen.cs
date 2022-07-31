@@ -2,27 +2,29 @@
 using IGroceryStore.Products.Core.Persistence.Contexts;
 using IGroceryStore.Products.Core.ValueObjects;
 using IGroceryStore.Shared.Abstraction.Commands;
+using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Services;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 
 namespace IGroceryStore.Products.Core.Features.Allergens.Commands;
 
 public record AddAllergen(string Name, string Code) : ICommand<AllergenId>;
 
-public class AddAllergenController : ProductsControllerBase
+public class AddAllergenEndpoint : IEndpoint
 {
-    private readonly ICommandDispatcher _commandDispatcher;
-
-    public AddAllergenController(ICommandDispatcher commandDispatcher)
+    public void RegisterEndpoint(IEndpointRouteBuilder endpoints)
     {
-        _commandDispatcher = commandDispatcher;
-    }
-
-    [HttpPost("allergens/add-allergen")]
-    public async Task<ActionResult> AddAllergen([FromBody] AddAllergen command, CancellationToken cancellationToken)
-    {
-        var result = await _commandDispatcher.DispatchAsync(command, cancellationToken);
-        return Ok(result.Value);
+        endpoints.MapPost("allergens/add-allergen", async(
+            [FromServices] ICommandDispatcher dispatcher,
+            AddAllergen command,
+            CancellationToken cancellationToken) =>
+        {
+            var result = await dispatcher.DispatchAsync(command, cancellationToken);
+            return Results.Ok(result.Value);
+        });
     }
 }
 

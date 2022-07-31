@@ -1,41 +1,42 @@
 ﻿using System.Security.Claims;
 using IGroceryStore.Shared.Abstraction.Commands;
+using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Users.Core.Exceptions;
 using IGroceryStore.Users.Core.Persistence.Contexts;
 using IGroceryStore.Users.Core.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Exceptions;
 using IGroceryStore.Shared.ValueObjects;
 using IGroceryStore.Users.Core.ReadModels;
-using IGroceryStore.Users.Core.ValueObjects;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
+using Audience = IGroceryStore.Shared.Abstraction.Constants.Tokens.Audience;
 
 namespace IGroceryStore.Users.Core.Features.Tokens;
 
 public record RefreshTokenCommand(Claim UserId, Claim Token) : ICommand<TokensReadModel>;
 
-public class RefreshController : UsersControllerBase
+public class RefreshEndpoint : IEndpoint
 {
-    private readonly ICommandDispatcher _dispatcher;
-
-    public RefreshController(ICommandDispatcher dispatcher)
+    public void RegisterEndpoint(IEndpointRouteBuilder endpoints)
     {
-        _dispatcher = dispatcher;
-    }
-    
-    [Authorize(AuthenticationSchemes = Shared.Abstraction.Constants.Tokens.Audience.Refresh)]
-    [HttpPut("tokens/refresh", Name = "RefreshToken")]
-    public async Task<ActionResult<TokensReadModel>> Refresh()
-    {
-        var refreshToken = User.Claims.FirstOrDefault(x => x.Type == Claims.Name.RefreshToken);
-        var userId = User.Claims.FirstOrDefault(x => x.Type == Claims.Name.UserId);
+        endpoints.MapPut("tokens/refresh", 
+            [Authorize(AuthenticationSchemes = Audience.Refresh)] async(
+            [FromServices] ICommandDispatcher dispatcher,
+            [FromServices] ClaimsPrincipal user) =>
+        {
+            var refreshToken = user.Claims.FirstOrDefault(x => x.Type == Claims.Name.RefreshToken);
+            var userId = user.Claims.FirstOrDefault(x => x.Type == Claims.Name.UserId);
         
-        if (refreshToken == null || userId == null) return BadRequest();
+            if (refreshToken == null || userId == null) return Results.BadRequest();
 
-        var tokens = await _dispatcher.DispatchAsync(new RefreshTokenCommand(userId, refreshToken));
-        return Ok(tokens);
+            var tokens = await dispatcher.DispatchAsync(new RefreshTokenCommand(userId, refreshToken));
+            return Results.Ok(tokens);
+        });
     }
 }
 

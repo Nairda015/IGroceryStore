@@ -1,29 +1,28 @@
 ﻿using IGroceryStore.Products.Core.Exceptions;
 using IGroceryStore.Products.Core.Persistence.Contexts;
-using IGroceryStore.Products.Core.ValueObjects;
 using IGroceryStore.Shared.Abstraction.Commands;
-using IGroceryStore.Shared.ValueObjects;
-using Microsoft.AspNetCore.Mvc;
+using IGroceryStore.Shared.Abstraction.Common;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Core.Features.Products.Commands;
 
 public record AddAllergenToProduct(ulong Id, ulong AllergenId) : ICommand;
 
-public class AddAllergenToProductController : ProductsControllerBase
+public class AddAllergenToProductEndpoint : IEndpoint
 {
-    private readonly ICommandDispatcher _commandDispatcher;
-
-    public AddAllergenToProductController(ICommandDispatcher commandDispatcher)
+    public void RegisterEndpoint(IEndpointRouteBuilder endpoints)
     {
-        _commandDispatcher = commandDispatcher;
-    }
-
-    [HttpPost("products/add-allergen")]
-    public async Task<ActionResult> AddAllergenToProduct([FromBody] AddAllergenToProduct command, CancellationToken cancellationToken)
-    {
-        await _commandDispatcher.DispatchAsync(command, cancellationToken);
-        return Ok();
+        endpoints.MapPut("products/add-allergen",
+            async (ICommandDispatcher dispatcher,
+                AddAllergenToProduct command,
+                CancellationToken cancellationToken) =>
+            {
+                await dispatcher.DispatchAsync(command, cancellationToken);
+                return Results.Accepted();
+            });
     }
 }
 

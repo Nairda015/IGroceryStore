@@ -1,12 +1,11 @@
-﻿using IGroceryStore.Products.Core.Persistence.Contexts;
+﻿using System.Reflection;
+using IGroceryStore.Products.Core.Persistence.Contexts;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Commands;
-using IGroceryStore.Shared.Controllers;
 using IGroceryStore.Shared.Options;
 using IGroceryStore.Shared.Queries;
 using IGroceryStore.Shared.Services;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -40,10 +39,15 @@ public class ProductsModule : IModule
     {
         endpoints.MapGet($"/{Name}", () => Name);
 
+        var assembly = Assembly.GetAssembly(typeof(ProductsModule));
+        var moduleEndpoints = assembly!
+            .GetTypes()
+            .Where(x => typeof(IEndpoint).IsAssignableFrom(x) && x.IsClass)
+            .OrderBy(x => x.Name)
+            .Select(Activator.CreateInstance)
+            .Cast<IEndpoint>()
+            .ToList();
+        
+        moduleEndpoints.ForEach(x => x.RegisterEndpoint(endpoints));
     }
-}
-
-[ApiExplorerSettings(GroupName = "Products")]
-public abstract class ProductsControllerBase : ApiControllerBase
-{
 }

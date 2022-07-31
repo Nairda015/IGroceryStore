@@ -1,7 +1,10 @@
 ﻿using IGroceryStore.Products.Contracts.ReadModels;
 using IGroceryStore.Products.Core.Persistence.Contexts;
+using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Queries;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Core.Features.Categories.Queries;
@@ -9,20 +12,13 @@ public record GetCategoriesResult(List<CategoryReadModel> Categories);
 internal record GetCategories : IQuery<GetCategoriesResult>;
 
 
-public class GetCategoriesController : ProductsControllerBase
+public class GetCategoriesEndpoint : IEndpoint
 {
-    private readonly IQueryDispatcher _queryDispatcher;
-
-    public GetCategoriesController(IQueryDispatcher queryDispatcher)
+    public void RegisterEndpoint(IEndpointRouteBuilder endpoints)
     {
-        _queryDispatcher = queryDispatcher;
-    }
-
-    [HttpGet("categories")]
-    public async Task<ActionResult<GetCategoriesResult>> GetCategories(CancellationToken cancellationToken)
-    {
-        var result = await _queryDispatcher.QueryAsync(new GetCategories(), cancellationToken);
-        return Ok(result);
+        endpoints.MapGet("categories",
+            async (IQueryDispatcher dispatcher, CancellationToken cancellationToken) =>
+                Results.Ok(await dispatcher.QueryAsync(new GetCategories(), cancellationToken)));
     }
 }
 

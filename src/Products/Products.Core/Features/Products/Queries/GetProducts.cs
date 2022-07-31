@@ -1,29 +1,29 @@
 ﻿using IGroceryStore.Products.Contracts.ReadModels;
 using IGroceryStore.Products.Core.Persistence.Contexts;
-using IGroceryStore.Products.Core.ValueObjects;
+using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Queries;
 using IGroceryStore.Shared.Common;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Core.Features.Products.Queries;
 
 internal record GetProducts(ulong CategoryId, int PageNumber, int PageSize) : IQuery<PaginatedList<ProductReadModel>>;
 
-public class GetProductsController : ProductsControllerBase
+public class GetProductsEndpoint : IEndpoint
 {
-    private readonly IQueryDispatcher _queryDispatcher;
-
-    public GetProductsController(IQueryDispatcher queryDispatcher)
+    public void RegisterEndpoint(IEndpointRouteBuilder endpoints)
     {
-        _queryDispatcher = queryDispatcher;
-    }
-
-    [HttpGet("products/{pageNumber:int}/{pageSize:int}/{categoryId}")]
-    public async Task<ActionResult<PaginatedList<ProductDetailsReadModel>>> GetProducts([FromRoute] int pageNumber, [FromRoute] int pageSize, [FromRoute] ulong categoryId, CancellationToken cancellationToken)
-    {
-        var result = await _queryDispatcher.QueryAsync(new GetProducts(categoryId, pageNumber, pageSize), cancellationToken);
-        return Ok(result);
+        endpoints.MapGet("products/{pageNumber:int}/{pageSize:int}/{categoryId}",
+            async (IQueryDispatcher dispatcher,
+                    [FromRoute] int pageNumber,
+                    [FromRoute] int pageSize,
+                    [FromRoute] ulong categoryId,
+                    CancellationToken cancellationToken) =>
+                Results.Ok(await dispatcher.QueryAsync(new GetProducts(categoryId, pageNumber, pageSize), cancellationToken)));
     }
 }
 

@@ -1,4 +1,5 @@
-﻿using IGroceryStore.Shared.Abstraction.Common;
+﻿using System.Reflection;
+using IGroceryStore.Shared.Abstraction.Common;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
@@ -20,5 +21,16 @@ public class ShopsModule : IModule
     public void Expose(IEndpointRouteBuilder endpoints)
     {
         endpoints.MapGet($"/{Name}", () => Name);
+        
+        var assembly = Assembly.GetAssembly(typeof(ShopsModule));
+        var moduleEndpoints = assembly!
+            .GetTypes()
+            .Where(x => typeof(IEndpoint).IsAssignableFrom(x) && x.IsClass)
+            .OrderBy(x => x.Name)
+            .Select(Activator.CreateInstance)
+            .Cast<IEndpoint>()
+            .ToList();
+        
+        moduleEndpoints.ForEach(x => x.RegisterEndpoint(endpoints));
     }
 }

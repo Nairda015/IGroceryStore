@@ -3,7 +3,6 @@ using IGroceryStore.Middlewares;
 using IGroceryStore.Services;
 using IGroceryStore.Shared.Abstraction.Services;
 using IGroceryStore.Shared.Services;
-using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.EntityFrameworkCore;
 using IGroceryStore.Shared.Configuration;
 
@@ -27,25 +26,8 @@ if (!builder.Environment.IsDevelopment())
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 //Services
-builder.Services.AddSwaggerGen(c =>
-    {
-        c.TagActionsBy(api =>
-        {
-            if (api.GroupName != null)
-            {
-                return new[] { api.GroupName };
-            }
-
-            if (api.ActionDescriptor is ControllerActionDescriptor controllerActionDescriptor)
-            {
-                return new[] { controllerActionDescriptor.ControllerName };
-            }
-
-            throw new InvalidOperationException("Unable to determine tag for endpoint.");
-        });
-
-        c.DocInclusionPredicate((name, api) => true);
-    });
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<ICurrentUserService, CurrentUserService>();
@@ -67,6 +49,7 @@ builder.Services.AddCap(options =>
     //options.ConsumerThreadCount = 0;
 });
 
+//Logging
 builder.Services.AddLogging(loggingBuilder =>
 {
     loggingBuilder.AddConsole()
@@ -90,7 +73,6 @@ else
 }
 
 app.UseSwagger();
-app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "IGroceryStore"); });
 
 
 app.UseHttpsRedirection();
@@ -106,12 +88,13 @@ foreach (var module in modules)
     module.Use(app);
 }
 
-app.MapGet("/", () => "Hello From IGroceryStore");
 
+app.MapGet("/", () => "Hello From IGroceryStore");
 foreach (var module in modules)
 {
     module.Expose(app);
 }
+app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "IGroceryStore"); });
 
 app.MapFallbackToFile("index.html");
 app.Run();

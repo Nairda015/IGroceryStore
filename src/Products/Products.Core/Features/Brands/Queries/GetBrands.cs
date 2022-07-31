@@ -1,27 +1,23 @@
 ﻿using IGroceryStore.Products.Contracts.ReadModels;
 using IGroceryStore.Products.Core.Persistence.Contexts;
+using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Queries;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Core.Features.Brands.Queries;
 public record GetBrandsResult(List<BrandReadModel> Brands);
 internal record GetBrands : IQuery<GetBrandsResult>;
 
-public class GetBrandsController : ProductsControllerBase
+public class GetBrandsEndpoint : IEndpoint
 {
-    private readonly IQueryDispatcher _queryDispatcher;
-
-    public GetBrandsController(IQueryDispatcher queryDispatcher)
+    public void RegisterEndpoint(IEndpointRouteBuilder endpoints)
     {
-        _queryDispatcher = queryDispatcher;
-    }
-
-    [HttpGet("brands")]
-    public async Task<ActionResult<GetBrandsResult>> GetBrands(CancellationToken cancellationToken)
-    {
-        var result = await _queryDispatcher.QueryAsync(new GetBrands(), cancellationToken);
-        return Ok(result);
+        endpoints.MapGet("brands",
+            async (IQueryDispatcher dispatcher, CancellationToken cancellationToken) =>
+                Results.Ok(await dispatcher.QueryAsync(new GetBrands(), cancellationToken)));
     }
 }
 

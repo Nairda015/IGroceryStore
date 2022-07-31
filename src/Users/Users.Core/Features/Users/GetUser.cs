@@ -1,30 +1,30 @@
-﻿using IGroceryStore.Shared.Abstraction.Queries;
+﻿using IGroceryStore.Shared.Abstraction.Common;
+using IGroceryStore.Shared.Abstraction.Queries;
 using IGroceryStore.Shared.ValueObjects;
 using IGroceryStore.Users.Core.Exceptions;
 using IGroceryStore.Users.Core.Persistence.Contexts;
 using IGroceryStore.Users.Core.ReadModels;
-using IGroceryStore.Users.Core.ValueObjects;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Users.Core.Features.Users;
 
 public record GetUser(UserId Id) : IQuery<UserReadModel>;
 
-public class GetUserController : UsersControllerBase
+public class GetUserEndpoint : IEndpoint
 {
-    private readonly IQueryDispatcher _dispatcher;
-
-    public GetUserController(IQueryDispatcher dispatcher)
+    public void RegisterEndpoint(IEndpointRouteBuilder endpoints)
     {
-        _dispatcher = dispatcher;
-    }
-    
-    [HttpGet("/users/{userId:guid}")]
-    public async Task<UserReadModel> Get(Guid userId)
-    {
-        var result = await _dispatcher.QueryAsync(new GetUser(userId));
-        return result;
+        endpoints.MapGet("/users/{userId:guid}", async (
+            [FromServices] IQueryDispatcher dispatcher,
+            Guid userId) =>
+        {
+            var result = await dispatcher.QueryAsync(new GetUser(userId));
+            return Results.Ok(result);
+        });
     }
 }
 

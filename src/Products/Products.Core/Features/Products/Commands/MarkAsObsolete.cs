@@ -1,28 +1,29 @@
 ﻿using IGroceryStore.Products.Core.Exceptions;
 using IGroceryStore.Products.Core.Persistence.Contexts;
 using IGroceryStore.Shared.Abstraction.Commands;
+using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.ValueObjects;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Core.Features.Products.Commands;
 
 public record MarkAsObsolete(ProductId Id) : ICommand;
 
-public class MarkAsObsoleteController : ProductsControllerBase
+public class MarkAsObsoleteEndpoint : IEndpoint
 {
-    private readonly ICommandDispatcher _commandDispatcher;
-
-    public MarkAsObsoleteController(ICommandDispatcher commandDispatcher)
+    public void RegisterEndpoint(IEndpointRouteBuilder endpoints)
     {
-        _commandDispatcher = commandDispatcher;
-    }
-
-    [HttpPost("products/mark-as-obsolete/{id}")]
-    public async Task<ActionResult> MarkAsObsolete([FromRoute] ulong id, CancellationToken cancellationToken)
-    {
-        await _commandDispatcher.DispatchAsync(new MarkAsObsolete(id), cancellationToken);
-        return Ok();
+        endpoints.MapPost("products/mark-as-obsolete/{id}",
+            async (ICommandDispatcher dispatcher,
+                ulong id,
+                CancellationToken cancellationToken) =>
+            {
+                await dispatcher.DispatchAsync(new MarkAsObsolete(id), cancellationToken);
+                return Results.Accepted();
+            });
     }
 }
 

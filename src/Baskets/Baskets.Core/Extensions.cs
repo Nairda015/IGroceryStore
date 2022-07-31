@@ -4,12 +4,10 @@ using IGroceryStore.Baskets.Core.Persistence;
 using IGroceryStore.Baskets.Core.Subscribers.Users;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Commands;
-using IGroceryStore.Shared.Controllers;
 using IGroceryStore.Shared.Options;
 using IGroceryStore.Shared.Queries;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -42,20 +40,15 @@ public class BasketsModule : IModule
     {
         endpoints.MapGet($"/{Name}", () => Name);
 
-        // var assembly = Assembly.GetAssembly(typeof(BasketsModule));
-        // var moduleEndpoints = assembly!
-        //     .GetTypes()
-        //     .Where(x => typeof(IEndpoint).IsAssignableFrom(x) && x.IsClass)
-        //     .OrderBy(x => x.Name)
-        //     .Select(Activator.CreateInstance)
-        //     .Cast<IEndpoint>()
-        //     .ToList();
-        //
-        // moduleEndpoints.ForEach(x => x.RegisterEndpoint(endpoints));
+        var assembly = Assembly.GetAssembly(typeof(BasketsModule));
+        var moduleEndpoints = assembly!
+            .GetTypes()
+            .Where(x => typeof(IEndpoint).IsAssignableFrom(x) && x.IsClass)
+            .OrderBy(x => x.Name)
+            .Select(Activator.CreateInstance)
+            .Cast<IEndpoint>()
+            .ToList();
+        
+        moduleEndpoints.ForEach(x => x.RegisterEndpoint(endpoints));
     }
-}
-
-[ApiExplorerSettings(GroupName = "Baskets")]
-public abstract class BasketsControllerBase : ApiControllerBase
-{
 }

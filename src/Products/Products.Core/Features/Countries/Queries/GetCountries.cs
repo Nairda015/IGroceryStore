@@ -1,7 +1,10 @@
 ﻿using IGroceryStore.Products.Contracts.ReadModels;
 using IGroceryStore.Products.Core.Persistence.Contexts;
+using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Queries;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Core.Features.Countries.Queries;
@@ -9,20 +12,13 @@ namespace IGroceryStore.Products.Core.Features.Countries.Queries;
 public record GetCountriesResult(IEnumerable<CountryReadModel> Countries);
 internal record GetCountries : IQuery<GetCountriesResult>;
 
-public class GetCountriesController : ProductsControllerBase
+public class GetCountriesEndpoint : IEndpoint
 {
-    private readonly IQueryDispatcher _queryDispatcher;
-
-    public GetCountriesController(IQueryDispatcher queryDispatcher)
+    public void RegisterEndpoint(IEndpointRouteBuilder endpoints)
     {
-        _queryDispatcher = queryDispatcher;
-    }
-
-    [HttpGet("countries")]
-    public async Task<ActionResult<GetCountriesResult>> GetCountries(CancellationToken cancellationToken)
-    {
-        var result = await _queryDispatcher.QueryAsync(new GetCountries(), cancellationToken);
-        return Ok(result);
+        endpoints.MapGet("countries",
+            async (IQueryDispatcher dispatcher, CancellationToken cancellationToken) =>
+                Results.Ok(await dispatcher.QueryAsync(new GetCountries(), cancellationToken)));
     }
 }
 
