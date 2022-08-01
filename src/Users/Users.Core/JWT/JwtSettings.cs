@@ -3,7 +3,7 @@ using IGroceryStore.Shared.Abstraction.Constants;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
-namespace IGroceryStore.Shared.Options;
+namespace IGroceryStore.Users.Core.JWT;
 
 public class JwtSettings
 {

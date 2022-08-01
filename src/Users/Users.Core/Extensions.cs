@@ -5,6 +5,7 @@ using IGroceryStore.Shared.Commands;
 using IGroceryStore.Shared.Options;
 using IGroceryStore.Shared.Queries;
 using IGroceryStore.Users.Core.Factories;
+using IGroceryStore.Users.Core.JWT;
 using IGroceryStore.Users.Core.Persistence.Contexts;
 using IGroceryStore.Users.Core.Services;
 using Microsoft.AspNetCore.Builder;
@@ -21,8 +22,6 @@ public class UsersModule : IModule
     public string Name => "Users";
     public void Register(IServiceCollection services, IConfiguration configuration)
     {
-        services.AddHostedService<Worker>();
-
         services.AddCommands();
         services.AddQueries();
         services.AddSingleton<IUserFactory, UserFactory>();
