@@ -1,9 +1,12 @@
 using IGroceryStore.Middlewares;
 using IGroceryStore.Services;
+using IGroceryStore.Settings;
 using IGroceryStore.Shared.Abstraction.Services;
 using IGroceryStore.Shared.Services;
 using Microsoft.EntityFrameworkCore;
 using IGroceryStore.Shared.Configuration;
+using IGroceryStore.Shared.Options;
+using IGroceryStore.Users.Core.JWT;
 using MassTransit;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -41,6 +44,7 @@ if (!builder.Environment.IsDevelopment())
 builder.Services.AddScoped<ExceptionMiddleware>();
 
 //Messaging
+var rabbitSettings = builder.Configuration.GetOptions<RabbitSettings>("Rabbit");
 builder.Services.AddMassTransit(bus =>
 {
     bus.SetKebabCaseEndpointNameFormatter();
@@ -56,21 +60,16 @@ builder.Services.AddMassTransit(bus =>
         bus.AddActivities(assembly);
     }
 
-    bus.UsingInMemory((ctx, cfg) =>
+    bus.UsingRabbitMq((ctx, cfg) =>
     {
+        cfg.Host(rabbitSettings.Host, rabbitSettings.VirtualHost, h =>
+        {
+            h.Username(rabbitSettings.Username);
+            h.Password(rabbitSettings.Password);
+        });
+        
         cfg.ConfigureEndpoints(ctx);
     });
-
-    // bus.UsingRabbitMq((ctx, cfg) =>
-    // {
-    //     cfg.Host("localhost", "/", h =>
-    //     {
-    //         h.Username("guest");
-    //         h.Password("guest");
-    //     });
-    //     
-    //     cfg.ConfigureEndpoints(ctx);
-    // });
 });
 
 //Logging
@@ -80,7 +79,6 @@ builder.Services.AddLogging(loggingBuilder =>
         .AddFilter(DbLoggerCategory.Database.Command.Name, LogLevel.Information);
     loggingBuilder.AddDebug();
 });
-
 
 var app = builder.Build();
 System.AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
@@ -98,7 +96,6 @@ else
 
 app.UseSwagger();
 
-
 app.UseHttpsRedirection();
 app.UseRouting();
 app.UseMiddleware<ExceptionMiddleware>();
@@ -110,7 +107,6 @@ foreach (var module in modules)
 {
     module.Use(app);
 }
-
 
 app.MapGet("/", () => "Hello From IGroceryStore");
 foreach (var module in modules)

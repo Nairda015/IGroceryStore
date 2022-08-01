@@ -66,6 +66,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{5DFEA9E6
 	ProjectSection(SolutionItems) = preProject
 		tools\migration.sh = tools\migration.sh
 		tools\updateDb.sh = tools\updateDb.sh
+		.dockerignore = .dockerignore
+		tools\docker-compose.yml = tools\docker-compose.yml
+		tools\Dockerfile = tools\Dockerfile
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "requests", "requests", "{02241B0B-8C92-40C1-A3AC-F7AC27EDD788}"

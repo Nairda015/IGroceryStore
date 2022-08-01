@@ -25,4 +25,8 @@
     </AssemblyAttribute>
 </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="TestConsumer.cs" />
+    </ItemGroup>
+
 </Project>
