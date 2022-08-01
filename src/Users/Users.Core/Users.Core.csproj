@@ -17,7 +17,7 @@
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.7" />
       <PackageReference Include="JWT" Version="9.0.3" />
       <PackageReference Include="JWT.Extensions.AspNetCore" Version="9.0.0" />
-      <PackageReference Include="BCrypt.Net-Next" Version="4.0.2" />
+      <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     </ItemGroup>
 
     <ItemGroup>
