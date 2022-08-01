@@ -1,5 +1,5 @@
-﻿using IGroceryStore.Products.Contracts.ReadModels;
-using IGroceryStore.Products.Core.Persistence.Contexts;
+﻿using IGroceryStore.Products.Core.Persistence.Contexts;
+using IGroceryStore.Products.Core.ReadModels;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Queries;
 using Microsoft.AspNetCore.Builder;

@@ -1,4 +1,4 @@
-﻿namespace IGroceryStore.Products.Contracts.ReadModels;
+﻿namespace IGroceryStore.Products.Core.ReadModels;
 
 public class ProductDetailsReadModel
 {
