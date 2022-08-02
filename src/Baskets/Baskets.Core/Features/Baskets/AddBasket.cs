@@ -2,6 +2,7 @@
 using IGroceryStore.Baskets.Core.Persistence;
 using IGroceryStore.Shared.Abstraction.Commands;
 using IGroceryStore.Shared.Abstraction.Common;
+using IGroceryStore.Shared.Abstraction.Constants;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +23,7 @@ public class AddBasketEndpoint : IEndpoint
         {
             var result = await dispatcher.DispatchAsync(command, cancellationToken);
             return Results.Ok(result);
-        });
+        }).WithTags(SwaggerTags.Baskets);
     }
 }
 

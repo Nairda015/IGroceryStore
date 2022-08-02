@@ -11,8 +11,6 @@ public static class Claims
         public const string RefreshToken  = "refresh-token";
         public const string Expire  = "exp";
     }
-    
-    
 }
 
 public static class Tokens
@@ -22,4 +20,13 @@ public static class Tokens
         public const string Access  = "access";
         public const string Refresh  = "refresh";
     }
+}
+
+public static class SwaggerTags
+{
+    public const string Users  = "Users";
+    public const string Shops  = "Shops";
+    public const string Products  = "Products";
+    public const string Baskets  = "Baskets";
+    public const string HealthChecks  = "HealthChecks";
 }

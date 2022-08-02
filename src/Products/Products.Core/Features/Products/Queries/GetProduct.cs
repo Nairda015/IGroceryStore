@@ -2,6 +2,7 @@
 using IGroceryStore.Products.Core.Persistence.Contexts;
 using IGroceryStore.Products.Core.ReadModels;
 using IGroceryStore.Shared.Abstraction.Common;
+using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Abstraction.Queries;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -18,7 +19,8 @@ public class GetProductEndpoint : IEndpoint
     {
         endpoints.MapGet("products/{id}",
             async (IQueryDispatcher dispatcher, ulong id, CancellationToken cancellationToken) =>
-                Results.Ok(await dispatcher.QueryAsync(new GetProduct(id), cancellationToken)));
+                Results.Ok(await dispatcher.QueryAsync(new GetProduct(id), cancellationToken)))
+            .WithTags(SwaggerTags.Products);
     }
 }
 
