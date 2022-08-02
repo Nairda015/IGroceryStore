@@ -14,12 +14,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 
 namespace IGroceryStore.Users.Core;
 
 public class UsersModule : IModule
 {
     public string Name => "Users";
+
     public void Register(IServiceCollection services, IConfiguration configuration)
     {
         services.AddCommands();
@@ -32,19 +34,21 @@ public class UsersModule : IModule
         var enableSensitiveData = configuration.GetValue<bool>("EnableSensitiveData");
 
         var options = configuration.GetOptions<PostgresOptions>("Postgres");
-        services.AddDbContext<UsersDbContext>(ctx => 
+        services.AddDbContext<UsersDbContext>(ctx =>
             ctx.UseNpgsql(options.ConnectionString)
                 .EnableSensitiveDataLogging(enableSensitiveData));
-        
-        
+
+
         var jwtSettings = configuration.GetOptions<JwtSettings>("Users:JwtSettings");
         var authenticationBuilder = services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-            .AddJwtBearer(jwtBearerOptions => JwtSettings.Configure(jwtBearerOptions, Tokens.Audience.Access, jwtSettings))
-            .AddJwtBearer(Tokens.Audience.Refresh, jwtBearerOptions => JwtSettings.Configure(jwtBearerOptions, Tokens.Audience.Refresh, jwtSettings));
+            .AddJwtBearer(jwtBearerOptions =>
+                JwtSettings.Configure(jwtBearerOptions, Tokens.Audience.Access, jwtSettings))
+            .AddJwtBearer(Tokens.Audience.Refresh,
+                jwtBearerOptions => JwtSettings.Configure(jwtBearerOptions, Tokens.Audience.Refresh, jwtSettings));
     }
 
     public void Use(IApplicationBuilder app)
@@ -53,8 +57,9 @@ public class UsersModule : IModule
 
     public void Expose(IEndpointRouteBuilder endpoints)
     {
-        endpoints.MapGet($"/{Name}", () => Name);
-        
+        endpoints.MapGet($"/api/{Name.ToLower()}/health", () => $"{Name} module is healthy")
+            .WithTags(SwaggerTags.HealthChecks);
+
         var assembly = Assembly.GetAssembly(typeof(UsersModule));
         var moduleEndpoints = assembly!
             .GetTypes()
@@ -63,7 +68,7 @@ public class UsersModule : IModule
             .Select(Activator.CreateInstance)
             .Cast<IEndpoint>()
             .ToList();
-        
+
         moduleEndpoints.ForEach(x => x.RegisterEndpoint(endpoints));
     }
 }

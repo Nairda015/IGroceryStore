@@ -2,6 +2,7 @@
 using IGroceryStore.Products.Core.Persistence.Contexts;
 using IGroceryStore.Shared.Abstraction.Commands;
 using IGroceryStore.Shared.Abstraction.Common;
+using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.ValueObjects;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -23,7 +24,7 @@ public class MarkAsObsoleteEndpoint : IEndpoint
             {
                 await dispatcher.DispatchAsync(new MarkAsObsolete(id), cancellationToken);
                 return Results.Accepted();
-            });
+            }).WithTags(SwaggerTags.Products);
     }
 }
 

@@ -1,6 +1,7 @@
 ﻿using IGroceryStore.Products.Core.Persistence.Contexts;
 using IGroceryStore.Products.Core.ReadModels;
 using IGroceryStore.Shared.Abstraction.Common;
+using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Abstraction.Queries;
 using IGroceryStore.Shared.Common;
 using Microsoft.AspNetCore.Builder;
@@ -23,7 +24,8 @@ public class GetProductsEndpoint : IEndpoint
                     [FromRoute] int pageSize,
                     [FromRoute] ulong categoryId,
                     CancellationToken cancellationToken) =>
-                Results.Ok(await dispatcher.QueryAsync(new GetProducts(categoryId, pageNumber, pageSize), cancellationToken)));
+                Results.Ok(await dispatcher.QueryAsync(new GetProducts(categoryId, pageNumber, pageSize), cancellationToken)))
+            .WithTags(SwaggerTags.Products);
     }
 }
 

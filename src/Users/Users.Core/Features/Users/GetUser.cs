@@ -1,4 +1,5 @@
 ﻿using IGroceryStore.Shared.Abstraction.Common;
+using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Abstraction.Queries;
 using IGroceryStore.Shared.ValueObjects;
 using IGroceryStore.Users.Core.Exceptions;
@@ -24,7 +25,7 @@ public class GetUserEndpoint : IEndpoint
         {
             var result = await dispatcher.QueryAsync(new GetUser(userId));
             return Results.Ok(result);
-        });
+        }).WithTags(SwaggerTags.Users);
     }
 }
 

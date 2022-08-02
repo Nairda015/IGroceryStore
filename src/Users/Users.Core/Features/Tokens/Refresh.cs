@@ -36,7 +36,7 @@ public class RefreshEndpoint : IEndpoint
 
             var tokens = await dispatcher.DispatchAsync(new RefreshTokenCommand(userId, refreshToken));
             return Results.Ok(tokens);
-        });
+        }).WithTags(SwaggerTags.Users);
     }
 }
 

@@ -1,5 +1,6 @@
 ﻿using IGroceryStore.Shared.Abstraction.Commands;
 using IGroceryStore.Shared.Abstraction.Common;
+using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Users.Contracts.Events;
 using IGroceryStore.Users.Core.Exceptions;
 using IGroceryStore.Users.Core.Factories;
@@ -27,7 +28,7 @@ public class RegisterUserEndpoint : IEndpoint
         {
             await dispatcher.DispatchAsync(command);
             return Results.Accepted();
-        });
+        }).WithTags(SwaggerTags.Users);
     }
 }
 

@@ -1,5 +1,6 @@
 ﻿using IGroceryStore.Shared.Abstraction.Commands;
 using IGroceryStore.Shared.Abstraction.Common;
+using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Users.Core.Exceptions;
 using IGroceryStore.Users.Core.Persistence.Contexts;
 using IGroceryStore.Users.Core.Services;
@@ -20,16 +21,17 @@ public class LoginEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints)
     {
-        endpoints.MapPost("tokens/login", async(
+        endpoints.MapPost("tokens/login", async (
             [FromHeader(Name = "User-Agent")] string agent,
             [FromServices] ICommandDispatcher dispatcher,
             Login command,
             CancellationToken cancellationToken) =>
         {
             var (email, password) = command;
-            var result = await dispatcher.DispatchAsync(new LoginWithUserAgent(email, password, agent), cancellationToken);
+            var result =
+                await dispatcher.DispatchAsync(new LoginWithUserAgent(email, password, agent), cancellationToken);
             return Results.Ok(result);
-        });
+        }).WithTags(SwaggerTags.Users);
     }
 }
 
