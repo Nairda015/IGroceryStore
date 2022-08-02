@@ -1,6 +1,5 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
-using IGroceryStore.Shared.Options;
 using IGroceryStore.Users.Core.Entities;
 using IGroceryStore.Users.Core.JWT;
 using JWT.Algorithms;

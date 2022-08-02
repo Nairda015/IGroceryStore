@@ -9,8 +9,15 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\Products\Products.Contracts\Products.Contracts.csproj" />
       <ProjectReference Include="..\..\Shared\Shared.Abstraction\Shared.Abstraction.csproj" />
+      <ProjectReference Include="..\..\Shared\Shared\Shared.csproj" />
+      <ProjectReference Include="..\..\Users\Users.Contracts\Users.Contracts.csproj" />
       <ProjectReference Include="..\Shops.Contracts\Shops.Contracts.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.3.63" />
     </ItemGroup>
 
 </Project>

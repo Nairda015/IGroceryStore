@@ -1,5 +1,9 @@
 {
   "Stories": {
-    "ModuleEnabled": false
+    "ModuleEnabled": false,
+    "Database": {
+      "UsersTable": "Users",
+      "ProductsTable": "Products"
+    }
   }
 }

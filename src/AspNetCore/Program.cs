@@ -6,7 +6,6 @@ using IGroceryStore.Shared.Services;
 using Microsoft.EntityFrameworkCore;
 using IGroceryStore.Shared.Configuration;
 using IGroceryStore.Shared.Options;
-using IGroceryStore.Users.Core.JWT;
 using MassTransit;
 
 var builder = WebApplication.CreateBuilder(args);

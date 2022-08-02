@@ -1,8 +1,8 @@
 ﻿using IGroceryStore.Products.Contracts.Events;
-using IGroceryStore.Products.Contracts.ReadModels;
 using IGroceryStore.Products.Core.Entities;
 using IGroceryStore.Products.Core.Exceptions;
 using IGroceryStore.Products.Core.Persistence.Contexts;
+using IGroceryStore.Products.Core.ReadModels;
 using IGroceryStore.Products.Core.ValueObjects;
 using IGroceryStore.Shared.Abstraction.Commands;
 using IGroceryStore.Shared.Abstraction.Common;

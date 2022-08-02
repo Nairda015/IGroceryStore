@@ -1,5 +1,7 @@
 ﻿using System.Reflection;
 using IGroceryStore.Shared.Abstraction.Common;
+using IGroceryStore.Shared.Options;
+using IGroceryStore.Shops.Core.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
@@ -12,6 +14,7 @@ public class ShopsModule : IModule
     public string Name => "Shops";
     public void Register(IServiceCollection services, IConfiguration configuration)
     {
+        services.RegisterOptions<DatabaseSettings>(configuration, DatabaseSettings.KeyName);
     }
 
     public void Use(IApplicationBuilder app)
