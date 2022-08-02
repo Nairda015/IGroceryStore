@@ -6,6 +6,7 @@ using IGroceryStore.Products.Core.ReadModels;
 using IGroceryStore.Products.Core.ValueObjects;
 using IGroceryStore.Shared.Abstraction.Commands;
 using IGroceryStore.Shared.Abstraction.Common;
+using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Services;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
@@ -33,7 +34,7 @@ public class CreateProductEndpoint : IEndpoint
             {
                 await dispatcher.DispatchAsync(command, cancellationToken);
                 return Results.Accepted();
-            });
+            }).WithTags(SwaggerTags.Products);
     }
 }
 
@@ -59,9 +60,10 @@ internal class CreateProductHandler : ICommandHandler<CreateProduct, ulong>
             .AsNoTracking()
             .FirstOrDefaultAsync(cancellationToken);
         if (categoryName is null) throw new CategoryNotFoundException(categoryId);
-        
+
         var quantity = new Quantity(quantityReadModel.Amount, quantityReadModel.Unit);
-        var product = new Product(_snowflakeService.GenerateId(),name, description, quantity, brandId, countryId, categoryId);
+        var product = new Product(_snowflakeService.GenerateId(), name, description, quantity, brandId, countryId,
+            categoryId);
 
         await _productsDbContext.Products.AddAsync(product, cancellationToken);
         await _productsDbContext.SaveChangesAsync(cancellationToken);

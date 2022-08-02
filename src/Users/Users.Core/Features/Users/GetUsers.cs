@@ -1,4 +1,5 @@
 ﻿using IGroceryStore.Shared.Abstraction.Common;
+using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Abstraction.Queries;
 using IGroceryStore.Users.Core.Persistence.Contexts;
 using IGroceryStore.Users.Core.ReadModels;
@@ -19,7 +20,8 @@ public class GetUsersEndpoint : IEndpoint
     {
         endpoints.MapGet("/users",
             [Authorize] async ([FromServices] IQueryDispatcher dispatcher) =>
-                Results.Ok(await dispatcher.QueryAsync(new GetUsers())));
+                Results.Ok(await dispatcher.QueryAsync(new GetUsers()))).WithTags(SwaggerTags.Users);
+
     }
 }
 

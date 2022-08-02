@@ -1,6 +1,7 @@
 using IGroceryStore.Middlewares;
 using IGroceryStore.Services;
 using IGroceryStore.Settings;
+using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Abstraction.Services;
 using IGroceryStore.Shared.Services;
 using Microsoft.EntityFrameworkCore;
@@ -29,7 +30,10 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 //Services
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.OrderActionsBy(x => x.HttpMethod);
+});
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<ICurrentUserService, CurrentUserService>();
@@ -107,7 +111,9 @@ foreach (var module in modules)
     module.Use(app);
 }
 
-app.MapGet("/", () => "Hello From IGroceryStore");
+app.MapGet("/api/health", () => "IGroceryStore is healthy")
+    .WithTags(SwaggerTags.HealthChecks);
+
 foreach (var module in modules)
 {
     module.Expose(app);

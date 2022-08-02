@@ -1,5 +1,6 @@
 ﻿using IGroceryStore.Products.Core.Persistence.Contexts;
 using IGroceryStore.Shared.Abstraction.Common;
+using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Abstraction.Queries;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -15,7 +16,8 @@ public class FindSimilarEndpoint : IEndpoint
     {
         endpoints.MapGet("products/find-similar/{id}",
             async (IQueryDispatcher dispatcher, ulong id, CancellationToken cancellationToken) =>
-                Results.Ok(await dispatcher.QueryAsync(new FindSimilar(id), cancellationToken)));
+                Results.Ok(await dispatcher.QueryAsync(new FindSimilar(id), cancellationToken)))
+            .WithTags(SwaggerTags.Products);
     }
 }
 
