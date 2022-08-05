@@ -2,19 +2,9 @@
 
 namespace IGroceryStore.Products.Core.Entities;
 
-public class Country
+internal sealed class Country
 {
-    public Country()
-    {
-    }
-
-    internal Country(CountryId id, string name, string code)
-    {
-        Id = id;
-        Name = name;
-        Code = code;
-    }
-    public CountryId Id { get; set; }
-    public string Name { get; set; }
-    public string Code { get; set; }
+    public required CountryId Id { get; init; }
+    public required string Name { get; init; }
+    public required string Code { get; init; }
 }

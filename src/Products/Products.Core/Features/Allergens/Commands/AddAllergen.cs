@@ -24,7 +24,7 @@ public class AddAllergenEndpoint : IEndpoint
             CancellationToken cancellationToken) =>
         {
             var result = await dispatcher.DispatchAsync(command, cancellationToken);
-            return Results.Ok(result.Value);
+            return Results.Ok(result.Id);
         }).WithTags(SwaggerTags.Products);
     }
 }

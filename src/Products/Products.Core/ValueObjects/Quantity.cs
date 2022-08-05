@@ -3,7 +3,7 @@ using IGroceryStore.Shared.Abstraction.Exceptions;
 
 namespace IGroceryStore.Products.Core.ValueObjects;
 
-internal record Quantity
+internal sealed record Quantity
 {
     public float Amount { get; }
     public Unit Unit { get; }

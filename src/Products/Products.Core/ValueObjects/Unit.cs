@@ -3,7 +3,7 @@ using IGroceryStore.Shared.Abstraction.Exceptions;
 
 namespace IGroceryStore.Products.Core.ValueObjects;
 
-internal record Unit
+internal sealed record Unit
 {
     public static Unit Gram => new("g");
     public static Unit Milliliter => new("ml");
