@@ -48,7 +48,7 @@ internal sealed class ProductsDbConfiguration : IEntityTypeConfiguration<Product
             .IsRequired(false)
             .HasConversion(
                 x => JsonSerializer.Serialize(x, new JsonSerializerOptions()),
-                x => JsonSerializer.Deserialize<List<Allergen>>(x, new JsonSerializerOptions()));
+                x => JsonSerializer.Deserialize<HashSet<Allergen>>(x, new JsonSerializerOptions()) ?? new HashSet<Allergen>());
         
         builder.HasOne(x => x.Brand)
             .WithMany()
@@ -67,15 +67,15 @@ internal sealed class ProductsDbConfiguration : IEntityTypeConfiguration<Product
 
         builder.Property(x => x.BrandId)
             .IsRequired()
-            .HasConversion(x => x.Value, x => new BrandId(x));
+            .HasConversion(x => x.Id, x => new BrandId(x));
         
         builder.Property(x => x.CategoryId)
             .IsRequired()
-            .HasConversion(x => x.Value, x => new CategoryId(x));
+            .HasConversion(x => x.Id, x => new CategoryId(x));
         
         builder.Property(x => x.CountryId)
             .IsRequired()
-            .HasConversion(x => x.Value, x => new CountryId(x));
+            .HasConversion(x => x.Id, x => new CountryId(x));
     }
 
     public void Configure(EntityTypeBuilder<Allergen> builder)
@@ -83,11 +83,10 @@ internal sealed class ProductsDbConfiguration : IEntityTypeConfiguration<Product
         builder.ToTable("Allergens");
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id)
-            .HasConversion(x => x.Value, x => new AllergenId(x));
-        
+            .HasConversion(x => x.Id, x => new AllergenId(x));
+
         builder.Property(x => x.Name)
-            .IsRequired()
-            .HasConversion(x => x.Value, x => new AllergenName(x));
+            .IsRequired();
     }
     
     public void Configure(EntityTypeBuilder<Brand> builder)
@@ -95,7 +94,7 @@ internal sealed class ProductsDbConfiguration : IEntityTypeConfiguration<Product
         builder.ToTable("Brands");
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id)
-            .HasConversion(x => x.Value, x => new BrandId(x));
+            .HasConversion(x => x.Id, x => new BrandId(x));
 
         builder.Property(x => x.Name)
             .IsRequired();
@@ -106,7 +105,7 @@ internal sealed class ProductsDbConfiguration : IEntityTypeConfiguration<Product
         builder.ToTable("Category");
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id)
-            .HasConversion(x => x.Value, x => new CategoryId(x));
+            .HasConversion(x => x.Id, x => new CategoryId(x));
         
         builder.Property(x => x.Name)
             .IsRequired();
@@ -117,7 +116,7 @@ internal sealed class ProductsDbConfiguration : IEntityTypeConfiguration<Product
         builder.ToTable("Countries");
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id)
-            .HasConversion(x => x.Value, x => new CountryId(x));
+            .HasConversion(x => x.Id, x => new CountryId(x));
         
         builder.Property(x => x.Name)
             .IsRequired();

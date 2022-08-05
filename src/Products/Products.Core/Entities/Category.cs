@@ -2,8 +2,8 @@
 
 namespace IGroceryStore.Products.Core.Entities;
 
-public class Category
+internal sealed class Category
 {
-    public CategoryId Id { get; set; }
-    public string Name { get; set; }
+    public required CategoryId Id { get; init; }
+    public required string Name { get; set; }
 }

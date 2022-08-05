@@ -3,7 +3,7 @@ using IGroceryStore.Shared.Abstraction.Exceptions;
 
 namespace IGroceryStore.Products.Core.ValueObjects;
 
-public record BarCode
+internal sealed record BarCode
 {
     public BarCode(string value)
     {

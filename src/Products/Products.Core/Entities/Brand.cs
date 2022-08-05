@@ -2,8 +2,8 @@
 
 namespace IGroceryStore.Products.Core.Entities;
 
-public class Brand
+internal sealed class Brand
 {
-    public BrandId Id { get; set; }
-    public string Name { get; set; }
+    public required BrandId Id { get; init; }
+    public required string Name { get; set; }
 }
