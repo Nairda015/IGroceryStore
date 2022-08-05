@@ -12,7 +12,7 @@ Available actions:
 4. GetAll/GetUser
 
 ## Stack  
-[.Net6.0 C#10 with Minimal API](https://github.com/dotnet)  
+[.Net7.0 C#11 with Minimal API](https://github.com/dotnet)  
 [Docker](https://github.com/docker)  
 [AWS Systems Manager](https://github.com/aws/aws-dotnet-extensions-configuration/) - runtime configuration  
 [JWT.Net](https://github.com/jwt-dotnet/jwt) - authorisation and authentication  

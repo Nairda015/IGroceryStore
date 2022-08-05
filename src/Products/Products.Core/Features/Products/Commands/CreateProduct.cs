@@ -1,4 +1,5 @@
-﻿using IGroceryStore.Products.Contracts.Events;
+﻿using FluentValidation;
+using IGroceryStore.Products.Contracts.Events;
 using IGroceryStore.Products.Core.Entities;
 using IGroceryStore.Products.Core.Exceptions;
 using IGroceryStore.Products.Core.Persistence.Contexts;
@@ -17,11 +18,11 @@ using Microsoft.EntityFrameworkCore;
 namespace IGroceryStore.Products.Core.Features.Products.Commands;
 
 public record CreateProduct(string Name,
-    string Description,
     QuantityReadModel Quantity,
-    BrandId BrandId,
-    CountryId CountryId,
-    CategoryId CategoryId) : ICommand<ulong>;
+    ulong BrandId,
+    ulong CountryId,
+    ulong CategoryId,
+    string? Description = null) : ICommand<ulong>;
 
 public class CreateProductEndpoint : IEndpoint
 {
@@ -32,6 +33,10 @@ public class CreateProductEndpoint : IEndpoint
                 CreateProduct command,
                 CancellationToken cancellationToken) =>
             {
+                var validator = new CreateProductValidator();
+                var validationResult = await validator.ValidateAsync(command, cancellationToken);
+                if (!validationResult.IsValid) return Results.BadRequest(validationResult.Errors);
+
                 await dispatcher.DispatchAsync(command, cancellationToken);
                 return Results.Accepted();
             }).WithTags(SwaggerTags.Products);
@@ -53,7 +58,7 @@ internal class CreateProductHandler : ICommandHandler<CreateProduct, ulong>
 
     public async Task<ulong> HandleAsync(CreateProduct command, CancellationToken cancellationToken = default)
     {
-        var (name, description, quantityReadModel, brandId, countryId, categoryId) = command;
+        var (name, quantityReadModel, brandId, countryId, categoryId, description) = command;
         var categoryName = await _productsDbContext.Categories
             .Where(x => x.Id == categoryId)
             .Select(x => x.Name)
@@ -62,14 +67,52 @@ internal class CreateProductHandler : ICommandHandler<CreateProduct, ulong>
         if (categoryName is null) throw new CategoryNotFoundException(categoryId);
 
         var quantity = new Quantity(quantityReadModel.Amount, quantityReadModel.Unit);
-        var product = new Product(_snowflakeService.GenerateId(), name, description, quantity, brandId, countryId,
-            categoryId);
+        var product = new Product
+        {
+            Id = _snowflakeService.GenerateId(),
+            Name = name,
+            Description = description,
+            Quantity = quantity,
+            BrandId = brandId,
+            CountryId = countryId,
+            CategoryId = categoryId
+        };
 
         await _productsDbContext.Products.AddAsync(product, cancellationToken);
         await _productsDbContext.SaveChangesAsync(cancellationToken);
 
         var productAddedEvent = new ProductAdded(product.Id, name, categoryName);
-        await _bus.Publish(productAddedEvent, cancellationToken: cancellationToken);
+        await _bus.Publish(productAddedEvent, cancellationToken);
         return product.Id;
+    }
+}
+
+internal class CreateProductValidator : AbstractValidator<CreateProduct>
+{
+    public CreateProductValidator()
+    {
+        RuleFor(x => x.Name)
+            .NotEmpty()
+            .MinimumLength(3);
+
+        RuleFor(x => x.Quantity)
+            .NotNull()
+            .DependentRules(() =>
+            {
+                RuleFor(x => x.Quantity.Amount)
+                    .GreaterThan(0);
+                
+                RuleFor(x => x.Quantity.Unit)
+                    .NotEmpty();
+            });
+        
+        RuleFor(x => x.BrandId)
+            .NotEmpty();
+        
+        RuleFor(x => x.CountryId)
+            .NotEmpty();
+        
+        RuleFor(x => x.CategoryId)
+            .NotEmpty();
     }
 }
