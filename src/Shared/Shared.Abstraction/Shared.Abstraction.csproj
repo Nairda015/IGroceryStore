@@ -6,6 +6,7 @@
         <Nullable>enable</Nullable>
         <AssemblyName>IGroceryStore.Shared.Abstraction</AssemblyName>
         <RootNamespace>IGroceryStore.Shared.Abstraction</RootNamespace>
+        <LangVersion>preview</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>

@@ -6,6 +6,7 @@
         <Nullable>enable</Nullable>
         <AssemblyName>IGroceryStore.Users.Core</AssemblyName>
         <RootNamespace>IGroceryStore.Users.Core</RootNamespace>
+        <LangVersion>preview</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>

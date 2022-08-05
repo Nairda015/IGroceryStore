@@ -8,6 +8,8 @@
         <IsPackable>false</IsPackable>
 
         <RootNamespace>Stores.IntegrationTests</RootNamespace>
+
+        <LangVersion>preview</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>

@@ -6,6 +6,7 @@
         <Nullable>enable</Nullable>
         <AssemblyName>IGroceryStore.Shops.Contracts</AssemblyName>
         <RootNamespace>IGroceryStore.Shops.Contracts</RootNamespace>
+        <LangVersion>preview</LangVersion>
     </PropertyGroup>
 
 </Project>

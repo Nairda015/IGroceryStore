@@ -6,6 +6,7 @@
         <Nullable>enable</Nullable>
         <AssemblyName>IGroceryStore.UserBasket.Contracts</AssemblyName>
         <RootNamespace>IGroceryStore.UserBasket.Contracts</RootNamespace>
+        <LangVersion>preview</LangVersion>
     </PropertyGroup>
 
 </Project>
