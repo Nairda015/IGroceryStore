@@ -4,31 +4,21 @@ using IGroceryStore.Shared.Abstraction.Commands;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.ValueObjects;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Core.Features.Products.Commands;
 
-public record MarkAsObsolete(ProductId Id) : ICommand;
+internal record MarkAsObsolete(ProductId Id) : IHttpCommand;
 
 public class MarkAsObsoleteEndpoint : IEndpoint
 {
-    public void RegisterEndpoint(IEndpointRouteBuilder endpoints)
-    {
-        endpoints.MapPost("products/mark-as-obsolete/{id}",
-            async (ICommandDispatcher dispatcher,
-                ulong id,
-                CancellationToken cancellationToken) =>
-            {
-                await dispatcher.DispatchAsync(new MarkAsObsolete(id), cancellationToken);
-                return Results.Accepted();
-            }).WithTags(SwaggerTags.Products);
-    }
+    public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
+        endpoints.MapPost<MarkAsObsolete>("products/mark-as-obsolete/{id}").WithTags(SwaggerTags.Products);
 }
 
-internal class MarkAsObsoleteHandler : ICommandHandler<MarkAsObsolete>
+internal class MarkAsObsoleteHandler : ICommandHandler<MarkAsObsolete, IResult>
 {
     private readonly ProductsDbContext _productsDbContext;
 
@@ -37,7 +27,7 @@ internal class MarkAsObsoleteHandler : ICommandHandler<MarkAsObsolete>
         _productsDbContext = productsDbContext;
     }
 
-    public async Task HandleAsync(MarkAsObsolete command, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(MarkAsObsolete command, CancellationToken cancellationToken = default)
     {
         var product = await _productsDbContext.Products.FirstOrDefaultAsync(x => x.Id == command.Id, cancellationToken);
         if (product == null) throw new ProductNotFoundException(command.Id);
@@ -45,5 +35,6 @@ internal class MarkAsObsoleteHandler : ICommandHandler<MarkAsObsolete>
         product.MarkAsObsolete();
         _productsDbContext.Update(product);
         await _productsDbContext.SaveChangesAsync(cancellationToken);
+        return Results.Ok();
     }
 }

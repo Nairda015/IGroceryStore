@@ -3,27 +3,21 @@ using IGroceryStore.Products.Core.ReadModels;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Abstraction.Queries;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Core.Features.Brands.Queries;
-public record GetBrandsResult(List<BrandReadModel> Brands);
-internal record GetBrands : IQuery<GetBrandsResult>;
+
+internal record GetBrands : IHttpQuery;
 
 public class GetBrandsEndpoint : IEndpoint
 {
-    public void RegisterEndpoint(IEndpointRouteBuilder endpoints)
-    {
-        endpoints.MapGet("brands",
-            async (IQueryDispatcher dispatcher, CancellationToken cancellationToken) =>
-                Results.Ok(await dispatcher.QueryAsync(new GetBrands(), cancellationToken)))
-            .WithTags(SwaggerTags.Products);
-    }
+    public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
+        endpoints.MapGet<GetBrands>("brands").WithTags(SwaggerTags.Products);
 }
 
-internal class GetBrandsHandler : IQueryHandler<GetBrands, GetBrandsResult>
+internal class GetBrandsHandler : IQueryHandler<GetBrands, IResult>
 {
     private readonly ProductsDbContext _productsDbContext;
 
@@ -32,13 +26,15 @@ internal class GetBrandsHandler : IQueryHandler<GetBrands, GetBrandsResult>
         _productsDbContext = productsDbContext;
     }
 
-    public async Task<GetBrandsResult> HandleAsync(GetBrands query, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(GetBrands query, CancellationToken cancellationToken = default)
     {
         var brands = await _productsDbContext.Brands
             .Select(c => new BrandReadModel(c.Id, c.Name))
             .AsNoTracking()
             .ToListAsync(cancellationToken);
 
-        return new GetBrandsResult(brands);
+        var result = new GetBrandsResult(brands);
+        return Results.Ok(brands);
     }
+    private record GetBrandsResult(List<BrandReadModel> Brands);
 }

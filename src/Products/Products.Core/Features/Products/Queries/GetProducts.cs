@@ -4,32 +4,22 @@ using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Abstraction.Queries;
 using IGroceryStore.Shared.Common;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Core.Features.Products.Queries;
 
-internal record GetProducts(ulong CategoryId, int PageNumber, int PageSize) : IQuery<PaginatedList<ProductReadModel>>;
+internal record GetProducts(uint PageNumber, uint PageSize, ulong CategoryId) 
+    : QueryForPaginatedResult(PageNumber, PageSize), IHttpQuery;
 
 public class GetProductsEndpoint : IEndpoint
 {
-    public void RegisterEndpoint(IEndpointRouteBuilder endpoints)
-    {
-        endpoints.MapGet("products/{pageNumber:int}/{pageSize:int}/{categoryId}",
-            async (IQueryDispatcher dispatcher,
-                    [FromRoute] int pageNumber,
-                    [FromRoute] int pageSize,
-                    [FromRoute] ulong categoryId,
-                    CancellationToken cancellationToken) =>
-                Results.Ok(await dispatcher.QueryAsync(new GetProducts(categoryId, pageNumber, pageSize), cancellationToken)))
-            .WithTags(SwaggerTags.Products);
-    }
+    public void RegisterEndpoint(IEndpointRouteBuilder endpoints) => 
+        endpoints.MapGet<GetProducts>("products").WithTags(SwaggerTags.Products);
 }
 
-internal class GetProductsHandler : IQueryHandler<GetProducts, PaginatedList<ProductReadModel>>
+internal class GetProductsHandler : IQueryHandler<GetProducts, IResult>
 {
     private readonly ProductsDbContext _productsDbContext;
 
@@ -38,9 +28,9 @@ internal class GetProductsHandler : IQueryHandler<GetProducts, PaginatedList<Pro
         _productsDbContext = productsDbContext;
     }
 
-    public async Task<PaginatedList<ProductReadModel>> HandleAsync(GetProducts query, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(GetProducts query, CancellationToken cancellationToken = default)
     {
-        var (categoryId, pageNumber, pageSize) = query;
+        var (pageNumber, pageSize, categoryId) = query;
         var products = _productsDbContext.Products
             .Where(x => x.CategoryId == categoryId)
             .Select(x => new ProductReadModel()
@@ -53,6 +43,8 @@ internal class GetProductsHandler : IQueryHandler<GetProducts, PaginatedList<Pro
             .AsNoTracking()
             .AsQueryable();
 
-        return await PaginatedList<ProductReadModel>.CreateAsync(products, pageNumber, pageSize);
+        var result = await PaginatedList<ProductReadModel>
+            .CreateAsync(products, pageNumber, pageSize);
+        return Results.Ok(result);
     }
 }

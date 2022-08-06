@@ -3,30 +3,24 @@ using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Abstraction.Queries;
 using IGroceryStore.Users.Core.Persistence.Contexts;
 using IGroceryStore.Users.Core.ReadModels;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Users.Core.Features.Users;
 
-public record GetUsers : IQuery<UsersReadModel>;
+internal record GetUsers : IHttpQuery;
 
 public class GetUsersEndpoint : IEndpoint
 {
-    public void RegisterEndpoint(IEndpointRouteBuilder endpoints)
-    {
-        endpoints.MapGet("/users",
-            [Authorize] async ([FromServices] IQueryDispatcher dispatcher) =>
-                Results.Ok(await dispatcher.QueryAsync(new GetUsers()))).WithTags(SwaggerTags.Users);
-
-    }
+    public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
+        endpoints.MapGet<GetUsers>("/users")
+            .RequireAuthorization()
+            .WithTags(SwaggerTags.Users);
 }
 
-
-public class GetUsersHandler : IQueryHandler<GetUsers, UsersReadModel>
+internal class GetUsersHandler : IQueryHandler<GetUsers, IResult>
 {
     private readonly UsersDbContext _dbContext;
 
@@ -35,13 +29,16 @@ public class GetUsersHandler : IQueryHandler<GetUsers, UsersReadModel>
         _dbContext = dbContext;
     }
 
-    public async Task<UsersReadModel> HandleAsync(GetUsers query, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(GetUsers query, CancellationToken cancellationToken = default)
     {
         var users = await _dbContext.Users
             .Select(x => new UserReadModel(x.Id, x.FirstName, x.LastName, x.Email))
             .AsNoTracking()
             .ToListAsync(cancellationToken);
 
-            return new UsersReadModel(users, users.Count);
+        var result = new UsersReadModel(users, users.Count);
+        return Results.Ok(result);
     }
+
+    private record UsersReadModel(IEnumerable<UserReadModel> Users, int Count);
 }

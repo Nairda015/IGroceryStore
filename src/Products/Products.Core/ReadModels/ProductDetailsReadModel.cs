@@ -4,7 +4,7 @@ public class ProductDetailsReadModel
 {
     public ulong Id { get; set; }
     public string Name { get; set; }
-    public string Description { get; set; }
+    public string? Description { get; set; }
     public QuantityReadModel Quantity { get; set; }
     public string? BarCode { get; set; }
     public bool IsObsolete { get; set; }

@@ -10,40 +10,26 @@ using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Services;
 using MassTransit;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Core.Features.Products.Commands;
 
-public record CreateProduct(string Name,
+internal record CreateProduct(string Name,
     QuantityReadModel Quantity,
     ulong BrandId,
     ulong CountryId,
     ulong CategoryId,
-    string? Description = null) : ICommand<ulong>;
+    string? Description = null) : IHttpCommand;
 
 public class CreateProductEndpoint : IEndpoint
 {
-    public void RegisterEndpoint(IEndpointRouteBuilder endpoints)
-    {
-        endpoints.MapPost("products/create",
-            async (ICommandDispatcher dispatcher,
-                CreateProduct command,
-                CancellationToken cancellationToken) =>
-            {
-                var validator = new CreateProductValidator();
-                var validationResult = await validator.ValidateAsync(command, cancellationToken);
-                if (!validationResult.IsValid) return Results.BadRequest(validationResult.Errors);
-
-                await dispatcher.DispatchAsync(command, cancellationToken);
-                return Results.Accepted();
-            }).WithTags(SwaggerTags.Products);
-    }
+    public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
+        endpoints.MapPost<CreateProduct>("products").WithTags(SwaggerTags.Products);
 }
 
-internal class CreateProductHandler : ICommandHandler<CreateProduct, ulong>
+internal class CreateProductHandler : ICommandHandler<CreateProduct, IResult>
 {
     private readonly ProductsDbContext _productsDbContext;
     private readonly ISnowflakeService _snowflakeService;
@@ -56,8 +42,13 @@ internal class CreateProductHandler : ICommandHandler<CreateProduct, ulong>
         _snowflakeService = snowflakeService;
     }
 
-    public async Task<ulong> HandleAsync(CreateProduct command, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(CreateProduct command, CancellationToken cancellationToken = default)
     {
+        //TODO: Add as extension method to FluentValidation
+        var validator = new CreateProductValidator();
+        var validationResult = await validator.ValidateAsync(command, cancellationToken);
+        if (!validationResult.IsValid) return Results.BadRequest(validationResult.Errors);
+        
         var (name, quantityReadModel, brandId, countryId, categoryId, description) = command;
         var categoryName = await _productsDbContext.Categories
             .Where(x => x.Id == categoryId)
@@ -83,7 +74,7 @@ internal class CreateProductHandler : ICommandHandler<CreateProduct, ulong>
 
         var productAddedEvent = new ProductAdded(product.Id, name, categoryName);
         await _bus.Publish(productAddedEvent, cancellationToken);
-        return product.Id;
+        return Results.Accepted("/product/{id}", product.Id);
     }
 }
 

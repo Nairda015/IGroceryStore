@@ -2,32 +2,21 @@
 using IGroceryStore.Baskets.Core.Persistence;
 using IGroceryStore.Shared.Abstraction.Commands;
 using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Constants;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using IGroceryStore.Shared.Abstraction.Constants;
+using Microsoft.AspNetCore.Http;
 
 namespace IGroceryStore.Baskets.Core.Features.Baskets;
 
-public record AddBasket(string Name) : ICommand<Guid>;
+internal record AddBasket(string Name) : IHttpCommand;
 
 public class AddBasketEndpoint : IEndpoint
 {
-    public void RegisterEndpoint(IEndpointRouteBuilder endpoints)
-    {
-        endpoints.MapPost("/baskets", async(
-            [FromServices] ICommandDispatcher dispatcher,
-            AddBasket command,
-            CancellationToken cancellationToken) =>
-        {
-            var result = await dispatcher.DispatchAsync(command, cancellationToken);
-            return Results.Ok(result);
-        }).WithTags(SwaggerTags.Baskets);
-    }
+    public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
+        endpoints.MapPost<AddBasket>("/basket").WithTags(SwaggerTags.Baskets);
 }
 
-internal class AddBasketHandler : ICommandHandler<AddBasket, Guid>
+internal class AddBasketHandler : ICommandHandler<AddBasket, IResult>
 {
     private readonly IBasketFactory _factory;
     private readonly BasketDbContext _context;
@@ -38,12 +27,12 @@ internal class AddBasketHandler : ICommandHandler<AddBasket, Guid>
         _context = dbContext;
     }
 
-    public async Task<Guid> HandleAsync(AddBasket command, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(AddBasket command, CancellationToken cancellationToken = default)
     {
         var basket = _factory.Create(command.Name);
         
         _context.Baskets.Add(basket);
         await _context.SaveChangesAsync(cancellationToken);
-        return basket.Id;
+        return Results.Ok(basket.Id);
     }
 }
