@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
-using Amazon;
 using Amazon.DynamoDBv2;
+using Amazon;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Options;
