@@ -6,9 +6,7 @@ using IGroceryStore.Users.Core.Exceptions;
 using IGroceryStore.Users.Core.Factories;
 using IGroceryStore.Users.Core.Persistence.Contexts;
 using MassTransit;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 
 namespace IGroceryStore.Users.Core.Features.Users;
@@ -17,22 +15,15 @@ public record Register(string Email,
     string Password,
     string ConfirmPassword,
     string FirstName,
-    string LastName) : ICommand;
+    string LastName) : IHttpCommand;
 
 public class RegisterUserEndpoint : IEndpoint
 {
-    public void RegisterEndpoint(IEndpointRouteBuilder endpoints)
-    {
-        endpoints.MapPost("users/register", 
-            async ([FromServices] ICommandDispatcher dispatcher, Register command) =>
-        {
-            await dispatcher.DispatchAsync(command);
-            return Results.Accepted();
-        }).WithTags(SwaggerTags.Users);
-    }
+    public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
+        endpoints.MapPost<Register>("users/register").WithTags(SwaggerTags.Users);
 }
 
-public class RegisterHandler : ICommandHandler<Register>
+public class RegisterHandler : ICommandHandler<Register, IResult>
 {
     private readonly IUserFactory _factory;
     private readonly UsersDbContext _context;
@@ -45,7 +36,7 @@ public class RegisterHandler : ICommandHandler<Register>
         _bus = bus;
     }
 
-    public async Task HandleAsync(Register command, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(Register command, CancellationToken cancellationToken = default)
     {
         var (email, password, confirmPassword, firstName, lastName) = command;
         if (password != confirmPassword) throw new PasswordDoesNotMatchException();
@@ -54,6 +45,6 @@ public class RegisterHandler : ICommandHandler<Register>
         await _context.Users.AddAsync(user, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
         await _bus.Publish(new UserCreated(user.Id, firstName, lastName), cancellationToken: cancellationToken);
-
+        return Results.Accepted("users/{id}", user.Id);
     }
 }

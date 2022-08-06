@@ -1,35 +1,23 @@
 ﻿using IGroceryStore.Products.Core.Entities;
 using IGroceryStore.Products.Core.Persistence.Contexts;
-using IGroceryStore.Products.Core.ValueObjects;
 using IGroceryStore.Shared.Abstraction.Commands;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Services;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 
 namespace IGroceryStore.Products.Core.Features.Allergens.Commands;
 
-public record AddAllergen(string Name) : ICommand<AllergenId>;
+internal record AddAllergen(string Name) : IHttpCommand;
 
 public class AddAllergenEndpoint : IEndpoint
 {
-    public void RegisterEndpoint(IEndpointRouteBuilder endpoints)
-    {
-        endpoints.MapPost("allergen", async(
-            [FromServices] ICommandDispatcher dispatcher,
-            AddAllergen command,
-            CancellationToken cancellationToken) =>
-        {
-            var result = await dispatcher.DispatchAsync(command, cancellationToken);
-            return Results.Ok(result.Id);
-        }).WithTags(SwaggerTags.Products);
-    }
+    public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
+        endpoints.MapPost<AddAllergen>("allergen").WithTags(SwaggerTags.Products);
 }
 
-internal class AddAllergenHandler : ICommandHandler<AddAllergen, AllergenId>
+internal class AddAllergenHandler : ICommandHandler<AddAllergen, IResult>
 {
     private readonly ProductsDbContext _productsDbContext;
     private readonly ISnowflakeService _snowflakeService;
@@ -40,7 +28,7 @@ internal class AddAllergenHandler : ICommandHandler<AddAllergen, AllergenId>
         _snowflakeService = snowflakeService;
     }
 
-    public async Task<AllergenId> HandleAsync(AddAllergen command, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(AddAllergen command, CancellationToken cancellationToken = default)
     {
         var allergen = new Allergen
         {
@@ -50,6 +38,6 @@ internal class AddAllergenHandler : ICommandHandler<AddAllergen, AllergenId>
         
         _productsDbContext.Allergens.Add(allergen);
         await _productsDbContext.SaveChangesAsync(cancellationToken);
-        return allergen.Id;
+        return Results.Ok(allergen.Id);
     }
 }

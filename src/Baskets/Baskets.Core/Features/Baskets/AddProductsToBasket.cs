@@ -1,6 +1,6 @@
 ﻿namespace IGroceryStore.Baskets.Core.Features.Baskets;
 
-public class AddProductsToBasket
+internal class AddProductsToBasket
 {
     
 }

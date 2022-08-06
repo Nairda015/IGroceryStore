@@ -5,7 +5,7 @@
 //Shop
 //Category for eg. Sweets
 
-public class FindProductFreeFrom
+internal class FindProductFreeFrom
 {
     
 }

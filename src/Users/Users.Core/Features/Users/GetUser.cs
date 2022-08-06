@@ -5,32 +5,22 @@ using IGroceryStore.Shared.ValueObjects;
 using IGroceryStore.Users.Core.Exceptions;
 using IGroceryStore.Users.Core.Persistence.Contexts;
 using IGroceryStore.Users.Core.ReadModels;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Users.Core.Features.Users;
 
-public record GetUser(UserId Id) : IQuery<UserReadModel>;
+internal record GetUser(UserId Id) : IHttpQuery;
 
 public class GetUserEndpoint : IEndpoint
 {
-    public void RegisterEndpoint(IEndpointRouteBuilder endpoints)
-    {
-        endpoints.MapGet("/users/{userId:guid}", async (
-            [FromServices] IQueryDispatcher dispatcher,
-            Guid userId) =>
-        {
-            var result = await dispatcher.QueryAsync(new GetUser(userId));
-            return Results.Ok(result);
-        }).WithTags(SwaggerTags.Users);
-    }
+    public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
+        endpoints.MapGet<GetUser>("/users/{userId:guid}").WithTags(SwaggerTags.Users);
 }
 
 
-public class GetUserHandler : IQueryHandler<GetUser, UserReadModel>
+internal class GetUserHandler : IQueryHandler<GetUser, IResult>
 {
     private readonly UsersDbContext _dbContext;
 
@@ -39,13 +29,14 @@ public class GetUserHandler : IQueryHandler<GetUser, UserReadModel>
         _dbContext = dbContext;
     }
 
-    public async Task<UserReadModel> HandleAsync(GetUser query, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(GetUser query, CancellationToken cancellationToken = default)
     {
         var user = await _dbContext.Users
             .FirstOrDefaultAsync(x => x.Id == query.Id, cancellationToken);
         if (user is null) throw new UserNotFoundException(query.Id);
         
-        return new UserReadModel(user.Id, user.FirstName, user.LastName, user.Email);
+        var result = new UserReadModel(user.Id, user.FirstName, user.LastName, user.Email);
+        return Results.Ok(result);
     }
 }
 

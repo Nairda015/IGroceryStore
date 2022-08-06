@@ -3,28 +3,21 @@ using IGroceryStore.Products.Core.ReadModels;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Abstraction.Queries;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Core.Features.Allergens.Queries;
 
-public record GetAllergensResult(IEnumerable<AllergenReadModel> Allergens);
-internal record GetAllergens : IQuery<GetAllergensResult>;
+internal record GetAllergens : IHttpQuery;
 
 public class GetAllergensEndpoint : IEndpoint
 {
-    public void RegisterEndpoint(IEndpointRouteBuilder endpoints)
-    {
-        endpoints.MapGet("allergens",
-            async (IQueryDispatcher dispatcher, CancellationToken cancellationToken) =>
-                Results.Ok(await dispatcher.QueryAsync(new GetAllergens(), cancellationToken)))
-            .WithTags(SwaggerTags.Products);
-    }
+    public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
+        endpoints.MapGet<GetAllergens>("allergens").WithTags(SwaggerTags.Products);
 }
 
-internal class GetAllergensHandler : IQueryHandler<GetAllergens, GetAllergensResult>
+internal class GetAllergensHandler : IQueryHandler<GetAllergens, IResult>
 {
     private readonly ProductsDbContext _context;
 
@@ -33,7 +26,7 @@ internal class GetAllergensHandler : IQueryHandler<GetAllergens, GetAllergensRes
         _context = context;
     }
 
-    public async Task<GetAllergensResult> HandleAsync(GetAllergens query,
+    public async Task<IResult> HandleAsync(GetAllergens query,
         CancellationToken cancellationToken = default)
     {
         var allergens =  await _context.Allergens
@@ -41,6 +34,9 @@ internal class GetAllergensHandler : IQueryHandler<GetAllergens, GetAllergensRes
             .AsNoTracking()
             .ToListAsync(cancellationToken);
 
-        return new GetAllergensResult(allergens);
+        var result = new GetAllergensResult(allergens);
+        return Results.Ok(result);
     }
+    
+    private record GetAllergensResult(IEnumerable<AllergenReadModel> Allergens);
 }

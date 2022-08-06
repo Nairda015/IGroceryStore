@@ -1,6 +1,6 @@
 ﻿namespace IGroceryStore.Baskets.Core.Features.Products;
 
-public class AddProductToFavorite
+internal class AddProductToFavorite
 {
     
 }
