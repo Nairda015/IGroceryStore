@@ -1,3 +1,4 @@
+using FluentValidation;
 using IGroceryStore.Middlewares;
 using IGroceryStore.Services;
 using IGroceryStore.Settings;
@@ -46,6 +47,7 @@ if (!builder.Environment.IsDevelopment())
 
 //Middlewares
 builder.Services.AddScoped<ExceptionMiddleware>();
+builder.Services.AddValidatorsFromAssemblies(moduleAssemblies, includeInternalTypes: true);
 
 //Messaging
 var rabbitSettings = builder.Configuration.GetOptions<RabbitSettings>("Rabbit");

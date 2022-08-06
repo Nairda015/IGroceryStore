@@ -9,7 +9,9 @@ using IGroceryStore.Shared.Abstraction.Commands;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Services;
+using IGroceryStore.Shared.Validation;
 using MassTransit;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
@@ -26,7 +28,10 @@ internal record CreateProduct(string Name,
 public class CreateProductEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapPost<CreateProduct>("products").WithTags(SwaggerTags.Products);
+        endpoints.MapPost<CreateProduct>("products")
+            .RequireAuthorization()
+            .AddRouteHandlerFilter<ValidationFilter<CreateProduct>>()
+            .WithTags(SwaggerTags.Products);
 }
 
 internal class CreateProductHandler : ICommandHandler<CreateProduct, IResult>
@@ -44,11 +49,6 @@ internal class CreateProductHandler : ICommandHandler<CreateProduct, IResult>
 
     public async Task<IResult> HandleAsync(CreateProduct command, CancellationToken cancellationToken = default)
     {
-        //TODO: Add as extension method to FluentValidation
-        var validator = new CreateProductValidator();
-        var validationResult = await validator.ValidateAsync(command, cancellationToken);
-        if (!validationResult.IsValid) return Results.BadRequest(validationResult.Errors);
-        
         var (name, quantityReadModel, brandId, countryId, categoryId, description) = command;
         var categoryName = await _productsDbContext.Categories
             .Where(x => x.Id == categoryId)
