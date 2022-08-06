@@ -1,6 +1,6 @@
 ﻿namespace IGroceryStore.Shops.Core.Features.Basket;
 
-public class CalculateBasketPrice
+internal class CalculateBasketPrice
 {
     
 }

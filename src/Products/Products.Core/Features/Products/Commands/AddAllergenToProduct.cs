@@ -9,14 +9,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Core.Features.Products.Commands;
 
-public record AddAllergenToProduct(ulong Id, ulong AllergenId) : IHttpCommand;
+internal record AddAllergenToProduct(ulong Id, ulong AllergenId) : IHttpCommand;
 
 public class AddAllergenToProductEndpoint : IEndpoint
 {
-    public void RegisterEndpoint(IEndpointRouteBuilder endpoints)
-    {
+    public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
         endpoints.MapPut<AddAllergenToProduct>("products/add-allergen").WithTags(SwaggerTags.Products);
-    }
 }
 
 internal class AddAllergenToProductHandler : ICommandHandler<AddAllergenToProduct, IResult>

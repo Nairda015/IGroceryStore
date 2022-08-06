@@ -1,12 +1,11 @@
-﻿using System.Security.Claims;
-using IGroceryStore.Shared.Abstraction.Commands;
+﻿using IGroceryStore.Shared.Abstraction.Commands;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Users.Core.Exceptions;
 using IGroceryStore.Users.Core.Persistence.Contexts;
 using IGroceryStore.Users.Core.Services;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using IGroceryStore.Shared.Abstraction.Constants;
+using IGroceryStore.Shared.Abstraction.Services;
 using IGroceryStore.Shared.Exceptions;
 using IGroceryStore.Shared.ValueObjects;
 using IGroceryStore.Users.Core.ReadModels;
@@ -18,47 +17,46 @@ using Audience = IGroceryStore.Shared.Abstraction.Constants.Tokens.Audience;
 
 namespace IGroceryStore.Users.Core.Features.Tokens;
 
-public record RefreshTokenCommand(Claim UserId, Claim Token) : ICommand<TokensReadModel>;
+internal record RefreshTokenCommand : IHttpCommand;
 
 public class RefreshEndpoint : IEndpoint
 {
-    public void RegisterEndpoint(IEndpointRouteBuilder endpoints)
-    {
-        endpoints.MapPut("tokens/refresh", 
-            [Authorize(AuthenticationSchemes = Audience.Refresh)] async(
-            [FromServices] ICommandDispatcher dispatcher,
-            [FromServices] ClaimsPrincipal user) =>
-        {
-            var refreshToken = user.Claims.FirstOrDefault(x => x.Type == Claims.Name.RefreshToken);
-            var userId = user.Claims.FirstOrDefault(x => x.Type == Claims.Name.UserId);
-        
-            if (refreshToken == null || userId == null) return Results.BadRequest();
+    public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
+        endpoints.MapPut<RefreshTokenCommand>("tokens/refresh")
+            .RequireAuthorization(_authorizeData)
+            .WithTags(SwaggerTags.Users);
 
-            var tokens = await dispatcher.DispatchAsync(new RefreshTokenCommand(userId, refreshToken));
-            return Results.Ok(tokens);
-        }).WithTags(SwaggerTags.Users);
-    }
+    private readonly IAuthorizeData[] _authorizeData = {
+        new AuthorizeAttribute { AuthenticationSchemes = Audience.Refresh }
+    };
 }
 
-public class RefreshTokenHandler : ICommandHandler<RefreshTokenCommand, TokensReadModel>
+internal class RefreshTokenHandler : ICommandHandler<RefreshTokenCommand, IResult>
 {
     private readonly ITokenManager _tokenManager;
     private readonly UsersDbContext _context;
+    private readonly ICurrentUserService _currentUserService;
 
-    public RefreshTokenHandler(ITokenManager tokenManager, UsersDbContext context)
+    public RefreshTokenHandler(ITokenManager tokenManager,
+        UsersDbContext context,
+        ICurrentUserService currentUserService)
     {
         _tokenManager = tokenManager;
         _context = context;
+        _currentUserService = currentUserService;
     }
     
-    public async Task<TokensReadModel> HandleAsync(RefreshTokenCommand command, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(RefreshTokenCommand command, CancellationToken cancellationToken = default)
     {
-        var (userIdClaim, tokenClaim) = command;
+        var tokenClaim = _currentUserService.User.Claims.FirstOrDefault(x => x.Type == Claims.Name.RefreshToken);
+        var userId = _currentUserService.UserId;
+        
+        if (tokenClaim is null) return Results.BadRequest();
+        if (userId is null) throw new InvalidUserIdException();
         if (string.IsNullOrWhiteSpace(tokenClaim.Value)) throw new InvalidTokenException();
         
-        if (!Guid.TryParse(userIdClaim.Value, out var userId)) throw new InvalidUserIdException();
         var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == (UserId)userId, cancellationToken);
-        if (user == null) throw new UserNotFoundException(userId);
+        if (user == null) throw new UserNotFoundException(userId.Value);
 
         if (!user.TokenExist(tokenClaim.Value)) throw new InvalidTokenException();
         var (refreshToken, jwt) = _tokenManager.GenerateRefreshToken(user);
@@ -67,10 +65,11 @@ public class RefreshTokenHandler : ICommandHandler<RefreshTokenCommand, TokensRe
         _context.Users.Update(user);
         await _context.SaveChangesAsync(cancellationToken);
         
-        return new TokensReadModel
+        var result = new TokensReadModel
         {
             AccessToken = _tokenManager.GenerateAccessToken(user),
             RefreshToken = jwt
         };
+        return Results.Ok(result);
     }
 }

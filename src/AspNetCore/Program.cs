@@ -36,6 +36,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddTransient(s => s.GetService<HttpContext>()!.User);
 builder.Services.AddSingleton<ICurrentUserService, CurrentUserService>();
 
 if (!builder.Environment.IsDevelopment())

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace IGroceryStore.Baskets.Core.Features.Baskets;
 
-public record AddBasket(string Name) : IHttpCommand;
+internal record AddBasket(string Name) : IHttpCommand;
 
 public class AddBasketEndpoint : IEndpoint
 {

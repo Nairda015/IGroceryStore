@@ -4,27 +4,21 @@ using IGroceryStore.Products.Core.ReadModels;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Abstraction.Queries;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Core.Features.Products.Queries;
 
-public record GetProduct(ulong Id) : IQuery<ProductDetailsReadModel>;
+internal record GetProduct(ulong Id) : IHttpQuery;
 
 public class GetProductEndpoint : IEndpoint
 {
-    public void RegisterEndpoint(IEndpointRouteBuilder endpoints)
-    {
-        endpoints.MapGet("products/{id}",
-            async (IQueryDispatcher dispatcher, ulong id, CancellationToken cancellationToken) =>
-                Results.Ok(await dispatcher.QueryAsync(new GetProduct(id), cancellationToken)))
-            .WithTags(SwaggerTags.Products);
-    }
+    public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
+        endpoints.MapGet<GetProduct>("products/{id}").WithTags(SwaggerTags.Products);
 }
 
-internal class GetProductHandler : IQueryHandler<GetProduct, ProductDetailsReadModel>
+internal class GetProductHandler : IQueryHandler<GetProduct, IResult>
 {
     private readonly ProductsDbContext _context;
 
@@ -33,7 +27,7 @@ internal class GetProductHandler : IQueryHandler<GetProduct, ProductDetailsReadM
         _context = context;
     }
 
-    public async Task<ProductDetailsReadModel> HandleAsync(GetProduct query, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(GetProduct query, CancellationToken cancellationToken = default)
     {
         var model = await _context.Products
             .Include(x => x.Category)
@@ -57,7 +51,7 @@ internal class GetProductHandler : IQueryHandler<GetProduct, ProductDetailsReadM
             .FirstOrDefaultAsync(x => x.Id.Equals(query.Id), cancellationToken);
      
         if (model is null) throw new ProductNotFoundException(query.Id);
-        var result = new ProductDetailsReadModel()
+        var result = new ProductDetailsReadModel
         {
             Id = model.Id,
             Name = model.Name,
@@ -69,9 +63,9 @@ internal class GetProductHandler : IQueryHandler<GetProduct, ProductDetailsReadM
             BrandName = model.BrandName,
             CategoryName = model.CategoryName,
         };
-        if (model.Allergens.Any()) return result;
+        if (model.Allergens.Any()) return Results.Ok(result);
 
         result.Allergens = model.Allergens.Select(x => new AllergenReadModel(x.Id, x.Name)); 
-        return result;
+        return Results.Ok(result);
     }
 }
