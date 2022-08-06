@@ -1,5 +1,5 @@
 {
-  "Stories": {
+  "Shops": {
     "ModuleEnabled": false,
     "Database": {
       "UsersTable": "Users",

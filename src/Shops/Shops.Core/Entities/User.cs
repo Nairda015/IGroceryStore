@@ -2,7 +2,7 @@
 
 namespace IGroceryStore.Shops.Core.Entities;
 
-public class User
+internal class User
 {
     private User()
     {
@@ -14,7 +14,7 @@ public class User
         FirstName = firstName;
         LastName = lastName;
     }
-
+    
     public Guid Id { get; init; }
     public string FirstName { get; set; } = default!;
     public string LastName { get; set; } = default!;

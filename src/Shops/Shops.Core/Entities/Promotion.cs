@@ -7,7 +7,7 @@ public abstract class Promotion
     public Guid Id { get; set; }
     public abstract string Name { get; set; }
     public abstract string Description { get; set; }
-    public abstract Store Store { get; set; }
+    public abstract Shop Shop { get; set; }
     public abstract DateRange DateRange { get; set; }
     public abstract bool CheckIfPromotionIsApplicable();
     public abstract double CalculateFinalPrice();
@@ -20,7 +20,7 @@ public class AmountPromotion : Promotion
 
     public override string Name { get; set; }
     public override string Description { get; set; }
-    public override Store Store { get; set; }
+    public override Shop Shop { get; set; }
     public override DateRange DateRange { get; set; } 
 
     public override bool CheckIfPromotionIsApplicable()
@@ -40,7 +40,7 @@ public class PercentagePromotion : Promotion
 
     public override string Name { get; set; }
     public override string Description { get; set; }
-    public override Store Store { get; set; }
+    public override Shop Shop { get; set; }
     public override DateRange DateRange { get; set; }
 
     public override bool CheckIfPromotionIsApplicable()
@@ -58,7 +58,7 @@ public class AppPromotion : Promotion
 {
     public override string Name { get; set; }
     public override string Description { get; set; }
-    public override Store Store { get; set; }
+    public override Shop Shop { get; set; }
     public override DateRange DateRange { get; set; }
     public override bool CheckIfPromotionIsApplicable()
     {

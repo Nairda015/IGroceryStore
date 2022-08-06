@@ -11,12 +11,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Users.Core.Features.Users;
 
-internal record GetUser(UserId Id) : IHttpQuery;
+internal record GetUser(Guid Id) : IHttpQuery;
 
 public class GetUserEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapGet<GetUser>("/users/{userId:guid}").WithTags(SwaggerTags.Users);
+        endpoints.MapGet<GetUser>("/users/{id}").WithTags(SwaggerTags.Users);
 }
 
 
@@ -32,7 +32,7 @@ internal class GetUserHandler : IQueryHandler<GetUser, IResult>
     public async Task<IResult> HandleAsync(GetUser query, CancellationToken cancellationToken = default)
     {
         var user = await _dbContext.Users
-            .FirstOrDefaultAsync(x => x.Id == query.Id, cancellationToken);
+            .FirstOrDefaultAsync(x => x.Id == new UserId(query.Id), cancellationToken);
         if (user is null) throw new UserNotFoundException(query.Id);
         
         var result = new UserReadModel(user.Id, user.FirstName, user.LastName, user.Email);

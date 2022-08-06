@@ -3,7 +3,7 @@ using System.Text.Json;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DocumentModel;
 using Amazon.DynamoDBv2.Model;
-using IGroceryStore.Shops.Core.Entities;
+using IGroceryStore.Shops.Core.Repositories.Contracts;
 using IGroceryStore.Shops.Core.Settings;
 using Microsoft.Extensions.Options;
 
@@ -11,9 +11,9 @@ namespace IGroceryStore.Shops.Core.Repositories;
 
 public interface IUsersRepository
 {
-    Task<bool> AddAsync(User user, CancellationToken cancellationToken);
-    Task<User?> GetAsync(Guid id, CancellationToken cancellationToken);
-    Task<bool> UpdateAsync(User user, CancellationToken cancellationToken);
+    Task<bool> AddAsync(UserDto user, CancellationToken cancellationToken);
+    Task<UserDto?> GetAsync(Guid id, CancellationToken cancellationToken);
+    Task<bool> UpdateAsync(UserDto user, CancellationToken cancellationToken);
 }
 
 internal class UsersRepository : IUsersRepository
@@ -26,7 +26,7 @@ internal class UsersRepository : IUsersRepository
         _dynamoDb = dynamoDb;
     }
     
-    public async Task<bool> AddAsync(User user, CancellationToken cancellationToken)
+    public async Task<bool> AddAsync(UserDto user, CancellationToken cancellationToken)
     {
         var userAsJson = JsonSerializer.Serialize(user);
         var itemAsDocument = Document.FromJson(userAsJson);
@@ -42,7 +42,7 @@ internal class UsersRepository : IUsersRepository
         return response.HttpStatusCode is HttpStatusCode.OK;
     }
 
-    public async Task<User?> GetAsync(Guid id, CancellationToken cancellationToken)
+    public async Task<UserDto?> GetAsync(Guid id, CancellationToken cancellationToken)
     {
         var request = new GetItemRequest
         {
@@ -55,16 +55,13 @@ internal class UsersRepository : IUsersRepository
         };
 
         var response = await _dynamoDb.GetItemAsync(request, cancellationToken);
-        if (response.Item.Count == 0)
-        {
-            return null;
-        }
+        if (response.Item.Count is 0) return null;
 
         var itemAsDocument = Document.FromAttributeMap(response.Item);
-        return JsonSerializer.Deserialize<User>(itemAsDocument.ToJson());
+        return JsonSerializer.Deserialize<UserDto>(itemAsDocument.ToJson());
     }
 
-    public async Task<bool> UpdateAsync(User user, CancellationToken cancellationToken)
+    public async Task<bool> UpdateAsync(UserDto user, CancellationToken cancellationToken)
     {
         var userAsJson = JsonSerializer.Serialize(user);
         var itemAsDocument = Document.FromJson(userAsJson);
@@ -77,6 +74,6 @@ internal class UsersRepository : IUsersRepository
         };
 
         var response = await _dynamoDb.PutItemAsync(updateItemRequest, cancellationToken);
-        return response.HttpStatusCode == HttpStatusCode.OK;
+        return response.HttpStatusCode is HttpStatusCode.OK;
     }
 }

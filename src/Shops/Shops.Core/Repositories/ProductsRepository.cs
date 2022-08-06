@@ -12,7 +12,7 @@ namespace IGroceryStore.Shops.Core.Repositories;
 public interface IProductsRepository
 {
     Task<bool> AddAsync(Product product, CancellationToken cancellationToken);
-    Task<User?> GetAsync(ulong id, CancellationToken cancellationToken);
+    Task<Product?> GetAsync(ulong id, CancellationToken cancellationToken);
     Task<bool> UpdateAsync(Product product, CancellationToken cancellationToken);
 }
 
@@ -42,7 +42,7 @@ internal class ProductsRepository : IProductsRepository
         return response.HttpStatusCode is HttpStatusCode.OK;
     }
 
-    public async Task<User?> GetAsync(ulong id, CancellationToken cancellationToken)
+    public async Task<Product?> GetAsync(ulong id, CancellationToken cancellationToken)
     {
         var request = new GetItemRequest
         {
@@ -61,7 +61,7 @@ internal class ProductsRepository : IProductsRepository
         }
 
         var itemAsDocument = Document.FromAttributeMap(response.Item);
-        return JsonSerializer.Deserialize<User>(itemAsDocument.ToJson());
+        return JsonSerializer.Deserialize<Product>(itemAsDocument.ToJson());
     }
 
     public async Task<bool> UpdateAsync(Product product, CancellationToken cancellationToken)

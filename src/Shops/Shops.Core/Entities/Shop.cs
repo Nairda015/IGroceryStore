@@ -3,7 +3,7 @@ using IGroceryStore.Shops.Core.ValueObjects;
 
 namespace IGroceryStore.Shops.Core.Entities;
 
-public class Store
+public class Shop
 {
     public Guid Id { get; set; }
     public string Name { get; set; }

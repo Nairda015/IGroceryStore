@@ -13,11 +13,8 @@ internal record GetCategories : IHttpQuery;
 
 public class GetCategoriesEndpoint : IEndpoint
 {
-    public void RegisterEndpoint(IEndpointRouteBuilder endpoints)
-    {
-        endpoints.MapGet<GetCategories>("categories")
-            .WithTags(SwaggerTags.Products);
-    }
+    public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
+        endpoints.MapGet<GetCategories>("categories").WithTags(SwaggerTags.Products);
 }
 
 internal class GetCategoriesHandler : IQueryHandler<GetCategories, IResult>
