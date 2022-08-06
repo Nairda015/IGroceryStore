@@ -1,4 +1,4 @@
-﻿using IGroceryStore.Shops.Core.Exceptions;
+using IGroceryStore.Shops.Core.Exceptions;
 using IGroceryStore.Shops.Core.Repositories;
 using IGroceryStore.Shops.Core.Repositories.Contracts;
 using IGroceryStore.Users.Contracts.Events;

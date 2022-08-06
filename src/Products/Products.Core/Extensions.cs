@@ -1,4 +1,6 @@
 ﻿using System.Reflection;
+using FluentValidation;
+using IGroceryStore.Products.Core.Features.Products.Commands;
 using IGroceryStore.Products.Core.Persistence.Contexts;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Constants;
