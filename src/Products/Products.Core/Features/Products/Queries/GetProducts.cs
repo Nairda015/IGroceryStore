@@ -1,18 +1,19 @@
 ﻿using IGroceryStore.Products.Core.Persistence.Contexts;
 using IGroceryStore.Products.Core.ReadModels;
+using IGroceryStore.Products.Core.ValueObjects;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Abstraction.Queries;
 using IGroceryStore.Shared.Common;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Core.Features.Products.Queries;
 
-internal record GetProducts(ulong CategoryId, int PageNumber, int PageSize) : IQuery<PaginatedList<ProductReadModel>>;
+internal record GetProducts(uint PageNumber, uint PageSize, CategoryId CategoryId) 
+    : QueryForPaginatedResult(PageNumber, PageSize), IQuery<PaginatedList<ProductReadModel>>;
 
 public class GetProductsEndpoint : IEndpoint
 {
@@ -20,11 +21,9 @@ public class GetProductsEndpoint : IEndpoint
     {
         endpoints.MapGet("products/{pageNumber:int}/{pageSize:int}/{categoryId}",
             async (IQueryDispatcher dispatcher,
-                    [FromRoute] int pageNumber,
-                    [FromRoute] int pageSize,
-                    [FromRoute] ulong categoryId,
+                    [AsParameters] GetProducts query,
                     CancellationToken cancellationToken) =>
-                Results.Ok(await dispatcher.QueryAsync(new GetProducts(categoryId, pageNumber, pageSize), cancellationToken)))
+                Results.Ok(await dispatcher.QueryAsync(query, cancellationToken)))
             .WithTags(SwaggerTags.Products);
     }
 }
@@ -40,7 +39,7 @@ internal class GetProductsHandler : IQueryHandler<GetProducts, PaginatedList<Pro
 
     public async Task<PaginatedList<ProductReadModel>> HandleAsync(GetProducts query, CancellationToken cancellationToken = default)
     {
-        var (categoryId, pageNumber, pageSize) = query;
+        var (pageNumber, pageSize, categoryId) = query;
         var products = _productsDbContext.Products
             .Where(x => x.CategoryId == categoryId)
             .Select(x => new ProductReadModel()
