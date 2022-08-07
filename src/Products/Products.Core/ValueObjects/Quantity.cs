@@ -13,7 +13,7 @@ internal sealed record Quantity
         Amount = amount;
         Unit = unit;
     }
-};
+}
 
 internal class InvalidQuantityException : GroceryStoreException
 {

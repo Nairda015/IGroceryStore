@@ -33,7 +33,7 @@ internal class GetProductsHandler : IQueryHandler<GetProducts, IResult>
         var (pageNumber, pageSize, categoryId) = query;
         var products = _productsDbContext.Products
             .Where(x => x.CategoryId == categoryId)
-            .Select(x => new ProductReadModel()
+            .Select(x => new ProductReadModel
             {
                 Id = x.Id,
                 Name = x.Name,

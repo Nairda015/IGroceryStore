@@ -19,7 +19,7 @@ internal sealed record Unit
     
     public static implicit operator Unit(string unit) => new(unit);
     public static implicit operator string(Unit unit) => unit.Name;
-};
+}
 
 internal class InvalidUnitNameException : GroceryStoreException
 {

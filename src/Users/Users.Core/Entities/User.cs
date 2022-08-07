@@ -36,7 +36,7 @@ public class User : AuditableEntity
     public FirstName FirstName { get; private set; }
     public LastName LastName { get; private set; }
     public Email Email { get; private set; }
-    public bool TwoFactorEnabled { get; private set; } = false;
+    public bool TwoFactorEnabled { get; private set; }
     public bool EmailConfirmed { get; private set; }
     public bool LockoutEnabled { get; private set; }
     private void UpdatePassword(string password, string oldPassword)
@@ -69,7 +69,7 @@ public class User : AuditableEntity
     private void Lock()
     {
         LockoutEnabled = true;
-        _lockoutEnd = DateTime.Now.AddMinutes(5);
+        _lockoutEnd = DateTime.UtcNow.AddMinutes(5);
     }
     
     private void Unlock()
@@ -80,7 +80,7 @@ public class User : AuditableEntity
 
     private bool TryUnlock()
     {
-        if (_lockoutEnd > DateTime.Now) return false;
+        if (_lockoutEnd > DateTime.UtcNow) return false;
         Unlock();
         return true;
     }

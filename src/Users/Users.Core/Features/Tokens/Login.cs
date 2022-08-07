@@ -4,6 +4,7 @@ using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Users.Core.Exceptions;
 using IGroceryStore.Users.Core.Persistence.Contexts;
 using IGroceryStore.Users.Core.Services;
+using IGroceryStore.Users.Core.ReadModels;
 using IGroceryStore.Users.Core.ValueObjects;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -50,7 +51,7 @@ internal class LoginHandler : ICommandHandler<LoginWithUserAgent, IResult>
         _context.Users.Update(user);
         await _context.SaveChangesAsync(cancellationToken);
 
-        var tokens = new ReadModels.TokensReadModel
+        var tokens = new TokensReadModel
         {
             AccessToken = _tokenManager.GenerateAccessToken(user),
             RefreshToken = jwt
@@ -60,5 +61,5 @@ internal class LoginHandler : ICommandHandler<LoginWithUserAgent, IResult>
         return Results.Ok(result);
     }
 
-    private record LoginResult(Guid UserId, ReadModels.TokensReadModel Tokens);
+    private record LoginResult(Guid UserId, TokensReadModel Tokens);
 }
