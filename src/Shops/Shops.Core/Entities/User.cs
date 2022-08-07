@@ -19,7 +19,7 @@ internal class User
     public string FirstName { get; set; } = default!;
     public string LastName { get; set; } = default!;
     public uint TrustLevel { get; private set; }
-    public Badge Badge => this.TrustLevel switch
+    public Badge Badge => TrustLevel switch
     {
         <= 10 => Badge.None,
         <= 100 => Badge.Bronze,

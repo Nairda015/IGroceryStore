@@ -1,4 +1,5 @@
 ﻿using IGroceryStore.Products.Contracts.Events;
+using IGroceryStore.Shared.Abstraction.Services;
 using IGroceryStore.Shops.Core.Entities;
 using IGroceryStore.Shops.Core.Exceptions;
 using IGroceryStore.Shops.Core.Repositories;
@@ -11,11 +12,15 @@ public class AddProduct : IConsumer<ProductAdded>
 {
     private readonly ILogger<AddProduct> _logger;
     private readonly IProductsRepository _productsRepository;
+    private readonly IDateTimeService _dateTimeService;
 
-    public AddProduct(ILogger<AddProduct> logger, IProductsRepository productsRepository)
+    public AddProduct(ILogger<AddProduct> logger,
+        IProductsRepository productsRepository,
+        IDateTimeService dateTimeService)
     {
         _logger = logger;
         _productsRepository = productsRepository;
+        _dateTimeService = dateTimeService;
     }
 
     public async Task Consume(ConsumeContext<ProductAdded> context)
@@ -26,7 +31,7 @@ public class AddProduct : IConsumer<ProductAdded>
         {
             Id = productId,
             Name = name,
-            LastUpdated = DateOnly.FromDateTime(DateTime.UtcNow)
+            LastUpdated = _dateTimeService.NowDateOnly
         };
         
         var result = await _productsRepository.AddAsync(product, context.CancellationToken);

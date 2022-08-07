@@ -2,8 +2,9 @@
 services:
   postgres:
     image: postgres:latest
+    container_name: postgres
     volumes:
-      - ../volumes/postgres-data:/var/lib/postgresql/data
+      - ../volumes/postgres:/var/lib/postgresql/data
     environment:
       - POSTGRES_PASSWORD=admin
       - POSTGRES_USER=postgres
@@ -13,11 +14,31 @@ services:
       - 5432:5432
 
   rabbitmq:
-    image: rabbitmq:3-management-alpine
+    image: rabbitmq:latest
     container_name: rabbitmq
     volumes:
-      - ../volumes/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
-      - ../volumes/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+      - ../volumes/rabbitmq/data/:/var/lib/rabbitmq/
+      - ../volumes/rabbitmq/log/:/var/log/rabbitmq
     ports:
       - 5672:5672
       - 15672:15672
+  
+  cassandra:
+    image: cassandra:latest
+    container_name: cassandra
+    ports:
+      - 9042:9042
+    environment:
+      - CASSANDRA_PASSWORD_SEEDER=cassandra
+      - CASSANDRA_PASSWORD=cassandra
+    volumes:
+      - ../volumes/cassandra:/var/lib/cassandra
+  
+  cache:
+    image: redis:latest
+    container_name: redis
+    restart: always
+    ports:
+      - 6379:6379
+    volumes:
+      - ../volumes/redis:/data

@@ -26,6 +26,9 @@ if (!builder.Environment.IsDevelopment())
     builder.Configuration.AddSystemsManager("/Production/IGroceryStore", TimeSpan.FromSeconds(30));
 }
 
+//DateTime
+builder.Services.AddSingleton<IDateTimeService, DateTimeService>();
+
 //Db
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
