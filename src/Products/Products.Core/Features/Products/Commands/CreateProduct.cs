@@ -74,7 +74,7 @@ internal class CreateProductHandler : ICommandHandler<CreateProduct, IResult>
 
         var productAddedEvent = new ProductAdded(product.Id, name, categoryName);
         await _bus.Publish(productAddedEvent, cancellationToken);
-        return Results.Accepted("/product/{id}", product.Id);
+        return Results.Accepted($"/product/{product.Id}", product.Id);
     }
 }
 
