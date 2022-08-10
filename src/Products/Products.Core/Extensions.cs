@@ -34,6 +34,8 @@ public class ProductsModule : IModule
         services.AddDbContext<ProductsDbContext>(ctx =>
             ctx.UseNpgsql(options.ConnectionString)
                 .EnableSensitiveDataLogging(enableSensitiveData));
+        //Db
+        services.AddDatabaseDeveloperPageExceptionFilter();
     }
 
     public void Use(IApplicationBuilder app)
