@@ -30,7 +30,7 @@ public class CreateProductEndpoint : IEndpoint
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
         endpoints.MapPost<CreateProduct>("products")
             .RequireAuthorization()
-            .AddRouteHandlerFilter<ValidationFilter<CreateProduct>>()
+            .AddEndpointFilter<ValidationFilter<CreateProduct>>()
             .WithTags(SwaggerTags.Products);
 }
 
