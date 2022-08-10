@@ -45,6 +45,6 @@ public class RegisterHandler : ICommandHandler<Register, IResult>
         await _context.Users.AddAsync(user, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
         await _bus.Publish(new UserCreated(user.Id, firstName, lastName), cancellationToken: cancellationToken);
-        return Results.Accepted("users/{id}", user.Id);
+        return Results.Accepted($"users/{user.Id}", user.Id);
     }
 }

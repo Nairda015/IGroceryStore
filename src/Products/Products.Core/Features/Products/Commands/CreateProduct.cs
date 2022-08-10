@@ -30,7 +30,7 @@ public class CreateProductEndpoint : IEndpoint
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
         endpoints.MapPost<CreateProduct>("products")
             .RequireAuthorization()
-            .AddRouteHandlerFilter<ValidationFilter<CreateProduct>>()
+            .AddEndpointFilter<ValidationFilter<CreateProduct>>()
             .WithTags(SwaggerTags.Products);
 }
 
@@ -74,7 +74,7 @@ internal class CreateProductHandler : ICommandHandler<CreateProduct, IResult>
 
         var productAddedEvent = new ProductAdded(product.Id, name, categoryName);
         await _bus.Publish(productAddedEvent, cancellationToken);
-        return Results.Accepted("/product/{id}", product.Id);
+        return Results.Accepted($"/product/{product.Id}", product.Id);
     }
 }
 

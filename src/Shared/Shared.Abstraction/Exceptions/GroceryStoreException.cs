@@ -17,8 +17,6 @@ public abstract class GroceryConsumerException : Exception
     public Guid CorrelationId { get; }
     public uint RetryCount { get; set; }
 
-    public string Message { get; }
-
-    protected GroceryConsumerException(bool shouldBeRetried, Guid correlationId, string message)
-        => (ShouldBeRetried, CorrelationId, Message) = (shouldBeRetried, correlationId, message);
+    protected GroceryConsumerException(bool shouldBeRetried, Guid correlationId, string message) :base(message)
+        => (ShouldBeRetried, CorrelationId) = (shouldBeRetried, correlationId);
 }
