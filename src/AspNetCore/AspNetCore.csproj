@@ -19,7 +19,7 @@
     <ItemGroup>
         <PackageReference Include="Amazon.Extensions.Configuration.SystemsManager" Version="4.0.0" />
         <PackageReference Include="JWT.Extensions.AspNetCore" Version="9.0.0" />
-        <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.7" />
+        <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.8" />
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.7" />
         <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.7" />
         <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="6.0.8" />
