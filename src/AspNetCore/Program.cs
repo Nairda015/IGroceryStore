@@ -29,9 +29,6 @@ if (!builder.Environment.IsDevelopment())
 //DateTime
 builder.Services.AddSingleton<IDateTimeService, DateTimeService>();
 
-//Db
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
 //Services
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -92,6 +89,8 @@ builder.Services.AddLogging(loggingBuilder =>
 var app = builder.Build();
 System.AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
+app.UseSwagger();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -102,8 +101,6 @@ else
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
-app.UseSwagger();
 
 app.UseHttpsRedirection();
 app.UseRouting();
