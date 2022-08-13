@@ -5,6 +5,7 @@ using IGroceryStore.Shared.ValueObjects;
 using IGroceryStore.Users.Core.Exceptions;
 using IGroceryStore.Users.Core.Persistence.Contexts;
 using IGroceryStore.Users.Core.ReadModels;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
@@ -16,7 +17,9 @@ internal record GetUser(Guid Id) : IHttpQuery;
 public class GetUserEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapGet<GetUser>("/users/{id}").WithTags(SwaggerTags.Users);
+        endpoints.MapGet<GetUser>("/users/{id}")
+            .WithName(nameof(GetUser))
+            .WithTags(SwaggerTags.Users);
 }
 
 

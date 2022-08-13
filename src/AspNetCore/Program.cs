@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using FluentValidation;
 using IGroceryStore.Middlewares;
 using IGroceryStore.Services;
@@ -9,6 +10,9 @@ using Microsoft.EntityFrameworkCore;
 using IGroceryStore.Shared.Configuration;
 using IGroceryStore.Shared.Options;
 using MassTransit;
+using OpenTelemetry;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.ConfigureModules();
@@ -84,6 +88,30 @@ builder.Services.AddLogging(loggingBuilder =>
     loggingBuilder.AddConsole()
         .AddFilter(DbLoggerCategory.Database.Command.Name, LogLevel.Information);
     loggingBuilder.AddDebug();
+});
+
+builder.Services.AddOpenTelemetryTracing(x =>
+{
+    x.SetResourceBuilder(ResourceBuilder.CreateDefault()
+            .AddService("IGroceryStore")
+            .AddTelemetrySdk()
+            .AddEnvironmentVariableDetector())
+        .AddSource("MassTransit")
+        .AddAspNetCoreInstrumentation()
+        .AddJaegerExporter(o =>
+        {
+            o.AgentHost = /*Extensions.IsRunningInContainer ? "jaeger" : */"localhost";
+            o.AgentPort = 6831;
+            o.MaxPayloadSizeInBytes = 4096;
+            o.ExportProcessorType = ExportProcessorType.Batch;
+            o.BatchExportProcessorOptions = new BatchExportProcessorOptions<Activity>
+            {
+                MaxQueueSize = 2048,
+                ScheduledDelayMilliseconds = 5000,
+                ExporterTimeoutMilliseconds = 30000,
+                MaxExportBatchSize = 512,
+            };
+        });
 });
 
 var app = builder.Build();
