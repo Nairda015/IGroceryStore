@@ -17,12 +17,12 @@ using Audience = IGroceryStore.Shared.Abstraction.Constants.Tokens.Audience;
 
 namespace IGroceryStore.Users.Core.Features.Tokens;
 
-internal record RefreshTokenCommand : IHttpCommand;
+internal record RefreshTokenRequest : IHttpCommand;
 
 public class RefreshEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapPut<RefreshTokenCommand>("tokens/refresh")
+        endpoints.MapPut<RefreshTokenRequest>("tokens/refresh")
             .RequireAuthorization(_authorizeData)
             .WithTags(SwaggerTags.Users);
 
@@ -31,7 +31,7 @@ public class RefreshEndpoint : IEndpoint
     };
 }
 
-internal class RefreshTokenHandler : ICommandHandler<RefreshTokenCommand, IResult>
+internal class RefreshTokenHandler : ICommandHandler<RefreshTokenRequest, IResult>
 {
     private readonly ITokenManager _tokenManager;
     private readonly UsersDbContext _context;
@@ -46,7 +46,7 @@ internal class RefreshTokenHandler : ICommandHandler<RefreshTokenCommand, IResul
         _currentUserService = currentUserService;
     }
     
-    public async Task<IResult> HandleAsync(RefreshTokenCommand command, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(RefreshTokenRequest request, CancellationToken cancellationToken = default)
     {
         var tokenClaim = _currentUserService.User.Claims.FirstOrDefault(x => x.Type == Claims.Name.RefreshToken);
         var userId = _currentUserService.UserId;
