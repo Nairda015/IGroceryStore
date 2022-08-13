@@ -21,6 +21,8 @@ internal record Register(Register.RegisterBody Body) : IHttpCommand
         string LastName);
 }
 
+internal record RegisterCommand(Register Value) : IHttpCommand;
+
 public class RegisterUserEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
@@ -44,7 +46,7 @@ internal class RegisterHandler : ICommandHandler<Register, IResult>
         _bus = bus;
     }
 
-    public async Task<IResult> HandleAsync(Register command, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(RegisterCommand command, CancellationToken cancellationToken = default)
     {
         var (email, password, confirmPassword, firstName, lastName) = command.Body;
         if (password != confirmPassword) throw new PasswordDoesNotMatchException();
