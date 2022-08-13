@@ -18,10 +18,10 @@ internal record MarkAsObsolete(MarkAsObsolete.MarkAsObsoleteBody Body) : IHttpCo
 public class MarkAsObsoleteEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapPost<MarkAsObsoleteRequest>("products/mark-as-obsolete/{id}").WithTags(SwaggerTags.Products);
+        endpoints.MapPost<MarkAsObsolete>("products/mark-as-obsolete/{id}").WithTags(SwaggerTags.Products);
 }
 
-internal class MarkAsObsoleteHandler : ICommandHandler<MarkAsObsoleteRequest, IResult>
+internal class MarkAsObsoleteHandler : ICommandHandler<MarkAsObsolete, IResult>
 {
     private readonly ProductsDbContext _productsDbContext;
 
@@ -30,7 +30,7 @@ internal class MarkAsObsoleteHandler : ICommandHandler<MarkAsObsoleteRequest, IR
         _productsDbContext = productsDbContext;
     }
 
-    public async Task<IResult> HandleAsync(MarkAsObsoleteRequest request, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(MarkAsObsolete command, CancellationToken cancellationToken = default)
     {
         var product = await _productsDbContext.Products.FirstOrDefaultAsync(x => x.Id == command.Body.Id, cancellationToken);
         if (product == null) throw new ProductNotFoundException(command.Body.Id);

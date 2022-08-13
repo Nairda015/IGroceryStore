@@ -21,15 +21,13 @@ internal record LoginWithUserAgent(LoginWithUserAgent.LoginWithUserAgentBody Bod
         [FromHeader(Name = "User-Agent")] string UserAgent);
 }
 
-internal record LoginWithUserAgentRequest(LoginWithUserAgent Value) : IHttpCommand;
-
 public class LoginEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapPost<LoginWithUserAgentRequest>("tokens/login").WithTags(SwaggerTags.Users);
+        endpoints.MapPost<LoginWithUserAgent>("tokens/login").WithTags(SwaggerTags.Users);
 }
 
-internal class LoginHandler : ICommandHandler<LoginWithUserAgentRequest, IResult>
+internal class LoginHandler : ICommandHandler<LoginWithUserAgent, IResult>
 {
     private readonly ITokenManager _tokenManager;
     private readonly UsersDbContext _context;
@@ -40,7 +38,7 @@ internal class LoginHandler : ICommandHandler<LoginWithUserAgentRequest, IResult
         _context = context;
     }
 
-    public async Task<IResult> HandleAsync(LoginWithUserAgentRequest request, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(LoginWithUserAgent command, CancellationToken cancellationToken = default)
     {
         var (email, password, userAgent) = command.Body;
         var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == email, cancellationToken);

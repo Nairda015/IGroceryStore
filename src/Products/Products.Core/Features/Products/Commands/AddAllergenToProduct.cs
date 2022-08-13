@@ -17,10 +17,10 @@ internal record AddAllergenToProduct(AddAllergenToProduct.AddAllergenToProductBo
 public class AddAllergenToProductEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapPut<AddAllergenToProductRequest>("products/add-allergen").WithTags(SwaggerTags.Products);
+        endpoints.MapPut<AddAllergenToProduct>("products/add-allergen").WithTags(SwaggerTags.Products);
 }
 
-internal class AddAllergenToProductHandler : ICommandHandler<AddAllergenToProductRequest, IResult>
+internal class AddAllergenToProductHandler : ICommandHandler<AddAllergenToProduct, IResult>
 {
     private readonly ProductsDbContext _productsDbContext;
 
@@ -29,7 +29,7 @@ internal class AddAllergenToProductHandler : ICommandHandler<AddAllergenToProduc
         _productsDbContext = productsDbContext;
     }
 
-    public async Task<IResult> HandleAsync(AddAllergenToProductRequest request, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(AddAllergenToProduct command, CancellationToken cancellationToken = default)
     {
         var (productId, allergenId) = command.Body;
         var product =
