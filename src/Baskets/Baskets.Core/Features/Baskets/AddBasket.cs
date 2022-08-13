@@ -8,7 +8,10 @@ using Microsoft.AspNetCore.Http;
 
 namespace IGroceryStore.Baskets.Core.Features.Baskets;
 
-internal record AddBasket(string Name) : IHttpCommand;
+internal record AddBasket(AddBasket.AddBasketBody Body) : IHttpCommand
+{
+    public record AddBasketBody(string Name);
+}
 
 public class AddBasketEndpoint : IEndpoint
 {
@@ -29,7 +32,7 @@ internal class AddBasketHandler : ICommandHandler<AddBasket, IResult>
 
     public async Task<IResult> HandleAsync(AddBasket command, CancellationToken cancellationToken = default)
     {
-        var basket = _factory.Create(command.Name);
+        var basket = _factory.Create(command.Body.Name);
         
         _context.Baskets.Add(basket);
         await _context.SaveChangesAsync(cancellationToken);

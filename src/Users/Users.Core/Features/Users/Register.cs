@@ -6,24 +6,32 @@ using IGroceryStore.Users.Core.Exceptions;
 using IGroceryStore.Users.Core.Factories;
 using IGroceryStore.Users.Core.Persistence.Contexts;
 using MassTransit;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 
 namespace IGroceryStore.Users.Core.Features.Users;
 
-public record Register(string Email,
-    string Password,
-    string ConfirmPassword,
-    string FirstName,
-    string LastName) : IHttpCommand;
+internal record Register(Register.RegisterBody Body) : IHttpCommand
+{
+    public record RegisterBody(string Email,
+        string Password,
+        string ConfirmPassword,
+        string FirstName,
+        string LastName);
+}
 
 public class RegisterUserEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapPost<Register>("users/register").WithTags(SwaggerTags.Users);
+        endpoints.MapPost<Register>("users/register")
+            .Produces(201)
+            .Produces(400)
+            .WithName(nameof(Register))
+            .WithTags(SwaggerTags.Users);
 }
 
-public class RegisterHandler : ICommandHandler<Register, IResult>
+internal class RegisterHandler : ICommandHandler<Register, IResult>
 {
     private readonly IUserFactory _factory;
     private readonly UsersDbContext _context;
@@ -38,13 +46,13 @@ public class RegisterHandler : ICommandHandler<Register, IResult>
 
     public async Task<IResult> HandleAsync(Register command, CancellationToken cancellationToken = default)
     {
-        var (email, password, confirmPassword, firstName, lastName) = command;
+        var (email, password, confirmPassword, firstName, lastName) = command.Body;
         if (password != confirmPassword) throw new PasswordDoesNotMatchException();
         
         var user = _factory.Create(Guid.NewGuid(), firstName, lastName, email, password);
         await _context.Users.AddAsync(user, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
         await _bus.Publish(new UserCreated(user.Id, firstName, lastName), cancellationToken: cancellationToken);
-        return Results.Accepted($"users/{user.Id}", user.Id);
+        return Results.AcceptedAtRoute(nameof(GetUser),new {user.Id});
     }
 }
