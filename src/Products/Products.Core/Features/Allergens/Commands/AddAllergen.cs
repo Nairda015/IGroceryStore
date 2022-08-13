@@ -9,16 +9,18 @@ using Microsoft.AspNetCore.Routing;
 
 namespace IGroceryStore.Products.Core.Features.Allergens.Commands;
 
-internal record AddAllergen(string Name);
-internal record AddAllergenRequest(AddAllergen Value) : IHttpCommand;
+internal record AddAllergen(AddAllergen.AddAllergenBody Body) : IHttpCommand
+{
+    internal record AddAllergenBody(string Name);
+}
 
 public class AddAllergenEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapPost<AddAllergenRequest>("allergen").WithTags(SwaggerTags.Products);
+        endpoints.MapPost<AddAllergen>("allergen").WithTags(SwaggerTags.Products);
 }
 
-internal class AddAllergenHandler : ICommandHandler<AddAllergenRequest, IResult>
+internal class AddAllergenHandler : ICommandHandler<AddAllergen, IResult>
 {
     private readonly ProductsDbContext _productsDbContext;
     private readonly ISnowflakeService _snowflakeService;
@@ -29,12 +31,12 @@ internal class AddAllergenHandler : ICommandHandler<AddAllergenRequest, IResult>
         _snowflakeService = snowflakeService;
     }
 
-    public async Task<IResult> HandleAsync(AddAllergenRequest request, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(AddAllergen command, CancellationToken cancellationToken = default)
     {
         var allergen = new Allergen
         {
             Id = _snowflakeService.GenerateId(),
-            Name = request.Value.Name
+            Name = command.Body.Name
         };
         
         _productsDbContext.Allergens.Add(allergen);

@@ -18,25 +18,26 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Core.Features.Products.Commands;
 
-internal record CreateProduct(string Name,
-    QuantityReadModel Quantity,
-    ulong BrandId,
-    ulong CountryId,
-    ulong CategoryId,
-    string? Description = null);
-
-internal record CreateProductRequest(CreateProduct Value) : IHttpCommand;
+internal record CreateProduct(CreateProduct.CreateProductBody Body) : IHttpCommand
+{
+    internal record CreateProductBody(string Name,
+        QuantityReadModel Quantity,
+        ulong BrandId,
+        ulong CountryId,
+        ulong CategoryId,
+        string? Description = null);
+}
 
 public class CreateProductEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapPost<CreateProductRequest>("products")
+        endpoints.MapPost<CreateProduct>("products")
             .RequireAuthorization()
-            .AddEndpointFilter<ValidationFilter<CreateProduct>>()
+            .AddEndpointFilter<ValidationFilter<CreateProduct.CreateProductBody>>()
             .WithTags(SwaggerTags.Products);
 }
 
-internal class CreateProductHandler : ICommandHandler<CreateProductRequest, IResult>
+internal class CreateProductHandler : ICommandHandler<CreateProduct, IResult>
 {
     private readonly ProductsDbContext _productsDbContext;
     private readonly ISnowflakeService _snowflakeService;
@@ -49,9 +50,9 @@ internal class CreateProductHandler : ICommandHandler<CreateProductRequest, IRes
         _snowflakeService = snowflakeService;
     }
 
-    public async Task<IResult> HandleAsync(CreateProductRequest request, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(CreateProduct command, CancellationToken cancellationToken = default)
     {
-        var (name, quantityReadModel, brandId, countryId, categoryId, description) = request.Value;
+        var (name, quantityReadModel, brandId, countryId, categoryId, description) = command.Body;
         var categoryName = await _productsDbContext.Categories
             .Where(x => x.Id == categoryId)
             .Select(x => x.Name)
@@ -80,7 +81,7 @@ internal class CreateProductHandler : ICommandHandler<CreateProductRequest, IRes
     }
 }
 
-internal class CreateProductValidator : AbstractValidator<CreateProduct>
+internal class CreateProductValidator : AbstractValidator<CreateProduct.CreateProductBody>
 {
     public CreateProductValidator()
     {

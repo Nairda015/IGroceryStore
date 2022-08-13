@@ -13,20 +13,21 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Users.Core.Features.Tokens;
 
-internal record LoginWithUserAgent(string Email,
-    string Password,
-    //TODO: does it work?
-    [FromHeader(Name = "User-Agent")] string UserAgent);
-
-internal record LoginWithUserAgentRequest(LoginWithUserAgent Value) : IHttpCommand;
+internal record LoginWithUserAgent(LoginWithUserAgent.LoginWithUserAgentBody Body) : IHttpCommand
+{
+    internal record LoginWithUserAgentBody(string Email,
+        string Password,
+        //TODO: does it work?
+        [FromHeader(Name = "User-Agent")] string UserAgent);
+}
 
 public class LoginEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapPost<LoginWithUserAgentRequest>("tokens/login").WithTags(SwaggerTags.Users);
+        endpoints.MapPost<LoginWithUserAgent>("tokens/login").WithTags(SwaggerTags.Users);
 }
 
-internal class LoginHandler : ICommandHandler<LoginWithUserAgentRequest, IResult>
+internal class LoginHandler : ICommandHandler<LoginWithUserAgent, IResult>
 {
     private readonly ITokenManager _tokenManager;
     private readonly UsersDbContext _context;
@@ -37,9 +38,9 @@ internal class LoginHandler : ICommandHandler<LoginWithUserAgentRequest, IResult
         _context = context;
     }
 
-    public async Task<IResult> HandleAsync(LoginWithUserAgentRequest request, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(LoginWithUserAgent command, CancellationToken cancellationToken = default)
     {
-        var (email, password, userAgent) = request.Value;
+        var (email, password, userAgent) = command.Body;
         var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == email, cancellationToken);
         if (user is null) throw new InvalidCredentialsException();
 
@@ -48,7 +49,7 @@ internal class LoginHandler : ICommandHandler<LoginWithUserAgentRequest, IResult
 
         var (refreshToken, jwt) = _tokenManager.GenerateRefreshToken(user);
         user.TryRemoveOldRefreshToken(userAgent);
-        user.AddRefreshToken(new RefreshToken(userAgent, refreshToken));
+        user.AddRefreshToken(new ValueObjects.RefreshToken(userAgent, refreshToken));
 
         _context.Users.Update(user);
         await _context.SaveChangesAsync(cancellationToken);

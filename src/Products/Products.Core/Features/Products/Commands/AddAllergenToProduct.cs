@@ -9,16 +9,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Core.Features.Products.Commands;
 
-internal record AddAllergenToProduct(ulong Id, ulong AllergenId);
-internal record AddAllergenToProductRequest(AddAllergenToProduct Value) : IHttpCommand;
+internal record AddAllergenToProduct(AddAllergenToProduct.AddAllergenToProductBody Body) : IHttpCommand
+{
+    internal record AddAllergenToProductBody(ulong Id, ulong AllergenId);
+}
 
 public class AddAllergenToProductEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapPut<AddAllergenToProductRequest>("products/add-allergen").WithTags(SwaggerTags.Products);
+        endpoints.MapPut<AddAllergenToProduct>("products/add-allergen").WithTags(SwaggerTags.Products);
 }
 
-internal class AddAllergenToProductHandler : ICommandHandler<AddAllergenToProductRequest, IResult>
+internal class AddAllergenToProductHandler : ICommandHandler<AddAllergenToProduct, IResult>
 {
     private readonly ProductsDbContext _productsDbContext;
 
@@ -27,9 +29,9 @@ internal class AddAllergenToProductHandler : ICommandHandler<AddAllergenToProduc
         _productsDbContext = productsDbContext;
     }
 
-    public async Task<IResult> HandleAsync(AddAllergenToProductRequest request, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(AddAllergenToProduct command, CancellationToken cancellationToken = default)
     {
-        var (productId, allergenId) = request.Value;
+        var (productId, allergenId) = command.Body;
         var product =
             await _productsDbContext.Products.FirstOrDefaultAsync(x => x.Id.Equals(productId), cancellationToken);
         if (product == null) throw new ProductNotFoundException(productId);
