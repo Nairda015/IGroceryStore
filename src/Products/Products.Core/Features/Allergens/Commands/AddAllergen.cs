@@ -9,7 +9,10 @@ using Microsoft.AspNetCore.Routing;
 
 namespace IGroceryStore.Products.Core.Features.Allergens.Commands;
 
-internal record AddAllergen(string Name) : IHttpCommand;
+internal record AddAllergen(AddAllergen.AddAllergenBody Body) : IHttpCommand
+{
+    internal record AddAllergenBody(string Name);
+}
 
 public class AddAllergenEndpoint : IEndpoint
 {
@@ -33,7 +36,7 @@ internal class AddAllergenHandler : ICommandHandler<AddAllergen, IResult>
         var allergen = new Allergen
         {
             Id = _snowflakeService.GenerateId(),
-            Name = command.Name
+            Name = command.Body.Name
         };
         
         _productsDbContext.Allergens.Add(allergen);

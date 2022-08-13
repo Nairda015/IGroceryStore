@@ -10,7 +10,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Core.Features.Products.Commands;
 
-internal record MarkAsObsolete(ProductId Id) : IHttpCommand;
+internal record MarkAsObsolete(MarkAsObsolete.MarkAsObsoleteBody Body) : IHttpCommand
+{
+    internal record MarkAsObsoleteBody(ProductId Id);
+}
 
 public class MarkAsObsoleteEndpoint : IEndpoint
 {
@@ -29,8 +32,8 @@ internal class MarkAsObsoleteHandler : ICommandHandler<MarkAsObsolete, IResult>
 
     public async Task<IResult> HandleAsync(MarkAsObsolete command, CancellationToken cancellationToken = default)
     {
-        var product = await _productsDbContext.Products.FirstOrDefaultAsync(x => x.Id == command.Id, cancellationToken);
-        if (product == null) throw new ProductNotFoundException(command.Id);
+        var product = await _productsDbContext.Products.FirstOrDefaultAsync(x => x.Id == command.Body.Id, cancellationToken);
+        if (product == null) throw new ProductNotFoundException(command.Body.Id);
 
         product.MarkAsObsolete();
         _productsDbContext.Update(product);

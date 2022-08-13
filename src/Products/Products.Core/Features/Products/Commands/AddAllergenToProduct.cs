@@ -9,7 +9,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Core.Features.Products.Commands;
 
-internal record AddAllergenToProduct(ulong Id, ulong AllergenId) : IHttpCommand;
+internal record AddAllergenToProduct(AddAllergenToProduct.AddAllergenToProductBody Body) : IHttpCommand
+{
+    internal record AddAllergenToProductBody(ulong Id, ulong AllergenId);
+}
 
 public class AddAllergenToProductEndpoint : IEndpoint
 {
@@ -28,7 +31,7 @@ internal class AddAllergenToProductHandler : ICommandHandler<AddAllergenToProduc
 
     public async Task<IResult> HandleAsync(AddAllergenToProduct command, CancellationToken cancellationToken = default)
     {
-        var (productId, allergenId) = command;
+        var (productId, allergenId) = command.Body;
         var product =
             await _productsDbContext.Products.FirstOrDefaultAsync(x => x.Id.Equals(productId), cancellationToken);
         if (product == null) throw new ProductNotFoundException(productId);

@@ -18,19 +18,22 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Core.Features.Products.Commands;
 
-internal record CreateProduct(string Name,
-    QuantityReadModel Quantity,
-    ulong BrandId,
-    ulong CountryId,
-    ulong CategoryId,
-    string? Description = null) : IHttpCommand;
+internal record CreateProduct(CreateProduct.CreateProductBody Body) : IHttpCommand
+{
+    internal record CreateProductBody(string Name,
+        QuantityReadModel Quantity,
+        ulong BrandId,
+        ulong CountryId,
+        ulong CategoryId,
+        string? Description = null);
+}
 
 public class CreateProductEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
         endpoints.MapPost<CreateProduct>("products")
             .RequireAuthorization()
-            .AddEndpointFilter<ValidationFilter<CreateProduct>>()
+            .AddEndpointFilter<ValidationFilter<CreateProduct.CreateProductBody>>()
             .WithTags(SwaggerTags.Products);
 }
 
@@ -49,7 +52,7 @@ internal class CreateProductHandler : ICommandHandler<CreateProduct, IResult>
 
     public async Task<IResult> HandleAsync(CreateProduct command, CancellationToken cancellationToken = default)
     {
-        var (name, quantityReadModel, brandId, countryId, categoryId, description) = command;
+        var (name, quantityReadModel, brandId, countryId, categoryId, description) = command.Body;
         var categoryName = await _productsDbContext.Categories
             .Where(x => x.Id == categoryId)
             .Select(x => x.Name)
@@ -78,7 +81,7 @@ internal class CreateProductHandler : ICommandHandler<CreateProduct, IResult>
     }
 }
 
-internal class CreateProductValidator : AbstractValidator<CreateProduct>
+internal class CreateProductValidator : AbstractValidator<CreateProduct.CreateProductBody>
 {
     public CreateProductValidator()
     {

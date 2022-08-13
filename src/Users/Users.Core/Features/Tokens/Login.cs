@@ -13,10 +13,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Users.Core.Features.Tokens;
 
-internal record LoginWithUserAgent(string Email,
-    string Password,
-    //TODO: does it work?
-    [FromHeader(Name = "User-Agent")] string UserAgent) : IHttpCommand;
+internal record LoginWithUserAgent(LoginWithUserAgent.LoginWithUserAgentBody Body) : IHttpCommand
+{
+    internal record LoginWithUserAgentBody(string Email,
+        string Password,
+        //TODO: does it work?
+        [FromHeader(Name = "User-Agent")] string UserAgent);
+}
 
 public class LoginEndpoint : IEndpoint
 {
@@ -37,7 +40,7 @@ internal class LoginHandler : ICommandHandler<LoginWithUserAgent, IResult>
 
     public async Task<IResult> HandleAsync(LoginWithUserAgent command, CancellationToken cancellationToken = default)
     {
-        var (email, password, userAgent) = command;
+        var (email, password, userAgent) = command.Body;
         var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == email, cancellationToken);
         if (user is null) throw new InvalidCredentialsException();
 
@@ -46,7 +49,7 @@ internal class LoginHandler : ICommandHandler<LoginWithUserAgent, IResult>
 
         var (refreshToken, jwt) = _tokenManager.GenerateRefreshToken(user);
         user.TryRemoveOldRefreshToken(userAgent);
-        user.AddRefreshToken(new RefreshToken(userAgent, refreshToken));
+        user.AddRefreshToken(new ValueObjects.RefreshToken(userAgent, refreshToken));
 
         _context.Users.Update(user);
         await _context.SaveChangesAsync(cancellationToken);
