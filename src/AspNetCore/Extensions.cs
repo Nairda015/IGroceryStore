@@ -1,4 +1,7 @@
+using System.Diagnostics;
 using MassTransit;
+using OpenTelemetry;
+using OpenTelemetry.Trace;
 
 namespace IGroceryStore;
 
@@ -24,6 +27,24 @@ public static class Extensions
             configure?.Invoke(cfg);
 
             cfg.ConfigureEndpoints(context);
+        });
+    }
+    
+    public static TracerProviderBuilder AddJaeger(this TracerProviderBuilder builder)
+    {
+        return builder.AddJaegerExporter(o =>
+        {
+            o.AgentHost = /*Extensions.IsRunningInContainer ? "jaeger" : */"localhost";
+            o.AgentPort = 6831;
+            o.MaxPayloadSizeInBytes = 4096;
+            o.ExportProcessorType = ExportProcessorType.Batch;
+            o.BatchExportProcessorOptions = new BatchExportProcessorOptions<Activity>
+            {
+                MaxQueueSize = 2048,
+                ScheduledDelayMilliseconds = 5000,
+                ExporterTimeoutMilliseconds = 30000,
+                MaxExportBatchSize = 512,
+            };
         });
     }
 }

@@ -25,7 +25,7 @@ public class RegisterUserEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
         endpoints.MapPost<Register>("users/register")
-            .Produces(201)
+            .Produces(202)
             .Produces(400)
             .WithName(nameof(Register))
             .WithTags(SwaggerTags.Users);
@@ -53,6 +53,6 @@ internal class RegisterHandler : ICommandHandler<Register, IResult>
         await _context.Users.AddAsync(user, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
         await _bus.Publish(new UserCreated(user.Id, firstName, lastName), cancellationToken: cancellationToken);
-        return Results.AcceptedAtRoute(nameof(GetUser),new {user.Id});
+        return Results.AcceptedAtRoute(nameof(GetUser),new {Id = user.Id.Value});
     }
 }
