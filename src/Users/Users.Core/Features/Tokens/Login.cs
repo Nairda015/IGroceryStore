@@ -16,15 +16,17 @@ namespace IGroceryStore.Users.Core.Features.Tokens;
 internal record LoginWithUserAgent(string Email,
     string Password,
     //TODO: does it work?
-    [FromHeader(Name = "User-Agent")] string UserAgent) : IHttpCommand;
+    [FromHeader(Name = "User-Agent")] string UserAgent);
+
+internal record LoginWithUserAgentCommand(LoginWithUserAgent Value) : IHttpCommand;
 
 public class LoginEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapPost<LoginWithUserAgent>("tokens/login").WithTags(SwaggerTags.Users);
+        endpoints.MapPost<LoginWithUserAgentCommand>("tokens/login").WithTags(SwaggerTags.Users);
 }
 
-internal class LoginHandler : ICommandHandler<LoginWithUserAgent, IResult>
+internal class LoginHandler : ICommandHandler<LoginWithUserAgentCommand, IResult>
 {
     private readonly ITokenManager _tokenManager;
     private readonly UsersDbContext _context;
@@ -35,9 +37,9 @@ internal class LoginHandler : ICommandHandler<LoginWithUserAgent, IResult>
         _context = context;
     }
 
-    public async Task<IResult> HandleAsync(LoginWithUserAgent command, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(LoginWithUserAgentCommand command, CancellationToken cancellationToken = default)
     {
-        var (email, password, userAgent) = command;
+        var (email, password, userAgent) = command.Value;
         var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == email, cancellationToken);
         if (user is null) throw new InvalidCredentialsException();
 

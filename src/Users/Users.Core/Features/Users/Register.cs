@@ -11,19 +11,21 @@ using Microsoft.AspNetCore.Routing;
 
 namespace IGroceryStore.Users.Core.Features.Users;
 
-public record Register(string Email,
+internal record Register(string Email,
     string Password,
     string ConfirmPassword,
     string FirstName,
-    string LastName) : IHttpCommand;
+    string LastName);
+
+internal record RegisterCommand(Register Value) : IHttpCommand;
 
 public class RegisterUserEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapPost<Register>("users/register").WithTags(SwaggerTags.Users);
+        endpoints.MapPost<RegisterCommand>("users/register").WithTags(SwaggerTags.Users);
 }
 
-public class RegisterHandler : ICommandHandler<Register, IResult>
+internal class RegisterHandler : ICommandHandler<RegisterCommand, IResult>
 {
     private readonly IUserFactory _factory;
     private readonly UsersDbContext _context;
@@ -36,9 +38,9 @@ public class RegisterHandler : ICommandHandler<Register, IResult>
         _bus = bus;
     }
 
-    public async Task<IResult> HandleAsync(Register command, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(RegisterCommand command, CancellationToken cancellationToken = default)
     {
-        var (email, password, confirmPassword, firstName, lastName) = command;
+        var (email, password, confirmPassword, firstName, lastName) = command.Value;
         if (password != confirmPassword) throw new PasswordDoesNotMatchException();
         
         var user = _factory.Create(Guid.NewGuid(), firstName, lastName, email, password);

@@ -10,15 +10,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Core.Features.Products.Commands;
 
-internal record MarkAsObsolete(ProductId Id) : IHttpCommand;
+internal record MarkAsObsolete(ProductId Id);
+internal record MarkAsObsoleteCommand(MarkAsObsolete Value) : IHttpCommand;
 
 public class MarkAsObsoleteEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapPost<MarkAsObsolete>("products/mark-as-obsolete/{id}").WithTags(SwaggerTags.Products);
+        endpoints.MapPost<MarkAsObsoleteCommand>("products/mark-as-obsolete/{id}").WithTags(SwaggerTags.Products);
 }
 
-internal class MarkAsObsoleteHandler : ICommandHandler<MarkAsObsolete, IResult>
+internal class MarkAsObsoleteHandler : ICommandHandler<MarkAsObsoleteCommand, IResult>
 {
     private readonly ProductsDbContext _productsDbContext;
 
@@ -27,10 +28,10 @@ internal class MarkAsObsoleteHandler : ICommandHandler<MarkAsObsolete, IResult>
         _productsDbContext = productsDbContext;
     }
 
-    public async Task<IResult> HandleAsync(MarkAsObsolete command, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(MarkAsObsoleteCommand command, CancellationToken cancellationToken = default)
     {
-        var product = await _productsDbContext.Products.FirstOrDefaultAsync(x => x.Id == command.Id, cancellationToken);
-        if (product == null) throw new ProductNotFoundException(command.Id);
+        var product = await _productsDbContext.Products.FirstOrDefaultAsync(x => x.Id == command.Value.Id, cancellationToken);
+        if (product == null) throw new ProductNotFoundException(command.Value.Id);
 
         product.MarkAsObsolete();
         _productsDbContext.Update(product);

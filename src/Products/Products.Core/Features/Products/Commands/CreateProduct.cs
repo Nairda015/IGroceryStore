@@ -23,18 +23,20 @@ internal record CreateProduct(string Name,
     ulong BrandId,
     ulong CountryId,
     ulong CategoryId,
-    string? Description = null) : IHttpCommand;
+    string? Description = null);
+
+internal record CreateProductCommand(CreateProduct Value) : IHttpCommand;
 
 public class CreateProductEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapPost<CreateProduct>("products")
+        endpoints.MapPost<CreateProductCommand>("products")
             .RequireAuthorization()
             .AddEndpointFilter<ValidationFilter<CreateProduct>>()
             .WithTags(SwaggerTags.Products);
 }
 
-internal class CreateProductHandler : ICommandHandler<CreateProduct, IResult>
+internal class CreateProductHandler : ICommandHandler<CreateProductCommand, IResult>
 {
     private readonly ProductsDbContext _productsDbContext;
     private readonly ISnowflakeService _snowflakeService;
@@ -47,9 +49,9 @@ internal class CreateProductHandler : ICommandHandler<CreateProduct, IResult>
         _snowflakeService = snowflakeService;
     }
 
-    public async Task<IResult> HandleAsync(CreateProduct command, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(CreateProductCommand command, CancellationToken cancellationToken = default)
     {
-        var (name, quantityReadModel, brandId, countryId, categoryId, description) = command;
+        var (name, quantityReadModel, brandId, countryId, categoryId, description) = command.Value;
         var categoryName = await _productsDbContext.Categories
             .Where(x => x.Id == categoryId)
             .Select(x => x.Name)
