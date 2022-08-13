@@ -18,15 +18,15 @@ internal record LoginWithUserAgent(string Email,
     //TODO: does it work?
     [FromHeader(Name = "User-Agent")] string UserAgent);
 
-internal record LoginWithUserAgentCommand(LoginWithUserAgent Value) : IHttpCommand;
+internal record LoginWithUserAgentRequest(LoginWithUserAgent Value) : IHttpCommand;
 
 public class LoginEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapPost<LoginWithUserAgentCommand>("tokens/login").WithTags(SwaggerTags.Users);
+        endpoints.MapPost<LoginWithUserAgentRequest>("tokens/login").WithTags(SwaggerTags.Users);
 }
 
-internal class LoginHandler : ICommandHandler<LoginWithUserAgentCommand, IResult>
+internal class LoginHandler : ICommandHandler<LoginWithUserAgentRequest, IResult>
 {
     private readonly ITokenManager _tokenManager;
     private readonly UsersDbContext _context;
@@ -37,9 +37,9 @@ internal class LoginHandler : ICommandHandler<LoginWithUserAgentCommand, IResult
         _context = context;
     }
 
-    public async Task<IResult> HandleAsync(LoginWithUserAgentCommand command, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(LoginWithUserAgentRequest request, CancellationToken cancellationToken = default)
     {
-        var (email, password, userAgent) = command.Value;
+        var (email, password, userAgent) = request.Value;
         var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == email, cancellationToken);
         if (user is null) throw new InvalidCredentialsException();
 

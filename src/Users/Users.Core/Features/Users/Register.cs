@@ -17,15 +17,15 @@ internal record Register(string Email,
     string FirstName,
     string LastName);
 
-internal record RegisterCommand(Register Value) : IHttpCommand;
+internal record RegisterRequest(Register Value) : IHttpCommand;
 
 public class RegisterUserEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapPost<RegisterCommand>("users/register").WithTags(SwaggerTags.Users);
+        endpoints.MapPost<RegisterRequest>("users/register").WithTags(SwaggerTags.Users);
 }
 
-internal class RegisterHandler : ICommandHandler<RegisterCommand, IResult>
+internal class RegisterHandler : ICommandHandler<RegisterRequest, IResult>
 {
     private readonly IUserFactory _factory;
     private readonly UsersDbContext _context;
@@ -38,9 +38,9 @@ internal class RegisterHandler : ICommandHandler<RegisterCommand, IResult>
         _bus = bus;
     }
 
-    public async Task<IResult> HandleAsync(RegisterCommand command, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(RegisterRequest request, CancellationToken cancellationToken = default)
     {
-        var (email, password, confirmPassword, firstName, lastName) = command.Value;
+        var (email, password, confirmPassword, firstName, lastName) = request.Value;
         if (password != confirmPassword) throw new PasswordDoesNotMatchException();
         
         var user = _factory.Create(Guid.NewGuid(), firstName, lastName, email, password);

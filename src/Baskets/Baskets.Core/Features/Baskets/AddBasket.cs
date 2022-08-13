@@ -9,15 +9,15 @@ using Microsoft.AspNetCore.Http;
 namespace IGroceryStore.Baskets.Core.Features.Baskets;
 
 internal record AddBasket(string Name);
-internal record AddBasketCommand(AddBasket Value) : IHttpCommand;
+internal record AddBasketRequest(AddBasket Value) : IHttpCommand;
 
 public class AddBasketEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapPost<AddBasketCommand>("/basket").WithTags(SwaggerTags.Baskets);
+        endpoints.MapPost<AddBasketRequest>("/basket").WithTags(SwaggerTags.Baskets);
 }
 
-internal class AddBasketHandler : ICommandHandler<AddBasketCommand, IResult>
+internal class AddBasketHandler : ICommandHandler<AddBasketRequest, IResult>
 {
     private readonly IBasketFactory _factory;
     private readonly BasketDbContext _context;
@@ -28,9 +28,9 @@ internal class AddBasketHandler : ICommandHandler<AddBasketCommand, IResult>
         _context = dbContext;
     }
 
-    public async Task<IResult> HandleAsync(AddBasketCommand command, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(AddBasketRequest request, CancellationToken cancellationToken = default)
     {
-        var basket = _factory.Create(command.Value.Name);
+        var basket = _factory.Create(request.Value.Name);
         
         _context.Baskets.Add(basket);
         await _context.SaveChangesAsync(cancellationToken);
