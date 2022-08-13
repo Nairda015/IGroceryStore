@@ -17,10 +17,10 @@ internal record AddAllergen(AddAllergen.AddAllergenBody Body) : IHttpCommand
 public class AddAllergenEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapPost<AddAllergen>("allergen").WithTags(SwaggerTags.Products);
+        endpoints.MapPost<AddAllergenRequest>("allergen").WithTags(SwaggerTags.Products);
 }
 
-internal class AddAllergenHandler : ICommandHandler<AddAllergen, IResult>
+internal class AddAllergenHandler : ICommandHandler<AddAllergenRequest, IResult>
 {
     private readonly ProductsDbContext _productsDbContext;
     private readonly ISnowflakeService _snowflakeService;
@@ -31,7 +31,7 @@ internal class AddAllergenHandler : ICommandHandler<AddAllergen, IResult>
         _snowflakeService = snowflakeService;
     }
 
-    public async Task<IResult> HandleAsync(AddAllergen command, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(AddAllergenRequest request, CancellationToken cancellationToken = default)
     {
         var allergen = new Allergen
         {

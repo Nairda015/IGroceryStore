@@ -16,10 +16,10 @@ internal record AddBasket(AddBasket.AddBasketBody Body) : IHttpCommand
 public class AddBasketEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapPost<AddBasket>("/basket").WithTags(SwaggerTags.Baskets);
+        endpoints.MapPost<AddBasketRequest>("/basket").WithTags(SwaggerTags.Baskets);
 }
 
-internal class AddBasketHandler : ICommandHandler<AddBasket, IResult>
+internal class AddBasketHandler : ICommandHandler<AddBasketRequest, IResult>
 {
     private readonly IBasketFactory _factory;
     private readonly BasketDbContext _context;
