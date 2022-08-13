@@ -1,5 +1,5 @@
-using System.Diagnostics;
 using FluentValidation;
+using IGroceryStore;
 using IGroceryStore.Middlewares;
 using IGroceryStore.Services;
 using IGroceryStore.Settings;
@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using IGroceryStore.Shared.Configuration;
 using IGroceryStore.Shared.Options;
 using MassTransit;
-using OpenTelemetry;
+using Npgsql;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 
@@ -96,22 +96,12 @@ builder.Services.AddOpenTelemetryTracing(x =>
             .AddService("IGroceryStore")
             .AddTelemetrySdk()
             .AddEnvironmentVariableDetector())
-        .AddSource("MassTransit")
+        .AddHttpClientInstrumentation()
         .AddAspNetCoreInstrumentation()
-        .AddJaegerExporter(o =>
-        {
-            o.AgentHost = /*Extensions.IsRunningInContainer ? "jaeger" : */"localhost";
-            o.AgentPort = 6831;
-            o.MaxPayloadSizeInBytes = 4096;
-            o.ExportProcessorType = ExportProcessorType.Batch;
-            o.BatchExportProcessorOptions = new BatchExportProcessorOptions<Activity>
-            {
-                MaxQueueSize = 2048,
-                ScheduledDelayMilliseconds = 5000,
-                ExporterTimeoutMilliseconds = 30000,
-                MaxExportBatchSize = 512,
-            };
-        });
+        .AddSource("MassTransit")
+        .AddEntityFrameworkCoreInstrumentation()
+        .AddNpgsql()
+        .AddJaeger();
 });
 
 var app = builder.Build();
