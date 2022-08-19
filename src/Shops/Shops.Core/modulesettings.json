@@ -1,6 +1,6 @@
 {
   "Shops": {
-    "ModuleEnabled": true,
+    "ModuleEnabled": false,
     "Database": {
       "UsersTable": "Users",
       "ProductsTable": "Products"

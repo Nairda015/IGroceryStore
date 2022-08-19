@@ -1,6 +1,7 @@
 ﻿using IGroceryStore.Shared.Abstraction.Commands;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Constants;
+using IGroceryStore.Users.Core.Entities;
 using IGroceryStore.Users.Core.Exceptions;
 using IGroceryStore.Users.Core.Persistence.Contexts;
 using IGroceryStore.Users.Core.Services;
@@ -9,6 +10,7 @@ using IGroceryStore.Users.Core.ValueObjects;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Azure.Cosmos;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Users.Core.Features.Tokens;
@@ -20,11 +22,17 @@ internal record LoginWithUserAgent(LoginWithUserAgent.LoginWithUserAgentBody Bod
         //TODO: does it work?
         [FromHeader(Name = "User-Agent")] string UserAgent);
 }
+internal record LoginResult(Guid UserId, TokensReadModel Tokens);
+
 
 public class LoginEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapPost<LoginWithUserAgent>("tokens/login").WithTags(SwaggerTags.Users);
+        endpoints.MapPost<LoginWithUserAgent>("tokens/login")
+            .Produces<LoginResult>()
+            .Produces<InvalidCredentialsException>(400)
+            .Produces<LoggingTriesExceededException>(400)
+            .WithTags(SwaggerTags.Users);
 }
 
 internal class LoginHandler : ICommandHandler<LoginWithUserAgent, IResult>
@@ -42,11 +50,13 @@ internal class LoginHandler : ICommandHandler<LoginWithUserAgent, IResult>
     {
         var (email, password, userAgent) = command.Body;
         var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == email, cancellationToken);
-        if (user is null) throw new InvalidCredentialsException();
+        if (user is null) return Results.BadRequest(new InvalidCredentialsException());
 
-        if (!user.Login(password)) throw new InvalidCredentialsException();
-
-
+        var loginResult = user.Login(password);
+        
+        if (loginResult.IsT1) return Results.BadRequest(loginResult.AsT1);
+        if (!loginResult.AsT0) return Results.BadRequest(new InvalidCredentialsException());
+        
         var (refreshToken, jwt) = _tokenManager.GenerateRefreshToken(user);
         user.TryRemoveOldRefreshToken(userAgent);
         user.AddRefreshToken(new ValueObjects.RefreshToken(userAgent, refreshToken));
@@ -63,6 +73,4 @@ internal class LoginHandler : ICommandHandler<LoginWithUserAgent, IResult>
         var result = new LoginResult(user.Id, tokens);
         return Results.Ok(result);
     }
-
-    private record LoginResult(Guid UserId, TokensReadModel Tokens);
 }

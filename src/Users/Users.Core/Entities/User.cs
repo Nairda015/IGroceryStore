@@ -5,6 +5,7 @@ using IGroceryStore.Shared.ValueObjects;
 using IGroceryStore.Users.Core.Exceptions;
 using IGroceryStore.Users.Core.Services;
 using IGroceryStore.Users.Core.ValueObjects;
+using OneOf;
 
 namespace IGroceryStore.Users.Core.Entities;
 
@@ -29,7 +30,7 @@ public class User : AuditableEntity
 
     private const int MaxLoginTry = 5;
     private PasswordHash _passwordHash;
-    private List<RefreshToken> _refreshTokens;
+    private List<RefreshToken> _refreshTokens = new();
     private ushort _accessFailedCount;
     private DateTime _lockoutEnd;
     public UserId Id { get; }
@@ -84,10 +85,10 @@ public class User : AuditableEntity
         Unlock();
         return true;
     }
-    
-    internal bool Login(string password)
+
+    internal OneOf<bool, LoggingTriesExceededException> Login(string password)
     {
-        if (!TryUnlock()) throw new LoggingTriesExceededException(MaxLoginTry);
+        if (!TryUnlock()) return new LoggingTriesExceededException(MaxLoginTry);
         
         if (!HashingService.ValidatePassword(password, _passwordHash.Value))
         {
@@ -101,7 +102,6 @@ public class User : AuditableEntity
 
     internal void AddRefreshToken(RefreshToken refreshToken)
     {
-        _refreshTokens ??= new List<RefreshToken>();
         _refreshTokens.Add(refreshToken);
     }
 
@@ -120,12 +120,9 @@ public class User : AuditableEntity
 
     public void TryRemoveOldRefreshToken(string userAgent)
     {
-        _refreshTokens ??= new List<RefreshToken>();
         if (!_refreshTokens.Exists(x => x.UserAgent == userAgent)) return;
         _refreshTokens.RemoveAll(x => x.UserAgent == userAgent);
     }
-    
-    
 }
 
 internal class LoggingTriesExceededException : GroceryStoreException

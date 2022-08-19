@@ -11,11 +11,15 @@ using Microsoft.EntityFrameworkCore;
 namespace IGroceryStore.Users.Core.Features.Users;
 
 internal record GetUsers : IHttpQuery;
+internal record UsersReadModel(IEnumerable<UserReadModel> Users, int Count);
+
 
 public class GetUsersEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
         endpoints.MapGet<GetUsers>("/users")
+            .Produces<UsersReadModel>()
+            .Produces(401)
             .RequireAuthorization()
             .WithTags(SwaggerTags.Users);
 }
@@ -39,6 +43,4 @@ internal class GetUsersHandler : IQueryHandler<GetUsers, IResult>
         var result = new UsersReadModel(users, users.Count);
         return Results.Ok(result);
     }
-
-    private record UsersReadModel(IEnumerable<UserReadModel> Users, int Count);
 }
