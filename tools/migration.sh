@@ -4,7 +4,7 @@ cd src || exit
 echo "Migration name:"
 read -r migrationName
 
-modules=("Users" "Products" "Baskets" "Stores")
+modules=("Users" "Products" "Baskets")
 
 for moduleName in "${modules[@]}" ; do
     cd "$moduleName" || exit
