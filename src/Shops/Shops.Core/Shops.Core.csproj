@@ -21,4 +21,9 @@
       <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.4" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="FodyWeavers.xml" />
+      <None Remove="FodyWeavers.xsd" />
+    </ItemGroup>
+
 </Project>

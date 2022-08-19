@@ -27,5 +27,9 @@
         <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       </Content>
     </ItemGroup>
+    
+    <ItemGroup>
+      <PackageReference Include="NullGuard.Fody" Version="3.1.0" />
+    </ItemGroup>
 
 </Project>

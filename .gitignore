@@ -7,3 +7,5 @@ riderModule.iml
 volumes
 .vs/
 [Mm]igrations/
+FodyWeavers.xml
+FodyWeavers.xsd
