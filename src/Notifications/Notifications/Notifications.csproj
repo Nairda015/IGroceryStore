@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Baskets\Baskets.Contracts\Baskets.Contracts.csproj" />
+      <ProjectReference Include="..\..\Shared\Shared\Shared.csproj" />
+      <ProjectReference Include="..\..\Shops\Shops.Contracts\Shops.Contracts.csproj" />
+      <ProjectReference Include="..\..\Users\Users.Contracts\Users.Contracts.csproj" />
+    </ItemGroup>
+
+</Project>
