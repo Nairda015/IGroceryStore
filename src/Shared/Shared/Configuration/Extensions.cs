@@ -21,12 +21,12 @@ public static class Extensions
 
     private static IEnumerable<string> GetSettings(this HostBuilderContext ctx) =>
         Directory.EnumerateFiles(ctx.HostingEnvironment.GetPath(),
-            "module.json", SearchOption.AllDirectories);
+            "modulesettings.json", SearchOption.AllDirectories);
 
     private static IEnumerable<string> GetSettings(this HostBuilderContext ctx, string pattern) =>
         Directory.EnumerateFiles(ctx.HostingEnvironment.GetPath(),
-            $"module.{pattern}.json", SearchOption.AllDirectories);
+            $"modulesettings.{pattern}.json", SearchOption.AllDirectories);
 
     private static string GetPath(this IHostEnvironment env) =>
-        env.ContentRootPath.Split(env.ApplicationName).First();
+        env.ContentRootPath.Split("src").First();
 }
