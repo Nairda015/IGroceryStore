@@ -24,6 +24,9 @@ public class RefreshEndpoint : IEndpoint
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
         endpoints.MapPut<RefreshToken>("tokens/refresh")
             .RequireAuthorization(_authorizeData)
+            .Produces<TokensReadModel>()
+            .Produces<InvalidClaimsException>(400)
+            .Produces<UserNotFoundException>(404)
             .WithTags(SwaggerTags.Users);
 
     private readonly IAuthorizeData[] _authorizeData = {
@@ -48,17 +51,17 @@ internal class RefreshTokenHandler : ICommandHandler<RefreshToken, IResult>
     
     public async Task<IResult> HandleAsync(RefreshToken command, CancellationToken cancellationToken = default)
     {
-        var tokenClaim = _currentUserService.User.Claims.FirstOrDefault(x => x.Type == Claims.Name.RefreshToken);
+        var tokenClaim = _currentUserService.User.Claims.FirstOrDefault(x => x.Type is Claims.Name.RefreshToken);
         var userId = _currentUserService.UserId;
-        
-        if (tokenClaim is null) return Results.BadRequest();
-        if (userId is null) throw new InvalidUserIdException();
-        if (string.IsNullOrWhiteSpace(tokenClaim.Value)) throw new InvalidTokenException();
+
+        if (userId is null) return Results.BadRequest(new InvalidClaimsException("User id not found"));
+        if (tokenClaim is null) return Results.BadRequest(new InvalidClaimsException("Refresh token not found"));
+        if (string.IsNullOrWhiteSpace(tokenClaim.Value)) return Results.BadRequest(new InvalidClaimsException("Refresh token not found"));
         
         var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == (UserId)userId, cancellationToken);
-        if (user == null) throw new UserNotFoundException(userId.Value);
+        if (user is null) return Results.NotFound(new UserNotFoundException(userId.Value));
 
-        if (!user.TokenExist(tokenClaim.Value)) throw new InvalidTokenException();
+        if (!user.TokenExist(tokenClaim.Value)) return Results.BadRequest(new InvalidClaimsException("Refresh token not found"));
         var (refreshToken, jwt) = _tokenManager.GenerateRefreshToken(user);
         user.UpdateRefreshToken(tokenClaim.Value, refreshToken);
         

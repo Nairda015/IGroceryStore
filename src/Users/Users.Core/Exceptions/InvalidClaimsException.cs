@@ -3,9 +3,9 @@ using IGroceryStore.Shared.Abstraction.Exceptions;
 
 namespace IGroceryStore.Users.Core.Exceptions;
 
-public class InvalidTokenException : GroceryStoreException
+public class InvalidClaimsException : GroceryStoreException
 {
-    public InvalidTokenException() : base("Invalid token")
+    public InvalidClaimsException(string message) : base(message)
     {
     }
 
