@@ -11,7 +11,7 @@ namespace IGroceryStore.Users.Core.Entities;
 
 public class User : AuditableEntity
 {
-    public User()
+    private User()
     {
     }
 
