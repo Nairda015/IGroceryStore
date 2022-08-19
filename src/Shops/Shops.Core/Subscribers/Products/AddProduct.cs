@@ -1,5 +1,6 @@
 ﻿using IGroceryStore.Products.Contracts.Events;
 using IGroceryStore.Shared.Abstraction.Services;
+using IGroceryStore.Shared.Services;
 using IGroceryStore.Shops.Core.Entities;
 using IGroceryStore.Shops.Core.Exceptions;
 using IGroceryStore.Shops.Core.Repositories;
@@ -12,11 +13,11 @@ public class AddProduct : IConsumer<ProductAdded>
 {
     private readonly ILogger<AddProduct> _logger;
     private readonly IProductsRepository _productsRepository;
-    private readonly IDateTimeService _dateTimeService;
+    private readonly DateTimeService _dateTimeService;
 
     public AddProduct(ILogger<AddProduct> logger,
         IProductsRepository productsRepository,
-        IDateTimeService dateTimeService)
+        DateTimeService dateTimeService)
     {
         _logger = logger;
         _productsRepository = productsRepository;

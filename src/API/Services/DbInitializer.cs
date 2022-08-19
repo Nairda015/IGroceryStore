@@ -1,7 +1,7 @@
 ﻿using IGroceryStore.Shared.Abstraction.Common;
 using Microsoft.EntityFrameworkCore;
 
-namespace IGroceryStore.Services;
+namespace IGroceryStore.API.Services;
 
 internal sealed class DbInitializer : IHostedService
 {

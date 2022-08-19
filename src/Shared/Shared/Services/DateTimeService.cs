@@ -1,8 +1,6 @@
-using IGroceryStore.Shared.Abstraction.Services;
+namespace IGroceryStore.Shared.Services;
 
-namespace IGroceryStore.Services;
-
-internal class DateTimeService : IDateTimeService
+public sealed class DateTimeService
 {
     public DateTime Now => DateTime.UtcNow;
     public DateOnly NowDateOnly => DateOnly.FromDateTime(DateTime.UtcNow);

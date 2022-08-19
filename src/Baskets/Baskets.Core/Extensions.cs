@@ -5,8 +5,8 @@ using IGroceryStore.Baskets.Core.Subscribers.Users;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Commands;
-using IGroceryStore.Shared.Options;
 using IGroceryStore.Shared.Queries;
+using IGroceryStore.Shared.Settings;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -26,7 +26,7 @@ public class BasketsModule : IModule
         services.AddQueries();
         services.AddSingleton<IBasketFactory, BasketFactory>();
 
-        var options = configuration.GetOptions<PostgresOptions>("Postgres");
+        var options = configuration.GetOptions<PostgresSettings>();
         services.AddDbContext<BasketDbContext>(ctx =>
             ctx.UseNpgsql(options.ConnectionString));
 
