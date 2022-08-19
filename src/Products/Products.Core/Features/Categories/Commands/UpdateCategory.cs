@@ -6,20 +6,23 @@ using IGroceryStore.Shared.Abstraction.Constants;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using IGroceryStore.Shared.Validation;
 
 namespace IGroceryStore.Products.Core.Features.Categories.Commands;
 
 internal record UpdateCategory(UpdateCategory.UpdateCategoryBody Body, ulong Id) : IHttpCommand
 {
-    internal record UpdateCategoryBody(ulong CategoryId, string Name);
+    internal record UpdateCategoryBody(string Name);
 }
 
 public class UpdateCategoryEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapPut<UpdateCategory>("category/{id}")
+        endpoints.MapPut<UpdateCategory>("categories/{id}")
+            .AddEndpointFilter<ValidationFilter<UpdateCategory.UpdateCategoryBody>>()
             .WithTags(SwaggerTags.Products)
-            .Produces(200)
+            .Produces(204)
             .Produces(400);
 }
 
@@ -34,14 +37,25 @@ internal class UpdateCategoryHandler : ICommandHandler<UpdateCategory, IResult>
 
     public async Task<IResult> HandleAsync(UpdateCategory command, CancellationToken cancellationToken = default)
     {
-        var (categoryId, name) = command.Body;
         var category =
-            await _productsDbContext.Categories.FirstOrDefaultAsync(x => x.Id.Equals(categoryId), cancellationToken);
+            await _productsDbContext.Categories
+                .FirstOrDefaultAsync(x => x.Id.Equals(command.Id), cancellationToken);
 
-        if (category is null) throw new CategoryNotFoundException(categoryId);
+        if (category is null) throw new CategoryNotFoundException(command.Id);
 
+        category.Name = command.Body.Name;
         _productsDbContext.Update(category);
         await _productsDbContext.SaveChangesAsync(cancellationToken);
-        return Results.Ok();
+        return Results.NoContent();
+    }
+}
+
+internal class UpdateCategoryValidator : AbstractValidator<UpdateCategory.UpdateCategoryBody>
+{
+    public UpdateCategoryValidator()
+    {
+        RuleFor(x => x.Name)
+            .MinimumLength(3)
+            .NotEmpty();
     }
 }
