@@ -1,7 +1,7 @@
 cd .. || exit
 cd src || exit
 
-modules=("Users" "Products" "Baskets" "Stores")
+modules=("Users" "Products" "Baskets")
 
 for moduleName in "${modules[@]}" ; do
     cd "$moduleName" || exit
