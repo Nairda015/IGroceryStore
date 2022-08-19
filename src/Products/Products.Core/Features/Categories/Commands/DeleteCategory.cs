@@ -14,7 +14,7 @@ internal record DeleteCategory(ulong Id) : IHttpCommand;
 public class DeleteCategoryEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapDelete<DeleteCategory>("category/{id}")
+        endpoints.MapDelete<DeleteCategory>("categories/{id}")
             .WithTags(SwaggerTags.Products)
             .Produces(204)
             .Produces(400);
@@ -31,6 +31,11 @@ internal class DeleteCategoryHandler : ICommandHandler<DeleteCategory, IResult>
 
     public async Task<IResult> HandleAsync(DeleteCategory command, CancellationToken cancellationToken = default)
     {
+        var isAnyReference = 
+            await _productsDbContext.Products.AnyAsync(x => x.CategoryId.Equals(command.Id), cancellationToken);
+
+        if (isAnyReference) throw new CategoryHasReferenceException(command.Id); 
+
         var category =
             await _productsDbContext.Categories.FirstOrDefaultAsync(x => x.Id.Equals(command.Id), cancellationToken);
 
@@ -38,6 +43,6 @@ internal class DeleteCategoryHandler : ICommandHandler<DeleteCategory, IResult>
 
         _productsDbContext.Categories.Remove(category);
         await _productsDbContext.SaveChangesAsync(cancellationToken);
-        return Results.Ok();
+        return Results.NoContent();
     }
 }
