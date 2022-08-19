@@ -1,0 +1,9 @@
+{
+  "Shops": {
+    "ModuleEnabled": true,
+    "Database": {
+      "UsersTable": "Users",
+      "ProductsTable": "Products"
+    }
+  }
+}

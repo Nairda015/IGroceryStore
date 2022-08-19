@@ -10,9 +10,8 @@ internal static class ProductsDbSeed
 {
     private static ProductsDbContext _context;
 
-    public static async Task SeedSampleDataAsync(this ProductsDbContext? context)
+    public static async Task SeedSampleDataAsync(this ProductsDbContext context)
     {
-        if (context == null) return;
         _context = context;
         
         Randomizer.Seed = new Random(1);
