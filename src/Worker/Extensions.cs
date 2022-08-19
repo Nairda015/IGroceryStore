@@ -3,7 +3,7 @@ using MassTransit;
 using OpenTelemetry;
 using OpenTelemetry.Trace;
 
-namespace IGroceryStore;
+namespace IGroceryStore.Worker;
 
 public static class Extensions
 {

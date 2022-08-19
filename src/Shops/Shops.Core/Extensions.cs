@@ -3,7 +3,7 @@ using Amazon.DynamoDBv2;
 using Amazon;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Constants;
-using IGroceryStore.Shared.Options;
+using IGroceryStore.Shared.Settings;
 using IGroceryStore.Shops.Core.Repositories;
 using IGroceryStore.Shops.Core.Settings;
 using Microsoft.AspNetCore.Builder;
@@ -20,7 +20,7 @@ public class ShopsModule : IModule
 
     public void Register(IServiceCollection services, IConfiguration configuration)
     {
-        services.RegisterOptions<DatabaseSettings>(configuration, DatabaseSettings.KeyName);
+        services.RegisterOptions<DatabaseSettings>(configuration);
         services.AddSingleton<IAmazonDynamoDB>(_ => new AmazonDynamoDBClient(RegionEndpoint.EUCentral1));
         services.AddSingleton<IUsersRepository, UsersRepository>();
         services.AddSingleton<IProductsRepository, ProductsRepository>();

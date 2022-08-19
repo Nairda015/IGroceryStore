@@ -9,7 +9,7 @@ using Microsoft.Extensions.Options;
 
 namespace IGroceryStore.Users.Core.Services;
 
-public class JwtTokenManager : ITokenManager
+internal class JwtTokenManager : ITokenManager
 {
     private readonly JwtSettings _settings;
     public JwtTokenManager(IOptionsSnapshot<JwtSettings> settings) => _settings = settings.Value;

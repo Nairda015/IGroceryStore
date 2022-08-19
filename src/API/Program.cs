@@ -1,14 +1,14 @@
 using FluentValidation;
 using IGroceryStore;
-using IGroceryStore.Middlewares;
-using IGroceryStore.Services;
-using IGroceryStore.Settings;
+using IGroceryStore.API;
+using IGroceryStore.API.Middlewares;
+using IGroceryStore.API.Services;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Abstraction.Services;
 using IGroceryStore.Shared.Services;
 using Microsoft.EntityFrameworkCore;
 using IGroceryStore.Shared.Configuration;
-using IGroceryStore.Shared.Options;
+using IGroceryStore.Shared.Settings;
 using MassTransit;
 using Npgsql;
 using OpenTelemetry.Resources;
@@ -31,7 +31,7 @@ if (!builder.Environment.IsDevelopment())
 }
 
 //DateTime
-builder.Services.AddSingleton<IDateTimeService, DateTimeService>();
+builder.Services.AddSingleton<DateTimeService>();
 
 //Services
 builder.Services.AddEndpointsApiExplorer();
@@ -54,21 +54,10 @@ builder.Services.AddScoped<ExceptionMiddleware>();
 builder.Services.AddValidatorsFromAssemblies(moduleAssemblies, includeInternalTypes: true);
 
 //Messaging
-var rabbitSettings = builder.Configuration.GetOptions<RabbitSettings>("Rabbit");
+var rabbitSettings = builder.Configuration.GetOptions<RabbitSettings>();
 builder.Services.AddMassTransit(bus =>
 {
     bus.SetKebabCaseEndpointNameFormatter();
-    
-    //TODO: remove later
-    bus.SetInMemorySagaRepositoryProvider();
-
-    foreach (var assembly in moduleAssemblies)
-    {
-        bus.AddConsumers(assembly);
-        bus.AddSagaStateMachines(assembly);
-        bus.AddSagas(assembly);
-        bus.AddActivities(assembly);
-    }
 
     bus.UsingRabbitMq((ctx, cfg) =>
     {

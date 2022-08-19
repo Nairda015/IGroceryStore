@@ -2,6 +2,7 @@
 using IGroceryStore.Baskets.Core.Entities;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Services;
+using IGroceryStore.Shared.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Baskets.Core.Persistence;
@@ -9,12 +10,12 @@ namespace IGroceryStore.Baskets.Core.Persistence;
 public class BasketDbContext : DbContext
 {
     private readonly ICurrentUserService _currentUserService;
-    private readonly IDateTimeService _dateTimeService;
+    private readonly DateTimeService _dateTimeService;
 
     public BasketDbContext(
         DbContextOptions<BasketDbContext> options,
         ICurrentUserService currentUserService,
-        IDateTimeService dateTimeService) : base(options)
+        DateTimeService dateTimeService) : base(options)
     {
         _currentUserService = currentUserService;
         _dateTimeService = dateTimeService;

@@ -12,8 +12,9 @@
         <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
-        <RootNamespace>IGroceryStore</RootNamespace>
+        <RootNamespace>IGroceryStore.API</RootNamespace>
         <LangVersion>preview</LangVersion>
+        <AssemblyName>IGroceryStore.API</AssemblyName>
     </PropertyGroup>
 
     <ItemGroup>
@@ -24,7 +25,7 @@
         </PackageReference>
         <PackageReference Include="Npgsql.OpenTelemetry" Version="7.0.0-preview.7" />
         <PackageReference Include="NullGuard.Fody" Version="3.1.0" />
-        <PackageReference Include="OpenTelemetry.Exporter.Jaeger" Version="1.3.0" />
+        <PackageReference Include="OpenTelemetry.Exporter.Jaeger" Version="1.4.0-alpha.2" />
         <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.0.0-rc9.6" />
         <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.0.0-rc9.6" />
         <PackageReference Include="OpenTelemetry.Instrumentation.EntityFrameworkCore" Version="1.0.0-beta.3" />
@@ -43,6 +44,7 @@
         <Content Remove="ClientApp\**" />
         <None Remove="postgres-data\**" />
         <Content Remove="postgres-data\**" />
+        <None Remove="FodyWeavers.xml" />
     </ItemGroup>
     <ItemGroup>
       <Compile Remove="ClientApp\**" />

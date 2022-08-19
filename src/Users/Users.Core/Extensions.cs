@@ -2,8 +2,8 @@
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Commands;
-using IGroceryStore.Shared.Options;
 using IGroceryStore.Shared.Queries;
+using IGroceryStore.Shared.Settings;
 using IGroceryStore.Users.Core.Factories;
 using IGroceryStore.Users.Core.JWT;
 using IGroceryStore.Users.Core.Persistence.Contexts;
@@ -33,13 +33,13 @@ public class UsersModule : IModule
 
         var enableSensitiveData = configuration.GetValue<bool>("EnableSensitiveData");
 
-        var options = configuration.GetOptions<PostgresOptions>("Postgres");
+        var options = configuration.GetOptions<PostgresSettings>();
         services.AddDbContext<UsersDbContext>(ctx =>
             ctx.UseNpgsql(options.ConnectionString)
                 .EnableSensitiveDataLogging(enableSensitiveData));
 
 
-        var jwtSettings = configuration.GetOptions<JwtSettings>("Users:JwtSettings");
+        var jwtSettings = configuration.GetOptions<JwtSettings>();
         var authenticationBuilder = services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

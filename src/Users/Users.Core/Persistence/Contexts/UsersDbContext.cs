@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Services;
+using IGroceryStore.Shared.Services;
 using IGroceryStore.Users.Core.Entities;
 using IGroceryStore.Users.Core.Persistence.Seeders;
 using Microsoft.EntityFrameworkCore;
@@ -10,11 +11,11 @@ namespace IGroceryStore.Users.Core.Persistence.Contexts;
 public class UsersDbContext : DbContext
 {
     private readonly ICurrentUserService _currentUserService;
-    private readonly IDateTimeService _dateTimeService;
+    private readonly DateTimeService _dateTimeService;
     
     public UsersDbContext(DbContextOptions<UsersDbContext> options, 
         ICurrentUserService currentUserService,
-        IDateTimeService dateTimeService)
+        DateTimeService dateTimeService)
         : base(options)
     {
         _currentUserService = currentUserService;
@@ -30,7 +31,7 @@ public class UsersDbContext : DbContext
             switch (entry.State)
             {
                 case EntityState.Added:
-                    entry.Entity.CreatedBy = (Guid)(_currentUserService.UserId ?? Guid.Empty);
+                    entry.Entity.CreatedBy = _currentUserService.UserId ?? Guid.Empty;
                     entry.Entity.Created = _dateTimeService.Now;
                     break;
 

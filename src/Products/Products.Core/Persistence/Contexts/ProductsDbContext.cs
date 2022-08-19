@@ -3,6 +3,7 @@ using IGroceryStore.Products.Core.Entities;
 using IGroceryStore.Products.Core.Persistence.Seeders;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Services;
+using IGroceryStore.Shared.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Core.Persistence.Contexts;
@@ -10,11 +11,11 @@ namespace IGroceryStore.Products.Core.Persistence.Contexts;
 internal class ProductsDbContext : DbContext, IGroceryStoreDbContext
 {
     private readonly ICurrentUserService _currentUserService;
-    private readonly IDateTimeService _dateTimeService;
+    private readonly DateTimeService _dateTimeService;
     
     public ProductsDbContext(DbContextOptions<ProductsDbContext> options, 
         ICurrentUserService currentUserService,
-        IDateTimeService dateTimeService)
+        DateTimeService dateTimeService)
         : base(options)
     {
         _currentUserService = currentUserService;

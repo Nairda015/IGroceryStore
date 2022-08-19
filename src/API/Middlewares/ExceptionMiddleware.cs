@@ -2,7 +2,7 @@
 using System.Text.Json;
 using IGroceryStore.Shared.Abstraction.Exceptions;
 
-namespace IGroceryStore.Middlewares;
+namespace IGroceryStore.API.Middlewares;
 
 internal sealed class ExceptionMiddleware : IMiddleware
 {

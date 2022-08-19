@@ -1,12 +1,14 @@
 ﻿using System.Text;
 using IGroceryStore.Shared.Abstraction.Constants;
+using IGroceryStore.Shared.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
 namespace IGroceryStore.Users.Core.JWT;
 
-public class JwtSettings
+internal class JwtSettings : ISettings
 {
+    public static string SectionName => "Users:JwtSettings";
     public string Key { get; set; }
     public int ExpireSeconds { get; set; }
     public string Issuer { get; set; }

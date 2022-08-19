@@ -5,9 +5,9 @@ using IGroceryStore.Products.Core.Persistence.Contexts;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Commands;
-using IGroceryStore.Shared.Options;
 using IGroceryStore.Shared.Queries;
 using IGroceryStore.Shared.Services;
+using IGroceryStore.Shared.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -30,7 +30,7 @@ public class ProductsModule : IModule
 
         var enableSensitiveData = configuration.GetValue<bool>("EnableSensitiveData");
 
-        var options = configuration.GetOptions<PostgresOptions>("Postgres");
+        var options = configuration.GetOptions<PostgresSettings>();
         services.AddDbContext<ProductsDbContext>(ctx =>
             ctx.UseNpgsql(options.ConnectionString)
                 .EnableSensitiveDataLogging(enableSensitiveData));
