@@ -1,0 +1,42 @@
+﻿{
+  Version: 1.1,
+  Content: {
+    Headers: []
+  },
+  StatusCode: Accepted,
+  ReasonPhrase: Accepted,
+  Headers: [
+    {
+      Key: Location,
+      Value: [
+        http://localhost/users/Guid_1
+      ]
+    }
+  ],
+  TrailingHeaders: [],
+  RequestMessage: {
+    Version: 1.1,
+    Content: {
+      Headers: [
+        {
+          Key: Content-Type,
+          Value: [
+            application/json; charset=utf-8
+          ]
+        },
+        {
+          Key: Content-Length,
+          Value: [
+            193
+          ]
+        }
+      ]
+    },
+    Method: {
+      Method: POST
+    },
+    RequestUri: 'http://localhost/users/register',
+    Headers: []
+  },
+  IsSuccessStatusCode: true
+}

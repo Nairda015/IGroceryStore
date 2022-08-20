@@ -4,8 +4,8 @@
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <AssemblyName>IGroceryStore.UserBasket.Contracts</AssemblyName>
-        <RootNamespace>IGroceryStore.UserBasket.Contracts</RootNamespace>
+        <AssemblyName>IGroceryStore.Basket.Contracts</AssemblyName>
+        <RootNamespace>IGroceryStore.Basket.Contracts</RootNamespace>
         <LangVersion>preview</LangVersion>
     </PropertyGroup>
 

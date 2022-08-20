@@ -10,11 +10,15 @@ using Microsoft.EntityFrameworkCore;
 namespace IGroceryStore.Products.Core.Features.Categories.Queries;
 
 internal record GetCategories : IHttpQuery;
+internal record GetCategoriesResult(List<CategoryReadModel> Categories);
+
 
 public class GetCategoriesEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapGet<GetCategories>("categories").WithTags(SwaggerTags.Products);
+        endpoints.MapGet<GetCategories>("categories")
+            .Produces<GetCategoriesResult>()
+            .WithTags(SwaggerTags.Products);
 }
 
 internal class GetCategoriesHandler : IQueryHandler<GetCategories, IResult>
@@ -36,7 +40,4 @@ internal class GetCategoriesHandler : IQueryHandler<GetCategories, IResult>
         var result = new GetCategoriesResult(categories);
         return Results.Ok(result);
     }
-    
-    private record GetCategoriesResult(List<CategoryReadModel> Categories);
-
 }

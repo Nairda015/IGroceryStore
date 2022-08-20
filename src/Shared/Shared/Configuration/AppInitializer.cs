@@ -10,11 +10,13 @@ public static class AppInitializer
     private const string ModulePrefix = "IGroceryStore";
     public static AppContext Initialize(WebApplicationBuilder builder)
     {
-        var assemblies = AppDomain.CurrentDomain.GetAssemblies().ToList();
-        var locations = assemblies.Where(x => !x.IsDynamic).Select(x => x.Location).ToArray();
-        var files = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll")
-            .Where(x => !locations.Contains(x, StringComparer.InvariantCultureIgnoreCase))
-            .ToList();
+        var assemblies = AppDomain.CurrentDomain
+            .GetAssemblies()
+            .DistinctBy(x => x.Location)
+            .ToDictionary(x => x.Location);
+        
+        
+        var files = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll").ToList();
 
         var moduleAssemblies = new List<Assembly>();
         foreach (var file in files)
@@ -28,18 +30,18 @@ public static class AppInitializer
 
             if (!enabled) continue;
             var assembly = AppDomain.CurrentDomain.Load(AssemblyName.GetAssemblyName(file));
-            assemblies.Add(assembly);
+            assemblies.TryAdd(assembly.Location, assembly);
             moduleAssemblies.Add(assembly);
         }
 
         var modules = assemblies
-            .SelectMany(x => x.GetTypes())
+            .SelectMany(x => x.Value.GetTypes())
             .Where(x => typeof(IModule).IsAssignableFrom(x) && x.IsClass)
             .OrderBy(x => x.Name)
             .Select(Activator.CreateInstance)
             .Cast<IModule>()
             .ToList();
         
-        return new AppContext(assemblies.ToList(), moduleAssemblies, modules.ToHashSet());
+        return new AppContext(assemblies.Select(x => x.Value).ToList(), moduleAssemblies, modules.ToHashSet());
     }
 }
