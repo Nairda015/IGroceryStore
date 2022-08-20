@@ -21,4 +21,12 @@ public static class CommandExtensions
                 [AsParameters] TCommand command,
                 CancellationToken cancellationToken) 
             => await dispatcher.DispatchAsync(command, cancellationToken));
+
+    public static RouteHandlerBuilder MapDelete<TCommand>(this IEndpointRouteBuilder endpoints, string template)
+        where TCommand : IHttpCommand =>
+        endpoints.MapDelete(template, async (
+                ICommandDispatcher dispatcher,
+                [AsParameters] TCommand command,
+                CancellationToken cancellationToken)
+            => await dispatcher.DispatchAsync(command, cancellationToken));
 }
