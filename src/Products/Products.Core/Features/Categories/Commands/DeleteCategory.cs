@@ -31,15 +31,15 @@ internal class DeleteCategoryHandler : ICommandHandler<DeleteCategory, IResult>
 
     public async Task<IResult> HandleAsync(DeleteCategory command, CancellationToken cancellationToken = default)
     {
-        var isAnyReference = 
-            await _productsDbContext.Products.AnyAsync(x => x.CategoryId.Equals(command.Id), cancellationToken);
-
-        if (isAnyReference) throw new CategoryHasReferenceException(command.Id); 
-
         var category =
             await _productsDbContext.Categories.FirstOrDefaultAsync(x => x.Id.Equals(command.Id), cancellationToken);
 
         if (category is null) throw new CategoryNotFoundException(command.Id);
+
+        var isAnyReference = 
+            await _productsDbContext.Products.AnyAsync(x => x.CategoryId.Equals(command.Id), cancellationToken);
+
+        if (isAnyReference) throw new CategoryHasReferenceException(command.Id);
 
         _productsDbContext.Categories.Remove(category);
         await _productsDbContext.SaveChangesAsync(cancellationToken);
