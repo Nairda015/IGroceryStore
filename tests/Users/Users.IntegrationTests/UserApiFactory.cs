@@ -16,7 +16,6 @@ namespace Users.IntegrationTests;
 
 public class UserApiFactory : WebApplicationFactory<IApiMarker>, IAsyncLifetime
 {
-    
     private readonly TestcontainerDatabase _dbContainer =
         new TestcontainersBuilder<PostgreSqlTestcontainer>()
             .WithDatabase(new PostgreSqlTestcontainerConfiguration
@@ -25,17 +24,16 @@ public class UserApiFactory : WebApplicationFactory<IApiMarker>, IAsyncLifetime
                 Username = "postgres",
                 Password = "postgres"
             }).Build();
+
     public UserApiFactory()
     {
         Randomizer.Seed = new Random(1);
         VerifierSettings.ScrubInlineGuids();
     }
+
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        builder.ConfigureLogging(logging =>
-        {
-            logging.ClearProviders();
-        });
+        builder.ConfigureLogging(logging => { logging.ClearProviders(); });
 
         builder.ConfigureTestServices(services =>
         {
@@ -53,6 +51,10 @@ public class UserApiFactory : WebApplicationFactory<IApiMarker>, IAsyncLifetime
     public async Task InitializeAsync()
     {
         await _dbContainer.StartAsync();
+        using var scope = Services.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<UsersDbContext>();
+        context.Users.RemoveRange(context.Users);
+        await context.SaveChangesAsync();
     }
 
     async Task IAsyncLifetime.DisposeAsync()
@@ -60,3 +62,9 @@ public class UserApiFactory : WebApplicationFactory<IApiMarker>, IAsyncLifetime
         await _dbContainer.DisposeAsync();
     }
 }
+
+[CollectionDefinition("UserCollection")]
+public class UserCollection : ICollectionFixture<UserApiFactory>
+{
+}
+
