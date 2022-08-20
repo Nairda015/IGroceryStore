@@ -39,7 +39,7 @@ internal class DeleteCategoryHandler : ICommandHandler<DeleteCategory, IResult>
         var isAnyReference = 
             await _productsDbContext.Products.AnyAsync(x => x.CategoryId.Equals(command.Id), cancellationToken);
 
-        if (isAnyReference) throw new CategoryHasReferenceException(command.Id);
+        if (isAnyReference) throw new CategoryHasReferenceException(command.Id); 
 
         _productsDbContext.Categories.Remove(category);
         await _productsDbContext.SaveChangesAsync(cancellationToken);
