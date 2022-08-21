@@ -43,10 +43,10 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddTransient(s => s.GetService<HttpContext>()!.User);
 builder.Services.AddSingleton<ICurrentUserService, CurrentUserService>();
 
-if (builder.Environment.IsDevelopment())
-{
-    builder.Services.AddHostedService<DbInitializer>();
-}
+// if (builder.Environment.IsDevelopment())
+// {
+//     builder.Services.AddHostedService<DbInitializer>();
+// }
 
 //Middlewares
 builder.Services.AddScoped<ExceptionMiddleware>();
