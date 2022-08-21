@@ -1,4 +1,5 @@
-﻿using IGroceryStore.Shared.Abstraction.Common;
+﻿using System.Reflection;
+using IGroceryStore.Shared.Abstraction.Common;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.API.Services;
@@ -13,7 +14,7 @@ internal sealed class DbInitializer : IHostedService
     public async Task StartAsync(CancellationToken cancellationToken)
     {
         var dbContextTypes = AppDomain.CurrentDomain.GetAssemblies()
-            .SelectMany(a => a.GetTypes())
+            .SelectMany(TryGetTypes)
             .Where(a => typeof(DbContext).IsAssignableFrom(a) &&
                         !a.IsInterface &&
                         a != typeof(DbContext) &&
@@ -35,4 +36,18 @@ internal sealed class DbInitializer : IHostedService
     }
 
     public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
+    
+    private static Type[] TryGetTypes(Assembly assembly)
+    {
+        Type[] types;
+        try
+        {
+            types = assembly.GetTypes();
+        }
+        catch (ReflectionTypeLoadException e)
+        {
+            types = e.Types!;
+        }
+        return types;
+    }
 }

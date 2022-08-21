@@ -57,5 +57,4 @@ public static class AppInitializer
         }
         return types;
     }
-        
 }
