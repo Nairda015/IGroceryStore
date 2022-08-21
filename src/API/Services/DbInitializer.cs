@@ -28,10 +28,10 @@ internal sealed class DbInitializer : IHostedService
 
             await dbContext.Database.MigrateAsync(cancellationToken);
             
-            if (dbContext is IGroceryStoreDbContext groceryStoreDbContext)
-            {
-                await groceryStoreDbContext.Seed();
-            }
+            // if (dbContext is IGroceryStoreDbContext groceryStoreDbContext)
+            // {
+            //     await groceryStoreDbContext.Seed();
+            // }
         }
     }
 
