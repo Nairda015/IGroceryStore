@@ -22,18 +22,15 @@ internal sealed class DbInitializer : IHostedService
         using var scope = _serviceProvider.CreateScope();
         foreach (var dbContextType in dbContextTypes)
         {
-            if (scope.ServiceProvider.GetRequiredService(dbContextType) is not DbContext dbContext ||
-                !dbContext.Database.IsRelational())
-            {
-                continue;
-            }
+            if (scope.ServiceProvider.GetRequiredService(dbContextType) is not DbContext dbContext
+                || !dbContext.Database.IsRelational()) continue;
 
+            await dbContext.Database.MigrateAsync(cancellationToken);
+            
             if (dbContext is IGroceryStoreDbContext groceryStoreDbContext)
             {
                 await groceryStoreDbContext.Seed();
-            } 
-
-            await dbContext.Database.MigrateAsync(cancellationToken);
+            }
         }
     }
 

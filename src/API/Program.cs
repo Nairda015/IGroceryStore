@@ -1,5 +1,4 @@
 using FluentValidation;
-using IGroceryStore;
 using IGroceryStore.API;
 using IGroceryStore.API.Middlewares;
 using IGroceryStore.API.Services;
@@ -44,7 +43,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddTransient(s => s.GetService<HttpContext>()!.User);
 builder.Services.AddSingleton<ICurrentUserService, CurrentUserService>();
 
-if (!builder.Environment.IsDevelopment())
+if (builder.Environment.IsDevelopment())
 {
     builder.Services.AddHostedService<DbInitializer>();
 }

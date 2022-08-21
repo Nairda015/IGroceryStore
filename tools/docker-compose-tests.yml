@@ -1,0 +1,19 @@
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=IGroceryStoreDb
+      - POSTGRES_PORT=5432
+    ports:
+      - 5432:5432
+
+  rabbitmq:
+    image: rabbitmq:latest
+    container_name: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
