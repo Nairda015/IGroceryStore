@@ -33,7 +33,9 @@ jobs:
       
     - name: debbuging   
       run: |
-        ls
+        cd tools
+        sh migration.sh
+        init
       
     - name: Test
       run: dotnet test --no-build --verbosity normal
