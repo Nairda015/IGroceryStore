@@ -23,10 +23,10 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
 
-    - name: action-docker-compose
-      uses: sudo-bot/action-docker-compose@latest
+    - name: Docker Compose Action
+      uses: isbang/compose-action@v1.1.0
       with:
-        compose-file: "./tools/docker-compose.yml"
+        compose-file: ./tools/docker-compose.yml
       
     - name: Build
       run: dotnet build --no-restore
