@@ -2,6 +2,8 @@ using System.Reflection;
 using IGroceryStore.Shared.Abstraction.Common;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace IGroceryStore.Shared.Configuration;
 
@@ -50,10 +52,13 @@ public static class AppInitializer
         try
         {
             types = assembly.GetTypes();
+            Log.Information("Found {Length} types in assembly {FullName}", types.Length, assembly.FullName);
         }
         catch (ReflectionTypeLoadException e)
         {
+            Log.Error("Failed to load types from assembly {FullName}", assembly.FullName);
             types = e.Types!;
+            Log.Error("Found {Length} types in ReflectionTypeLoadException with assembly {FullName}", types.Length, assembly.FullName);
         }
         return types;
     }

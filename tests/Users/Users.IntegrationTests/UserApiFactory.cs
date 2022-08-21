@@ -11,6 +11,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
+using Serilog;
+using Serilog.Events;
 
 namespace Users.IntegrationTests;
 
@@ -33,7 +35,14 @@ public class UserApiFactory : WebApplicationFactory<IApiMarker>, IAsyncLifetime
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        builder.ConfigureLogging(logging => { logging.ClearProviders(); });
+        builder.ConfigureLogging(logging =>
+        {
+            logging.ClearProviders();
+            var logger = new LoggerConfiguration()
+                .WriteTo.File("logs/log.txt", LogEventLevel.Debug)
+                .CreateLogger();
+            logging.AddSerilog(logger);
+        });
 
         builder.ConfigureTestServices(services =>
         {
