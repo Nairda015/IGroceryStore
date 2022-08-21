@@ -1,3 +1,4 @@
+using System.Net;
 using System.Net.Http.Json;
 using Bogus;
 using FluentAssertions;
@@ -26,12 +27,16 @@ public class GetUserTests : IClassFixture<UserApiFactory>
         // Arrange
         var registerRequest = _userGenerator.Generate();
         var responseWithUserLocation = await _client.PostAsJsonAsync("users/register", registerRequest.Body);
+        responseWithUserLocation.StatusCode.Should().Be(HttpStatusCode.Accepted);
+        responseWithUserLocation.EnsureSuccessStatusCode();
 
         // Act
         var response = await _client.GetAsync(responseWithUserLocation.Headers.Location);
-        var user = await response.Content.ReadFromJsonAsync<UserReadModel>();
         
         // Assert
+        response.EnsureSuccessStatusCode();
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        var user = await response.Content.ReadFromJsonAsync<UserReadModel>();
         user.Should().NotBeNull();
         
         response.RequestMessage!.RequestUri.Should().Be($"http://localhost/users/{user!.Id}");

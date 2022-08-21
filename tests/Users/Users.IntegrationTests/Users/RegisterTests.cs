@@ -1,6 +1,8 @@
+using System.Net;
 using System.Net.Http.Json;
 using IGroceryStore.Users.Core.Features.Users;
 using Bogus;
+using FluentAssertions;
 
 namespace Users.IntegrationTests.Users;
 
@@ -26,8 +28,10 @@ public class RegisterTests : IClassFixture<UserApiFactory>
 
         // Act
         var response = await _client.PostAsJsonAsync("users/register", registerRequest.Body);
-        
+
         // Assert
+        response.EnsureSuccessStatusCode();
+        response.StatusCode.Should().Be(HttpStatusCode.Accepted);
         await Verify(response);
         
         //Cleanup
