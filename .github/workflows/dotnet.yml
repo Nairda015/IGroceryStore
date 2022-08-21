@@ -27,6 +27,7 @@ jobs:
       uses: isbang/compose-action@v1.1.0
       with:
         compose-file: ./tools/docker-compose.yml
+        down-flags: "--volumes"
       
     - name: Build
       run: dotnet build --no-restore
