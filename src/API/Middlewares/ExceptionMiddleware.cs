@@ -60,7 +60,7 @@ internal sealed class ExceptionMiddleware : IMiddleware
             var json = JsonSerializer.Serialize(new {ErrorCode = errorCode, ex.Message});
             await context.Response.WriteAsync(json);
             
-            _logger.LogCritical(ex, "Exception with {errorCode} and {message}", errorCode, ex.Message);
+            _logger.LogCritical(ex, "{error} Message: {message}", ex.GetType().Name, ex.Message);
         }
     }
     private static string ToUnderscoreCase(string value)

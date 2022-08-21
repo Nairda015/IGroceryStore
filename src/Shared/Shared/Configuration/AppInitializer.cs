@@ -43,6 +43,8 @@ public static class AppInitializer
             .Cast<IModule>()
             .ToList();
         
+        Log.Information("Types count: {count}", assemblies.SelectMany(x => x.Value.TryGetTypes()).Count());
+        Log.Information("Modules loaded: {modules}", modules.Select(x => x.Name));
         return new AppContext(assemblies.Select(x => x.Value).ToList(), moduleAssemblies, modules.ToHashSet());
     }
 
