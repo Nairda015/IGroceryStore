@@ -48,12 +48,7 @@ public class UserApiFactory : WebApplicationFactory<IApiMarker>, IAsyncLifetime
         {
             services.RemoveAll(typeof(UsersDbContext));
             services.AddDbContext<UsersDbContext>(ctx =>
-            {
-                ctx.UseNpgsql(_dbContainer.ConnectionString, x =>
-                    x.EnableRetryOnFailure(10, TimeSpan.FromSeconds(10), null));
-                ctx.EnableDetailedErrors();
-                ctx.EnableSensitiveDataLogging();
-            });
+                ctx.UseNpgsql(_dbContainer.ConnectionString));
         });
     }
 
@@ -76,4 +71,3 @@ public class UserApiFactory : WebApplicationFactory<IApiMarker>, IAsyncLifetime
 public class UserCollection : ICollectionFixture<UserApiFactory>
 {
 }
-
