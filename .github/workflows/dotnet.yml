@@ -33,3 +33,14 @@ jobs:
       
     - name: Test
       run: dotnet test --no-build --verbosity normal
+      
+    - name: debbuging   
+      run: |
+        ls
+      
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v3.1.0
+      with:
+        name: logfile
+        path: "**/logs/log.txt"
+        retention-days: 1
