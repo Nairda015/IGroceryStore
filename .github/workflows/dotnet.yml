@@ -35,7 +35,7 @@ jobs:
       run: |
         cd tools
         sh tests-migration.sh
-        shell: bash
+      shell: bash
       
     - name: Test
       run: dotnet test --no-build --verbosity normal
