@@ -1,5 +1,9 @@
+ls
 cd .. || exit
 cd src || exit
+
+dotnet tool install --global dotnet-ef
+dotnet tool restore
 
 modules=("Users" "Products" "Baskets")
 
