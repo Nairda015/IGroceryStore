@@ -31,10 +31,11 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
       
-    - name: debbuging   
+    - name: migrations   
       run: |
         cd tools
         sh tests-migration.sh
+        shell: bash
       
     - name: Test
       run: dotnet test --no-build --verbosity normal
