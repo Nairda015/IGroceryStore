@@ -34,7 +34,7 @@ jobs:
     - name: migrations   
       run: |
         cd tools
-        sh tests-migration.sh
+        bash tests-migration.sh
       shell: bash
       
     - name: Test
