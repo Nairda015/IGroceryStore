@@ -17,17 +17,19 @@
   RequestMessage: {
     Version: 1.1,
     Content: {
+      ObjectType: Register.RegisterBody,
+      Value: {
+        Email: Justin.Konopelski64@yahoo.com,
+        Password: Guid_2,
+        ConfirmPassword: Guid_2,
+        FirstName: Justin,
+        LastName: Konopelski
+      },
       Headers: [
         {
           Key: Content-Type,
           Value: [
             application/json; charset=utf-8
-          ]
-        },
-        {
-          Key: Content-Length,
-          Value: [
-            193
           ]
         }
       ]
@@ -36,7 +38,14 @@
       Method: POST
     },
     RequestUri: 'http://localhost/users/register',
-    Headers: []
+    Headers: [
+      {
+        Key: Transfer-Encoding,
+        Value: [
+          chunked
+        ]
+      }
+    ]
   },
   IsSuccessStatusCode: true
 }
