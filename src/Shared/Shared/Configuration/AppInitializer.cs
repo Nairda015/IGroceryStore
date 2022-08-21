@@ -52,7 +52,6 @@ public static class AppInitializer
         try
         {
             types = assembly.GetTypes();
-            Log.Information("Found {Length} types in assembly {FullName}", types.Length, assembly.FullName);
         }
         catch (ReflectionTypeLoadException e)
         {

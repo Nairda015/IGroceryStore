@@ -47,7 +47,6 @@ internal sealed class DbInitializer : IHostedService
         try
         {
             types = assembly.GetTypes();
-            _logger.LogInformation("Found {Length} types in assembly {FullName}", types.Length, assembly.FullName);
         }
         catch (ReflectionTypeLoadException e)
         {

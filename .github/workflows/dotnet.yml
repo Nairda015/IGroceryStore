@@ -31,7 +31,7 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
       
-    - name: migrations   
+    - name: Migrations   
       run: |
         ls
         dotnet tool install --global dotnet-ef
