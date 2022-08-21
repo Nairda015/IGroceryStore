@@ -33,6 +33,9 @@ jobs:
       
     - name: migrations   
       run: |
+        ls
+        dotnet tool install --global dotnet-ef
+        dotnet tool restore
         cd tools
         bash tests-migration.sh
       shell: bash
