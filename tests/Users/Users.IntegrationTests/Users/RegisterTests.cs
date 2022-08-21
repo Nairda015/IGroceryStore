@@ -3,6 +3,7 @@ using System.Net.Http.Json;
 using IGroceryStore.Users.Core.Features.Users;
 using Bogus;
 using FluentAssertions;
+using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace Users.IntegrationTests.Users;
 
@@ -17,7 +18,10 @@ public class RegisterTests : IClassFixture<UserApiFactory>
     public RegisterTests(UserApiFactory apiFactory)
     {
         _apiFactory = apiFactory;
-        _client = apiFactory.CreateClient();
+        _client = apiFactory.CreateClient(new WebApplicationFactoryClientOptions()
+        {
+            AllowAutoRedirect = false
+        });
     }
 
     [Fact]

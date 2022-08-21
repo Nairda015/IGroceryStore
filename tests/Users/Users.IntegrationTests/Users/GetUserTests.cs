@@ -4,6 +4,7 @@ using Bogus;
 using FluentAssertions;
 using IGroceryStore.Users.Core.Features.Users;
 using IGroceryStore.Users.Core.ReadModels;
+using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace Users.IntegrationTests.Users;
 
@@ -18,7 +19,10 @@ public class GetUserTests : IClassFixture<UserApiFactory>
     public GetUserTests(UserApiFactory apiFactory)
     {
         _apiFactory = apiFactory;
-        _client = apiFactory.CreateClient();
+        _client = apiFactory.CreateClient(new WebApplicationFactoryClientOptions()
+        {
+            AllowAutoRedirect = false
+        });
     }
 
     [Fact]
