@@ -7,13 +7,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Baskets.Core.Persistence;
 
-public class BasketDbContext : DbContext
+public class BasketsDbContext : DbContext
 {
     private readonly ICurrentUserService _currentUserService;
     private readonly DateTimeService _dateTimeService;
 
-    public BasketDbContext(
-        DbContextOptions<BasketDbContext> options,
+    public BasketsDbContext(
+        DbContextOptions<BasketsDbContext> options,
         ICurrentUserService currentUserService,
         DateTimeService dateTimeService) : base(options)
     {

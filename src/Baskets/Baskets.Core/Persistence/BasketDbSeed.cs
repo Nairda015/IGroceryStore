@@ -4,7 +4,7 @@ namespace IGroceryStore.Baskets.Core.Persistence;
 
 public static class BasketDbSeed
 {
-    public static async Task SeedSampleDataAsync(this BasketDbContext context)
+    public static async Task SeedSampleDataAsync(this BasketsDbContext context)
     {
         // Seed, if necessary
 

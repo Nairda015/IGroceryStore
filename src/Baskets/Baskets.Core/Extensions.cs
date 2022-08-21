@@ -27,7 +27,7 @@ public class BasketsModule : IModule
         services.AddSingleton<IBasketFactory, BasketFactory>();
 
         var options = configuration.GetOptions<PostgresSettings>();
-        services.AddDbContext<BasketDbContext>(ctx =>
+        services.AddDbContext<BasketsDbContext>(ctx =>
             ctx.UseNpgsql(options.ConnectionString));
 
         //Subscriptions
