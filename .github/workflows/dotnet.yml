@@ -23,8 +23,10 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
 
-    - name: Setup RabbitMQ
-      uses: nijel/rabbitmq-action@v1.0.0
+    - name: action-docker-compose
+      uses: sudo-bot/action-docker-compose@latest
+      with:
+        compose-file: "./tools/docker-compose.yml"
       
     - name: Build
       run: dotnet build --no-restore
