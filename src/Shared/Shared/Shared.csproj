@@ -26,7 +26,7 @@
       <PackageReference Include="MassTransit.RabbitMQ" Version="8.0.6" />
       <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
       <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
-      <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.29.0" />
+      <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.30.0" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.8">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
