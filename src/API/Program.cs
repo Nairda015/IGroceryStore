@@ -9,7 +9,6 @@ using Microsoft.EntityFrameworkCore;
 using IGroceryStore.Shared.Configuration;
 using IGroceryStore.Shared.Settings;
 using MassTransit;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Npgsql;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;

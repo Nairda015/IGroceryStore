@@ -10,7 +10,7 @@ namespace IGroceryStore.Shared.Configuration;
 public static class AppInitializer
 {
     public static List<string> Files { get; private set; }
-    private const string ModulePrefix = "IGroceryStore";
+    private const string ModulePrefix = "IGroceryStore.";
     public static AppContext Initialize(WebApplicationBuilder builder)
     {
         var assemblies = AppDomain.CurrentDomain
@@ -24,11 +24,15 @@ public static class AppInitializer
         var moduleAssemblies = new List<Assembly>();
         foreach (var file in files)
         {
-            var root = file.Split(ModulePrefix, 2).Last();
-            if (!root.Contains(ModulePrefix)) continue;
+            //Example path
+            //IGroceryStore/IGroceryStore/tests/Users/Users.IntegrationTests/bin/Debug/net7.0/IGroceryStore.Products.Contracts.dll
+            //IGroceryStore/tests/Users/Users.IntegrationTests/bin/Release/net7.0/IGroceryStore.Shared.Abstraction.dll
+            //IGroceryStore/src/API/bin/Release/net7.0/IGroceryStore.Shops.Core.dll
+            if (!file.Contains(ModulePrefix)) continue;
 
-            var moduleName = root.Split($"{ModulePrefix}")[1]
-                .Split(".", StringSplitOptions.RemoveEmptyEntries)[0];
+            var moduleName = file.Split("/")
+                .Last()
+                .Split(".", StringSplitOptions.RemoveEmptyEntries)[1];
             var enabled = builder.Configuration.GetValue<bool>($"{moduleName}:ModuleEnabled");
 
             if (!enabled) continue;
