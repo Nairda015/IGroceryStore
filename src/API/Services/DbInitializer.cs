@@ -18,7 +18,7 @@ internal sealed class DbInitializer : IHostedService
     public async Task StartAsync(CancellationToken cancellationToken)
     {
         var dbContextTypes = AppDomain.CurrentDomain.GetAssemblies()
-            .SelectMany(TryGetTypes)
+            .SelectMany(x => x.GetTypes())
             .Where(a => typeof(DbContext).IsAssignableFrom(a) &&
                         !a.IsInterface &&
                         a != typeof(DbContext) &&
@@ -40,19 +40,19 @@ internal sealed class DbInitializer : IHostedService
 
     public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
     
-    private Type[] TryGetTypes(Assembly assembly)
-    {
-        Type[] types;
-        try
-        {
-            types = assembly.GetTypes();
-        }
-        catch (ReflectionTypeLoadException e)
-        {
-            _logger.LogError("Failed to load types from assembly {FullName}", assembly.FullName);
-            types = e.Types!;
-            _logger.LogError("Found {Length} types in ReflectionTypeLoadException with assembly {FullName}", types.Length, assembly.FullName);
-        }
-        return types;
-    }
+    // private Type[] TryGetTypes(Assembly assembly)
+    // {
+    //     Type[] types;
+    //     try
+    //     {
+    //         types = assembly.GetTypes();
+    //     }
+    //     catch (ReflectionTypeLoadException e)
+    //     {
+    //         _logger.LogError("Failed to load types from assembly {FullName}", assembly.FullName);
+    //         types = e.Types!;
+    //         _logger.LogError("Found {Length} types in ReflectionTypeLoadException with assembly {FullName}", types.Length, assembly.FullName);
+    //     }
+    //     return types;
+    // }
 }

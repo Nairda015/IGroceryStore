@@ -9,7 +9,6 @@ namespace IGroceryStore.Shared.Configuration;
 
 public static class AppInitializer
 {
-    public static List<string> Files { get; private set; }
     private const string ModulePrefix = "IGroceryStore.";
     public static AppContext Initialize(WebApplicationBuilder builder)
     {
@@ -17,14 +16,12 @@ public static class AppInitializer
             .GetAssemblies()
             .DistinctBy(x => x.Location)
             .ToDictionary(x => x.Location);
-
         var files = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll").ToList();
 
-        Files = files;
         var moduleAssemblies = new List<Assembly>();
         foreach (var file in files)
         {
-            //Example path
+            //Example path (gh, local tests, local)
             //IGroceryStore/IGroceryStore/tests/Users/Users.IntegrationTests/bin/Debug/net7.0/IGroceryStore.Products.Contracts.dll
             //IGroceryStore/tests/Users/Users.IntegrationTests/bin/Release/net7.0/IGroceryStore.Shared.Abstraction.dll
             //IGroceryStore/src/API/bin/Release/net7.0/IGroceryStore.Shops.Core.dll
@@ -42,7 +39,7 @@ public static class AppInitializer
         }
 
         var modules = assemblies
-            .SelectMany(x => x.Value.TryGetTypes())
+            .SelectMany(x => x.Value.GetTypes())
             .Where(x => typeof(IModule).IsAssignableFrom(x) && x.IsClass)
             .OrderBy(x => x.Name)
             .Select(Activator.CreateInstance)
@@ -52,17 +49,17 @@ public static class AppInitializer
         return new AppContext(assemblies.Select(x => x.Value).ToList(), moduleAssemblies, modules.ToHashSet());
     }
 
-    private static Type[] TryGetTypes(this Assembly assembly)
-    {
-        Type[] types;
-        try
-        {
-            types = assembly.GetTypes();
-        }
-        catch (ReflectionTypeLoadException e)
-        {
-            types = e.Types!;
-        }
-        return types;
-    }
+    // private static Type[] TryGetTypes(this Assembly assembly)
+    // {
+    //     Type[] types;
+    //     try
+    //     {
+    //         types = assembly.GetTypes();
+    //     }
+    //     catch (ReflectionTypeLoadException e)
+    //     {
+    //         types = e.Types!;
+    //     }
+    //     return types;
+    // }
 }
