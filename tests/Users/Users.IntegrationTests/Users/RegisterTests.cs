@@ -34,7 +34,6 @@ public class RegisterTests : IClassFixture<UserApiFactory>
         var response = await _client.PostAsJsonAsync("users/register", registerRequest.Body);
 
         // Assert
-        response.EnsureSuccessStatusCode();
         response.StatusCode.Should().Be(HttpStatusCode.Accepted);
         await Verify(response);
         

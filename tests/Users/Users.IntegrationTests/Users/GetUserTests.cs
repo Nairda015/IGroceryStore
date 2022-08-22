@@ -38,7 +38,6 @@ public class GetUserTests : IClassFixture<UserApiFactory>
         var response = await _client.GetAsync(responseWithUserLocation.Headers.Location);
         
         // Assert
-        response.EnsureSuccessStatusCode();
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var user = await response.Content.ReadFromJsonAsync<UserReadModel>();
         user.Should().NotBeNull();
