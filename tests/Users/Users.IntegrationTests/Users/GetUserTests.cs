@@ -32,7 +32,6 @@ public class GetUserTests : IClassFixture<UserApiFactory>
         var registerRequest = _userGenerator.Generate();
         var responseWithUserLocation = await _client.PostAsJsonAsync("users/register", registerRequest.Body);
         responseWithUserLocation.StatusCode.Should().Be(HttpStatusCode.Accepted);
-        responseWithUserLocation.EnsureSuccessStatusCode();
 
         // Act
         var response = await _client.GetAsync(responseWithUserLocation.Headers.Location);
