@@ -56,19 +56,6 @@ var rabbitSettings = builder.Configuration.GetOptions<RabbitSettings>();
 builder.Services.AddMassTransit(bus =>
 {
     bus.SetKebabCaseEndpointNameFormatter();
-
-    //TODO: For github test
-    //TODO: remove later
-    bus.SetInMemorySagaRepositoryProvider();
-
-    foreach (var assembly in moduleAssemblies)
-    {
-        bus.AddConsumers(assembly);
-        bus.AddSagaStateMachines(assembly);
-        bus.AddSagas(assembly);
-        bus.AddActivities(assembly);
-    }
-
     bus.UsingRabbitMq((ctx, cfg) =>
     {
         cfg.Host(rabbitSettings.Host, rabbitSettings.VirtualHost, h =>
