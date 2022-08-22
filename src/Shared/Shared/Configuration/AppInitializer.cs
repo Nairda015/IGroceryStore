@@ -9,6 +9,7 @@ namespace IGroceryStore.Shared.Configuration;
 
 public static class AppInitializer
 {
+    public static List<string> Files { get; private set; }
     private const string ModulePrefix = "IGroceryStore";
     public static AppContext Initialize(WebApplicationBuilder builder)
     {
@@ -19,6 +20,7 @@ public static class AppInitializer
 
         var files = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll").ToList();
 
+        Files = files;
         var moduleAssemblies = new List<Assembly>();
         foreach (var file in files)
         {

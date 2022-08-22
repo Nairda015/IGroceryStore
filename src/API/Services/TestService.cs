@@ -1,4 +1,5 @@
 using System.Reflection;
+using IGroceryStore.Shared.Configuration;
 using Serilog;
 
 namespace IGroceryStore.API.Services;
@@ -19,6 +20,13 @@ public class TestService
         _logger.LogInformation("Types count: {count}", context.LoadedAssemblies.Select(TryGetTypes).Count());
         _logger.LogInformation("Types count: {count}", context.ModuleAssemblies.Select(TryGetTypes).Count());
         _logger.LogInformation("Modules loaded: {modules}", context.LoadedModules.Select(x => x.Name));
+
+        var files = AppInitializer.Files;
+
+        foreach (var file in files)
+        {
+            _logger.LogInformation("File path {path}", file);
+        }
     }
     
     private static Type[] TryGetTypes(Assembly assembly)
