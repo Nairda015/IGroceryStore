@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using IGroceryStore.Shared.Abstraction.Common;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.API.Services;
@@ -29,13 +30,11 @@ internal sealed class DbInitializer : IHostedService
             if (scope.ServiceProvider.GetRequiredService(dbContextType) is not DbContext dbContext
                 || !dbContext.Database.IsRelational()) continue;
 
-            _logger.LogInformation("Running migration for {Context}", dbContextType.FullName);
             await dbContext.Database.MigrateAsync(cancellationToken);
-            
-            // if (dbContext is IGroceryStoreDbContext groceryStoreDbContext)
-            // {
-            //     await groceryStoreDbContext.Seed();
-            // }
+            if (dbContext is IGroceryStoreDbContext groceryStoreDbContext)
+            {
+                await groceryStoreDbContext.Seed();
+            }
         }
     }
 

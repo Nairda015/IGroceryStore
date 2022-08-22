@@ -38,10 +38,6 @@ public class UserApiFactory : WebApplicationFactory<IApiMarker>, IAsyncLifetime
         builder.ConfigureLogging(logging =>
         {
             logging.ClearProviders();
-            var logger = new LoggerConfiguration()
-                .WriteTo.File("logs/log.txt", LogEventLevel.Debug)
-                .CreateLogger();
-            logging.AddSerilog(logger);
         });
 
         builder.ConfigureTestServices(services =>

@@ -1,7 +1,6 @@
 using FluentValidation;
 using IGroceryStore.API;
 using IGroceryStore.API.Middlewares;
-using IGroceryStore.API.Services;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Abstraction.Services;
 using IGroceryStore.Shared.Services;
@@ -12,14 +11,11 @@ using MassTransit;
 using Npgsql;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
-using Serilog;
-using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.ConfigureModules();
 
 var (assemblies, moduleAssemblies, modules) = AppInitializer.Initialize(builder);
-LogInfo.Context = new(assemblies, moduleAssemblies, modules);
 
 foreach (var module in modules)
 {
@@ -45,7 +41,6 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddTransient(s => s.GetService<HttpContext>()!.User);
 builder.Services.AddSingleton<ICurrentUserService, CurrentUserService>();
-builder.Services.AddScoped<TestService>();
 
 // if (builder.Environment.IsDevelopment())
 // {
@@ -92,10 +87,6 @@ builder.Services.AddLogging(loggingBuilder =>
     loggingBuilder.AddConsole()
         .AddFilter(DbLoggerCategory.Database.Command.Name, LogLevel.Information);
     loggingBuilder.AddDebug();
-    var logger = new LoggerConfiguration()
-        .WriteTo.File("logs/log.txt", LogEventLevel.Debug)
-        .CreateLogger();
-    loggingBuilder.AddSerilog(logger);
 });
 
 builder.Services.AddOpenTelemetryTracing(x =>
@@ -142,12 +133,6 @@ foreach (var module in modules)
 
 app.MapGet("/api/health", () => "IGroceryStore is healthy")
     .WithTags(SwaggerTags.HealthChecks);
-
-app.MapGet("test", (TestService testService) =>
-{
-    testService.LogAppContextInfo();
-    return Results.Ok("Logged");
-});
 
 foreach (var module in modules)
 {

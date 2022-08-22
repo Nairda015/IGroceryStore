@@ -43,12 +43,4 @@ public class RegisterTests : IClassFixture<UserApiFactory>
         var id = Guid.Parse(path!.Segments.Last());
         await _apiFactory.RemoveUserById(id);
     }
-
-    [Fact]
-    public async Task TestLog()
-    {
-        var response = await _client.GetAsync("/test");
-
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-    }
 }

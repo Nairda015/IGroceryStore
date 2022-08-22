@@ -61,9 +61,7 @@ public static class AppInitializer
         }
         catch (ReflectionTypeLoadException e)
         {
-            Log.Error("Failed to load types from assembly {FullName}", assembly.FullName);
             types = e.Types!;
-            Log.Error("Found {Length} types in ReflectionTypeLoadException with assembly {FullName}", types.Length, assembly.FullName);
         }
         return types;
     }
