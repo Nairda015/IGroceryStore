@@ -5,7 +5,6 @@ using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Validation;
 using IGroceryStore.Users.Contracts.Events;
-using IGroceryStore.Users.Core.Exceptions;
 using IGroceryStore.Users.Core.Factories;
 using IGroceryStore.Users.Core.Persistence.Contexts;
 using MassTransit;

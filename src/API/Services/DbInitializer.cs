@@ -1,4 +1,5 @@
 ﻿using IGroceryStore.Shared.Abstraction.Common;
+using IGroceryStore.Shared.Configuration;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.API.Services;
@@ -8,12 +9,14 @@ internal sealed class DbInitializer : IHostedService
     private readonly IServiceProvider _serviceProvider;
 
     public DbInitializer(IServiceProvider serviceProvider)
-        => _serviceProvider = serviceProvider;
+    {
+        _serviceProvider = serviceProvider;
+    }
 
     public async Task StartAsync(CancellationToken cancellationToken)
     {
         var dbContextTypes = AppDomain.CurrentDomain.GetAssemblies()
-            .SelectMany(a => a.GetTypes())
+            .SelectMany(x => x.TryGetTypes())
             .Where(a => typeof(DbContext).IsAssignableFrom(a) &&
                         !a.IsInterface &&
                         a != typeof(DbContext) &&
@@ -22,18 +25,14 @@ internal sealed class DbInitializer : IHostedService
         using var scope = _serviceProvider.CreateScope();
         foreach (var dbContextType in dbContextTypes)
         {
-            if (scope.ServiceProvider.GetRequiredService(dbContextType) is not DbContext dbContext ||
-                !dbContext.Database.IsRelational())
-            {
-                continue;
-            }
+            if (scope.ServiceProvider.GetRequiredService(dbContextType) is not DbContext dbContext
+                || !dbContext.Database.IsRelational()) continue;
 
+            await dbContext.Database.MigrateAsync(cancellationToken);
             if (dbContext is IGroceryStoreDbContext groceryStoreDbContext)
             {
                 await groceryStoreDbContext.Seed();
-            } 
-
-            await dbContext.Database.MigrateAsync(cancellationToken);
+            }
         }
     }
 

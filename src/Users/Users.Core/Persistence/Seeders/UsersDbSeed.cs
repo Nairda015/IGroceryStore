@@ -3,7 +3,7 @@ using IGroceryStore.Users.Core.Persistence.Contexts;
 
 namespace IGroceryStore.Users.Core.Persistence.Seeders;
 
-public static class UsersDbSeed
+internal static class UsersDbSeed
 {
     public static async Task SeedSampleDataAsync(this UsersDbContext context)
     {

@@ -2,44 +2,50 @@ using System.Reflection;
 using IGroceryStore.Shared.Abstraction.Common;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace IGroceryStore.Shared.Configuration;
 
 public static class AppInitializer
 {
-    private const string ModulePrefix = "IGroceryStore";
+    private const string ModulePrefix = "IGroceryStore.";
     public static AppContext Initialize(WebApplicationBuilder builder)
     {
-        var assemblies = AppDomain.CurrentDomain.GetAssemblies().ToList();
-        var locations = assemblies.Where(x => !x.IsDynamic).Select(x => x.Location).ToArray();
-        var files = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll")
-            .Where(x => !locations.Contains(x, StringComparer.InvariantCultureIgnoreCase))
-            .ToList();
+        var assemblies = AppDomain.CurrentDomain
+            .GetAssemblies()
+            .DistinctBy(x => x.Location)
+            .ToDictionary(x => x.Location);
+        var files = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "*.dll").ToList();
 
         var moduleAssemblies = new List<Assembly>();
         foreach (var file in files)
         {
-            var root = file.Split(ModulePrefix, 2).Last();
-            if (!root.Contains(ModulePrefix)) continue;
+            //Example path (gh, local tests, local)
+            //IGroceryStore/IGroceryStore/tests/Users/Users.IntegrationTests/bin/Debug/net7.0/IGroceryStore.Products.Contracts.dll
+            //IGroceryStore/tests/Users/Users.IntegrationTests/bin/Release/net7.0/IGroceryStore.Shared.Abstraction.dll
+            //IGroceryStore/src/API/bin/Release/net7.0/IGroceryStore.Shops.Core.dll
+            if (!file.Contains(ModulePrefix)) continue;
 
-            var moduleName = root.Split($"{ModulePrefix}")[1]
-                .Split(".", StringSplitOptions.RemoveEmptyEntries)[0];
+            var moduleName = file.Split("/")
+                .Last()
+                .Split(".", StringSplitOptions.RemoveEmptyEntries)[1];
             var enabled = builder.Configuration.GetValue<bool>($"{moduleName}:ModuleEnabled");
 
             if (!enabled) continue;
             var assembly = AppDomain.CurrentDomain.Load(AssemblyName.GetAssemblyName(file));
-            assemblies.Add(assembly);
+            assemblies.TryAdd(assembly.Location, assembly);
             moduleAssemblies.Add(assembly);
         }
 
         var modules = assemblies
-            .SelectMany(x => x.GetTypes())
+            .SelectMany(x => x.Value.TryGetTypes())
             .Where(x => typeof(IModule).IsAssignableFrom(x) && x.IsClass)
             .OrderBy(x => x.Name)
             .Select(Activator.CreateInstance)
             .Cast<IModule>()
             .ToList();
-        
-        return new AppContext(assemblies.ToList(), moduleAssemblies, modules.ToHashSet());
+
+        return new AppContext(assemblies.Select(x => x.Value).ToList(), moduleAssemblies, modules.ToHashSet());
     }
 }

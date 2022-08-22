@@ -1,8 +1,6 @@
 using FluentValidation;
-using IGroceryStore;
 using IGroceryStore.API;
 using IGroceryStore.API.Middlewares;
-using IGroceryStore.API.Services;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Abstraction.Services;
 using IGroceryStore.Shared.Services;
@@ -44,10 +42,10 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddTransient(s => s.GetService<HttpContext>()!.User);
 builder.Services.AddSingleton<ICurrentUserService, CurrentUserService>();
 
-if (!builder.Environment.IsDevelopment())
-{
-    builder.Services.AddHostedService<DbInitializer>();
-}
+// if (builder.Environment.IsDevelopment())
+// {
+//     builder.Services.AddHostedService<DbInitializer>();
+// }
 
 //Middlewares
 builder.Services.AddScoped<ExceptionMiddleware>();
@@ -58,7 +56,6 @@ var rabbitSettings = builder.Configuration.GetOptions<RabbitSettings>();
 builder.Services.AddMassTransit(bus =>
 {
     bus.SetKebabCaseEndpointNameFormatter();
-
     bus.UsingRabbitMq((ctx, cfg) =>
     {
         cfg.Host(rabbitSettings.Host, rabbitSettings.VirtualHost, h =>

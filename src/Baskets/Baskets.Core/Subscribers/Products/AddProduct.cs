@@ -10,22 +10,22 @@ namespace IGroceryStore.Baskets.Core.Subscribers.Products;
 public class AddProduct : IConsumer<ProductAdded>
 {
     private readonly ILogger<AddProduct> _logger;
-    private readonly BasketDbContext _basketDbContext;
+    private readonly BasketsDbContext _basketsDbContext;
 
-    public AddProduct(ILogger<AddProduct> logger, BasketDbContext basketDbContext)
+    public AddProduct(ILogger<AddProduct> logger, BasketsDbContext basketsDbContext)
     {
         _logger = logger;
-        _basketDbContext = basketDbContext;
+        _basketsDbContext = basketsDbContext;
     }
 
     public async Task Consume(ConsumeContext<ProductAdded> context)
     {
         var (productId, name, category) = context.Message;
-        if (await _basketDbContext.Products.AnyAsync(x => x.Id.Equals(productId))) return;
+        if (await _basketsDbContext.Products.AnyAsync(x => x.Id.Equals(productId))) return;
 
         var product = new Product(productId, name, category);
-        await _basketDbContext.Products.AddAsync(product);
-        await _basketDbContext.SaveChangesAsync();
+        await _basketsDbContext.Products.AddAsync(product);
+        await _basketsDbContext.SaveChangesAsync();
         _logger.LogInformation("Product {ProductId} added to basket database", productId);
     }
 }

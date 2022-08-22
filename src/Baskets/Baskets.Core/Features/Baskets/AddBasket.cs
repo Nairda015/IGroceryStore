@@ -22,9 +22,9 @@ public class AddBasketEndpoint : IEndpoint
 internal class AddBasketHandler : ICommandHandler<AddBasket, IResult>
 {
     private readonly IBasketFactory _factory;
-    private readonly BasketDbContext _context;
+    private readonly BasketsDbContext _context;
 
-    public AddBasketHandler(IBasketFactory factory, BasketDbContext dbContext)
+    public AddBasketHandler(IBasketFactory factory, BasketsDbContext dbContext)
     {
         _factory = factory;
         _context = dbContext;

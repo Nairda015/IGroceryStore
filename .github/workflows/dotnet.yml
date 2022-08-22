@@ -23,11 +23,30 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
 
-    - name: Setup RabbitMQ
-      uses: nijel/rabbitmq-action@v1.0.0
+    - name: Docker Compose Action
+      uses: isbang/compose-action@v1.1.0
+      with:
+        compose-file: ./tools/docker-compose-tests.yml
       
     - name: Build
       run: dotnet build --no-restore
       
+    - name: Migrations   
+      run: |
+        ls
+        dotnet tool install --global dotnet-ef
+        dotnet tool restore
+        cd tools
+        bash tests-migration.sh
+      shell: bash
+      
     - name: Test
       run: dotnet test --no-build --verbosity normal
+      
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v3.1.0
+      if: failure()
+      with:
+        name: logfile
+        path: "**/logs/log.txt"
+        retention-days: 1
