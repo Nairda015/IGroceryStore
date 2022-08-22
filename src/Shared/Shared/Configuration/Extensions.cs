@@ -1,3 +1,4 @@
+using System.Reflection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 
@@ -29,4 +30,19 @@ public static class Extensions
 
     private static string GetPath(this IHostEnvironment env) =>
         env.ContentRootPath.Split("src").First();
+    
+    
+    public static Type[] TryGetTypes(this Assembly assembly)
+    {
+        Type[] types;
+        try
+        {
+            types = assembly.GetTypes();
+        }
+        catch (ReflectionTypeLoadException e)
+        {
+            types = e.Types!;
+        }
+        return types;
+    }
 }

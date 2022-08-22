@@ -39,7 +39,7 @@ public static class AppInitializer
         }
 
         var modules = assemblies
-            .SelectMany(x => x.Value.GetTypes())
+            .SelectMany(x => x.Value.TryGetTypes())
             .Where(x => typeof(IModule).IsAssignableFrom(x) && x.IsClass)
             .OrderBy(x => x.Name)
             .Select(Activator.CreateInstance)
@@ -48,18 +48,4 @@ public static class AppInitializer
 
         return new AppContext(assemblies.Select(x => x.Value).ToList(), moduleAssemblies, modules.ToHashSet());
     }
-
-    // private static Type[] TryGetTypes(this Assembly assembly)
-    // {
-    //     Type[] types;
-    //     try
-    //     {
-    //         types = assembly.GetTypes();
-    //     }
-    //     catch (ReflectionTypeLoadException e)
-    //     {
-    //         types = e.Types!;
-    //     }
-    //     return types;
-    // }
 }
