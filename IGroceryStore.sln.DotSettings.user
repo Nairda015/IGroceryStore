@@ -4,6 +4,9 @@
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=300b06f9_002Dc931_002D449a_002D8fdd_002D95b83b7e1d47/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from &amp;lt;tests&amp;gt;" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;Project Location="/Users/adrianfranczak/Repos/Private/IGroceryStore" Presentation="&amp;lt;tests&amp;gt;" /&gt;
 &lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=b51577f5_002Dcffd_002D4e19_002Daf88_002D579af925ea24/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from &amp;lt;tests&amp;gt;\&amp;lt;Users&amp;gt;\&amp;lt;Users.IntegrationTests&amp;gt;" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;Project Location="/Users/adrianfranczak/Repos/Private/IGroceryStore/tests/Users/Users.IntegrationTests" Presentation="&amp;lt;tests&amp;gt;\&amp;lt;Users&amp;gt;\&amp;lt;Users.IntegrationTests&amp;gt;" /&gt;
+&lt;/SessionState&gt;</s:String>
 	
 	
 	
