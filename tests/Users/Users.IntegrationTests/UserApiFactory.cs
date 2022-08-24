@@ -3,6 +3,8 @@ using DotNet.Testcontainers.Builders;
 using DotNet.Testcontainers.Configurations;
 using DotNet.Testcontainers.Containers;
 using IGroceryStore.API;
+using IGroceryStore.Baskets.Core.Persistence;
+using IGroceryStore.Products.Core.Persistence.Contexts;
 using IGroceryStore.Users.Core.Persistence.Contexts;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -11,8 +13,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
-using Serilog;
-using Serilog.Events;
 
 namespace Users.IntegrationTests;
 
@@ -25,7 +25,19 @@ public class UserApiFactory : WebApplicationFactory<IApiMarker>, IAsyncLifetime
                 Database = "db",
                 Username = "postgres",
                 Password = "postgres"
-            }).Build();
+            })
+            .WithAutoRemove(true)
+            .WithCleanUp(true)
+            .Build();
+
+    // private readonly TestcontainerMessageBroker _rabbit =
+    //     new TestcontainersBuilder<RabbitMqTestcontainer>()
+    //         .ConfigureContainer(x =>
+    //         {
+    //             x.Username = "rabbitmq";
+    //             x.Password = "rabbitmq";
+    //         })
+    //         .Build();
 
     public UserApiFactory()
     {
@@ -42,19 +54,19 @@ public class UserApiFactory : WebApplicationFactory<IApiMarker>, IAsyncLifetime
 
         builder.ConfigureTestServices(services =>
         {
-            services.RemoveAll(typeof(UsersDbContext));
-            services.AddDbContext<UsersDbContext>(ctx =>
-                ctx.UseNpgsql(_dbContainer.ConnectionString));
+            services.CleanDbContextOptions<UsersDbContext>();
+            services.CleanDbContextOptions<BasketsDbContext>();
+            services.CleanDbContextOptions<ProductsDbContext>();
+
+            services.AddPostgresContext<UsersDbContext>(_dbContainer);
+            services.AddPostgresContext<BasketsDbContext>(_dbContainer);
+            services.AddPostgresContext<ProductsDbContext>(_dbContainer);
         });
     }
 
     public async Task InitializeAsync()
     {
         await _dbContainer.StartAsync();
-        using var scope = Services.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<UsersDbContext>();
-        context.Users.RemoveRange(context.Users);
-        await context.SaveChangesAsync();
     }
 
     async Task IAsyncLifetime.DisposeAsync()
@@ -66,4 +78,27 @@ public class UserApiFactory : WebApplicationFactory<IApiMarker>, IAsyncLifetime
 [CollectionDefinition("UserCollection")]
 public class UserCollection : ICollectionFixture<UserApiFactory>
 {
+}
+
+public static class DbCleaner
+{
+    public static void CleanDbContextOptions<T>(this IServiceCollection services)
+    where T : DbContext
+    {
+        var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<T>));
+        if (descriptor != null) services.Remove(descriptor);
+        services.RemoveAll(typeof(T));
+    }
+    
+    public static void AddPostgresContext<T>(this IServiceCollection services, TestcontainerDatabase dbContainer)
+        where T : DbContext
+    {
+        services.AddDbContext<T>(ctx =>
+            ctx.UseNpgsql(dbContainer.ConnectionString, 
+                x =>
+                {
+                    
+                    x.CommandTimeout(30);
+                }));
+    }
 }

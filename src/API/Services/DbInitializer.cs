@@ -1,10 +1,10 @@
-﻿using IGroceryStore.Shared.Abstraction.Common;
+﻿using System.Reflection;
 using IGroceryStore.Shared.Configuration;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.API.Services;
 
-internal sealed class DbInitializer : IHostedService
+internal sealed class DbInitializer
 {
     private readonly IServiceProvider _serviceProvider;
 
@@ -13,28 +13,24 @@ internal sealed class DbInitializer : IHostedService
         _serviceProvider = serviceProvider;
     }
 
-    public async Task StartAsync(CancellationToken cancellationToken)
+    public async Task MigrateAsync(IEnumerable<Assembly> assemblies)
     {
-        var dbContextTypes = AppDomain.CurrentDomain.GetAssemblies()
-            .SelectMany(x => x.TryGetTypes())
-            .Where(a => typeof(DbContext).IsAssignableFrom(a) &&
-                        !a.IsInterface &&
-                        a != typeof(DbContext) &&
-                        a.Namespace != "Microsoft.AspNetCore.Identity.EntityFrameworkCore");
-
         using var scope = _serviceProvider.CreateScope();
-        foreach (var dbContextType in dbContextTypes)
-        {
-            if (scope.ServiceProvider.GetRequiredService(dbContextType) is not DbContext dbContext
-                || !dbContext.Database.IsRelational()) continue;
-
-            await dbContext.Database.MigrateAsync(cancellationToken);
-            if (dbContext is IGroceryStoreDbContext groceryStoreDbContext)
-            {
-                await groceryStoreDbContext.Seed();
-            }
-        }
+        var services = scope.ServiceProvider;
+        var contexts = GetContexts(assemblies)
+            .Select(x => services.GetRequiredService(x))
+            .Where(x => x is DbContext)
+            .Cast<DbContext>();
+        
+        var migrations = contexts.Select(x => x.Database.EnsureCreatedAsync());
+        await Task.WhenAll(migrations);
     }
 
-    public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
+    private IEnumerable<Type> GetContexts(IEnumerable<Assembly> assemblies)
+    {
+        return assemblies.SelectMany(x => x.TryGetTypes())
+            .Where(a => typeof(DbContext).IsAssignableFrom(a)
+                        && !a.IsInterface
+                        && a != typeof(DbContext));
+    }
 }
