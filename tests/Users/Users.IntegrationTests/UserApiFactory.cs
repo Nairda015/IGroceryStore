@@ -5,13 +5,12 @@ using DotNet.Testcontainers.Containers;
 using IGroceryStore.API;
 using IGroceryStore.Baskets.Core.Persistence;
 using IGroceryStore.Products.Core.Persistence.Contexts;
+using IGroceryStore.Users.Contracts.Events;
 using IGroceryStore.Users.Core.Persistence.Contexts;
+using MassTransit;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 
 namespace Users.IntegrationTests;
@@ -30,26 +29,22 @@ public class UserApiFactory : WebApplicationFactory<IApiMarker>, IAsyncLifetime
             .WithCleanUp(true)
             .Build();
 
-    // private readonly TestcontainerMessageBroker _rabbit =
-    //     new TestcontainersBuilder<RabbitMqTestcontainer>()
-    //         .ConfigureContainer(x =>
-    //         {
-    //             x.Username = "rabbitmq";
-    //             x.Password = "rabbitmq";
-    //         })
-    //         .Build();
-
     public UserApiFactory()
     {
-        Randomizer.Seed = new Random(1);
+        Randomizer.Seed = new Random(420);
         VerifierSettings.ScrubInlineGuids();
     }
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        builder.ConfigureLogging(logging =>
+        builder.ConfigureLogging(logging => { logging.ClearProviders(); });
+
+        builder.ConfigureServices(services =>
         {
-            logging.ClearProviders();
+            services.AddMassTransitTestHarness(x =>
+            {
+                x.AddHandler<UserCreated>(context => context.ConsumeCompleted);
+            });
         });
 
         builder.ConfigureTestServices(services =>
@@ -72,33 +67,5 @@ public class UserApiFactory : WebApplicationFactory<IApiMarker>, IAsyncLifetime
     async Task IAsyncLifetime.DisposeAsync()
     {
         await _dbContainer.DisposeAsync();
-    }
-}
-
-[CollectionDefinition("UserCollection")]
-public class UserCollection : ICollectionFixture<UserApiFactory>
-{
-}
-
-public static class DbCleaner
-{
-    public static void CleanDbContextOptions<T>(this IServiceCollection services)
-    where T : DbContext
-    {
-        var descriptor = services.SingleOrDefault(d => d.ServiceType == typeof(DbContextOptions<T>));
-        if (descriptor != null) services.Remove(descriptor);
-        services.RemoveAll(typeof(T));
-    }
-    
-    public static void AddPostgresContext<T>(this IServiceCollection services, TestcontainerDatabase dbContainer)
-        where T : DbContext
-    {
-        services.AddDbContext<T>(ctx =>
-            ctx.UseNpgsql(dbContainer.ConnectionString, 
-                x =>
-                {
-                    
-                    x.CommandTimeout(30);
-                }));
     }
 }
