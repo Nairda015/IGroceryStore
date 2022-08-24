@@ -19,11 +19,11 @@
     Content: {
       ObjectType: Register.RegisterBody,
       Value: {
-        Email: Justin.Konopelski64@yahoo.com,
+        Email: Timothy14@yahoo.com,
         Password: Guid_2,
         ConfirmPassword: Guid_2,
-        FirstName: Justin,
-        LastName: Konopelski
+        FirstName: Timothy,
+        LastName: Heathcote
       },
       Headers: [
         {

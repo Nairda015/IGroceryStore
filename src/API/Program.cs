@@ -1,6 +1,7 @@
 using FluentValidation;
 using IGroceryStore.API;
 using IGroceryStore.API.Middlewares;
+using IGroceryStore.API.Services;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Abstraction.Services;
 using IGroceryStore.Shared.Services;
@@ -41,11 +42,7 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddTransient(s => s.GetService<HttpContext>()!.User);
 builder.Services.AddSingleton<ICurrentUserService, CurrentUserService>();
-
-// if (builder.Environment.IsDevelopment())
-// {
-//     builder.Services.AddHostedService<DbInitializer>();
-// }
+builder.Services.AddSingleton<DbInitializer>();
 
 //Middlewares
 builder.Services.AddScoped<ExceptionMiddleware>();
@@ -128,4 +125,7 @@ foreach (var module in modules)
 app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "IGroceryStore"); });
 
 app.MapFallbackToFile("index.html");
+
+var databaseInitializer = app.Services.GetRequiredService<DbInitializer>();
+await databaseInitializer.MigrateAsync(moduleAssemblies);
 app.Run();
