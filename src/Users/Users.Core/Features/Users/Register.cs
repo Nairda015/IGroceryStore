@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
-using ValidationResult = MassTransit.ValidationResult;
+using ValidationResult = FluentValidation.Results.ValidationResult;
 
 namespace IGroceryStore.Users.Core.Features.Users;
 
