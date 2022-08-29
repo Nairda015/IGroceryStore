@@ -1,6 +1,5 @@
-﻿using System.Reflection;
-using FluentValidation;
-using IGroceryStore.Products.Core.Features.Products.Commands;
+﻿using System.Diagnostics;
+using System.Reflection;
 using IGroceryStore.Products.Core.Persistence.Contexts;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Constants;
@@ -19,7 +18,8 @@ namespace IGroceryStore.Products.Core;
 
 public class ProductsModule : IModule
 {
-    public string Name => "Products";
+    public string Name => Source.Name;
+    public static ActivitySource Source { get; } = new("Products", "1.0.0.0");
 
     public void Register(IServiceCollection services, IConfiguration configuration)
     {

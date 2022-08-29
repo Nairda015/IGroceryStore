@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Diagnostics;
+using System.Reflection;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Commands;
@@ -20,7 +21,8 @@ namespace IGroceryStore.Users.Core;
 
 public class UsersModule : IModule
 {
-    public string Name => "Users";
+    public string Name => Source.Name;
+    public static ActivitySource Source { get; } = new("Users", "1.0.0.0");
 
     public void Register(IServiceCollection services, IConfiguration configuration)
     {

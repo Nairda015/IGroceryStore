@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Diagnostics;
+using System.Reflection;
 using Amazon.DynamoDBv2;
 using Amazon;
 using IGroceryStore.Shared.Abstraction.Common;
@@ -16,7 +17,8 @@ namespace IGroceryStore.Shops.Core;
 
 public class ShopsModule : IModule
 {
-    public string Name => "Shops";
+    public string Name => Source.Name;
+    public static ActivitySource Source { get; } = new("Shops", "1.0.0.0");
 
     public void Register(IServiceCollection services, IConfiguration configuration)
     {

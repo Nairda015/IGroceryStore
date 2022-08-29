@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Diagnostics;
+using System.Reflection;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Constants;
 using Microsoft.AspNetCore.Builder;
@@ -11,7 +12,8 @@ namespace Notifications;
 
 public class NotificationsModule : IModule
 {
-    public string Name => "Notifications";
+    public string Name => Source.Name;
+    public static ActivitySource Source { get; } = new("Notifications", "1.0.0.0");
 
     public void Register(IServiceCollection services, IConfiguration configuration)
     {

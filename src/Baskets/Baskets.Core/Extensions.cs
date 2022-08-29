@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Diagnostics;
+using System.Reflection;
 using IGroceryStore.Baskets.Core.Factories;
 using IGroceryStore.Baskets.Core.Persistence;
 using IGroceryStore.Baskets.Core.Subscribers.Users;
@@ -18,7 +19,8 @@ namespace IGroceryStore.Baskets.Core;
 
 public class BasketsModule : IModule
 {
-    public string Name => "Baskets";
+    public string Name => Source.Name;
+    public static ActivitySource Source { get; } = new("Baskets", "1.0.0.0");
 
     public void Register(IServiceCollection services, IConfiguration configuration)
     {
