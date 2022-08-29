@@ -10,10 +10,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Shared\Shared\Shared.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
       <Compile Remove="Events\HelloMessage.cs" />
     </ItemGroup>
 
