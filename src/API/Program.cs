@@ -34,10 +34,7 @@ builder.Services.AddSingleton<DateTimeService>();
 
 //Services
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
-    c.OrderActionsBy(x => x.HttpMethod);
-});
+builder.Services.AddSwaggerGen(c => { c.OrderActionsBy(x => x.HttpMethod); });
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddTransient(s => s.GetService<HttpContext>()!.User);
@@ -60,7 +57,7 @@ builder.Services.AddMassTransit(bus =>
             h.Username(rabbitSettings.Username);
             h.Password(rabbitSettings.Password);
         });
-        
+
         cfg.ConfigureEndpoints(ctx);
     });
 });
@@ -81,6 +78,7 @@ builder.Services.AddOpenTelemetryTracing(x =>
             .AddEnvironmentVariableDetector())
         .AddHttpClientInstrumentation()
         .AddAspNetCoreInstrumentation()
+        .AddModulesInstrumentation(modules)
         .AddSource("MassTransit")
         .AddEntityFrameworkCoreInstrumentation()
         .AddNpgsql()
@@ -122,6 +120,7 @@ foreach (var module in modules)
 {
     module.Expose(app);
 }
+
 app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "IGroceryStore"); });
 
 app.MapFallbackToFile("index.html");
