@@ -7,17 +7,27 @@
 
 # Modules:
 ### [Users.Core](https://github.com/Nairda015/IGroceryStore/tree/master/src/Users/Users.Core)
-Available actions:
-1. Register
-2. Login
-3. Refresh Token
-4. GetAll/GetUser
+[Available actions:](https://github.com/Nairda015/IGroceryStore/tree/master/src/Users/Users.Core/Features)
+- Register
+- Login
+- Refresh Token
+- GetAll/GetUser
 
 ### [Products.Core](https://github.com/Nairda015/IGroceryStore/tree/master/src/Products/Products.Core)
+[Available actions:](https://github.com/Nairda015/IGroceryStore/tree/master/src/Products/Products.Core/Features)
+- Create Product
+- Mark Product As Obsolate
+- Add Alergens To Product
+- CRUD for Categories
+- CRUD for Alergens
 
 ### [Basket.Core](https://github.com/Nairda015/IGroceryStore/tree/master/src/Baskets/Baskets.Core)
+[Available actions:](https://github.com/Nairda015/IGroceryStore/tree/master/src/Baskets/Baskets.Core/Features)
+- Create Basket  
 
 ### [Shops.Core](https://github.com/Nairda015/IGroceryStore/tree/master/src/Shops/Shops.Core)
+[Available actions:](https://github.com/Nairda015/IGroceryStore/tree/master/src/Shops/Shops.Core/Features)
+
 
 # Stack  
 [.Net7.0 C#11 with Minimal API](https://github.com/dotnet)  
@@ -31,6 +41,8 @@ Available actions:
 [Entity Framework Core](https://github.com/dotnet/efcore) - ORM  
 [OpenTelemetry](https://opentelemetry.io) - Traces, Metrics  
 [Jaeger](https://www.jaegertracing.io) - UI for OpenTelemetry  
+<img width="1511" alt="image" src="https://user-images.githubusercontent.com/44712992/187305398-143d94e0-4b33-4667-b367-aae2c9789a2d.png">
+
 
 # Main features:  
 - Comparing basket price across stores  
