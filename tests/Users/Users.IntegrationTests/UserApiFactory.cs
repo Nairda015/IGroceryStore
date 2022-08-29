@@ -3,16 +3,15 @@ using DotNet.Testcontainers.Builders;
 using DotNet.Testcontainers.Configurations;
 using DotNet.Testcontainers.Containers;
 using IGroceryStore.API;
+using IGroceryStore.Baskets.Core.Persistence;
+using IGroceryStore.Products.Core.Persistence.Contexts;
+using IGroceryStore.Users.Contracts.Events;
 using IGroceryStore.Users.Core.Persistence.Contexts;
+using MassTransit;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
-using Serilog;
-using Serilog.Events;
 
 namespace Users.IntegrationTests;
 
@@ -25,45 +24,48 @@ public class UserApiFactory : WebApplicationFactory<IApiMarker>, IAsyncLifetime
                 Database = "db",
                 Username = "postgres",
                 Password = "postgres"
-            }).Build();
+            })
+            .WithAutoRemove(true)
+            .WithCleanUp(true)
+            .Build();
 
     public UserApiFactory()
     {
-        Randomizer.Seed = new Random(1);
+        Randomizer.Seed = new Random(420);
         VerifierSettings.ScrubInlineGuids();
     }
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        builder.ConfigureLogging(logging =>
+        builder.ConfigureLogging(logging => { logging.ClearProviders(); });
+
+        builder.ConfigureServices(services =>
         {
-            logging.ClearProviders();
+            services.AddMassTransitTestHarness(x =>
+            {
+                x.AddHandler<UserCreated>(context => context.ConsumeCompleted);
+            });
         });
 
         builder.ConfigureTestServices(services =>
         {
-            services.RemoveAll(typeof(UsersDbContext));
-            services.AddDbContext<UsersDbContext>(ctx =>
-                ctx.UseNpgsql(_dbContainer.ConnectionString));
+            services.CleanDbContextOptions<UsersDbContext>();
+            services.CleanDbContextOptions<BasketsDbContext>();
+            services.CleanDbContextOptions<ProductsDbContext>();
+
+            services.AddPostgresContext<UsersDbContext>(_dbContainer);
+            services.AddPostgresContext<BasketsDbContext>(_dbContainer);
+            services.AddPostgresContext<ProductsDbContext>(_dbContainer);
         });
     }
 
     public async Task InitializeAsync()
     {
         await _dbContainer.StartAsync();
-        using var scope = Services.CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<UsersDbContext>();
-        context.Users.RemoveRange(context.Users);
-        await context.SaveChangesAsync();
     }
 
     async Task IAsyncLifetime.DisposeAsync()
     {
         await _dbContainer.DisposeAsync();
     }
-}
-
-[CollectionDefinition("UserCollection")]
-public class UserCollection : ICollectionFixture<UserApiFactory>
-{
 }

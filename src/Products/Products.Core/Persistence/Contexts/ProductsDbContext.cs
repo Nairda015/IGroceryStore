@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Core.Persistence.Contexts;
 
-internal class ProductsDbContext : DbContext, IGroceryStoreDbContext
+public class ProductsDbContext : DbContext, IGroceryStoreDbContext
 {
     private readonly ICurrentUserService _currentUserService;
     private readonly DateTimeService _dateTimeService;

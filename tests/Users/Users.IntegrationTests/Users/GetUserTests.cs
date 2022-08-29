@@ -1,20 +1,16 @@
 using System.Net;
 using System.Net.Http.Json;
-using Bogus;
 using FluentAssertions;
-using IGroceryStore.Users.Core.Features.Users;
 using IGroceryStore.Users.Core.ReadModels;
 using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace Users.IntegrationTests.Users;
 
-[Collection(nameof(UserCollection))]
 [UsesVerify]
 public class GetUserTests : IClassFixture<UserApiFactory>
 {
     private readonly HttpClient _client;
     private readonly UserApiFactory _apiFactory;
-    private readonly Faker<Register> _userGenerator = new RegisterFaker();
     
     public GetUserTests(UserApiFactory apiFactory)
     {
@@ -29,7 +25,7 @@ public class GetUserTests : IClassFixture<UserApiFactory>
     public async Task GetUser_ReturnsUser_WhenUserExists()
     {
         // Arrange
-        var registerRequest = _userGenerator.Generate();
+        var registerRequest = TestUsers.Register;
         var responseWithUserLocation = await _client.PostAsJsonAsync("users/register", registerRequest.Body);
         responseWithUserLocation.StatusCode.Should().Be(HttpStatusCode.Accepted);
 
