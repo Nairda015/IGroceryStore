@@ -50,3 +50,12 @@
 - Rating products and stores  
 - Searching for similar products  
 - Watching product prices over time
+
+# How to run
+- From the tools directory run the command:  
+```docker-compose up -d```  
+- Run ASP and Worker Project (add compound configuration in Rider)
+- API endpoints: localhost:5000/swagger
+- All ports for infrastructure available in docker-compose file
+- To connect to pgadmin from docker use:  
+```docker run -p 5050:80  -e "PGADMIN_DEFAULT_EMAIL=name@example.com" -e "PGADMIN_DEFAULT_PASSWORD=admin"  -d dpage/pgadmin4```  
