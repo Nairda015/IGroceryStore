@@ -27,7 +27,7 @@ public static class AppInitializer
             //IGroceryStore/src/API/bin/Release/net7.0/IGroceryStore.Shops.Core.dll
             if (!file.Contains(ModulePrefix)) continue;
 
-            var moduleName = file.Split(new [] {"/", @"\"}, StringSplitOptions.RemoveEmptyEntries)
+            var moduleName = file.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries)
                 .Last()
                 .Split(".", StringSplitOptions.RemoveEmptyEntries)[1];
             var enabled = builder.Configuration.GetValue<bool>($"{moduleName}:ModuleEnabled");
