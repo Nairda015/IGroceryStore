@@ -2,7 +2,6 @@
 using System.Reflection;
 using IGroceryStore.Baskets.Core.Factories;
 using IGroceryStore.Baskets.Core.Persistence;
-using IGroceryStore.Baskets.Core.Subscribers.Users;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Commands;
@@ -31,9 +30,6 @@ public class BasketsModule : IModule
         var options = configuration.GetOptions<PostgresSettings>();
         services.AddDbContext<BasketsDbContext>(ctx =>
             ctx.UseNpgsql(options.ConnectionString));
-
-        //Subscriptions
-        services.AddTransient<AddUser>();
     }
 
     public void Use(IApplicationBuilder app)
