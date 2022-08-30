@@ -4,6 +4,8 @@
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <AssemblyName>IGroceryStore.Notifications</AssemblyName>
+        <RootNamespace>IGroceryStore.Notifications</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
