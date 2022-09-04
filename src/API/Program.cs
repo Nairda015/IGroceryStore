@@ -73,7 +73,7 @@ builder.Host.UseSerilog((context, loggerConfiguration) =>
         .WriteTo.Console()
         .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(context.Configuration["ElasticConfiguration:Uri"]))
         {
-            IndexFormat = $"{context.Configuration["ApplicationName"]}-logs-{context.HostingEnvironment.EnvironmentName.ToLower()}",
+            IndexFormat = $"{context.Configuration["ApplicationName"]}-logs".Replace(".", "-"),
             AutoRegisterTemplate = true
         })
         .ReadFrom.Configuration(context.Configuration);
