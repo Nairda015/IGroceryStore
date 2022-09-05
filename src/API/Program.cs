@@ -5,13 +5,15 @@ using IGroceryStore.API.Services;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Abstraction.Services;
 using IGroceryStore.Shared.Services;
-using Microsoft.EntityFrameworkCore;
 using IGroceryStore.Shared.Configuration;
 using IGroceryStore.Shared.Settings;
 using MassTransit;
+using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using Serilog;
+using Serilog.Sinks.Elasticsearch;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.ConfigureModules();
@@ -63,11 +65,18 @@ builder.Services.AddMassTransit(bus =>
 });
 
 //Logging
-builder.Services.AddLogging(loggingBuilder =>
+builder.Host.UseSerilog((context, loggerConfiguration) =>
 {
-    loggingBuilder.AddConsole()
-        .AddFilter(DbLoggerCategory.Database.Command.Name, LogLevel.Information);
-    loggingBuilder.AddDebug();
+    loggerConfiguration
+        .Enrich.FromLogContext()
+        .Enrich.WithMachineName()
+        .WriteTo.Console()
+        .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(context.Configuration["ElasticConfiguration:Uri"]))
+        {
+            IndexFormat = $"{context.Configuration["ApplicationName"]}-logs".Replace(".", "-"),
+            AutoRegisterTemplate = true
+        })
+        .ReadFrom.Configuration(context.Configuration);
 });
 
 builder.Services.AddOpenTelemetryTracing(x =>

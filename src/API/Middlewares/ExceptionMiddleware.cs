@@ -37,10 +37,11 @@ internal sealed class ExceptionMiddleware : IMiddleware
                     ex.RetryCount);
                 throw;
             }
-            
-            _logger.LogCritical(ex, "{Exception} with id: {Id} will not be resent", 
+
+            _logger.LogCritical(ex, "{Exception} with id: {Id} will not be resent",
                 ex.GetType().Name,
                 ex.CorrelationId);
+            throw;
         }
         catch (ValidationException ex)
         {

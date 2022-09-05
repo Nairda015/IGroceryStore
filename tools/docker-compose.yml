@@ -57,3 +57,19 @@ services:
       - 14268:14268
       - 14269:14269
       - 9411:9411
+    
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.6
+    container_name: elasticsearch
+    ports:
+      - 9200:9200/tcp
+    environment:
+      - discovery.type=single-node
+    volumes:
+        - ../volumes/elasticsearch:/usr/share/elasticsearch/data
+   
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.17.6
+    container_name: kibana
+    ports:
+      - 5601:5601/tcp
