@@ -100,7 +100,7 @@ System.AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 app.UseSwagger();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (!app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
 }
@@ -114,8 +114,8 @@ app.UseHttpsRedirection();
 app.UseRouting();
 app.UseMiddleware<ExceptionMiddleware>();
 
-//app.UseAuthentication();
-//app.UseAuthorization();
+app.UseAuthentication();
+app.UseAuthorization();
 
 foreach (var module in modules)
 {
