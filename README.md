@@ -41,7 +41,7 @@
 [Entity Framework Core](https://github.com/dotnet/efcore) - ORM  
 [OpenTelemetry](https://opentelemetry.io) - Traces, Metrics  
 [Jaeger](https://www.jaegertracing.io) - UI for OpenTelemetry  
-<img width="1511" alt="image" src="https://user-images.githubusercontent.com/44712992/187305398-143d94e0-4b33-4667-b367-aae2c9789a2d.png">
+<img width="1511" alt="image" src="https://user-images.githubusercontent.com/44712992/189454184-7a044389-3dce-4e8e-ad8e-72675aaa09aa.png">
 
 
 # Main features:  
