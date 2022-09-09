@@ -6,11 +6,9 @@ using IGroceryStore.Users.Core.Exceptions;
 using IGroceryStore.Users.Core.Persistence.Contexts;
 using IGroceryStore.Users.Core.Services;
 using IGroceryStore.Users.Core.ReadModels;
-using IGroceryStore.Users.Core.ValueObjects;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.Azure.Cosmos;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Users.Core.Features.Tokens;
