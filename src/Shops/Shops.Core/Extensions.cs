@@ -17,13 +17,26 @@ namespace IGroceryStore.Shops.Core;
 
 public class ShopsModule : IModule
 {
-    public string Name => Source.Name;
+    public string Name => Source.Name;  
     public static ActivitySource Source { get; } = new("Shops", "1.0.0.0");
 
     public void Register(IServiceCollection services, IConfiguration configuration)
     {
-        services.RegisterOptions<DatabaseSettings>(configuration);
-        services.AddSingleton<IAmazonDynamoDB>(_ => new AmazonDynamoDBClient(RegionEndpoint.EUCentral1));
+        services.RegisterOptions<DynamoDbSettings>(configuration);
+        var dynamoDbSettings = configuration.GetOptions<DynamoDbSettings>();
+        if (dynamoDbSettings.LocalMode)
+        {
+            services.AddSingleton<IAmazonDynamoDB>(sp =>
+            {
+                var clientConfig = new AmazonDynamoDBConfig { ServiceURL = dynamoDbSettings.LocalServiceUrl };
+                return new AmazonDynamoDBClient(clientConfig);
+            });
+        }
+        else
+        {
+            services.AddSingleton<IAmazonDynamoDB>(_ => new AmazonDynamoDBClient(RegionEndpoint.EUCentral1));
+        }
+        
         services.AddSingleton<IUsersRepository, UsersRepository>();
         services.AddSingleton<IProductsRepository, ProductsRepository>();
     }
