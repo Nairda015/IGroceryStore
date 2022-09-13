@@ -84,6 +84,7 @@ builder.Services.AddOpenTelemetryTracing(x =>
         .AddSource("MassTransit")
         .AddEntityFrameworkCoreInstrumentation()
         .AddNpgsql()
+        .AddAWSInstrumentation()
         .AddJaeger();
 });
  

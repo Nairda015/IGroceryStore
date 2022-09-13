@@ -19,8 +19,8 @@ public interface IProductsRepository
 internal class ProductsRepository : IProductsRepository
 {
     private readonly IAmazonDynamoDB _dynamoDb;
-    private readonly IOptions<DatabaseSettings> _settings;
-    public ProductsRepository(IOptions<DatabaseSettings> settings, IAmazonDynamoDB dynamoDb)
+    private readonly IOptions<DynamoDbSettings> _settings;
+    public ProductsRepository(IOptions<DynamoDbSettings> settings, IAmazonDynamoDB dynamoDb)
     {
         _settings = settings;
         _dynamoDb = dynamoDb;
