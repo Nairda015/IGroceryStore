@@ -33,12 +33,10 @@ public class UsersModule : IModule
 
         services.AddAuthorization();
 
-        var enableSensitiveData = configuration.GetValue<bool>("EnableSensitiveData");
-
         var options = configuration.GetOptions<PostgresSettings>();
         services.AddDbContext<UsersDbContext>(ctx =>
             ctx.UseNpgsql(options.ConnectionString)
-                .EnableSensitiveDataLogging(enableSensitiveData));
+                .EnableSensitiveDataLogging(options.EnableSensitiveData));
 
 
         var jwtSettings = configuration.GetOptions<JwtSettings>();

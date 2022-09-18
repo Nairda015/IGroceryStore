@@ -28,12 +28,10 @@ public class ProductsModule : IModule
 
         services.AddScoped<ISnowflakeService, SnowflakeService>();
 
-        var enableSensitiveData = configuration.GetValue<bool>("EnableSensitiveData");
-
         var options = configuration.GetOptions<PostgresSettings>();
         services.AddDbContext<ProductsDbContext>(ctx =>
             ctx.UseNpgsql(options.ConnectionString)
-                .EnableSensitiveDataLogging(enableSensitiveData));
+                .EnableSensitiveDataLogging(options.EnableSensitiveData));
         //Db
         services.AddDatabaseDeveloperPageExceptionFilter();
     }
