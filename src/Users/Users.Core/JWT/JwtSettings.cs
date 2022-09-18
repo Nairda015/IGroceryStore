@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using FluentValidation;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -6,7 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace IGroceryStore.Users.Core.JWT;
 
-internal class JwtSettings : ISettings
+internal class JwtSettings : SettingsBase<JwtSettings>, ISettings
 {
     public static string SectionName => "Users:JwtSettings";
     public string Key { get; set; }
@@ -43,5 +44,22 @@ internal class JwtSettings : ISettings
                 }
             };
         }
+    }
+
+    public JwtSettings()
+    {
+        RuleFor(x => x.Key)
+            .NotEmpty()
+            .MinimumLength(16);
+        
+        RuleFor(x => x.Issuer)
+            .NotEmpty()
+            .Custom((issuer, context) =>
+            {
+                if (!Uri.TryCreate(issuer, UriKind.Absolute, out var uri))
+                {
+                    context.AddFailure("Issuer must be a valid URI");
+                }
+            });
     }
 }

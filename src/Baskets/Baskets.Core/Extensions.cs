@@ -29,7 +29,8 @@ public class BasketsModule : IModule
 
         var options = configuration.GetOptions<PostgresSettings>();
         services.AddDbContext<BasketsDbContext>(ctx =>
-            ctx.UseNpgsql(options.ConnectionString));
+            ctx.UseNpgsql(options.ConnectionString)
+                .EnableSensitiveDataLogging(options.EnableSensitiveData));
     }
 
     public void Use(IApplicationBuilder app)

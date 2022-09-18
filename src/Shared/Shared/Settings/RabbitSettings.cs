@@ -1,10 +1,20 @@
+using FluentValidation;
+
 namespace IGroceryStore.Shared.Settings;
 
-public record RabbitSettings : ISettings
+public class RabbitSettings : SettingsBase<RabbitSettings>, ISettings
 {
     public static string SectionName => "Rabbit";
-    public string Host { get; init; } = default!;
-    public string VirtualHost { get; init; } = default!;
-    public string Username { get; init; } = default!;
-    public string Password { get; init; } = default!;
+    public string Host { get; set; }
+    public string VirtualHost { get; set; }
+    public string Username { get; set; }
+    public string Password { get; set; }
+
+    public RabbitSettings()
+    {
+        RuleFor(x => x.Host).NotEmpty();
+        RuleFor(x => x.VirtualHost).NotEmpty();
+        RuleFor(x => x.Username).NotEmpty();
+        RuleFor(x => x.Password).NotEmpty();
+    }
 }
