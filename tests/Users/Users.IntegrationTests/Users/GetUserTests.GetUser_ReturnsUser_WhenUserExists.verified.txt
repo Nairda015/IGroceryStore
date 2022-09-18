@@ -4,8 +4,7 @@
     Content: {
       Headers: [
         {
-          Key: Content-Type,
-          Value: [
+          Content-Type: [
             application/json; charset=utf-8
           ]
         }
@@ -20,7 +19,7 @@
       Method: {
         Method: GET
       },
-      RequestUri: 'http://localhost/users/Guid_1',
+      RequestUri: http://localhost/users/Guid_1,
       Headers: []
     },
     IsSuccessStatusCode: true
