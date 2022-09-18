@@ -7,8 +7,7 @@
   ReasonPhrase: Accepted,
   Headers: [
     {
-      Key: Location,
-      Value: [
+      Location: [
         http://localhost/users/Guid_1
       ]
     }
@@ -27,8 +26,7 @@
       },
       Headers: [
         {
-          Key: Content-Type,
-          Value: [
+          Content-Type: [
             application/json; charset=utf-8
           ]
         }
@@ -37,11 +35,10 @@
     Method: {
       Method: POST
     },
-    RequestUri: 'http://localhost/users/register',
+    RequestUri: http://localhost/users/register,
     Headers: [
       {
-        Key: Transfer-Encoding,
-        Value: [
+        Transfer-Encoding: [
           chunked
         ]
       }
