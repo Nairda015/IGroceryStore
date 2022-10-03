@@ -12,7 +12,7 @@
         <PackageReference Include="FluentAssertions" Version="6.7.0" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="7.0.0-rc.1.22427.2" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.0-preview-20220726-02" />
-        <PackageReference Include="Serilog.AspNetCore" Version="6.1.0-dev-00281" />
+        <PackageReference Include="Serilog.AspNetCore" Version="6.1.0-dev-00285" />
         <PackageReference Include="Serilog.Sinks.File" Version="5.0.1-dev-00947" />
         <PackageReference Include="Testcontainers" Version="2.2.0-beta.2835065501" />
         <PackageReference Include="Verify.Xunit" Version="18.0.0-beta.21" />
