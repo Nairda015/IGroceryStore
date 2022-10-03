@@ -2,17 +2,13 @@
 
 namespace IGroceryStore.Users.Core.ValueObjects;
 
-public record PasswordHash
+internal sealed record PasswordHash
 {
     public string Value { get; }
     
     public PasswordHash(string value)
     {
-        if (value is null)
-        {
-            throw new InvalidPasswordException();
-        }
-        Value = value;
+        Value = value ?? throw new InvalidPasswordException();
     }
     
     public static implicit operator string(PasswordHash passwordHash) => passwordHash.Value;
