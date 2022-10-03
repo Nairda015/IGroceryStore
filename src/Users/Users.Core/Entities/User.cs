@@ -9,7 +9,7 @@ using OneOf;
 
 namespace IGroceryStore.Users.Core.Entities;
 
-public class User : AuditableEntity
+public sealed class User : AuditableEntity
 {
     private User()
     {
