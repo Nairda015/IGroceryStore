@@ -21,7 +21,7 @@
       <PackageReference Include="Bogus" Version="34.0.2" />
       <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.2.2" />
       <PackageReference Include="IdGen" Version="3.0.2" />
-      <PackageReference Include="MassTransit" Version="8.0.7-develop.602" />
+      <PackageReference Include="MassTransit" Version="8.0.7" />
       <PackageReference Include="MassTransit.AspNetCore" Version="7.3.1" />
       <PackageReference Include="MassTransit.RabbitMQ" Version="8.0.7-develop.600" />
       <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
