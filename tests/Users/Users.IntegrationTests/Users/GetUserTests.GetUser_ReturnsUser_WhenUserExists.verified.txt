@@ -20,7 +20,8 @@
         Method: GET
       },
       RequestUri: http://localhost/users/Guid_1,
-      Headers: []
+      Headers: [],
+      Options: {}
     },
     IsSuccessStatusCode: true
   },

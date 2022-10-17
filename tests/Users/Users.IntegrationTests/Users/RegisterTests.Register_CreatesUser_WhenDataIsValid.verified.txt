@@ -42,7 +42,8 @@
           chunked
         ]
       }
-    ]
+    ],
+    Options: {}
   },
   IsSuccessStatusCode: true
 }
