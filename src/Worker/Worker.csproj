@@ -41,7 +41,7 @@
       <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.0.0-rc9.7" />
       <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.0.0-rc9.7" />
       <PackageReference Include="OpenTelemetry.Instrumentation.EntityFrameworkCore" Version="1.0.0-beta.3" />
-      <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.0.0-rc9.7" />
+      <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.0.0-rc9.8" />
       <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.0.0" />
       <PackageReference Include="OpenTelemetry.Instrumentation.SqlClient" Version="1.0.0-rc9.7" />
     </ItemGroup>
