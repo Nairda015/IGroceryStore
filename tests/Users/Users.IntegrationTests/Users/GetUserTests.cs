@@ -31,19 +31,19 @@ public class GetUserTests : IClassFixture<UserApiFactory>
 
         // Act
         var response = await _client.GetAsync(responseWithUserLocation.Headers.Location);
-        
+
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var user = await response.Content.ReadFromJsonAsync<UserReadModel>();
         user.Should().NotBeNull();
-        
+
         response.RequestMessage!.RequestUri.Should().Be($"http://localhost/users/{user!.Id}");
         // TODO: Something is wrong with scrubber
-        response.RequestMessage.RequestUri = new Uri(response.RequestMessage.RequestUri!
+        response.RequestMessage!.RequestUri = new Uri(response.RequestMessage.RequestUri!
             .ToString()
             .Replace($"{user.Id}", "Guid_1"));
         await Verify(new { response, user });
-        
+
         //Cleanup
         await _apiFactory.RemoveUserById(user.Id);
     }
