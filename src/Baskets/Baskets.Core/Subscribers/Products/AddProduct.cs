@@ -1,4 +1,4 @@
-﻿using IGroceryStore.Baskets.Core.Entities;
+using IGroceryStore.Baskets.Core.Entities;
 using IGroceryStore.Baskets.Core.Events;
 using MassTransit;
 using Microsoft.Extensions.Logging;

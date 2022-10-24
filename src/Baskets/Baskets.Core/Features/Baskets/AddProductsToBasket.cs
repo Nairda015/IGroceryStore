@@ -1,4 +1,4 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 using EventStore.Client;
 using IGroceryStore.Baskets.Core.Events;
 using IGroceryStore.Shared.Abstraction.Commands;
