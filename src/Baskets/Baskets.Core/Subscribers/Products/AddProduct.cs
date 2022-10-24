@@ -1,8 +1,6 @@
-﻿using IGroceryStore.Baskets.Core.Entities;
-using IGroceryStore.Baskets.Core.Persistence;
-using IGroceryStore.Products.Contracts.Events;
+﻿using IGroceryStore.Baskets.Core.Events;
+using Marten;
 using MassTransit;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace IGroceryStore.Baskets.Core.Subscribers.Products;
@@ -10,22 +8,24 @@ namespace IGroceryStore.Baskets.Core.Subscribers.Products;
 public class AddProduct : IConsumer<ProductAdded>
 {
     private readonly ILogger<AddProduct> _logger;
-    private readonly BasketsDbContext _basketsDbContext;
+    private readonly IDocumentSession _session;
 
-    public AddProduct(ILogger<AddProduct> logger, BasketsDbContext basketsDbContext)
+    public AddProduct(ILogger<AddProduct> logger, IDocumentSession session)
     {
         _logger = logger;
-        _basketsDbContext = basketsDbContext;
+        _session = session;
     }
 
     public async Task Consume(ConsumeContext<ProductAdded> context)
     {
         var (productId, name, category) = context.Message;
-        if (await _basketsDbContext.Products.AnyAsync(x => x.Id.Equals(productId))) return;
 
-        var product = new Product(productId, name, category);
-        await _basketsDbContext.Products.AddAsync(product);
-        await _basketsDbContext.SaveChangesAsync();
-        _logger.LogInformation("Product {ProductId} added to basket database", productId);
+        var streamState = await _session.Events
+            .FetchStreamStateAsync(productId.ToString(), context.CancellationToken);
+        if (streamState is not null) return; //??
+
+        _session.Events.StartStream(productId.ToString(), new ProductAdded(productId, name, category));
+        await _session.SaveChangesAsync();
+        _logger.LogInformation("Stream for product {ProductId} started", productId);
     }
 }

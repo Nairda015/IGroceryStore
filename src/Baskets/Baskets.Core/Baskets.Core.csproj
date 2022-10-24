@@ -12,6 +12,7 @@
     <ItemGroup>
       <ProjectReference Include="..\..\Products\Products.Contracts\Products.Contracts.csproj" />
       <ProjectReference Include="..\..\Shared\Shared\Shared.csproj" />
+      <ProjectReference Include="..\..\Shops\Shops.Contracts\Shops.Contracts.csproj" />
       <ProjectReference Include="..\..\Users\Users.Contracts\Users.Contracts.csproj" />
       <ProjectReference Include="..\Baskets.Contracts\Baskets.Contracts.csproj" />
     </ItemGroup>
@@ -24,6 +25,10 @@
 
     <ItemGroup>
       <Compile Remove="TestConsumer.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Marten.AspNetCore" Version="5.10.1" />
     </ItemGroup>
 
 </Project>

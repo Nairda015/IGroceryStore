@@ -8,7 +8,6 @@ using IGroceryStore.Shared.Services;
 using IGroceryStore.Shared.Configuration;
 using IGroceryStore.Shared.Settings;
 using MassTransit;
-using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;

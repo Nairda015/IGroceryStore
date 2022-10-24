@@ -5,8 +5,10 @@ namespace IGroceryStore.Shops.Core.Entities;
 
 public class Shop
 {
-    public Guid Id { get; set; }
+    public ulong Id { get; set; }
+    public ulong ShopChainId { get; set; }
     public string Name { get; set; }
+    public string FriendlyName { get; set; }
     public List<Adress> Adresses { get; set; }
     public Rating Rating { get; set; }
 }

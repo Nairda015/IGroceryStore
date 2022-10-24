@@ -1,8 +1,7 @@
 ﻿using IGroceryStore.Baskets.Core.Entities;
-using IGroceryStore.Baskets.Core.Persistence;
 using IGroceryStore.Users.Contracts.Events;
+using Marten;
 using MassTransit;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace IGroceryStore.Baskets.Core.Subscribers.Users;
@@ -10,22 +9,29 @@ namespace IGroceryStore.Baskets.Core.Subscribers.Users;
 public class AddUser : IConsumer<UserCreated>
 {
     private readonly ILogger<AddUser> _logger;
-    private readonly BasketsDbContext _basketsDbContext;
+    private readonly IDocumentSession _session;
 
-    public AddUser(ILogger<AddUser> logger, BasketsDbContext basketsDbContext)
+    public AddUser(ILogger<AddUser> logger, IDocumentSession session)
     {
         _logger = logger;
-        _basketsDbContext = basketsDbContext;
+        _session = session;
     }
 
     public async Task Consume(ConsumeContext<UserCreated> context)
     {
         var (userId, firstName, lastName) = context.Message;
-        if (await _basketsDbContext.Users.AnyAsync(x => x.Id.Equals(userId))) return;
+        var user = await _session.LoadAsync<User>(userId, context.CancellationToken);
+        if (user is not null) return;
 
-        var user = new User(userId, firstName, lastName);
-        await _basketsDbContext.Users.AddAsync(user);
-        await _basketsDbContext.SaveChangesAsync();
+        user = new User
+        {
+            Id = userId,
+            FirstName = firstName,
+            LastName = lastName
+        };
+        
+        _session.Store(user);
+        await _session.SaveChangesAsync();
         _logger.LogInformation("User {UserId} added to basket database", userId);
     }
 }

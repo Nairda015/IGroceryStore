@@ -17,7 +17,12 @@ internal sealed class BasketFactory : IBasketFactory
     public Basket Create(BasketName name)
     {
         var userId = _currentUserService.UserId ?? throw new InvalidUserIdException();
-        return new Basket(Guid.NewGuid(), userId, name);
+        return new Basket
+        {
+            Id = Guid.NewGuid(),
+            OwnerId = userId,
+            Name = name
+        };
     }
 }
 

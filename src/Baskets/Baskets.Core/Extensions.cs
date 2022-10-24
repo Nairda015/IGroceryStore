@@ -1,16 +1,16 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
 using IGroceryStore.Baskets.Core.Factories;
-using IGroceryStore.Baskets.Core.Persistence;
+using IGroceryStore.Baskets.Core.Projectors;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Commands;
 using IGroceryStore.Shared.Queries;
 using IGroceryStore.Shared.Settings;
+using Marten;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -28,9 +28,11 @@ public class BasketsModule : IModule
         services.AddSingleton<IBasketFactory, BasketFactory>();
 
         var options = configuration.GetOptions<PostgresSettings>();
-        services.AddDbContext<BasketsDbContext>(ctx =>
-            ctx.UseNpgsql(options.ConnectionString)
-                .EnableSensitiveDataLogging(options.EnableSensitiveData));
+        services.AddMarten(x =>
+        {
+            x.Connection(options.ConnectionString);
+            x.Projections.Add<ProductForShopProjector>();
+        });
     }
 
     public void Use(IApplicationBuilder app)

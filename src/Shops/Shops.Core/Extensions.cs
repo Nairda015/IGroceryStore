@@ -10,6 +10,7 @@ using IGroceryStore.Shops.Core.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -43,6 +44,9 @@ public class ShopsModule : IModule
 
     public void Use(IApplicationBuilder app)
     {
+        var cosmosClient = new CosmosClient("dsa");
+        var container = cosmosClient.GetContainer("dsa", "dsa");
+        
     }
 
     public void Expose(IEndpointRouteBuilder endpoints)

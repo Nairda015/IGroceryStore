@@ -3,7 +3,6 @@ using DotNet.Testcontainers.Builders;
 using DotNet.Testcontainers.Configurations;
 using DotNet.Testcontainers.Containers;
 using IGroceryStore.API;
-using IGroceryStore.Baskets.Core.Persistence;
 using IGroceryStore.Products.Core.Persistence.Contexts;
 using IGroceryStore.Users.Contracts.Events;
 using IGroceryStore.Users.Core.Persistence.Contexts;
@@ -50,11 +49,9 @@ public class UserApiFactory : WebApplicationFactory<IApiMarker>, IAsyncLifetime
         builder.ConfigureTestServices(services =>
         {
             services.CleanDbContextOptions<UsersDbContext>();
-            services.CleanDbContextOptions<BasketsDbContext>();
             services.CleanDbContextOptions<ProductsDbContext>();
 
             services.AddPostgresContext<UsersDbContext>(_dbContainer);
-            services.AddPostgresContext<BasketsDbContext>(_dbContainer);
             services.AddPostgresContext<ProductsDbContext>(_dbContainer);
         });
     }

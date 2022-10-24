@@ -11,7 +11,7 @@ public record BasketName
         if (string.IsNullOrWhiteSpace(name)) throw new InvalidBasketNameException(name);
         Value = name;
     }
-    
+
     public static implicit operator string(BasketName basketName) => basketName.Value;
     public static implicit operator BasketName(string name) => new(name);
 }
