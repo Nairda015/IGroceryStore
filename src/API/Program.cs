@@ -136,12 +136,12 @@ app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "IGroceryS
 app.MapFallbackToFile("index.html");
 
 var databaseInitializer = app.Services.GetRequiredService<DbInitializer>();
-if (!builder.Environment.IsDevelopment() && !builder.Environment.IsTestEnvironment())
+if (builder.Environment.IsDevelopment() || builder.Environment.IsTestEnvironment())
 {
-    await databaseInitializer.MigrateAsync(moduleAssemblies);
+    await databaseInitializer.MigrateWithEnsuredDeletedAsync(moduleAssemblies);
 }
 else
 {
-    await databaseInitializer.MigrateWithEnsuredDeletedAsync(moduleAssemblies);
+    await databaseInitializer.MigrateAsync(moduleAssemblies);
 }
 app.Run();
