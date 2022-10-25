@@ -25,7 +25,7 @@ foreach (var module in modules)
 }
 
 //AWS
-if (!builder.Environment.IsDevelopment())
+if (!builder.Environment.IsDevelopment() && !builder.Environment.IsTestEnvironment())
 {
     builder.Configuration.AddSystemsManager("/Production/IGroceryStore", TimeSpan.FromSeconds(30));
 }
@@ -95,8 +95,8 @@ builder.Services.AddOpenTelemetryTracing(x =>
 });
 
 var app = builder.Build();
-System.AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
+System.AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 app.UseSwagger();
 
 // Configure the HTTP request pipeline.
@@ -135,5 +135,12 @@ app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "IGroceryS
 app.MapFallbackToFile("index.html");
 
 var databaseInitializer = app.Services.GetRequiredService<DbInitializer>();
-await databaseInitializer.MigrateAsync(moduleAssemblies);
+if (builder.Environment.IsDevelopment() || builder.Environment.IsTestEnvironment())
+{
+    await databaseInitializer.MigrateWithEnsuredDeletedAsync(moduleAssemblies);
+}
+else
+{
+    await databaseInitializer.MigrateAsync(moduleAssemblies);
+}
 app.Run();

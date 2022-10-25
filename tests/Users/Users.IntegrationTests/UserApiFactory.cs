@@ -4,6 +4,7 @@ using DotNet.Testcontainers.Configurations;
 using DotNet.Testcontainers.Containers;
 using IGroceryStore.API;
 using IGroceryStore.Products.Core.Persistence.Contexts;
+using IGroceryStore.Shared.Services;
 using IGroceryStore.Users.Contracts.Events;
 using IGroceryStore.Users.Core.Persistence.Contexts;
 using MassTransit;
@@ -37,6 +38,8 @@ public class UserApiFactory : WebApplicationFactory<IApiMarker>, IAsyncLifetime
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.ConfigureLogging(logging => { logging.ClearProviders(); });
+
+        builder.UseEnvironment(EnvironmentService.TestEnvironment);
 
         builder.ConfigureServices(services =>
         {
