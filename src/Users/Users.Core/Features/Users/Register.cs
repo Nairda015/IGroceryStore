@@ -28,7 +28,7 @@ internal record Register(Register.RegisterBody Body) : IHttpCommand
 public class RegisterUserEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapPost<Register>("users/register")
+        endpoints.MapPost<Register>("api/users/register")
             .Produces(202)
             .Produces(400)
             .Produces<ValidationResult>(400)

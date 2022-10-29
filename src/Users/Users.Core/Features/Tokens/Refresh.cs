@@ -22,7 +22,7 @@ internal record RefreshToken : IHttpCommand;
 public class RefreshEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapPut<RefreshToken>("tokens/refresh")
+        endpoints.MapPut<RefreshToken>("api/tokens/refresh")
             .RequireAuthorization(_authorizeData)
             .Produces<TokensReadModel>()
             .Produces<InvalidClaimsException>(400)

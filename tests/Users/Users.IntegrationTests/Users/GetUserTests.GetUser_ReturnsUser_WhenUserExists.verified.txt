@@ -19,7 +19,7 @@
       Method: {
         Method: GET
       },
-      RequestUri: http://localhost/users/Guid_1,
+      RequestUri: http://localhost/api/users/Guid_1,
       Headers: []
     },
     IsSuccessStatusCode: true
