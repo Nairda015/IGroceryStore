@@ -1,4 +1,5 @@
 ﻿using IGroceryStore.Baskets.Core.Events;
+using IGroceryStore.Baskets.Core.Projectors;
 using Marten;
 using MassTransit;
 using Microsoft.Extensions.Logging;
@@ -19,7 +20,6 @@ public class AddProduct : IConsumer<ProductAdded>
     public async Task Consume(ConsumeContext<ProductAdded> context)
     {
         var (productId, name, category) = context.Message;
-
         var streamState = await _session.Events
             .FetchStreamStateAsync(productId.ToString(), context.CancellationToken);
         if (streamState is not null) return; //??

@@ -19,10 +19,9 @@ public class ProductForShopProjector : SingleStreamAggregation<ProductProjection
 
     public void Apply(ProductProjectionForShop snapshot, IEvent<ProductPriceChanged> e)
     {
-        //apply only if shop id is ...
         var date = DateOnly.FromDateTime(e.Timestamp.UtcDateTime);
         var price = new Price(date, e.Data.NewPrice);
-        snapshot.Prices.Add(price);
+        snapshot.Prices[e.Data.ShopChainId].Add(price);
     }
 }
 
@@ -31,5 +30,5 @@ public record ProductProjectionForShop
     public required ulong Id { get; init; }
     public required string Name { get; init; }
     public required string Category { get; init; }
-    public List<Price> Prices { get; } = new();
+    public Dictionary<ulong, List<Price>> Prices { get; } = new();
 }

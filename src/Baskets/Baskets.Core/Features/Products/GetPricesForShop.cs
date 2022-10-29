@@ -3,6 +3,7 @@ using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Abstraction.Queries;
 using Marten;
+using Marten.AspNetCore;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 

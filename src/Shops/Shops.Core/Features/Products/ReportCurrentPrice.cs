@@ -1,12 +1,10 @@
 ﻿using FluentValidation;
-using IGroceryStore.Products.Contracts.Events;
 using IGroceryStore.Shared.Abstraction.Commands;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Services;
 using IGroceryStore.Shared.Validation;
 using IGroceryStore.Shops.Contracts.Events;
-using IGroceryStore.Shops.Core.Entities;
 using IGroceryStore.Shops.Core.Repositories;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;

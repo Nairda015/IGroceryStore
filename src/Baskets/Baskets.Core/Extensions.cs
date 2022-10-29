@@ -8,6 +8,7 @@ using IGroceryStore.Shared.Commands;
 using IGroceryStore.Shared.Queries;
 using IGroceryStore.Shared.Settings;
 using Marten;
+using Marten.Storage;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -32,6 +33,8 @@ public class BasketsModule : IModule
         {
             x.Connection(options.ConnectionString);
             x.Projections.Add<ProductForShopProjector>();
+            x.Events.DatabaseSchemaName = "IGroceryStore.Baskets";
+            x.Events.TenancyStyle = TenancyStyle.Conjoined;
         });
     }
 
