@@ -14,7 +14,7 @@ internal record DeleteCategory(ulong Id) : IHttpCommand;
 public class DeleteCategoryEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapDelete<DeleteCategory>("categories/{id}")
+        endpoints.MapDelete<DeleteCategory>("api/categories/{id}")
             .WithTags(SwaggerTags.Products)
             .Produces(204)
             .Produces(400);

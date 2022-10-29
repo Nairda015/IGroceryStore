@@ -18,7 +18,7 @@ internal record MarkAsObsolete(MarkAsObsolete.MarkAsObsoleteBody Body) : IHttpCo
 public class MarkAsObsoleteEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapPost<MarkAsObsolete>("products/mark-as-obsolete/{id}").WithTags(SwaggerTags.Products);
+        endpoints.MapPost<MarkAsObsolete>("api/products/mark-as-obsolete/{id}").WithTags(SwaggerTags.Products);
 }
 
 internal class MarkAsObsoleteHandler : ICommandHandler<MarkAsObsolete, IResult>

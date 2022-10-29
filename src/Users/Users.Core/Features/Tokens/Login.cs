@@ -26,7 +26,7 @@ internal record LoginResult(Guid UserId, TokensReadModel Tokens);
 public class LoginEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapPost<LoginWithUserAgent>("tokens/login")
+        endpoints.MapPost<LoginWithUserAgent>("api/tokens/login")
             .Produces<LoginResult>()
             .Produces<InvalidCredentialsException>(400)
             .Produces<LoggingTriesExceededException>(400)

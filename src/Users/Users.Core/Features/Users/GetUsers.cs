@@ -17,7 +17,7 @@ internal record UsersReadModel(IEnumerable<UserReadModel> Users, int Count);
 public class GetUsersEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapGet<GetUsers>("/users")
+        endpoints.MapGet<GetUsers>("api/users")
             .Produces<UsersReadModel>()
             .Produces(401)
             .RequireAuthorization()

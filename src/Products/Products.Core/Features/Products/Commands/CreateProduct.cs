@@ -31,7 +31,7 @@ internal record CreateProduct(CreateProduct.CreateProductBody Body) : IHttpComma
 public class CreateProductEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapPost<CreateProduct>("products")
+        endpoints.MapPost<CreateProduct>("api/products")
             .RequireAuthorization()
             .AddEndpointFilter<ValidationFilter<CreateProduct.CreateProductBody>>()
             .WithTags(SwaggerTags.Products);

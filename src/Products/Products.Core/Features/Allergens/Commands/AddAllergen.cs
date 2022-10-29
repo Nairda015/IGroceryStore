@@ -17,7 +17,7 @@ internal record AddAllergen(AddAllergen.AddAllergenBody Body) : IHttpCommand
 public class AddAllergenEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapPost<AddAllergen>("allergen").WithTags(SwaggerTags.Products);
+        endpoints.MapPost<AddAllergen>("api/allergen").WithTags(SwaggerTags.Products);
 }
 
 internal class AddAllergenHandler : ICommandHandler<AddAllergen, IResult>

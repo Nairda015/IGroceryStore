@@ -15,7 +15,7 @@ internal record GetProduct(ulong Id) : IHttpQuery;
 public class GetProductEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapGet<GetProduct>("products/{id}").WithTags(SwaggerTags.Products);
+        endpoints.MapGet<GetProduct>("api/products/{id}").WithTags(SwaggerTags.Products);
 }
 
 internal class GetProductHandler : IQueryHandler<GetProduct, IResult>

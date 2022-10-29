@@ -21,7 +21,7 @@ internal record UpdateCategory(UpdateCategory.UpdateCategoryBody Body, ulong Id)
 public class UpdateCategoryEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapPut<UpdateCategory>("categories/{id}")
+        endpoints.MapPut<UpdateCategory>("api/categories/{id}")
             .AddEndpointFilter<ValidationFilter<UpdateCategory.UpdateCategoryBody>>()
             .WithTags(SwaggerTags.Products)
             .Produces(202)

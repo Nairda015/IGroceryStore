@@ -16,7 +16,7 @@ internal record AddBasket(AddBasket.AddBasketBody Body) : IHttpCommand
 public class AddBasketEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapPost<AddBasket>("/basket").WithTags(SwaggerTags.Baskets);
+        endpoints.MapPost<AddBasket>("api/basket").WithTags(SwaggerTags.Baskets);
 }
 
 internal class AddBasketHandler : ICommandHandler<AddBasket, IResult>
