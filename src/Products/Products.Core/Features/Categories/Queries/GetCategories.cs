@@ -16,7 +16,7 @@ internal record GetCategoriesResult(List<CategoryReadModel> Categories);
 public class GetCategoriesEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapGet<GetCategories>("categories")
+        endpoints.MapGet<GetCategories>("api/categories")
             .Produces<GetCategoriesResult>()
             .WithTags(SwaggerTags.Products);
 }

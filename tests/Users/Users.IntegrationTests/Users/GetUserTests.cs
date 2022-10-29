@@ -26,7 +26,7 @@ public class GetUserTests : IClassFixture<UserApiFactory>
     {
         // Arrange
         var registerRequest = TestUsers.Register;
-        var responseWithUserLocation = await _client.PostAsJsonAsync("users/register", registerRequest.Body);
+        var responseWithUserLocation = await _client.PostAsJsonAsync("api/users/register", registerRequest.Body);
         responseWithUserLocation.StatusCode.Should().Be(HttpStatusCode.Accepted);
 
         // Act
@@ -37,7 +37,7 @@ public class GetUserTests : IClassFixture<UserApiFactory>
         var user = await response.Content.ReadFromJsonAsync<UserReadModel>();
         user.Should().NotBeNull();
 
-        response.RequestMessage!.RequestUri.Should().Be($"http://localhost/users/{user!.Id}");
+        response.RequestMessage!.RequestUri.Should().Be($"http://localhost/api/users/{user!.Id}");
         // TODO: Something is wrong with scrubber
         response.RequestMessage!.RequestUri = new Uri(response.RequestMessage.RequestUri!
             .ToString()

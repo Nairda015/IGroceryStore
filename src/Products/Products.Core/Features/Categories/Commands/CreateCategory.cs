@@ -21,7 +21,7 @@ internal record CreateCategory(CreateCategory.CreateCategoryBody Body) : IHttpCo
 public class CreateCategoryEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapPost<CreateCategory>("categories")
+        endpoints.MapPost<CreateCategory>("api/categories")
             .AddEndpointFilter<ValidationFilter<CreateCategory.CreateCategoryBody>>()
             .WithTags(SwaggerTags.Products)
             .Produces(201)

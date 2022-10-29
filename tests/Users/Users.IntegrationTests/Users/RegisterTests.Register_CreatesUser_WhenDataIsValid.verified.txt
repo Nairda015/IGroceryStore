@@ -8,7 +8,7 @@
   Headers: [
     {
       Location: [
-        http://localhost/users/Guid_1
+        http://localhost/api/users/Guid_1
       ]
     }
   ],
@@ -35,7 +35,7 @@
     Method: {
       Method: POST
     },
-    RequestUri: http://localhost/users/register,
+    RequestUri: http://localhost/api/users/register,
     Headers: [
       {
         Transfer-Encoding: [

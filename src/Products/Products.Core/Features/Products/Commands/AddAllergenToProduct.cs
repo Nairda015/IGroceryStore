@@ -17,7 +17,7 @@ internal record AddAllergenToProduct(AddAllergenToProduct.AddAllergenToProductBo
 public class AddAllergenToProductEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapPut<AddAllergenToProduct>("products/add-allergen").WithTags(SwaggerTags.Products);
+        endpoints.MapPut<AddAllergenToProduct>("api/products/add-allergen").WithTags(SwaggerTags.Products);
 }
 
 internal class AddAllergenToProductHandler : ICommandHandler<AddAllergenToProduct, IResult>
