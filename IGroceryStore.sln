@@ -1,8 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Baskets.Core", "src\Baskets\Baskets.Core\Baskets.Core.csproj", "{2AF5DDC3-75A2-41CF-BB26-CE6EEF42A117}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33015.44
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Baskets.Core", "src\Baskets\Baskets.Core\Baskets.Core.csproj", "{2AF5DDC3-75A2-41CF-BB26-CE6EEF42A117}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Baskets.Contracts", "src\Baskets\Baskets.Contracts\Baskets.Contracts.csproj", "{4DDB74BB-8173-4BE8-B891-C04CDC727603}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Baskets.Contracts", "src\Baskets\Baskets.Contracts\Baskets.Contracts.csproj", "{4DDB74BB-8173-4BE8-B891-C04CDC727603}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Baskets", "Baskets", "{959393F6-FF89-490B-889E-D2F24B2DF605}"
 EndProject
@@ -10,33 +13,33 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shops", "Shops", "{2DDCE09B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Products", "Products", "{51E807A8-E7D2-4349-B5C2-EB780D82641A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shops.Core", "src\Shops\Shops.Core\Shops.Core.csproj", "{FDA44412-BC78-4DE3-851B-1B1F4A02FF3F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shops.Core", "src\Shops\Shops.Core\Shops.Core.csproj", "{FDA44412-BC78-4DE3-851B-1B1F4A02FF3F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shops.Contracts", "src\Shops\Shops.Contracts\Shops.Contracts.csproj", "{48CB628E-4D69-4F6D-B533-A5C11F5E8E65}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shops.Contracts", "src\Shops\Shops.Contracts\Shops.Contracts.csproj", "{48CB628E-4D69-4F6D-B533-A5C11F5E8E65}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Products.Contracts", "src\Products\Products.Contracts\Products.Contracts.csproj", "{29B589AC-707B-4C53-9E88-F22888311229}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Products.Contracts", "src\Products\Products.Contracts\Products.Contracts.csproj", "{29B589AC-707B-4C53-9E88-F22888311229}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Products.Core", "src\Products\Products.Core\Products.Core.csproj", "{D8778F33-AEFD-4F9F-AE08-14BF1B13B503}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Products.Core", "src\Products\Products.Core\Products.Core.csproj", "{D8778F33-AEFD-4F9F-AE08-14BF1B13B503}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{DC323AE4-1C76-4AEB-BD0E-139B47A5F4ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared.Abstraction", "src\Shared\Shared.Abstraction\Shared.Abstraction.csproj", "{757B8F60-561B-4E7F-9AA7-D1537452FFD0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared.Abstraction", "src\Shared\Shared.Abstraction\Shared.Abstraction.csproj", "{757B8F60-561B-4E7F-9AA7-D1537452FFD0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "src\Shared\Shared\Shared.csproj", "{F086A490-C28A-4DF9-A05E-8D765CF0FD62}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "src\Shared\Shared\Shared.csproj", "{F086A490-C28A-4DF9-A05E-8D765CF0FD62}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "src\API\API.csproj", "{F8ED371D-A8D2-43C0-9526-2B5B1026E120}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "src\API\API.csproj", "{F8ED371D-A8D2-43C0-9526-2B5B1026E120}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Worker", "src\Worker\Worker.csproj", "{13FCD77B-95D7-4FC2-AD7F-FC557C89E08D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Worker", "src\Worker\Worker.csproj", "{13FCD77B-95D7-4FC2-AD7F-FC557C89E08D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{E795DE89-913A-4B75-B579-45FFB612EE53}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Baskets.UnitTests", "tests\Baskets\Baskets.UnitTests\Baskets.UnitTests.csproj", "{4BE58296-F624-4C03-A9D2-1E5D3061000E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Baskets.UnitTests", "tests\Baskets\Baskets.UnitTests\Baskets.UnitTests.csproj", "{4BE58296-F624-4C03-A9D2-1E5D3061000E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Users", "Users", "{DAB96D2A-A8E0-419A-A030-A39596BC9F96}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Users.Core", "src\Users\Users.Core\Users.Core.csproj", "{705137AC-A585-4DA0-80E1-A6AEDA0A8B78}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Users.Core", "src\Users\Users.Core\Users.Core.csproj", "{705137AC-A585-4DA0-80E1-A6AEDA0A8B78}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Users.Contracts", "src\Users\Users.Contracts\Users.Contracts.csproj", "{9EFBA892-DA33-4E8B-BE43-06C2CD184732}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Users.Contracts", "src\Users\Users.Contracts\Users.Contracts.csproj", "{9EFBA892-DA33-4E8B-BE43-06C2CD184732}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{4257692D-0F78-4D5D-9B1D-5F7D28DB58CB}"
 EndProject
@@ -48,29 +51,29 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Products", "Products", "{E5
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shops", "Shops", "{159E4352-BDA2-41BA-81FA-D722BDC200E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Baskets.IntegrationTests", "tests\Baskets\Baskets.IntegrationTests\Baskets.IntegrationTests.csproj", "{0A86368E-D354-4998-8590-943EADEF867A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Baskets.IntegrationTests", "tests\Baskets\Baskets.IntegrationTests\Baskets.IntegrationTests.csproj", "{0A86368E-D354-4998-8590-943EADEF867A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Products.IntegrationTests", "tests\Products\Products.IntegrationTests\Products.IntegrationTests.csproj", "{B65B2EA2-E5DD-4A6A-894A-79B16961B50E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Products.IntegrationTests", "tests\Products\Products.IntegrationTests\Products.IntegrationTests.csproj", "{B65B2EA2-E5DD-4A6A-894A-79B16961B50E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shops.IntegrationTests", "tests\Shops\Shops.IntegrationTests\Shops.IntegrationTests.csproj", "{32B71E08-83CC-485E-9C2C-B49D078EE8B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shops.IntegrationTests", "tests\Shops\Shops.IntegrationTests\Shops.IntegrationTests.csproj", "{32B71E08-83CC-485E-9C2C-B49D078EE8B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Users.IntegrationTests", "tests\Users\Users.IntegrationTests\Users.IntegrationTests.csproj", "{492E6B88-37F2-4752-A146-C37B8B3B2C8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Users.IntegrationTests", "tests\Users\Users.IntegrationTests\Users.IntegrationTests.csproj", "{492E6B88-37F2-4752-A146-C37B8B3B2C8F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Products.UnitTests", "tests\Products\Products.UnitTests\Products.UnitTests.csproj", "{9B368812-B9E0-4B34-B532-AC90B95D1CBF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Products.UnitTests", "tests\Products\Products.UnitTests\Products.UnitTests.csproj", "{9B368812-B9E0-4B34-B532-AC90B95D1CBF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shops.UnitTests", "tests\Shops\Shops.UnitTests\Shops.UnitTests.csproj", "{5F1ACEEE-21C2-4F25-AC1E-B7FE4C5BF2D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shops.UnitTests", "tests\Shops\Shops.UnitTests\Shops.UnitTests.csproj", "{5F1ACEEE-21C2-4F25-AC1E-B7FE4C5BF2D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Users.UnitTests", "tests\Users\Users.UnitTests\Users.UnitTests.csproj", "{90BAF73D-97DE-4308-894D-4CFBC8546043}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Users.UnitTests", "tests\Users\Users.UnitTests\Users.UnitTests.csproj", "{90BAF73D-97DE-4308-894D-4CFBC8546043}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{5DFEA9E6-F600-4B75-BFAB-913D415C5599}"
 	ProjectSection(SolutionItems) = preProject
-		tools\migration.sh = tools\migration.sh
-		tools\updateDb.sh = tools\updateDb.sh
-		tools\docker-compose.yml = tools\docker-compose.yml
-		tools\tests-migration.sh = tools\tests-migration.sh
-		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
-		tools\commands.md = tools\commands.md
 		.editorconfig = .editorconfig
+		tools\commands.md = tools\commands.md
+		tools\docker-compose.yml = tools\docker-compose.yml
+		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
+		tools\migration.sh = tools\migration.sh
+		tools\tests-migration.sh = tools\tests-migration.sh
+		tools\updateDb.sh = tools\updateDb.sh
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "requests", "requests", "{02241B0B-8C92-40C1-A3AC-F7AC27EDD788}"
@@ -80,7 +83,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "requests", "requests", "{02
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notifications", "Notifications", "{C3809CC7-0AF9-4D56-B1AB-EA0E098B0ECF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notifications", "src\Notifications\Notifications\Notifications.csproj", "{7F1E1F0D-2006-42D0-8AC0-72E40FD709B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notifications", "src\Notifications\Notifications\Notifications.csproj", "{7F1E1F0D-2006-42D0-8AC0-72E40FD709B6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{E62041C7-7CED-415E-A320-4EB555D3223D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "tests\Shared\Shared.csproj", "{3778177C-5D1B-413E-8313-BAEFBE5B45AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -172,27 +179,34 @@ Global
 		{7F1E1F0D-2006-42D0-8AC0-72E40FD709B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F1E1F0D-2006-42D0-8AC0-72E40FD709B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F1E1F0D-2006-42D0-8AC0-72E40FD709B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3778177C-5D1B-413E-8313-BAEFBE5B45AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3778177C-5D1B-413E-8313-BAEFBE5B45AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3778177C-5D1B-413E-8313-BAEFBE5B45AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3778177C-5D1B-413E-8313-BAEFBE5B45AB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{4DDB74BB-8173-4BE8-B891-C04CDC727603} = {959393F6-FF89-490B-889E-D2F24B2DF605}
 		{2AF5DDC3-75A2-41CF-BB26-CE6EEF42A117} = {959393F6-FF89-490B-889E-D2F24B2DF605}
+		{4DDB74BB-8173-4BE8-B891-C04CDC727603} = {959393F6-FF89-490B-889E-D2F24B2DF605}
+		{959393F6-FF89-490B-889E-D2F24B2DF605} = {4257692D-0F78-4D5D-9B1D-5F7D28DB58CB}
+		{2DDCE09B-DF46-4875-99DF-6AC246BF2B99} = {4257692D-0F78-4D5D-9B1D-5F7D28DB58CB}
+		{51E807A8-E7D2-4349-B5C2-EB780D82641A} = {4257692D-0F78-4D5D-9B1D-5F7D28DB58CB}
 		{FDA44412-BC78-4DE3-851B-1B1F4A02FF3F} = {2DDCE09B-DF46-4875-99DF-6AC246BF2B99}
 		{48CB628E-4D69-4F6D-B533-A5C11F5E8E65} = {2DDCE09B-DF46-4875-99DF-6AC246BF2B99}
 		{29B589AC-707B-4C53-9E88-F22888311229} = {51E807A8-E7D2-4349-B5C2-EB780D82641A}
 		{D8778F33-AEFD-4F9F-AE08-14BF1B13B503} = {51E807A8-E7D2-4349-B5C2-EB780D82641A}
+		{DC323AE4-1C76-4AEB-BD0E-139B47A5F4ED} = {4257692D-0F78-4D5D-9B1D-5F7D28DB58CB}
 		{757B8F60-561B-4E7F-9AA7-D1537452FFD0} = {DC323AE4-1C76-4AEB-BD0E-139B47A5F4ED}
 		{F086A490-C28A-4DF9-A05E-8D765CF0FD62} = {DC323AE4-1C76-4AEB-BD0E-139B47A5F4ED}
-		{705137AC-A585-4DA0-80E1-A6AEDA0A8B78} = {DAB96D2A-A8E0-419A-A030-A39596BC9F96}
-		{9EFBA892-DA33-4E8B-BE43-06C2CD184732} = {DAB96D2A-A8E0-419A-A030-A39596BC9F96}
 		{F8ED371D-A8D2-43C0-9526-2B5B1026E120} = {4257692D-0F78-4D5D-9B1D-5F7D28DB58CB}
 		{13FCD77B-95D7-4FC2-AD7F-FC557C89E08D} = {4257692D-0F78-4D5D-9B1D-5F7D28DB58CB}
-		{959393F6-FF89-490B-889E-D2F24B2DF605} = {4257692D-0F78-4D5D-9B1D-5F7D28DB58CB}
-		{51E807A8-E7D2-4349-B5C2-EB780D82641A} = {4257692D-0F78-4D5D-9B1D-5F7D28DB58CB}
-		{DC323AE4-1C76-4AEB-BD0E-139B47A5F4ED} = {4257692D-0F78-4D5D-9B1D-5F7D28DB58CB}
-		{DAB96D2A-A8E0-419A-A030-A39596BC9F96} = {4257692D-0F78-4D5D-9B1D-5F7D28DB58CB}
-		{2DDCE09B-DF46-4875-99DF-6AC246BF2B99} = {4257692D-0F78-4D5D-9B1D-5F7D28DB58CB}
-		{A55FBF25-CB11-4671-8CF4-76816B19A882} = {E795DE89-913A-4B75-B579-45FFB612EE53}
 		{4BE58296-F624-4C03-A9D2-1E5D3061000E} = {A55FBF25-CB11-4671-8CF4-76816B19A882}
+		{DAB96D2A-A8E0-419A-A030-A39596BC9F96} = {4257692D-0F78-4D5D-9B1D-5F7D28DB58CB}
+		{705137AC-A585-4DA0-80E1-A6AEDA0A8B78} = {DAB96D2A-A8E0-419A-A030-A39596BC9F96}
+		{9EFBA892-DA33-4E8B-BE43-06C2CD184732} = {DAB96D2A-A8E0-419A-A030-A39596BC9F96}
+		{A55FBF25-CB11-4671-8CF4-76816B19A882} = {E795DE89-913A-4B75-B579-45FFB612EE53}
 		{F3EB15AF-4432-40B1-8B20-D3B257D1411E} = {E795DE89-913A-4B75-B579-45FFB612EE53}
 		{E59C08BA-D7AE-4726-ACED-270B35104447} = {E795DE89-913A-4B75-B579-45FFB612EE53}
 		{159E4352-BDA2-41BA-81FA-D722BDC200E5} = {E795DE89-913A-4B75-B579-45FFB612EE53}
@@ -205,5 +219,10 @@ Global
 		{90BAF73D-97DE-4308-894D-4CFBC8546043} = {F3EB15AF-4432-40B1-8B20-D3B257D1411E}
 		{C3809CC7-0AF9-4D56-B1AB-EA0E098B0ECF} = {4257692D-0F78-4D5D-9B1D-5F7D28DB58CB}
 		{7F1E1F0D-2006-42D0-8AC0-72E40FD709B6} = {C3809CC7-0AF9-4D56-B1AB-EA0E098B0ECF}
+		{E62041C7-7CED-415E-A320-4EB555D3223D} = {E795DE89-913A-4B75-B579-45FFB612EE53}
+		{3778177C-5D1B-413E-8313-BAEFBE5B45AB} = {E62041C7-7CED-415E-A320-4EB555D3223D}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F83A5637-BD21-4AAC-9087-87AB61B4E0A8}
 	EndGlobalSection
 EndGlobal
