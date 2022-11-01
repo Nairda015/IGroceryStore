@@ -41,7 +41,7 @@ namespace IGroceryStore.Products.Core.Features.Brands.Commands
                 Name = command.Body.Name
             };
 
-            _productsDbContext.Brands.Add(brand);
+            await _productsDbContext.Brands.AddAsync(brand);
             await _productsDbContext.SaveChangesAsync(cancellationToken);
             return Results.CreatedAtRoute($"api/brands/{brand.Id}");
         }
