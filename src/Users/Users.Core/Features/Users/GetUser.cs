@@ -21,8 +21,7 @@ public class GetUserEndpoint : IEndpoint
             .Produces<UserReadModel>()
             .Produces<UserNotFoundException>(404)
             .Produces(401)
-            //TODO: Add authorization to tests
-            //.RequireAuthorization()
+            .RequireAuthorization()
             .WithName(nameof(GetUser))
             .WithTags(SwaggerTags.Users);
 }

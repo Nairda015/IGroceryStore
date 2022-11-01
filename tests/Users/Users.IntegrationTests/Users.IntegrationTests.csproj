@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
@@ -29,6 +29,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\src\API\API.csproj" />
+      <ProjectReference Include="..\..\Shared\Shared.csproj" />
     </ItemGroup>
 
     <ItemGroup>
