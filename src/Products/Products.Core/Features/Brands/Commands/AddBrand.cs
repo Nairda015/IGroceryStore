@@ -19,7 +19,7 @@ namespace IGroceryStore.Products.Core.Features.Brands.Commands
         public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
         endpoints.MapPost<AddBrand>("api/brands")
             .WithTags(SwaggerTags.Products)
-            .Produces(200);
+            .Produces(201);
     }
 
     internal class AddBrandHandler : ICommandHandler<AddBrand, IResult>
@@ -43,7 +43,7 @@ namespace IGroceryStore.Products.Core.Features.Brands.Commands
 
             _productsDbContext.Brands.Add(brand);
             await _productsDbContext.SaveChangesAsync(cancellationToken);
-            return Results.Ok(brand.Id);
+            return Results.CreatedAtRoute($"api/brands/{brand.Id}");
         }
     }
 

@@ -38,7 +38,7 @@ namespace IGroceryStore.Products.Core.Features.Brands.Commands
                 await _productsDbContext.Brands
                     .FirstOrDefaultAsync(x => x.Id.Equals(command.Id), cancellationToken);
 
-            if (brand is null) throw new BrandNotFoundException(command.Id);
+            if (brand is null) return Results.NotFound();
 
             brand.Name = command.Body.Name;
             _productsDbContext.Update(brand);

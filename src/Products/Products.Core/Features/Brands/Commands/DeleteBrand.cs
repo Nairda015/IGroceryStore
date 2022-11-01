@@ -35,7 +35,7 @@ namespace IGroceryStore.Products.Core.Features.Brands.Commands
             var brand =
                 await _productsDbContext.Brands.FirstOrDefaultAsync(x => x.Id.Equals(command.Id), cancellationToken);
 
-            if (brand is null) throw new BrandNotFoundException(command.Id);
+            if (brand is null) return Results.NotFound();
 
             var isAnyReference =
                 await _productsDbContext.Products.AnyAsync(x => x.BrandId.Equals(command.Id), cancellationToken);

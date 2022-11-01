@@ -8,7 +8,7 @@ namespace IGroceryStore.Products.Core.Exceptions
     {
         public override HttpStatusCode StatusCode => HttpStatusCode.NotFound;
 
-        public BrandNotFoundException(BrandId message) : base($"Brand with id {message} not found")
+        public BrandNotFoundException(BrandId brandId) : base($"Brand with id {brandId} not found")
         {
         }
     }
