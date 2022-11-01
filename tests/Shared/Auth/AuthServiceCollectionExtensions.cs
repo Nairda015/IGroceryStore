@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Shared.Auth
 {
     public static class AuthServiceCollectionExtensions
     {
-        public static AuthenticationBuilder AddTestAuthentication(this IServiceCollection services)
+        public static IServiceCollection AddTestAuthentication(this IServiceCollection services)
         {
             services.AddAuthorization(options =>
             {
@@ -18,8 +16,15 @@ namespace Shared.Auth
                     .Build();
             });
 
-            return services.AddAuthentication(AuthConstants.Scheme)
+            services.AddAuthentication(AuthConstants.Scheme)
                 .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>(AuthConstants.Scheme, options => { });
+
+            return services;
+        }
+        public static void RegisterUser(this IServiceCollection services, IEnumerable<Claim> claims)
+        {
+            var user = new MockUser(claims.ToArray());
+            services.AddSingleton<IMockUser>(_ => user);
         }
     }
 }
