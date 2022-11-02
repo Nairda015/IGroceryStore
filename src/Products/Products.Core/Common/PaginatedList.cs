@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace IGroceryStore.Shared.Common;
+namespace IGroceryStore.Products.Core.Common;
 
 public record QueryForPaginatedResult(uint PageNumber = 1, uint PageSize = 10);
 

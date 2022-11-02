@@ -35,7 +35,6 @@
       <PackageReference Include="Amazon.Extensions.Configuration.SystemsManager" Version="4.0.0" />
       <PackageReference Include="MassTransit.RabbitMQ" Version="8.0.8-develop.629" />
       <PackageReference Include="Npgsql.OpenTelemetry" Version="7.0.0-rc.2" />
-      <PackageReference Include="NullGuard.Fody" Version="3.1.0" />
       <PackageReference Include="OpenTelemetry.Contrib.Instrumentation.AWS" Version="1.0.1" />
       <PackageReference Include="OpenTelemetry.Exporter.Jaeger" Version="1.4.0-beta.2" />
       <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.0.0-rc9.8" />

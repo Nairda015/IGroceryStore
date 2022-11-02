@@ -1,9 +1,9 @@
-﻿using IGroceryStore.Products.Core.Persistence.Contexts;
+﻿using IGroceryStore.Products.Core.Common;
+using IGroceryStore.Products.Core.Persistence.Contexts;
 using IGroceryStore.Products.Core.ReadModels;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Abstraction.Queries;
-using IGroceryStore.Shared.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
