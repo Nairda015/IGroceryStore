@@ -16,7 +16,7 @@ namespace IGroceryStore.Shops.Core.Features.Products;
 
 internal record ReportCurrentPrice(ReportCurrentPrice.ReportCurrentPriceBody Body) : IHttpCommand
 {
-    internal record ReportCurrentPriceBody(ulong ShopId, ulong ProductId, decimal Price);
+    internal record ReportCurrentPriceBody(ulong ShopChainId, ulong ShopId, ulong ProductId, decimal Price);
 }
 
 
@@ -52,7 +52,7 @@ internal class CreateProductHandler : ICommandHandler<ReportCurrentPrice, IResul
     public async Task<IResult> HandleAsync(ReportCurrentPrice command, CancellationToken cancellationToken = default)
     {
         //from ui user will click on map and select shop
-        var (shopId, productId, price) = command.Body;
+        var (shopChainId, shopId, productId, price) = command.Body;
         
         //should select only shop from request and lowest price shop
         var product = await _productsRepository.GetAsync(productId, cancellationToken);
@@ -68,7 +68,7 @@ internal class CreateProductHandler : ICommandHandler<ReportCurrentPrice, IResul
         await _productsRepository.UpdateAsync(product, cancellationToken);
         var isPriceLowest = price <= product.LowestPrice;
 
-        var message = new ProductPriceChanged(product.Id, shopId, price, isPriceLowest);
+        var message = new ProductPriceChanged(product.Id, shopChainId, shopId, price, isPriceLowest);
         await _bus.Publish(message, cancellationToken);
         return Results.Accepted($"/product/{product.Id}", product.Id);
     }
@@ -80,6 +80,9 @@ internal class CreateProductValidator : AbstractValidator<ReportCurrentPrice.Rep
     {
         
         RuleFor(x => x.ProductId)
+            .NotEmpty();
+        
+        RuleFor(x => x.ShopChainId)
             .NotEmpty();
         
         RuleFor(x => x.ShopId)

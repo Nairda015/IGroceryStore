@@ -11,7 +11,36 @@ services:
       - POSTGRES_PORT=5432
     ports:
       - 5432:5432
-        
+  
+  eventstore:
+    container_name: eventstore
+    image: eventstore/eventstore:latest
+    environment:
+      - EVENTSTORE_CLUSTER_SIZE=1
+      - EVENTSTORE_RUN_PROJECTIONS=All
+      - EVENTSTORE_START_STANDARD_PROJECTIONS=true
+      - EVENTSTORE_EXT_TCP_PORT=1113
+      - EVENTSTORE_HTTP_PORT=2113
+      - EVENTSTORE_INSECURE=true
+      - EVENTSTORE_ENABLE_EXTERNAL_TCP=true
+      - EVENTSTORE_ENABLE_ATOM_PUB_OVER_HTTP=true
+    ports:
+      - "1113:1113"
+      - "2113:2113"
+    volumes:
+      - ../volumes/eventstore/data/:/var/lib/eventstore/
+      - ../volumes/eventstore/log/:/var/log/eventstore
+    
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    volumes:
+      - ../volumes/mongo:/data/db
+  
   dynamodb-local:
     command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./data"
     image: amazon/dynamodb-local:latest
@@ -26,7 +55,7 @@ services:
     image: rabbitmq:latest
     container_name: rabbitmq
     volumes:
-      - ../volumes/rabbitmq/data/:/var/lib/rabbitmq/
+      - ../volumes/rabbitmq/data/:/var/lib/rabbitmq
       - ../volumes/rabbitmq/log/:/var/log/rabbitmq
     ports:
       - 5672:5672

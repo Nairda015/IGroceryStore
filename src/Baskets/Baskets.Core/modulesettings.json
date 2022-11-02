@@ -1,5 +1,17 @@
 {
   "Baskets": {
-    "ModuleEnabled": true
+    "ModuleEnabled": false,
+    "EventStore" :
+    {
+      "ConnectionString" : "foo"
+    },
+    "MongoDb": {
+      "ConnectionString": "foo",
+      "DatabaseName": "foo",
+      "BasketsCollectionName": "foo",
+      "ProductsCollectionName": "foo",
+      "UsersCollectionName": "foo",
+      "ProjectionsCollectionName" : "foo"
+    }
   }
 }

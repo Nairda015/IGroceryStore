@@ -31,7 +31,7 @@ internal class UsersDbContext : DbContext
             switch (entry.State)
             {
                 case EntityState.Added:
-                    entry.Entity.CreatedBy = _currentUserService.UserId ?? Guid.Empty;
+                    entry.Entity.CreatedBy = _currentUserService.UserId;
                     entry.Entity.Created = _dateTimeService.Now;
                     break;
 

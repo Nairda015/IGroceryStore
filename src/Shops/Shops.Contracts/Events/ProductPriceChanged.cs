@@ -9,5 +9,6 @@ public interface IProductPriceChanged
     bool IsLowestPrice { get; init; }
 }
 
-public record ProductPriceChanged(ulong ProductId, ulong ShopChainId, decimal NewPrice, bool IsLowestPrice) : IProductPriceChanged;
+public record ProductPriceChanged(ulong ProductId, ulong ShopChainId, ulong ShopId, decimal NewPrice, bool IsLowestPrice) : IProductPriceChanged;
 
+public record ProductPriceReported(ulong ProductId);

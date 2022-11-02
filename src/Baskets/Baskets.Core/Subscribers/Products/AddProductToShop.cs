@@ -1,4 +1,4 @@
-using System.Text.Json;
+﻿using System.Text.Json;
 using EventStore.Client;
 using IGroceryStore.Baskets.Core.Events;
 using IGroceryStore.Baskets.Core.ValueObjects;
@@ -8,35 +8,33 @@ using Microsoft.Extensions.Logging;
 
 namespace IGroceryStore.Baskets.Core.Subscribers.Products;
 
-internal class UpdateProductPrice : IConsumer<ProductPriceChanged>
+internal class AddProductToShop : IConsumer<ProductAddedToShop>
 {
-    private readonly ILogger<UpdateProductPrice> _logger;
+    private readonly ILogger<AddProductToShop> _logger;
     private readonly EventStoreClient _client;
 
-    public UpdateProductPrice(ILogger<UpdateProductPrice> logger, EventStoreClient client)
+    public AddProductToShop(ILogger<AddProductToShop> logger, EventStoreClient client)
     {
         _logger = logger;
         _client = client;
     }
 
-    public async Task Consume(ConsumeContext<ProductPriceChanged> context)
+    public async Task Consume(ConsumeContext<ProductAddedToShop> context)
     {
-        var (productId, shopChainId, shopId, newPrice, _) = context.Message;
-        
-        var @event = new ProductPriceUpdated(shopId, newPrice);
+        var (productId, shopChainId, initialPrice) = context.Message;
+        var @event = new ProductPriceHistoryStarted(shopChainId, initialPrice);
         
         var eventData = new EventData(
             Uuid.NewUuid(),
-            "productPriceUpdated",
+            "productPriceHistoryStarted",
             JsonSerializer.SerializeToUtf8Bytes(@event));
 
         var productStreamId = new ProductStreamId(productId, shopChainId);
         await _client.AppendToStreamAsync(
             productStreamId,
-            StreamState.StreamExists,
+            StreamState.NoStream,
             new[] { eventData });
-
-        _logger.LogInformation("Product {productId} price updated to {price} for shop {shop}",
-            productId, newPrice, shopChainId);
+    
+        _logger.LogInformation("Product {ProductId} stream for shop {ShopChainId} started", productId, shopChainId);
     }
 }

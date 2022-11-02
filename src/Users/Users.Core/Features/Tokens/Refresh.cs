@@ -6,7 +6,6 @@ using IGroceryStore.Users.Core.Services;
 using Microsoft.EntityFrameworkCore;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Abstraction.Services;
-using IGroceryStore.Shared.Exceptions;
 using IGroceryStore.Shared.ValueObjects;
 using IGroceryStore.Users.Core.ReadModels;
 using Microsoft.AspNetCore.Authorization;
@@ -51,15 +50,15 @@ internal class RefreshTokenHandler : ICommandHandler<RefreshToken, IResult>
     
     public async Task<IResult> HandleAsync(RefreshToken command, CancellationToken cancellationToken = default)
     {
-        var tokenClaim = _currentUserService.User.Claims.FirstOrDefault(x => x.Type is Claims.Name.RefreshToken);
+        var tokenClaim = _currentUserService.Principal.Claims.FirstOrDefault(x => x.Type is Claims.Name.RefreshToken);
         var userId = _currentUserService.UserId;
 
-        if (userId is null) return Results.BadRequest(new InvalidClaimsException("User id not found"));
+        //if (userId is null) return Results.BadRequest(new InvalidClaimsException("User id not found"));
         if (tokenClaim is null) return Results.BadRequest(new InvalidClaimsException("Refresh token not found"));
         if (string.IsNullOrWhiteSpace(tokenClaim.Value)) return Results.BadRequest(new InvalidClaimsException("Refresh token not found"));
         
         var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == (UserId)userId, cancellationToken);
-        if (user is null) return Results.NotFound(new UserNotFoundException(userId.Value));
+        if (user is null) return Results.NotFound(new UserNotFoundException(userId));
 
         if (!user.TokenExist(tokenClaim.Value)) return Results.BadRequest(new InvalidClaimsException("Refresh token not found"));
         var (refreshToken, jwt) = _tokenManager.GenerateRefreshToken(user);

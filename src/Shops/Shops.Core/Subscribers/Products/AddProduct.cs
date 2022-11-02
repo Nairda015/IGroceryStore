@@ -1,5 +1,4 @@
 ﻿using IGroceryStore.Products.Contracts.Events;
-using IGroceryStore.Shared.Abstraction.Services;
 using IGroceryStore.Shared.Services;
 using IGroceryStore.Shops.Core.Entities;
 using IGroceryStore.Shops.Core.Exceptions;

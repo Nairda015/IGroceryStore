@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Notifications;
+namespace IGroceryStore.Notifications;
 
 public class NotificationsModule : IModule
 {
