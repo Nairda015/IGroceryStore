@@ -17,7 +17,7 @@ internal record GetPricesForShop(GetPricesForShop.GetPricesForShopBody Body) : I
 public class GetPricesForShopEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapGet<GetPricesForShop>("/basket/{shopId}/{productId}")
+        endpoints.MapGet<GetPricesForShop>("api/basket/{shopId}/{productId}")
             .Produces<ProductProjectionForShop>()
             .WithTags(SwaggerTags.Baskets);
 }

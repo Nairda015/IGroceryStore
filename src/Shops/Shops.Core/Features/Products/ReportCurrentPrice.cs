@@ -23,7 +23,7 @@ internal record ReportCurrentPrice(ReportCurrentPrice.ReportCurrentPriceBody Bod
 public class CreateProductEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapPost<ReportCurrentPrice>("reportPrice")
+        endpoints.MapPost<ReportCurrentPrice>("api/reportPrice")
             .RequireAuthorization()
             .AddEndpointFilter<ValidationFilter<ReportCurrentPrice.ReportCurrentPriceBody>>()
             .WithTags(SwaggerTags.Shops);
