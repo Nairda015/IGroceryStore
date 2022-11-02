@@ -1,0 +1,17 @@
+{
+  "Baskets": {
+    "ModuleEnabled": true,
+    "EventStore" :
+    {
+      "ConnectionString" : "esdb://localhost:2113?tls=false"
+    },
+    "MongoDb": {
+      "ConnectionString": "mongodb://localhost:27017",
+      "DatabaseName": "Baskets",
+      "BasketsCollectionName": "Baskets",
+      "ProductsCollectionName": "Products",
+      "UsersCollectionName": "Users",
+      "ProjectionsCollectionName" : "ProductProjections"
+    }
+  }
+}
