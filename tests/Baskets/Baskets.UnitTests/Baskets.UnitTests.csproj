@@ -5,6 +5,8 @@
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
         <LangVersion>preview</LangVersion>
+        <AssemblyName>IGroceryStore.Baskets.UnitTests</AssemblyName>
+        <RootNamespace>IGroceryStore.Baskets.UnitTests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

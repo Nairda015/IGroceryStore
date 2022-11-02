@@ -16,23 +16,22 @@ public class GetUserTests : IClassFixture<UserApiFactory>
 {
     private readonly HttpClient _client;
     private readonly WebApplicationFactory<IApiMarker> _apiFactory;
-    
+
     public GetUserTests(UserApiFactory apiFactory)
     {
         _apiFactory = apiFactory
             .WithWebHostBuilder(builder =>
-            builder.ConfigureTestServices(services =>
-            {
-                services.RegisterUser(new[] {
-                new Claim(Claims.Name.UserId, "1"),
-                new Claim(Claims.Name.Expire, DateTimeOffset.UtcNow.AddSeconds(2137).ToUnixTimeSeconds().ToString())
-                });
-            })); // override authorized user;
+                builder.ConfigureTestServices(services =>
+                {
+                    services.RegisterUser(new[]
+                    {
+                        new Claim(Claims.Name.UserId, "1"),
+                        new Claim(Claims.Name.Expire,
+                            DateTimeOffset.UtcNow.AddSeconds(2137).ToUnixTimeSeconds().ToString())
+                    });
+                })); // override authorized user;
         _client = _apiFactory
-            .CreateClient(new WebApplicationFactoryClientOptions()
-            {
-                AllowAutoRedirect = false
-            });
+            .CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false });
     }
 
     [Fact]

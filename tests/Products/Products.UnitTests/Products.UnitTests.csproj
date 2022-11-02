@@ -8,6 +8,10 @@
         <IsPackable>false</IsPackable>
 
         <LangVersion>preview</LangVersion>
+
+        <AssemblyName>IGroceryStore.Products.UnitTests</AssemblyName>
+
+        <RootNamespace>IGroceryStore.Products.UnitTests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

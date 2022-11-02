@@ -1,38 +1,31 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-        <AssemblyName>IGroceryStore.Users.Core</AssemblyName>
-        <RootNamespace>IGroceryStore.Users.Core</RootNamespace>
-        <LangVersion>preview</LangVersion>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>IGroceryStore.Users</AssemblyName>
+    <RootNamespace>IGroceryStore.Users</RootNamespace>
+    <LangVersion>preview</LangVersion>
+  </PropertyGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\Users.Contracts\Users.Contracts.csproj" />
-        <ProjectReference Include="..\..\Shared\Shared\Shared.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="$(AssemblyName).UnitTests"/>
+    <InternalsVisibleTo Include="$(AssemblyName).IntegrationTests"/>
+  </ItemGroup>
 
-    <ItemGroup>
-        <InternalsVisibleTo Include="Users.IntegrationTests" />
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Users.Contracts\Users.Contracts.csproj"/>
+    <ProjectReference Include="..\..\Shared\Shared\Shared.csproj"/>
+  </ItemGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.0-rc.2.22476.2" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0-rc.2.22472.11" />
-        <PackageReference Include="JWT" Version="10.0.0-beta9" />
-        <PackageReference Include="JWT.Extensions.AspNetCore" Version="10.0.0-beta4" />
-        <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
-        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.0-rc.2" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <Compile Remove="Worker.cs" />
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.0-rc.2.22476.2"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0-rc.2.22472.11"/>
+    <PackageReference Include="JWT" Version="10.0.0-beta9"/>
+    <PackageReference Include="JWT.Extensions.AspNetCore" Version="10.0.0-beta4"/>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3"/>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.0-rc.2"/>
+  </ItemGroup>
 
 </Project>
