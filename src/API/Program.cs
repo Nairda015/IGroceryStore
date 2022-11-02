@@ -139,8 +139,5 @@ if (builder.Environment.IsDevelopment() || builder.Environment.IsTestEnvironment
 {
     await databaseInitializer.MigrateWithEnsuredDeletedAsync(moduleAssemblies);
 }
-else
-{
-    await databaseInitializer.MigrateAsync(moduleAssemblies);
-}
+
 app.Run();
