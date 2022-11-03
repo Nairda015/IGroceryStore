@@ -1,3 +1,4 @@
+using System.Data.Common;
 using System.Security.Claims;
 using Bogus;
 using DotNet.Testcontainers.Builders;
@@ -16,11 +17,16 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Npgsql;
+using Respawn;
 
 namespace IGroceryStore.Users.IntegrationTests;
 
 public class UserApiFactory : WebApplicationFactory<IApiMarker>, IAsyncLifetime
 {
+    private readonly MockUser _user;
+    private Respawner _respawner = default!;
+    private DbConnection _dbConnection = default!;
     private readonly TestcontainerDatabase _dbContainer =
         new TestcontainersBuilder<PostgreSqlTestcontainer>()
             .WithDatabase(new PostgreSqlTestcontainerConfiguration
@@ -32,7 +38,7 @@ public class UserApiFactory : WebApplicationFactory<IApiMarker>, IAsyncLifetime
             .WithAutoRemove(true)
             .WithCleanUp(true)
             .Build();
-    private readonly MockUser _user;
+
     public UserApiFactory()
     {
         _user = new MockUser(new Claim(Claims.Name.UserId, "1"), 
@@ -41,6 +47,8 @@ public class UserApiFactory : WebApplicationFactory<IApiMarker>, IAsyncLifetime
         VerifierSettings.ScrubInlineGuids();
     }
 
+    public HttpClient HttpClient { get; private set; } = default!;
+    
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.ConfigureLogging(logging => { logging.ClearProviders(); });
@@ -74,6 +82,21 @@ public class UserApiFactory : WebApplicationFactory<IApiMarker>, IAsyncLifetime
     public async Task InitializeAsync()
     {
         await _dbContainer.StartAsync();
+        _dbConnection = new NpgsqlConnection(_dbContainer.ConnectionString);
+        HttpClient = CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false });
+        await InitializeRespawner();
+    }
+
+    public async Task ResetDatabaseAsync() => await _respawner.ResetAsync(_dbConnection);
+
+    private async Task InitializeRespawner()
+    {
+        await _dbConnection.OpenAsync();
+        _respawner = await Respawner.CreateAsync(_dbConnection, new RespawnerOptions()
+        {
+            DbAdapter = DbAdapter.Postgres,
+            SchemasToInclude = new[] { "IGroceryStore.Users" },
+        });
     }
 
     async Task IAsyncLifetime.DisposeAsync()

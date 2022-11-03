@@ -2,25 +2,25 @@ using System.Net;
 using System.Net.Http.Json;
 using System.Security.Claims;
 using FluentAssertions;
-using IGroceryStore.API;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Tests.Auth;
-using IGroceryStore.Users.IntegrationTests;
 using IGroceryStore.Users.ReadModels;
-using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 
 namespace IGroceryStore.Users.IntegrationTests.Users;
 
 [UsesVerify]
-public class GetUserTests : IClassFixture<UserApiFactory>
+[Collection("UserCollection")]
+public class GetUserTests : IAsyncLifetime
 {
     private readonly HttpClient _client;
-    private readonly WebApplicationFactory<IApiMarker> _apiFactory;
+    private readonly Func<Task> _resetDatabase;
 
     public GetUserTests(UserApiFactory apiFactory)
     {
-        _apiFactory = apiFactory
+        _client = apiFactory.HttpClient;
+        _resetDatabase = apiFactory.ResetDatabaseAsync;
+        apiFactory
             .WithWebHostBuilder(builder =>
                 builder.ConfigureTestServices(services =>
                 {
@@ -31,8 +31,6 @@ public class GetUserTests : IClassFixture<UserApiFactory>
                             DateTimeOffset.UtcNow.AddSeconds(2137).ToUnixTimeSeconds().ToString())
                     });
                 })); // override authorized user;
-        _client = _apiFactory
-            .CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false });
     }
 
     [Fact]
@@ -57,8 +55,9 @@ public class GetUserTests : IClassFixture<UserApiFactory>
             .ToString()
             .Replace($"{user.Id}", "Guid_1"));
         await Verify(new { response, user });
-
-        //Cleanup
-        await _apiFactory.RemoveUserById(user.Id);
     }
+    
+    
+    public Task InitializeAsync() => Task.CompletedTask;
+    public Task DisposeAsync() => _resetDatabase();
 }

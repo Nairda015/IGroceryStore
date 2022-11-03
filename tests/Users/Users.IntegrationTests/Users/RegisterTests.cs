@@ -1,28 +1,24 @@
 using System.Net;
 using System.Net.Http.Json;
 using FluentAssertions;
-using IGroceryStore.Users.IntegrationTests;
 using MassTransit.Testing;
-using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace IGroceryStore.Users.IntegrationTests.Users;
 
 [UsesVerify]
-public class RegisterTests : IClassFixture<UserApiFactory>
+[Collection("UserCollection")]
+public class RegisterTests : IAsyncLifetime
 {
     private readonly HttpClient _client;
-    private readonly UserApiFactory _apiFactory;
+    private readonly Func<Task> _resetDatabase;
     //TODO: Add check for harness
     private readonly ITestHarness _testHarness;
 
     public RegisterTests(UserApiFactory apiFactory)
     {
-        _apiFactory = apiFactory;
+        _resetDatabase = apiFactory.ResetDatabaseAsync;
         _testHarness = apiFactory.Services.GetTestHarness();
-        _client = apiFactory.CreateClient(new WebApplicationFactoryClientOptions()
-        {
-            AllowAutoRedirect = false
-        });
+        _client = apiFactory.HttpClient;
     }
 
     [Fact]
@@ -37,10 +33,8 @@ public class RegisterTests : IClassFixture<UserApiFactory>
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Accepted);
         await Verify(response);
-        
-        //Cleanup
-        var path = response.Headers.Location;
-        var id = Guid.Parse(path!.Segments.Last());
-        await _apiFactory.RemoveUserById(id);
     }
+
+    public Task InitializeAsync() => Task.CompletedTask;
+    public Task DisposeAsync() => _resetDatabase();
 }
