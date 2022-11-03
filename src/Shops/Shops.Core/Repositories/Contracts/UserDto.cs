@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace IGroceryStore.Shops.Core.Repositories.Contracts;
+namespace IGroceryStore.Shops.Repositories.Contracts;
 
 public class UserDto
 {

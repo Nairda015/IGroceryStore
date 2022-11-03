@@ -1,10 +1,10 @@
-﻿using IGroceryStore.Baskets.Core.Entities;
+﻿using IGroceryStore.Baskets.Entities;
 using IGroceryStore.Users.Contracts.Events;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
 
-namespace IGroceryStore.Baskets.Core.Subscribers.Users;
+namespace IGroceryStore.Baskets.Subscribers.Users;
 
 internal class AddUser : IConsumer<UserCreated>
 {

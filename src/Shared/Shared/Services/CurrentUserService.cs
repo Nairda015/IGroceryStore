@@ -14,17 +14,15 @@ public class CurrentUserService : ICurrentUserService
         _httpContextAccessor = httpContextAccessor;
     }
 
-    public ClaimsPrincipal Principal => _httpContextAccessor.HttpContext?.User;
-
-    public Guid UserId => Principal.FindFirstValue(Claims.Name.UserId).ToGuid();
-
-    public string UserRole => Principal.FindFirstValue(Claims.Name.Role);
+    public ClaimsPrincipal? Principal => _httpContextAccessor.HttpContext?.User;
+    public Guid? UserId => Principal?.FindFirstValue(Claims.Name.UserId).ToGuid();
+    public string? UserRole => Principal?.FindFirstValue(Claims.Name.Role);
 }
 
 internal static class Extensions
 {
-    public static Guid ToGuid(this string? value)
+    public static Guid? ToGuid(this string? value)
     {
-        return Guid.TryParse(value, out var result) ? result : Guid.Empty;
+        return Guid.TryParse(value, out var result) ? result : null;
     }
 }

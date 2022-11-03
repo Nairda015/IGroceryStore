@@ -1,19 +1,19 @@
 using System.Text.Json;
 using EventStore.Client;
-using IGroceryStore.Baskets.Core.Entities;
-using IGroceryStore.Baskets.Core.Events;
+using IGroceryStore.Baskets.Entities;
+using IGroceryStore.Baskets.Events;
 using IGroceryStore.Shared.Abstraction.Commands;
 using IGroceryStore.Shared.Abstraction.Common;
-using Microsoft.AspNetCore.Routing;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Abstraction.Services;
 using IGroceryStore.Shared.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
 
-namespace IGroceryStore.Baskets.Core.Features.Baskets;
+namespace IGroceryStore.Baskets.Features.Baskets;
 
 internal record AddBasket(AddBasket.AddBasketBody Body) : IHttpCommand
 {
@@ -65,7 +65,7 @@ internal class AddBasketHandler : ICommandHandler<AddBasket, IResult>
         }
 
         var baskedId = _snowflakeService.GenerateId();
-        var @event = new BasketCreated(userId, command.Body.Name);
+        var @event = new BasketCreated(userId!.Value, command.Body.Name);
         var eventData = new EventData(
             Uuid.NewUuid(),
             "basketCreated",

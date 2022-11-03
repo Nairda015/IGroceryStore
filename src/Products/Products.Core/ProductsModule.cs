@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
-using IGroceryStore.Products.Core.Persistence.Contexts;
+using IGroceryStore.Products.Persistence.Contexts;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Commands;
@@ -14,7 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace IGroceryStore.Products.Core;
+namespace IGroceryStore.Products;
 
 public class ProductsModule : IModule
 {

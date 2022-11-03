@@ -5,8 +5,8 @@ using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Validation;
 using IGroceryStore.Users.Contracts.Events;
-using IGroceryStore.Users.Core.Factories;
-using IGroceryStore.Users.Core.Persistence.Contexts;
+using IGroceryStore.Users.Factories;
+using IGroceryStore.Users.Persistence.Contexts;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using ValidationResult = FluentValidation.Results.ValidationResult;
 
-namespace IGroceryStore.Users.Core.Features.Users;
+namespace IGroceryStore.Users.Features.Users;
 
 internal record Register(Register.RegisterBody Body) : IHttpCommand
 {

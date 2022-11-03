@@ -1,17 +1,17 @@
-﻿using IGroceryStore.Products.Core.Exceptions;
-using IGroceryStore.Products.Core.Persistence.Contexts;
+﻿using FluentValidation;
+using IGroceryStore.Products.Contracts.Events;
+using IGroceryStore.Products.Exceptions;
+using IGroceryStore.Products.Persistence.Contexts;
 using IGroceryStore.Shared.Abstraction.Commands;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Constants;
-using IGroceryStore.Products.Contracts.Events;
+using IGroceryStore.Shared.Validation;
+using MassTransit;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
-using FluentValidation;
-using IGroceryStore.Shared.Validation;
-using MassTransit;
 
-namespace IGroceryStore.Products.Core.Features.Categories.Commands;
+namespace IGroceryStore.Products.Features.Categories.Commands;
 
 internal record UpdateCategory(UpdateCategory.UpdateCategoryBody Body, ulong Id) : IHttpCommand
 {

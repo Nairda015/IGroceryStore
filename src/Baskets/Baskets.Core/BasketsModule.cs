@@ -1,21 +1,21 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
-using IGroceryStore.Baskets.Core.Entities;
-using IGroceryStore.Baskets.Core.Projectors;
-using IGroceryStore.Baskets.Core.Settings;
+using IGroceryStore.Baskets.Entities;
+using IGroceryStore.Baskets.Projectors;
+using IGroceryStore.Baskets.Settings;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Commands;
 using IGroceryStore.Shared.Queries;
 using IGroceryStore.Shared.Settings;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
 
-namespace IGroceryStore.Baskets.Core;
+namespace IGroceryStore.Baskets;
 
 public class BasketsModule : IModule
 {

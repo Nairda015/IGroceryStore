@@ -1,6 +1,6 @@
 ﻿using IGroceryStore.Shared.ValueObjects;
 
-namespace IGroceryStore.Baskets.Core.Entities;
+namespace IGroceryStore.Baskets.Entities;
 
 internal record User
 {

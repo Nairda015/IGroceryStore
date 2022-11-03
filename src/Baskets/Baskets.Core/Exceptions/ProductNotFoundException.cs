@@ -1,6 +1,6 @@
 using IGroceryStore.Shared.Abstraction.Exceptions;
 
-namespace IGroceryStore.Baskets.Core.Exceptions;
+namespace IGroceryStore.Baskets.Exceptions;
 
 public class ProductNotFoundException : GroceryConsumerException
 {

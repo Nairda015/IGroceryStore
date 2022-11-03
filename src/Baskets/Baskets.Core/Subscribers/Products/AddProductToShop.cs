@@ -1,12 +1,12 @@
 ﻿using System.Text.Json;
 using EventStore.Client;
-using IGroceryStore.Baskets.Core.Events;
-using IGroceryStore.Baskets.Core.ValueObjects;
+using IGroceryStore.Baskets.Events;
+using IGroceryStore.Baskets.ValueObjects;
 using IGroceryStore.Shops.Contracts.Events;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 
-namespace IGroceryStore.Baskets.Core.Subscribers.Products;
+namespace IGroceryStore.Baskets.Subscribers.Products;
 
 internal class AddProductToShop : IConsumer<ProductAddedToShop>
 {

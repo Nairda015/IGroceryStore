@@ -1,12 +1,12 @@
 ﻿using IGroceryStore.Products.Contracts.Events;
 using IGroceryStore.Shared.Services;
-using IGroceryStore.Shops.Core.Entities;
-using IGroceryStore.Shops.Core.Exceptions;
-using IGroceryStore.Shops.Core.Repositories;
+using IGroceryStore.Shops.Entities;
+using IGroceryStore.Shops.Exceptions;
+using IGroceryStore.Shops.Repositories;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 
-namespace IGroceryStore.Shops.Core.Subscribers.Products;
+namespace IGroceryStore.Shops.Subscribers.Products;
 
 public class AddProduct : IConsumer<ProductAdded>
 {

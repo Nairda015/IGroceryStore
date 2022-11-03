@@ -1,7 +1,7 @@
-﻿using IGroceryStore.Baskets.Core.ValueObjects;
+﻿using IGroceryStore.Baskets.ValueObjects;
 using IGroceryStore.Shared.ValueObjects;
 
-namespace IGroceryStore.Baskets.Core.Entities;
+namespace IGroceryStore.Baskets.Entities;
 
 internal class Product //from the product module
 {

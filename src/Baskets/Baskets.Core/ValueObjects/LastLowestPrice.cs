@@ -1,6 +1,6 @@
-using IGroceryStore.Baskets.Core.Exceptions;
+using IGroceryStore.Baskets.Exceptions;
 
-namespace IGroceryStore.Baskets.Core.ValueObjects;
+namespace IGroceryStore.Baskets.ValueObjects;
 
 public class LastLowestPrice
 {

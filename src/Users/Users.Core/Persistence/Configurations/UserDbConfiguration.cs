@@ -1,11 +1,11 @@
 ﻿using IGroceryStore.Shared.ValueObjects;
-using IGroceryStore.Users.Core.Entities;
-using IGroceryStore.Users.Core.ValueObjects;
+using IGroceryStore.Users.Entities;
+using IGroceryStore.Users.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace IGroceryStore.Users.Core.Persistence.Configurations;
+namespace IGroceryStore.Users.Persistence.Configurations;
 
 internal sealed class UserDbConfiguration : IEntityTypeConfiguration<User>
 {

@@ -1,6 +1,6 @@
-﻿using IGroceryStore.Users.Core.Exceptions;
+﻿using IGroceryStore.Users.Exceptions;
 
-namespace IGroceryStore.Users.Core.ValueObjects;
+namespace IGroceryStore.Users.ValueObjects;
 
 internal sealed record PasswordHash
 {

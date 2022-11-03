@@ -1,7 +1,7 @@
 using System.Net;
 using IGroceryStore.Shared.Abstraction.Exceptions;
 
-namespace IGroceryStore.Users.Core.Exceptions;
+namespace IGroceryStore.Users.Exceptions;
 
 public class InvalidClaimsException : GroceryStoreException
 {

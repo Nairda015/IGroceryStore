@@ -1,4 +1,4 @@
-namespace IGroceryStore.Baskets.Core.ReadModels;
+namespace IGroceryStore.Baskets.ReadModels;
 
 internal static class EventMappers
 {

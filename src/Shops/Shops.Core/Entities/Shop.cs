@@ -1,7 +1,7 @@
-﻿using IGroceryStore.Shops.Core.Common;
-using IGroceryStore.Shops.Core.ValueObjects;
+﻿using IGroceryStore.Shops.Common;
+using IGroceryStore.Shops.ValueObjects;
 
-namespace IGroceryStore.Shops.Core.Entities;
+namespace IGroceryStore.Shops.Entities;
 
 public class Shop
 {

@@ -1,3 +1,3 @@
-namespace IGroceryStore.Baskets.Core.Events;
+namespace IGroceryStore.Baskets.Events;
 
 public record ProductPriceUpdated(ulong ShopChainId, decimal NewPrice);

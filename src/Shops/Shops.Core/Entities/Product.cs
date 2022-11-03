@@ -1,4 +1,4 @@
-﻿namespace IGroceryStore.Shops.Core.Entities;
+﻿namespace IGroceryStore.Shops.Entities;
 
 public class Product
 {

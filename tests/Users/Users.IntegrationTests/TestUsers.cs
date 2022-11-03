@@ -1,7 +1,7 @@
 using Bogus;
-using IGroceryStore.Users.Core.Features.Users;
+using IGroceryStore.Users.Features.Users;
 
-namespace Users.IntegrationTests;
+namespace IGroceryStore.Users.IntegrationTests;
 
 internal static class TestUsers
 {

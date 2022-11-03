@@ -1,3 +1,3 @@
-namespace IGroceryStore.Shops.Core.Features.Shops;
+namespace IGroceryStore.Shops.Features.Shops;
 
 public record AddShop();

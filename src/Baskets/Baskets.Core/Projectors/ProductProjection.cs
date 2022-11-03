@@ -1,6 +1,6 @@
-using IGroceryStore.Baskets.Core.ReadModels;
+using IGroceryStore.Baskets.ReadModels;
 
-namespace IGroceryStore.Baskets.Core.Projectors;
+namespace IGroceryStore.Baskets.Projectors;
 
 public record ProductProjectionForShop
 {

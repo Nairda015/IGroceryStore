@@ -1,5 +1,5 @@
-﻿using IGroceryStore.Products.Core.Exceptions;
-using IGroceryStore.Products.Core.Persistence.Contexts;
+﻿using IGroceryStore.Products.Exceptions;
+using IGroceryStore.Products.Persistence.Contexts;
 using IGroceryStore.Shared.Abstraction.Commands;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Constants;
@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
-namespace IGroceryStore.Products.Core.Features.Categories.Commands;
+namespace IGroceryStore.Products.Features.Categories.Commands;
 
 internal record DeleteCategory(ulong Id) : IHttpCommand;
 

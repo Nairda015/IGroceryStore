@@ -1,4 +1,4 @@
-﻿namespace IGroceryStore.Products.Core.Features.Products.Queries;
+﻿namespace IGroceryStore.Products.Features.Products.Queries;
 
 
 //Find by:

@@ -4,12 +4,13 @@ using System.Security.Claims;
 using FluentAssertions;
 using IGroceryStore.API;
 using IGroceryStore.Shared.Abstraction.Constants;
-using IGroceryStore.Users.Core.ReadModels;
+using IGroceryStore.Shared.Tests.Auth;
+using IGroceryStore.Users.IntegrationTests;
+using IGroceryStore.Users.ReadModels;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
-using Shared.Auth;
 
-namespace Users.IntegrationTests.Users;
+namespace IGroceryStore.Users.IntegrationTests.Users;
 
 [UsesVerify]
 public class GetUserTests : IClassFixture<UserApiFactory>

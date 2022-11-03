@@ -1,10 +1,10 @@
-using IGroceryStore.Baskets.Core.Entities;
-using IGroceryStore.Baskets.Core.Events;
+using IGroceryStore.Baskets.Entities;
+using IGroceryStore.Baskets.Events;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
 
-namespace IGroceryStore.Baskets.Core.Subscribers.Products;
+namespace IGroceryStore.Baskets.Subscribers.Products;
 
 internal class AddProduct : IConsumer<ProductAdded>
 {

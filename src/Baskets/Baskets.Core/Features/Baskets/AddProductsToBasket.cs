@@ -1,6 +1,6 @@
 using System.Text.Json;
 using EventStore.Client;
-using IGroceryStore.Baskets.Core.Events;
+using IGroceryStore.Baskets.Events;
 using IGroceryStore.Shared.Abstraction.Commands;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Constants;
@@ -8,11 +8,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
 
-namespace IGroceryStore.Baskets.Core.Features.Baskets;
+namespace IGroceryStore.Baskets.Features.Baskets;
 
 internal record AddProductsToBasket(AddProductsToBasket.AddProductsToBasketBody Body) : IHttpCommand
 {
-    
     public record AddProductsToBasketBody(ulong BasketId, ulong ProductId);
 }
 

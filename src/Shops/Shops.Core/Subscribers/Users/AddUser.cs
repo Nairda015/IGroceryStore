@@ -1,11 +1,11 @@
-using IGroceryStore.Shops.Core.Exceptions;
-using IGroceryStore.Shops.Core.Repositories;
-using IGroceryStore.Shops.Core.Repositories.Contracts;
+using IGroceryStore.Shops.Exceptions;
+using IGroceryStore.Shops.Repositories;
+using IGroceryStore.Shops.Repositories.Contracts;
 using IGroceryStore.Users.Contracts.Events;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 
-namespace IGroceryStore.Shops.Core.Subscribers.Users;
+namespace IGroceryStore.Shops.Subscribers.Users;
 
 public class AddUser : IConsumer<UserCreated>
 {

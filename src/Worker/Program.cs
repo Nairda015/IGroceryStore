@@ -31,11 +31,7 @@ foreach (var module in modules)
 
 //Services
 builder.Services.AddSingleton<DateTimeService>();
-builder.Services.AddHttpContextAccessor();
-builder.Services.AddTransient(s => s.GetService<HttpContext>()!.User);
-builder.Services.AddSingleton<ICurrentUserService, CurrentUserService>();
 
- 
 //Messaging
 var rabbitSettings = builder.Configuration.GetOptions<RabbitSettings>();
 builder.Services.AddMassTransit(bus =>

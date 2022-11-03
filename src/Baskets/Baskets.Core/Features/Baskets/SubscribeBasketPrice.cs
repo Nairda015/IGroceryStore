@@ -1,3 +1,3 @@
-namespace IGroceryStore.Baskets.Core.Features.Baskets;
+namespace IGroceryStore.Baskets.Features.Baskets;
 
 public record SubscribeBasketPrice();

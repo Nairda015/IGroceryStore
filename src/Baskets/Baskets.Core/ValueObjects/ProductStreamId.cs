@@ -1,4 +1,4 @@
-namespace IGroceryStore.Baskets.Core.ValueObjects;
+namespace IGroceryStore.Baskets.ValueObjects;
 
 public record ProductStreamId
 {

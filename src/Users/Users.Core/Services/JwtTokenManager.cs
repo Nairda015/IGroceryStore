@@ -1,13 +1,13 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
-using IGroceryStore.Users.Core.Entities;
 using IGroceryStore.Shared.Abstraction.Constants;
-using IGroceryStore.Users.Core.JWT;
+using IGroceryStore.Users.Entities;
+using IGroceryStore.Users.JWT;
 using JWT.Algorithms;
 using JWT.Builder;
 using Microsoft.Extensions.Options;
 
-namespace IGroceryStore.Users.Core.Services;
+namespace IGroceryStore.Users.Services;
 
 internal class JwtTokenManager : ITokenManager
 {

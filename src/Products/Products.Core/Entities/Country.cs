@@ -1,6 +1,6 @@
-﻿using IGroceryStore.Products.Core.ValueObjects;
+﻿using IGroceryStore.Products.ValueObjects;
 
-namespace IGroceryStore.Products.Core.Entities;
+namespace IGroceryStore.Products.Entities;
 
 internal sealed class Country
 {

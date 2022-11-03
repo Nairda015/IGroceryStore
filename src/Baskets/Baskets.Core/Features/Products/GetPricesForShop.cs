@@ -1,5 +1,5 @@
-using IGroceryStore.Baskets.Core.Projectors;
-using IGroceryStore.Baskets.Core.ValueObjects;
+using IGroceryStore.Baskets.Projectors;
+using IGroceryStore.Baskets.ValueObjects;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Abstraction.Queries;
@@ -7,12 +7,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using MongoDB.Driver;
 
-namespace IGroceryStore.Baskets.Core.Features.Products;
+namespace IGroceryStore.Baskets.Features.Products;
 
-internal record GetPricesForShop(GetPricesForShop.GetPricesForShopBody Body) : IHttpQuery
-{
-    public record GetPricesForShopBody(ulong ProductId, ulong ShopId);
-}
+internal record GetPricesForShop(ulong ProductId, ulong ShopId) : IHttpQuery;
 
 public class GetPricesForShopEndpoint : IEndpoint
 {
@@ -33,7 +30,7 @@ internal class AddProductsToBasketHandler : IQueryHandler<GetPricesForShop, IRes
 
     public async Task<IResult> HandleAsync(GetPricesForShop command, CancellationToken cancellationToken)
     {
-        var (productId, shopChainId) = command.Body;
+        var (productId, shopChainId) = command;
         var streamId = new ProductStreamId(productId, shopChainId);
         var result = await _collection
             .Find(x => x.Id == streamId)

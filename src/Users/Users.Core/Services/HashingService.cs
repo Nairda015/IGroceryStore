@@ -1,4 +1,4 @@
-﻿namespace IGroceryStore.Users.Core.Services;
+﻿namespace IGroceryStore.Users.Services;
 
 public static class HashingService
 {

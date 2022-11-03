@@ -1,7 +1,7 @@
 using FluentValidation;
 using IGroceryStore.Shared.Settings;
 
-namespace IGroceryStore.Baskets.Core.Settings;
+namespace IGroceryStore.Baskets.Settings;
 
 internal class MongoDbSettings : SettingsBase<MongoDbSettings>, ISettings
 {
