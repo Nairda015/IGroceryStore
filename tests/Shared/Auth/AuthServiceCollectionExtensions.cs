@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Shared.Auth
+namespace IGroceryStore.Shared.Tests.Auth
 {
     public static class AuthServiceCollectionExtensions
     {

@@ -1,7 +1,7 @@
-﻿using IGroceryStore.Products.Core.ValueObjects;
+﻿using IGroceryStore.Products.ValueObjects;
 using IGroceryStore.Shared.Abstraction.Common;
 
-namespace IGroceryStore.Products.Core.Entities;
+namespace IGroceryStore.Products.Entities;
 
 internal sealed class Allergen : AuditableEntity
 {

@@ -1,25 +1,12 @@
 ﻿using IGroceryStore.Shared.ValueObjects;
 
-namespace IGroceryStore.Baskets.Core.Entities;
+namespace IGroceryStore.Baskets.Entities;
 
-internal class User 
+internal record User
 {
-    private User()
-    {
-        
-    }
-
-    internal User(UserId id, string firstName, string lastName)
-    {
-        Id = id;
-        FirstName = firstName;
-        LastName = lastName;
-    }
+    public required UserId Id { get; init; }
+    public required string FirstName { get; init; }
+    public required string LastName { get; init; }
     
-    public UserId Id { get; }
-    public string FirstName { get; private set; }
-    public string LastName { get; private set; }
-
-    public List<Basket> Baskets { get; private set; }
-
+    public ISet<Guid> Baskets { get; init; } = new HashSet<Guid>();
 }

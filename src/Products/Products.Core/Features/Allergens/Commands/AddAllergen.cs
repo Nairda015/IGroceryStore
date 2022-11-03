@@ -1,5 +1,5 @@
-﻿using IGroceryStore.Products.Core.Entities;
-using IGroceryStore.Products.Core.Persistence.Contexts;
+﻿using IGroceryStore.Products.Entities;
+using IGroceryStore.Products.Persistence.Contexts;
 using IGroceryStore.Shared.Abstraction.Commands;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Constants;
@@ -7,7 +7,7 @@ using IGroceryStore.Shared.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 
-namespace IGroceryStore.Products.Core.Features.Allergens.Commands;
+namespace IGroceryStore.Products.Features.Allergens.Commands;
 
 internal record AddAllergen(AddAllergen.AddAllergenBody Body) : IHttpCommand
 {

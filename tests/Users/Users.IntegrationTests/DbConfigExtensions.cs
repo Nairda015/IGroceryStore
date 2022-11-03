@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace Users.IntegrationTests;
+namespace IGroceryStore.Users.IntegrationTests;
 
 public static class DbConfigExtensions
 {

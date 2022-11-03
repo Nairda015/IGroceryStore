@@ -1,4 +1,4 @@
-﻿namespace IGroceryStore.Shops.Core.Common;
+﻿namespace IGroceryStore.Shops.Common;
 
 public class Adress
 {

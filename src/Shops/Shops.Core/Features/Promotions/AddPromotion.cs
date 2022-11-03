@@ -1,4 +1,4 @@
-﻿namespace IGroceryStore.Shops.Core.Features.Promotions;
+﻿namespace IGroceryStore.Shops.Features.Promotions;
 
 internal class AddPromotion
 {

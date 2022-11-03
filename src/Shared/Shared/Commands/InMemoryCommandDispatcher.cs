@@ -15,7 +15,7 @@ internal sealed class InMemoryCommandDispatcher : ICommandDispatcher
     public async Task<TResult> DispatchAsync<TResult>(ICommand<TResult> command, CancellationToken cancellationToken)
     {
         var commandType = command.GetType();
-        var sourceName = commandType.Assembly.FullName?.Split(".", 3)[1];
+        var sourceName = commandType.Assembly.FullName?.Split(new[] { ',', '.' }, 3)[1];
         using var source = new ActivitySource(sourceName ?? throw new EventSourceException());
 
         var activityName = $"Resolving {commandType.Name} command";

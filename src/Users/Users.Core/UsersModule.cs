@@ -5,19 +5,19 @@ using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Commands;
 using IGroceryStore.Shared.Queries;
 using IGroceryStore.Shared.Settings;
-using IGroceryStore.Users.Core.Factories;
-using IGroceryStore.Users.Core.JWT;
-using IGroceryStore.Users.Core.Persistence.Contexts;
-using IGroceryStore.Users.Core.Services;
+using IGroceryStore.Users.Factories;
+using IGroceryStore.Users.JWT;
+using IGroceryStore.Users.Persistence.Contexts;
+using IGroceryStore.Users.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Http;
 
-namespace IGroceryStore.Users.Core;
+namespace IGroceryStore.Users;
 
 public class UsersModule : IModule
 {

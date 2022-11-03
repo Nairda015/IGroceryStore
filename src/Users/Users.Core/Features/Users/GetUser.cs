@@ -2,15 +2,15 @@
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Abstraction.Queries;
 using IGroceryStore.Shared.ValueObjects;
-using IGroceryStore.Users.Core.Exceptions;
-using IGroceryStore.Users.Core.Persistence.Contexts;
-using IGroceryStore.Users.Core.ReadModels;
+using IGroceryStore.Users.Exceptions;
+using IGroceryStore.Users.Persistence.Contexts;
+using IGroceryStore.Users.ReadModels;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
-namespace IGroceryStore.Users.Core.Features.Users;
+namespace IGroceryStore.Users.Features.Users;
 
 internal record GetUser(Guid Id) : IHttpQuery;
 

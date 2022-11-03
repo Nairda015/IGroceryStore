@@ -4,24 +4,20 @@ using DotNet.Testcontainers.Builders;
 using DotNet.Testcontainers.Configurations;
 using DotNet.Testcontainers.Containers;
 using IGroceryStore.API;
-using IGroceryStore.Baskets.Core.Persistence;
-using IGroceryStore.Products.Core.Persistence.Contexts;
+using IGroceryStore.Products.Persistence.Contexts;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Services;
+using IGroceryStore.Shared.Tests.Auth;
 using IGroceryStore.Users.Contracts.Events;
-using IGroceryStore.Users.Core.Entities;
-using IGroceryStore.Users.Core.Persistence.Contexts;
+using IGroceryStore.Users.Persistence.Contexts;
 using MassTransit;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Shared.Auth;
 
-namespace Users.IntegrationTests;
+namespace IGroceryStore.Users.IntegrationTests;
 
 public class UserApiFactory : WebApplicationFactory<IApiMarker>, IAsyncLifetime
 {
@@ -64,11 +60,9 @@ public class UserApiFactory : WebApplicationFactory<IApiMarker>, IAsyncLifetime
         builder.ConfigureTestServices(services =>
         {
             services.CleanDbContextOptions<UsersDbContext>();
-            services.CleanDbContextOptions<BasketsDbContext>();
             services.CleanDbContextOptions<ProductsDbContext>();
 
             services.AddPostgresContext<UsersDbContext>(_dbContainer);
-            services.AddPostgresContext<BasketsDbContext>(_dbContainer);
             services.AddPostgresContext<ProductsDbContext>(_dbContainer);
 
             services.AddTestAuthentication();

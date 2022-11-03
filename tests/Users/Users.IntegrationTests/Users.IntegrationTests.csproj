@@ -6,16 +6,13 @@
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
         <LangVersion>preview</LangVersion>
+        <AssemblyName>IGroceryStore.Users.IntegrationTests</AssemblyName>
+        <RootNamespace>IGroceryStore.Users.IntegrationTests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\src\API\API.csproj" />
       <ProjectReference Include="..\..\Shared\Shared.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Compile Remove="Usings.cs" />
-      <Compile Remove="UnitTest1.cs" />
     </ItemGroup>
 
     <ItemGroup>

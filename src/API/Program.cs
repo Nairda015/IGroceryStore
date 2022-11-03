@@ -8,7 +8,6 @@ using IGroceryStore.Shared.Services;
 using IGroceryStore.Shared.Configuration;
 using IGroceryStore.Shared.Settings;
 using MassTransit;
-using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
@@ -28,7 +27,6 @@ foreach (var module in modules)
 //AWS
 if (!builder.Environment.IsDevelopment() && !builder.Environment.IsTestEnvironment())
 {
-    
     builder.Configuration.AddSystemsManager("/Production/IGroceryStore", TimeSpan.FromSeconds(30));
 }
 
@@ -40,7 +38,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c => { c.OrderActionsBy(x => x.HttpMethod); });
 
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddTransient(s => s.GetService<HttpContext>()!.User);
 builder.Services.AddSingleton<ICurrentUserService, CurrentUserService>();
 builder.Services.AddSingleton<DbInitializer>();
 
@@ -97,6 +94,7 @@ builder.Services.AddOpenTelemetryTracing(x =>
 });
 
 var app = builder.Build();
+
 System.AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 app.UseSwagger();
 
@@ -140,8 +138,5 @@ if (builder.Environment.IsDevelopment() || builder.Environment.IsTestEnvironment
 {
     await databaseInitializer.MigrateWithEnsuredDeletedAsync(moduleAssemblies);
 }
-else
-{
-    await databaseInitializer.MigrateAsync(moduleAssemblies);
-}
+
 app.Run();

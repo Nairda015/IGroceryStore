@@ -1,8 +1,8 @@
 ﻿using System.Net;
-using IGroceryStore.Products.Core.ValueObjects;
+using IGroceryStore.Products.ValueObjects;
 using IGroceryStore.Shared.Abstraction.Exceptions;
 
-namespace IGroceryStore.Products.Core.Exceptions;
+namespace IGroceryStore.Products.Exceptions;
 
 internal class AllergenNotFoundException : GroceryStoreException
 {

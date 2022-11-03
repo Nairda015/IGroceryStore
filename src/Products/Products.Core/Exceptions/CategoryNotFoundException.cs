@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using IGroceryStore.Shared.Abstraction.Exceptions;
 
-namespace IGroceryStore.Products.Core.Exceptions;
+namespace IGroceryStore.Products.Exceptions;
 
 public class CategoryNotFoundException : GroceryStoreException
 {

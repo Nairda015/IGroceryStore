@@ -17,7 +17,7 @@ public class ValidationFilter<T> : IEndpointFilter
         if (context.Arguments.SingleOrDefault(x => x?.GetType() == typeof(T)) is not T validatable)
             return Results.BadRequest();
 
-        var sourceName = typeof(T).Assembly.FullName?.Split(".", 3)[1];
+        var sourceName = typeof(T).Assembly.FullName?.Split(new []{'.', ','}, 3)[1];
         using var source = new ActivitySource(sourceName ?? throw new EventSourceException());
         
         var activityName = $"Validating {typeof(T).Name} request";

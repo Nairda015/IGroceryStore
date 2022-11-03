@@ -15,7 +15,7 @@ internal sealed class InMemoryQueryDispatcher : IQueryDispatcher
     public async Task<TResult> QueryAsync<TResult>(IQuery<TResult> query, CancellationToken cancellationToken = default)
     {
         var queryType = query.GetType();
-        var sourceName = queryType.Assembly.FullName?.Split(".", 3)[1];
+        var sourceName = queryType.Assembly.FullName?.Split(new[] { ',', '.' }, 3)[1];
         using var source = new ActivitySource(sourceName ?? throw new EventSourceException());
 
         var activityName = $"Resolving {queryType.Name} command";

@@ -1,12 +1,12 @@
 using FluentAssertions;
 using IGroceryStore.API;
 using IGroceryStore.Shared.ValueObjects;
-using IGroceryStore.Users.Core.Persistence.Contexts;
+using IGroceryStore.Users.Persistence.Contexts;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Users.IntegrationTests;
+namespace IGroceryStore.Users.IntegrationTests;
 
 public static class UserTestHelper
 {

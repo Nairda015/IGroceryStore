@@ -1,10 +1,10 @@
 ﻿using Bogus;
-using IGroceryStore.Products.Core.Entities;
-using IGroceryStore.Products.Core.Persistence.Contexts;
-using IGroceryStore.Products.Core.ValueObjects;
+using IGroceryStore.Products.Entities;
+using IGroceryStore.Products.Persistence.Contexts;
+using IGroceryStore.Products.ValueObjects;
 using IGroceryStore.Shared.ValueObjects;
 
-namespace IGroceryStore.Products.Core.Persistence.Seeders;
+namespace IGroceryStore.Products.Persistence.Seeders;
 
 internal static class ProductsDbSeed
 {

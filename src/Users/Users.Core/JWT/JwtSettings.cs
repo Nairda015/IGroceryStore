@@ -5,7 +5,7 @@ using IGroceryStore.Shared.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
-namespace IGroceryStore.Users.Core.JWT;
+namespace IGroceryStore.Users.JWT;
 
 internal class JwtSettings : SettingsBase<JwtSettings>, ISettings
 {

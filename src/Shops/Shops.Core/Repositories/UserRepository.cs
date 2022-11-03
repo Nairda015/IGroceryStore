@@ -3,11 +3,11 @@ using System.Text.Json;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DocumentModel;
 using Amazon.DynamoDBv2.Model;
-using IGroceryStore.Shops.Core.Repositories.Contracts;
-using IGroceryStore.Shops.Core.Settings;
+using IGroceryStore.Shops.Repositories.Contracts;
+using IGroceryStore.Shops.Settings;
 using Microsoft.Extensions.Options;
 
-namespace IGroceryStore.Shops.Core.Repositories;
+namespace IGroceryStore.Shops.Repositories;
 
 public interface IUsersRepository
 {

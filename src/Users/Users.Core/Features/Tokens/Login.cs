@@ -1,17 +1,17 @@
 ﻿using IGroceryStore.Shared.Abstraction.Commands;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Constants;
-using IGroceryStore.Users.Core.Entities;
-using IGroceryStore.Users.Core.Exceptions;
-using IGroceryStore.Users.Core.Persistence.Contexts;
-using IGroceryStore.Users.Core.Services;
-using IGroceryStore.Users.Core.ReadModels;
+using IGroceryStore.Users.Entities;
+using IGroceryStore.Users.Exceptions;
+using IGroceryStore.Users.Persistence.Contexts;
+using IGroceryStore.Users.ReadModels;
+using IGroceryStore.Users.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
-namespace IGroceryStore.Users.Core.Features.Tokens;
+namespace IGroceryStore.Users.Features.Tokens;
 
 internal record LoginWithUserAgent(LoginWithUserAgent.LoginWithUserAgentBody Body) : IHttpCommand
 {

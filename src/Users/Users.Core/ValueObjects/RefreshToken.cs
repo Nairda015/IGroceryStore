@@ -1,3 +1,3 @@
-﻿namespace IGroceryStore.Users.Core.ValueObjects;
+﻿namespace IGroceryStore.Users.ValueObjects;
 
 public record RefreshToken(string UserAgent, string Value);

@@ -1,14 +1,14 @@
-﻿using IGroceryStore.Products.Core.Persistence.Contexts;
-using IGroceryStore.Products.Core.ReadModels;
+﻿using IGroceryStore.Products.Common;
+using IGroceryStore.Products.Persistence.Contexts;
+using IGroceryStore.Products.ReadModels;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Abstraction.Queries;
-using IGroceryStore.Shared.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
-namespace IGroceryStore.Products.Core.Features.Products.Queries;
+namespace IGroceryStore.Products.Features.Products.Queries;
 
 internal record GetProducts(uint PageNumber, uint PageSize, ulong CategoryId) 
     : QueryForPaginatedResult(PageNumber, PageSize), IHttpQuery;
