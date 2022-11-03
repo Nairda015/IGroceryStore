@@ -26,15 +26,6 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
       
-    - name: Migrations   
-      run: |
-        ls
-        dotnet tool install --global dotnet-ef
-        dotnet tool restore
-        cd tools
-        bash tests-migration.sh
-      shell: bash
-      
     - name: Test
       run: dotnet test --no-build --verbosity normal
       
