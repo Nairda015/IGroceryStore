@@ -4,7 +4,7 @@ namespace IGroceryStore.Shared.Abstraction.Services;
 
 public interface ICurrentUserService
 {
-    ClaimsPrincipal User { get; }
+    ClaimsPrincipal? Principal { get; }
     Guid? UserId { get; }
-    string UserRole { get; }
+    string? UserRole { get; }
 }

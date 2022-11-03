@@ -1,6 +1,6 @@
-﻿using IGroceryStore.Shops.Core.Common;
+﻿using IGroceryStore.Shops.Common;
 
-namespace IGroceryStore.Shops.Core.Entities;
+namespace IGroceryStore.Shops.Entities;
 
 public abstract class Promotion
 {

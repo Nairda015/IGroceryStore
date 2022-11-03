@@ -1,11 +1,11 @@
 ﻿using System.Text.Json;
-using IGroceryStore.Products.Core.Entities;
-using IGroceryStore.Products.Core.ValueObjects;
+using IGroceryStore.Products.Entities;
+using IGroceryStore.Products.ValueObjects;
 using IGroceryStore.Shared.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace IGroceryStore.Products.Core.Persistence.Configurations;
+namespace IGroceryStore.Products.Persistence.Configurations;
 
 internal sealed class ProductsDbConfiguration : IEntityTypeConfiguration<Product>, IEntityTypeConfiguration<Brand>, IEntityTypeConfiguration<Allergen>, IEntityTypeConfiguration<Category>, IEntityTypeConfiguration<Country>
 {

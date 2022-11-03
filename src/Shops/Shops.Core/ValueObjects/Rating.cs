@@ -1,6 +1,6 @@
-﻿using IGroceryStore.Shops.Core.Exceptions;
+﻿using IGroceryStore.Shops.Exceptions;
 
-namespace IGroceryStore.Shops.Core.ValueObjects;
+namespace IGroceryStore.Shops.ValueObjects;
 
 public record Rating
 {

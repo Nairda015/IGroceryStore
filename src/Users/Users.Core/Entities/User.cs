@@ -2,12 +2,12 @@
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Exceptions;
 using IGroceryStore.Shared.ValueObjects;
-using IGroceryStore.Users.Core.Exceptions;
-using IGroceryStore.Users.Core.Services;
-using IGroceryStore.Users.Core.ValueObjects;
+using IGroceryStore.Users.Exceptions;
+using IGroceryStore.Users.Services;
+using IGroceryStore.Users.ValueObjects;
 using OneOf;
 
-namespace IGroceryStore.Users.Core.Entities;
+namespace IGroceryStore.Users.Entities;
 
 public sealed class User : AuditableEntity
 {

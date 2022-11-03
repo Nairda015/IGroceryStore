@@ -1,4 +1,4 @@
-﻿namespace IGroceryStore.Products.Core.ValueObjects;
+﻿namespace IGroceryStore.Products.ValueObjects;
 
 internal record AllergenId(ulong Id)
 {

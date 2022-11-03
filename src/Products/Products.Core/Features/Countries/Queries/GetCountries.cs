@@ -1,5 +1,5 @@
-﻿using IGroceryStore.Products.Core.Persistence.Contexts;
-using IGroceryStore.Products.Core.ReadModels;
+﻿using IGroceryStore.Products.Persistence.Contexts;
+using IGroceryStore.Products.ReadModels;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Abstraction.Queries;
@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
-namespace IGroceryStore.Products.Core.Features.Countries.Queries;
+namespace IGroceryStore.Products.Features.Countries.Queries;
 
 internal record GetCountries : IHttpQuery;
 

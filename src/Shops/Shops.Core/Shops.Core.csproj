@@ -1,29 +1,28 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-        <AssemblyName>IGroceryStore.Shops.Core</AssemblyName>
-        <RootNamespace>IGroceryStore.Shops.Core</RootNamespace>
-        <LangVersion>preview</LangVersion>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>IGroceryStore.Shops</AssemblyName>
+    <RootNamespace>IGroceryStore.Shops</RootNamespace>
+    <LangVersion>preview</LangVersion>
+  </PropertyGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\..\Products\Products.Contracts\Products.Contracts.csproj" />
-      <ProjectReference Include="..\..\Shared\Shared.Abstraction\Shared.Abstraction.csproj" />
-      <ProjectReference Include="..\..\Shared\Shared\Shared.csproj" />
-      <ProjectReference Include="..\..\Users\Users.Contracts\Users.Contracts.csproj" />
-      <ProjectReference Include="..\Shops.Contracts\Shops.Contracts.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="$(AssemblyName).UnitTests"/>
+    <InternalsVisibleTo Include="$(AssemblyName).IntegrationTests"/>
+  </ItemGroup>
 
-    <ItemGroup>
-      <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.100.4" />
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Shops.Contracts\Shops.Contracts.csproj"/>
+    <ProjectReference Include="..\..\Users\Users.Contracts\Users.Contracts.csproj"/>
+    <ProjectReference Include="..\..\Products\Products.Contracts\Products.Contracts.csproj"/>
+    <ProjectReference Include="..\..\Shared\Shared\Shared.csproj"/>
+  </ItemGroup>
 
-    <ItemGroup>
-      <None Remove="FodyWeavers.xml" />
-      <None Remove="FodyWeavers.xsd" />
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.100.7"/>
+  </ItemGroup>
 
 </Project>

@@ -1,10 +1,11 @@
 using System.Net;
 using System.Net.Http.Json;
 using FluentAssertions;
+using IGroceryStore.Users.IntegrationTests;
 using MassTransit.Testing;
 using Microsoft.AspNetCore.Mvc.Testing;
 
-namespace Users.IntegrationTests.Users;
+namespace IGroceryStore.Users.IntegrationTests.Users;
 
 [UsesVerify]
 public class RegisterTests : IClassFixture<UserApiFactory>

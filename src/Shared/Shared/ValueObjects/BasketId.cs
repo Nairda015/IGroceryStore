@@ -4,14 +4,14 @@ namespace IGroceryStore.Shared.ValueObjects;
 
 public class BasketId
 {
-    public Guid Value { get; }
+    public ulong Value { get; }
 
-    public BasketId(Guid value)
+    public BasketId(ulong value)
     {
-        if (value == Guid.Empty) throw new InvalidBasketIdException();
+        if (value == 0) throw new InvalidBasketIdException();
         Value = value;
     }
     
-    public static implicit operator Guid(BasketId id) => id.Value;
-    public static implicit operator BasketId(Guid id) => new(id);
+    public static implicit operator ulong(BasketId id) => id.Value;
+    public static implicit operator BasketId(ulong id) => new(id);
 }

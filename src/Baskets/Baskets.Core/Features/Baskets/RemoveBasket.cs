@@ -1,4 +1,4 @@
-﻿namespace IGroceryStore.Baskets.Core.Features.Baskets;
+﻿namespace IGroceryStore.Baskets.Features.Baskets;
 
 internal class RemoveBasket
 {

@@ -1,20 +1,21 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
-using IGroceryStore.Baskets.Core.Factories;
-using IGroceryStore.Baskets.Core.Persistence;
+using IGroceryStore.Baskets.Entities;
+using IGroceryStore.Baskets.Projectors;
+using IGroceryStore.Baskets.Settings;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Commands;
 using IGroceryStore.Shared.Queries;
 using IGroceryStore.Shared.Settings;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Driver;
 
-namespace IGroceryStore.Baskets.Core;
+namespace IGroceryStore.Baskets;
 
 public class BasketsModule : IModule
 {
@@ -25,12 +26,14 @@ public class BasketsModule : IModule
     {
         services.AddCommands();
         services.AddQueries();
-        services.AddSingleton<IBasketFactory, BasketFactory>();
 
-        var options = configuration.GetOptions<PostgresSettings>();
-        services.AddDbContext<BasketsDbContext>(ctx =>
-            ctx.UseNpgsql(options.ConnectionString)
-                .EnableSensitiveDataLogging(options.EnableSensitiveData));
+        RegisterMongoCollections(services, configuration);
+
+        var eventStoreSettings = configuration.GetOptions<EventStoreSettings>();
+        services.AddEventStoreClient(eventStoreSettings.ConnectionString, x => 
+        {
+            x.DefaultDeadline = TimeSpan.FromSeconds(5);
+        });
     }
 
     public void Use(IApplicationBuilder app)
@@ -52,5 +55,17 @@ public class BasketsModule : IModule
             .ToList();
 
         moduleEndpoints.ForEach(x => x.RegisterEndpoint(endpoints));
+    }
+
+    private static void RegisterMongoCollections(IServiceCollection services, IConfiguration configuration)
+    {
+        var settings = configuration.GetOptions<MongoDbSettings>();
+        var mongoClient = new MongoClient(settings.ConnectionString);
+        var mongoDatabase = mongoClient.GetDatabase(settings.DatabaseName);
+        
+        services.AddScoped<IMongoCollection<User>>(_ => mongoDatabase.GetCollection<User>(settings.UsersCollectionName));
+        services.AddScoped<IMongoCollection<Basket>>(_ => mongoDatabase.GetCollection<Basket>(settings.BasketsCollectionName));
+        services.AddScoped<IMongoCollection<Product>>(_ => mongoDatabase.GetCollection<Product>(settings.ProductsCollectionName));
+        services.AddScoped<IMongoCollection<ProductProjectionForShop>>(_ => mongoDatabase.GetCollection<ProductProjectionForShop>(settings.ProjectionsCollectionName));
     }
 }

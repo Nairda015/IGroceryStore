@@ -1,11 +1,11 @@
-﻿using IGroceryStore.Products.Core.Persistence.Contexts;
+﻿using IGroceryStore.Products.Persistence.Contexts;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Abstraction.Queries;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 
-namespace IGroceryStore.Products.Core.Features.Products.Queries;
+namespace IGroceryStore.Products.Features.Products.Queries;
 
 internal record FindSimilar(ulong Id) : IHttpQuery;
 

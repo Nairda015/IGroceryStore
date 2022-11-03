@@ -1,8 +1,8 @@
-﻿using IGroceryStore.Products.Core.ValueObjects;
+﻿using IGroceryStore.Products.ValueObjects;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.ValueObjects;
 
-namespace IGroceryStore.Products.Core.Entities;
+namespace IGroceryStore.Products.Entities;
 
 internal class Product : AuditableEntity
 {

@@ -1,4 +1,4 @@
-﻿namespace IGroceryStore.Shops.Core.Features.Users;
+﻿namespace IGroceryStore.Shops.Features.Users;
 
 internal class AddTrustPoints
 {

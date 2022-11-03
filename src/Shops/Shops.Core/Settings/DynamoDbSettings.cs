@@ -1,7 +1,7 @@
 using FluentValidation;
 using IGroceryStore.Shared.Settings;
 
-namespace IGroceryStore.Shops.Core.Settings;
+namespace IGroceryStore.Shops.Settings;
 
 internal class DynamoDbSettings : SettingsBase<DynamoDbSettings>, ISettings
 {

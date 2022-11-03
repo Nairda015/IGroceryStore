@@ -1,4 +1,4 @@
-﻿namespace IGroceryStore.Shops.Core.Features.Products;
+﻿namespace IGroceryStore.Shops.Features.Products;
 
 internal class MarkAsUnavailable
 {

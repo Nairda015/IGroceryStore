@@ -1,4 +1,4 @@
-namespace IGroceryStore.Users.Core.ReadModels
+namespace IGroceryStore.Users.ReadModels
 {
     public class TokensReadModel
     {

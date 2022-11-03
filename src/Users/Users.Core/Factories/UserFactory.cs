@@ -1,9 +1,9 @@
 ﻿using IGroceryStore.Shared.ValueObjects;
-using IGroceryStore.Users.Core.Entities;
-using IGroceryStore.Users.Core.Services;
-using IGroceryStore.Users.Core.ValueObjects;
+using IGroceryStore.Users.Entities;
+using IGroceryStore.Users.Services;
+using IGroceryStore.Users.ValueObjects;
 
-namespace IGroceryStore.Users.Core.Factories;
+namespace IGroceryStore.Users.Factories;
 
 public class UserFactory : IUserFactory
 {

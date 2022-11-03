@@ -1,4 +1,4 @@
-﻿namespace IGroceryStore.Products.Core.Features.Products.Commands;
+﻿namespace IGroceryStore.Products.Features.Products.Commands;
 
 internal class UpdateDetails
 {

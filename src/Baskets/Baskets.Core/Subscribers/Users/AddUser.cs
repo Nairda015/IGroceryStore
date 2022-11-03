@@ -1,31 +1,36 @@
-﻿using IGroceryStore.Baskets.Core.Entities;
-using IGroceryStore.Baskets.Core.Persistence;
+﻿using IGroceryStore.Baskets.Entities;
 using IGroceryStore.Users.Contracts.Events;
 using MassTransit;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using MongoDB.Driver;
 
-namespace IGroceryStore.Baskets.Core.Subscribers.Users;
+namespace IGroceryStore.Baskets.Subscribers.Users;
 
-public class AddUser : IConsumer<UserCreated>
+internal class AddUser : IConsumer<UserCreated>
 {
     private readonly ILogger<AddUser> _logger;
-    private readonly BasketsDbContext _basketsDbContext;
+    private readonly IMongoCollection<User> _collection;
 
-    public AddUser(ILogger<AddUser> logger, BasketsDbContext basketsDbContext)
+    public AddUser(ILogger<AddUser> logger, IMongoCollection<User> collection)
     {
         _logger = logger;
-        _basketsDbContext = basketsDbContext;
+        _collection = collection;
     }
 
     public async Task Consume(ConsumeContext<UserCreated> context)
     {
         var (userId, firstName, lastName) = context.Message;
-        if (await _basketsDbContext.Users.AnyAsync(x => x.Id.Equals(userId))) return;
+        var user = await _collection.Find(x => x.Id.Value == userId).FirstOrDefaultAsync();
+        if (user is not null) return;
 
-        var user = new User(userId, firstName, lastName);
-        await _basketsDbContext.Users.AddAsync(user);
-        await _basketsDbContext.SaveChangesAsync();
+        user = new User
+        {
+            Id = userId,
+            FirstName = firstName,
+            LastName = lastName
+        };
+        
+        await _collection.InsertOneAsync(user);
         _logger.LogInformation("User {UserId} added to basket database", userId);
     }
 }

@@ -1,21 +1,20 @@
 ﻿using IGroceryStore.Shared.Abstraction.Commands;
 using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Users.Core.Exceptions;
-using IGroceryStore.Users.Core.Persistence.Contexts;
-using IGroceryStore.Users.Core.Services;
-using Microsoft.EntityFrameworkCore;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Abstraction.Services;
-using IGroceryStore.Shared.Exceptions;
 using IGroceryStore.Shared.ValueObjects;
-using IGroceryStore.Users.Core.ReadModels;
+using IGroceryStore.Users.Exceptions;
+using IGroceryStore.Users.Persistence.Contexts;
+using IGroceryStore.Users.ReadModels;
+using IGroceryStore.Users.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.EntityFrameworkCore;
 using Audience = IGroceryStore.Shared.Abstraction.Constants.Tokens.Audience;
 
-namespace IGroceryStore.Users.Core.Features.Tokens;
+namespace IGroceryStore.Users.Features.Tokens;
 
 internal record RefreshToken : IHttpCommand;
 
@@ -51,7 +50,7 @@ internal class RefreshTokenHandler : ICommandHandler<RefreshToken, IResult>
     
     public async Task<IResult> HandleAsync(RefreshToken command, CancellationToken cancellationToken = default)
     {
-        var tokenClaim = _currentUserService.User.Claims.FirstOrDefault(x => x.Type is Claims.Name.RefreshToken);
+        var tokenClaim = _currentUserService.Principal?.Claims.FirstOrDefault(x => x.Type is Claims.Name.RefreshToken);
         var userId = _currentUserService.UserId;
 
         if (userId is null) return Results.BadRequest(new InvalidClaimsException("User id not found"));

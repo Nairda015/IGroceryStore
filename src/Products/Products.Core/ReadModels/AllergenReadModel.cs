@@ -1,3 +1,3 @@
-﻿namespace IGroceryStore.Products.Core.ReadModels;
+﻿namespace IGroceryStore.Products.ReadModels;
 
 public record AllergenReadModel(ulong Id , string Name);

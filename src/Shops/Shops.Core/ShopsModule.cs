@@ -1,19 +1,19 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
-using Amazon.DynamoDBv2;
 using Amazon;
+using Amazon.DynamoDBv2;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Settings;
-using IGroceryStore.Shops.Core.Repositories;
-using IGroceryStore.Shops.Core.Settings;
+using IGroceryStore.Shops.Repositories;
+using IGroceryStore.Shops.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace IGroceryStore.Shops.Core;
+namespace IGroceryStore.Shops;
 
 public class ShopsModule : IModule
 {

@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using IGroceryStore.Shared.Abstraction.Exceptions;
 
-namespace IGroceryStore.Baskets.Core.Exceptions;
+namespace IGroceryStore.Baskets.Exceptions;
 
 public class PersonalRatingException : GroceryStoreException
 {

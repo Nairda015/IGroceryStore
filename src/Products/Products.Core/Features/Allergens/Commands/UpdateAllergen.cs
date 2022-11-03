@@ -1,4 +1,4 @@
-﻿namespace IGroceryStore.Products.Core.Features.Allergens.Commands;
+﻿namespace IGroceryStore.Products.Features.Allergens.Commands;
 
 internal class UpdateAllergen
 {

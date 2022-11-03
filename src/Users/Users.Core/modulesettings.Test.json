@@ -1,0 +1,11 @@
+{
+  "Users": {
+    "ModuleEnabled": true,
+    "JwtSettings": {
+      "Key": "my-32-character-ultra-secure-and-ultra-long-secret",
+      "ExpireSeconds": 300,
+      "Issuer": "https://localhost:5000",
+      "ClockSkew": 30
+    }
+  }
+}

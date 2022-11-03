@@ -2,11 +2,11 @@
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Services;
 using IGroceryStore.Shared.Services;
-using IGroceryStore.Users.Core.Entities;
-using IGroceryStore.Users.Core.Persistence.Seeders;
+using IGroceryStore.Users.Entities;
+using IGroceryStore.Users.Persistence.Seeders;
 using Microsoft.EntityFrameworkCore;
 
-namespace IGroceryStore.Users.Core.Persistence.Contexts;
+namespace IGroceryStore.Users.Persistence.Contexts;
 
 internal class UsersDbContext : DbContext
 {
@@ -31,7 +31,7 @@ internal class UsersDbContext : DbContext
             switch (entry.State)
             {
                 case EntityState.Added:
-                    entry.Entity.CreatedBy = _currentUserService.UserId ?? Guid.Empty;
+                    entry.Entity.CreatedBy = _currentUserService.UserId;
                     entry.Entity.Created = _dateTimeService.Now;
                     break;
 

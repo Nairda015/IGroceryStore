@@ -1,29 +1,30 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-        <AssemblyName>IGroceryStore.Baskets.Core</AssemblyName>
-        <RootNamespace>IGroceryStore.Baskets.Core</RootNamespace>
-        <LangVersion>preview</LangVersion>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>IGroceryStore.Baskets</AssemblyName>
+    <RootNamespace>IGroceryStore.Baskets</RootNamespace>
+    <LangVersion>preview</LangVersion>
+  </PropertyGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\..\Products\Products.Contracts\Products.Contracts.csproj" />
-      <ProjectReference Include="..\..\Shared\Shared\Shared.csproj" />
-      <ProjectReference Include="..\..\Users\Users.Contracts\Users.Contracts.csproj" />
-      <ProjectReference Include="..\Baskets.Contracts\Baskets.Contracts.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="$(AssemblyName).UnitTests" />
+    <InternalsVisibleTo Include="$(AssemblyName).IntegrationTests" />
+  </ItemGroup>
 
-    <ItemGroup>
-    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-        <_Parameter1>Baskets.UnitTests</_Parameter1>
-    </AssemblyAttribute>
-</ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Products\Products.Contracts\Products.Contracts.csproj" />
+    <ProjectReference Include="..\..\Shared\Shared\Shared.csproj" />
+    <ProjectReference Include="..\..\Shops\Shops.Contracts\Shops.Contracts.csproj" />
+    <ProjectReference Include="..\..\Users\Users.Contracts\Users.Contracts.csproj" />
+    <ProjectReference Include="..\Baskets.Contracts\Baskets.Contracts.csproj" />
+  </ItemGroup>
 
-    <ItemGroup>
-      <Compile Remove="TestConsumer.cs" />
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="EventStore.Client.Grpc.Streams" Version="22.0.0" />
+    <PackageReference Include="MongoDB.Driver" Version="2.18.0" />
+  </ItemGroup>
 
 </Project>

@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using IGroceryStore.Shared.Abstraction.Exceptions;
 
-namespace IGroceryStore.Products.Core.ValueObjects;
+namespace IGroceryStore.Products.ValueObjects;
 
 public record Description
 {

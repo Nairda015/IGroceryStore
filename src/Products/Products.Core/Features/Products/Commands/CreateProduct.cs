@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
 using IGroceryStore.Products.Contracts.Events;
-using IGroceryStore.Products.Core.Entities;
-using IGroceryStore.Products.Core.Exceptions;
-using IGroceryStore.Products.Core.Persistence.Contexts;
-using IGroceryStore.Products.Core.ReadModels;
-using IGroceryStore.Products.Core.ValueObjects;
+using IGroceryStore.Products.Entities;
+using IGroceryStore.Products.Exceptions;
+using IGroceryStore.Products.Persistence.Contexts;
+using IGroceryStore.Products.ReadModels;
+using IGroceryStore.Products.ValueObjects;
 using IGroceryStore.Shared.Abstraction.Commands;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Constants;
@@ -16,7 +16,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
-namespace IGroceryStore.Products.Core.Features.Products.Commands;
+namespace IGroceryStore.Products.Features.Products.Commands;
 
 internal record CreateProduct(CreateProduct.CreateProductBody Body) : IHttpCommand
 {

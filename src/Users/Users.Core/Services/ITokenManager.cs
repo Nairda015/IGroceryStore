@@ -1,6 +1,6 @@
-﻿using IGroceryStore.Users.Core.Entities;
+﻿using IGroceryStore.Users.Entities;
 
-namespace IGroceryStore.Users.Core.Services;
+namespace IGroceryStore.Users.Services;
 
 public interface ITokenManager
 {
