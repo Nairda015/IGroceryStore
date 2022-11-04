@@ -40,7 +40,7 @@ internal class DeleteBrandHandler : ICommandHandler<DeleteBrand, IResult>
         var isAnyReference =
             await _productsDbContext.Products.AnyAsync(x => x.BrandId.Equals(command.Id), cancellationToken);
 
-        if (isAnyReference) throw new BrandHasReferenceException(command.Id);
+        if (isAnyReference) return Results.BadRequest();
 
         _productsDbContext.Brands.Remove(brand);
         await _productsDbContext.SaveChangesAsync(cancellationToken);

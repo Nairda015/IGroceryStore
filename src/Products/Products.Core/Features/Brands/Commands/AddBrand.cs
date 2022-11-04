@@ -6,6 +6,7 @@ using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Features.Brands.Commands;
 
@@ -19,7 +20,9 @@ public class AddBrandEndpoint : IEndpoint
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
     endpoints.MapPost<AddBrand>("api/brands")
         .WithTags(SwaggerTags.Products)
-        .Produces(201);
+        .Produces(201)
+        .Produces(400);
+    
 }
 
 internal class AddBrandHandler : ICommandHandler<AddBrand, IResult>
@@ -35,6 +38,14 @@ internal class AddBrandHandler : ICommandHandler<AddBrand, IResult>
 
     public async Task<IResult> HandleAsync(AddBrand command, CancellationToken cancellationToken = default)
     {
+        var alreadyExists = await _productsDbContext.Brands.AnyAsync(b => b.Name.Equals(command.Body.Name), cancellationToken);
+
+        if(alreadyExists)
+        {
+            return Results.BadRequest();
+        }
+
+
         var brand = new Brand
         {
             Id = _snowflakeService.GenerateId(),
