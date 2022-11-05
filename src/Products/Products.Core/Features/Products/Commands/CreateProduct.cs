@@ -34,7 +34,9 @@ public class CreateProductEndpoint : IEndpoint
         endpoints.MapPost<CreateProduct>("api/products")
             .RequireAuthorization()
             .AddEndpointFilter<ValidationFilter<CreateProduct.CreateProductBody>>()
-            .WithTags(SwaggerTags.Products);
+            .WithTags(SwaggerTags.Products)
+            .Produces(400)
+            .Produces(202);
 }
 
 internal class CreateProductHandler : ICommandHandler<CreateProduct, IResult>
