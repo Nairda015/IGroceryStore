@@ -1,4 +1,5 @@
 ﻿using IGroceryStore.Products.Entities;
+using IGroceryStore.Products.Features.Brands.Queries;
 using IGroceryStore.Products.Persistence.Contexts;
 using IGroceryStore.Shared.Abstraction.Commands;
 using IGroceryStore.Shared.Abstraction.Common;
@@ -44,7 +45,7 @@ internal class AddBrandHandler : ICommandHandler<AddBrand, IResult>
         {
             return Results.BadRequest();
         }
-
+        
 
         var brand = new Brand
         {
@@ -54,7 +55,7 @@ internal class AddBrandHandler : ICommandHandler<AddBrand, IResult>
 
         await _productsDbContext.Brands.AddAsync(brand);
         await _productsDbContext.SaveChangesAsync(cancellationToken);
-        return Results.Created($"api/brands/{brand.Id}",null);
+        return Results.CreatedAtRoute(nameof(GetBrand),new {brand.Id.Id});
     }
 }
 
