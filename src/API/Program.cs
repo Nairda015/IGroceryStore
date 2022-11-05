@@ -25,10 +25,10 @@ foreach (var module in modules)
 }
 
 //AWS
-if (!builder.Environment.IsDevelopment() && !builder.Environment.IsTestEnvironment())
-{
-    builder.Configuration.AddSystemsManager("/Production/IGroceryStore", TimeSpan.FromSeconds(30));
-}
+// if (!builder.Environment.IsDevelopment() && !builder.Environment.IsTestEnvironment())
+// {
+//     builder.Configuration.AddSystemsManager("/Production/IGroceryStore", TimeSpan.FromSeconds(30));
+// }
 
 //DateTime
 builder.Services.AddSingleton<DateTimeService>();

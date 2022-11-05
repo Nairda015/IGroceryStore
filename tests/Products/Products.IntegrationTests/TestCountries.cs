@@ -1,6 +1,6 @@
 ﻿using Bogus;
-using IGroceryStore.Products.Core.Entities;
-using IGroceryStore.Products.Core.ValueObjects;
+using IGroceryStore.Products.Entities;
+using IGroceryStore.Products.ValueObjects;
 
 namespace Products.IntegrationTests;
 

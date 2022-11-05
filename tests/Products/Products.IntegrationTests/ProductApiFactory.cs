@@ -3,13 +3,11 @@ using DotNet.Testcontainers.Builders;
 using DotNet.Testcontainers.Configurations;
 using DotNet.Testcontainers.Containers;
 using IGroceryStore.API;
-using IGroceryStore.Baskets.Core.Persistence;
-using IGroceryStore.Products.Core.Persistence.Contexts;
 using IGroceryStore.Products.Contracts.Events;
+using IGroceryStore.Products.Persistence.Contexts;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
-using Xunit;
 using MassTransit;
 using Microsoft.AspNetCore.TestHost;
 
@@ -50,11 +48,11 @@ public class ProductApiFactory : WebApplicationFactory<IApiMarker>, IAsyncLifeti
         builder.ConfigureTestServices(services =>
         {
             //services.CleanDbContextOptions<UsersDbContext>();
-            services.CleanDbContextOptions<BasketsDbContext>();
+            //services.CleanDbContextOptions<BasketsDbContext>();
             services.CleanDbContextOptions<ProductsDbContext>();
 
             //services.AddPostgresContext<UsersDbContext>(_dbContainer);
-            services.AddPostgresContext<BasketsDbContext>(_dbContainer);
+            //services.AddPostgresContext<BasketsDbContext>(_dbContainer);
             services.AddPostgresContext<ProductsDbContext>(_dbContainer);
         });
     }

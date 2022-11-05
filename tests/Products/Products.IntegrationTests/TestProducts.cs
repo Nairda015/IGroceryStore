@@ -1,8 +1,7 @@
 ﻿using Bogus;
-using IGroceryStore.Products.Core.Features.Products.Commands;
-using IGroceryStore.Products.Core.ReadModels;
-using IGroceryStore.Products.Core.ValueObjects;
-using IGroceryStore.Shops.Core.Entities;
+using IGroceryStore.Products.Features.Products.Commands;
+using IGroceryStore.Products.ReadModels;
+using IGroceryStore.Products.ValueObjects;
 
 namespace Products.IntegrationTests;
 

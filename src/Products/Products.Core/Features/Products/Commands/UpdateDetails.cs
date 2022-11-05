@@ -1,12 +1,11 @@
-﻿using IGroceryStore.Products.Core.Exceptions;
-using IGroceryStore.Products.Core.Persistence.Contexts;
-using IGroceryStore.Products.Contracts.Events;
+﻿using IGroceryStore.Products.Contracts.Events;
+using IGroceryStore.Products.Exceptions;
+using IGroceryStore.Products.Persistence.Contexts;
 using IGroceryStore.Shared.Abstraction.Commands;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Constants;
 using MassTransit;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
