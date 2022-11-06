@@ -4,11 +4,11 @@
   &lt;PhysicalFolder Path="/Users/adrianfranczak/.nuget/packages/opentelemetry.instrumentation.http/1.0.0-rc9.5" Loaded="True" /&gt;
   &lt;PhysicalFolder Path="/Users/adrianfranczak/.nuget/packages/opentelemetry.instrumentation.http/1.0.0-rc9.6" Loaded="True" /&gt;
 &lt;/AssemblyExplorer&gt;</s:String>
-	<s:String x:Key="/Default/Environment/Highlighting/HighlightingSourceSnapshotLocation/@EntryValue">/Users/adrianfranczak/Library/Caches/JetBrains/Rider2022.2/resharper-host/temp/Rider/vAny/CoverageData/_IGroceryStore.1213299661/Snapshot/snapshot.utdcvr</s:String>
 	
 	
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=bb40838d_002De9ff_002D4741_002Da625_002D9ff5d7dda92b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from &amp;lt;tests&amp;gt;" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
-  &lt;Project Location="/Users/adrianfranczak/Repos/Private/IGroceryStore" Presentation="&amp;lt;tests&amp;gt;" /&gt;
+	
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=bb40838d_002De9ff_002D4741_002Da625_002D9ff5d7dda92b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from &amp;lt;tests&amp;gt;" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Project Location="\Users\adrianfranczak\Repos\Private\IGroceryStore" Presentation="&amp;lt;tests&amp;gt;" /&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:Boolean x:Key="/Default/UserDictionary/Words/=Respawner/@EntryIndexedValue">True</s:Boolean>
 	

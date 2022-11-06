@@ -22,7 +22,7 @@ public class UpdateCategoryEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
         endpoints.MapPut<UpdateCategory>("api/categories/{id}")
-            .AddEndpointFilter<ValidationFilter<UpdateCategory.UpdateCategoryBody>>()
+            .AddEndpointFilter<ValidationFilter<UpdateCategory>>()
             .WithTags(SwaggerTags.Products)
             .Produces(202)
             .Produces(400);
@@ -55,11 +55,11 @@ internal class UpdateCategoryHandler : ICommandHandler<UpdateCategory, IResult>
     }
 }
 
-internal class UpdateCategoryValidator : AbstractValidator<UpdateCategory.UpdateCategoryBody>
+internal class UpdateCategoryValidator : AbstractValidator<UpdateCategory>
 {
     public UpdateCategoryValidator()
     {
-        RuleFor(x => x.Name)
+        RuleFor(x => x.Body.Name)
             .MinimumLength(3)
             .NotEmpty();
     }

@@ -11,7 +11,6 @@ using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Services;
 using IGroceryStore.Shared.Validation;
 using MassTransit;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
@@ -32,11 +31,11 @@ public class CreateProductEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
         endpoints.MapPost<CreateProduct>("api/products")
-            .RequireAuthorization()
-            .AddEndpointFilter<ValidationFilter<CreateProduct.CreateProductBody>>()
+            //.RequireAuthorization()
+            .AddEndpointFilter<ValidationFilter<CreateProduct>>()
             .WithTags(SwaggerTags.Products)
             .Produces(400)
-            .Produces(202);
+            .Produces(202);;
 }
 
 internal class CreateProductHandler : ICommandHandler<CreateProduct, IResult>
@@ -83,32 +82,32 @@ internal class CreateProductHandler : ICommandHandler<CreateProduct, IResult>
     }
 }
 
-internal class CreateProductValidator : AbstractValidator<CreateProduct.CreateProductBody>
+internal class CreateProductValidator : AbstractValidator<CreateProduct>
 {
     public CreateProductValidator()
     {
-        RuleFor(x => x.Name)
+        RuleFor(x => x.Body.Name)
             .NotEmpty()
             .MinimumLength(3);
 
-        RuleFor(x => x.Quantity)
+        RuleFor(x => x.Body.Quantity)
             .NotNull()
             .DependentRules(() =>
             {
-                RuleFor(x => x.Quantity.Amount)
+                RuleFor(x => x.Body.Quantity.Amount)
                     .GreaterThan(0);
                 
-                RuleFor(x => x.Quantity.Unit)
+                RuleFor(x => x.Body.Quantity.Unit)
                     .NotEmpty();
             });
         
-        RuleFor(x => x.BrandId)
+        RuleFor(x => x.Body.BrandId)
             .NotEmpty();
         
-        RuleFor(x => x.CountryId)
+        RuleFor(x => x.Body.CountryId)
             .NotEmpty();
         
-        RuleFor(x => x.CategoryId)
+        RuleFor(x => x.Body.CategoryId)
             .NotEmpty();
     }
 }
