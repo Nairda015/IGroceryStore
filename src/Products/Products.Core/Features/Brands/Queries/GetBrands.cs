@@ -1,7 +1,7 @@
 ﻿using IGroceryStore.Products.Persistence.Contexts;
 using IGroceryStore.Products.ReadModels;
+using IGroceryStore.Shared.Abstraction;
 using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Abstraction.Queries;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -14,7 +14,7 @@ internal record GetBrands : IHttpQuery;
 public class GetBrandsEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapGet<GetBrands>("api/brands").WithTags(SwaggerTags.Products);
+        endpoints.MapGet<GetBrands>("api/brands").WithTags(Constants.SwaggerTags.Products);
 }
 
 internal class GetBrandsHandler : IQueryHandler<GetBrands, IResult>

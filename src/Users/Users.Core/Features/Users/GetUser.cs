@@ -1,5 +1,5 @@
-﻿using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Constants;
+﻿using IGroceryStore.Shared.Abstraction;
+using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Queries;
 using IGroceryStore.Shared.ValueObjects;
 using IGroceryStore.Users.Exceptions;
@@ -23,7 +23,7 @@ public class GetUserEndpoint : IEndpoint
             .Produces(401)
             .RequireAuthorization()
             .WithName(nameof(GetUser))
-            .WithTags(SwaggerTags.Users);
+            .WithTags(Constants.SwaggerTags.Users);
 }
 
 

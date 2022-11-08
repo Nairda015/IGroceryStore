@@ -6,7 +6,7 @@ using DotNet.Testcontainers.Configurations;
 using DotNet.Testcontainers.Containers;
 using IGroceryStore.API;
 using IGroceryStore.Products.Persistence.Contexts;
-using IGroceryStore.Shared.Abstraction.Constants;
+using IGroceryStore.Shared.Abstraction;
 using IGroceryStore.Shared.Services;
 using IGroceryStore.Shared.Tests.Auth;
 using IGroceryStore.Users.Contracts.Events;
@@ -41,8 +41,8 @@ public class UserApiFactory : WebApplicationFactory<IApiMarker>, IAsyncLifetime
 
     public UserApiFactory()
     {
-        _user = new MockUser(new Claim(Claims.Name.UserId, "1"), 
-            new Claim(Claims.Name.Expire, DateTimeOffset.UtcNow.AddSeconds(2137).ToUnixTimeSeconds().ToString()));
+        _user = new MockUser(new Claim(Constants.Claims.Name.UserId, "1"), 
+            new Claim(Constants.Claims.Name.Expire, DateTimeOffset.UtcNow.AddSeconds(2137).ToUnixTimeSeconds().ToString()));
         Randomizer.Seed = new Random(420);
         VerifierSettings.ScrubInlineGuids();
     }

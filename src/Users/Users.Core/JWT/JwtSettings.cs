@@ -1,6 +1,6 @@
 ﻿using System.Text;
 using FluentValidation;
-using IGroceryStore.Shared.Abstraction.Constants;
+using IGroceryStore.Shared.Abstraction;
 using IGroceryStore.Shared.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -30,7 +30,7 @@ internal class JwtSettings : SettingsBase<JwtSettings>, ISettings
             ValidateLifetime = true, 
             ClockSkew = TimeSpan.FromSeconds(jwtSettings.ClockSkew)
         };
-        if (audience == Tokens.Audience.Access)
+        if (audience == Constants.Tokens.Audience.Access)
         {
             jwtBearerOptions.Events = new JwtBearerEvents
             {

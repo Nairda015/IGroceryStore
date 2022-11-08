@@ -2,9 +2,9 @@
 using System.Reflection;
 using Amazon;
 using Amazon.DynamoDBv2;
+using IGroceryStore.Shared.Abstraction;
 using IGroceryStore.Shared;
 using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Settings;
 using IGroceryStore.Shops.Repositories;
 using IGroceryStore.Shops.Settings;
@@ -27,11 +27,10 @@ public class ShopsModule : IModule
         var dynamoDbSettings = configuration.GetOptions<DynamoDbSettings>();
         if (dynamoDbSettings.LocalMode)
         {
-            services.AddSingleton<IAmazonDynamoDB>(sp =>
+            services.AddSingleton<IAmazonDynamoDB>(_ => new AmazonDynamoDBClient(new AmazonDynamoDBConfig
             {
-                var clientConfig = new AmazonDynamoDBConfig { ServiceURL = dynamoDbSettings.LocalServiceUrl };
-                return new AmazonDynamoDBClient(clientConfig);
-            });
+                ServiceURL = dynamoDbSettings.LocalServiceUrl
+            }));
         }
         else
         {
@@ -49,8 +48,8 @@ public class ShopsModule : IModule
     public void Expose(IEndpointRouteBuilder endpoints)
     {
         endpoints.MapGet($"/api/{Name.ToLower()}/health", () => $"{Name} module is healthy")
-            .WithTags(SwaggerTags.HealthChecks);
-        
+            .WithTags(Constants.SwaggerTags.HealthChecks);
+
         endpoints.RegisterEndpoints<ShopsModule>();
     }
 }

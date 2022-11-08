@@ -1,5 +1,5 @@
-﻿using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Constants;
+﻿using IGroceryStore.Shared.Abstraction;
+using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Queries;
 using IGroceryStore.Users.Persistence.Contexts;
 using IGroceryStore.Users.ReadModels;
@@ -21,7 +21,7 @@ public class GetUsersEndpoint : IEndpoint
             .Produces<UsersReadModel>()
             .Produces(401)
             .RequireAuthorization()
-            .WithTags(SwaggerTags.Users);
+            .WithTags(Constants.SwaggerTags.Users);
 }
 
 internal class GetUsersHandler : IQueryHandler<GetUsers, IResult>

@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
+using IGroceryStore.Shared.Abstraction;
 using IGroceryStore.Shared;
 using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Constants;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -28,7 +28,7 @@ public class NotificationsModule : IModule
     public void Expose(IEndpointRouteBuilder endpoints)
     {
         endpoints.MapGet($"/api/{Name.ToLower()}/health", () => $"{Name} module is healthy")
-            .WithTags(SwaggerTags.HealthChecks);
+            .WithTags(Constants.SwaggerTags.HealthChecks);
         
         endpoints.RegisterEndpoints<NotificationsModule>();
     }

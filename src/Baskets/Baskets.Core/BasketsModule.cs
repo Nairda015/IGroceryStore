@@ -3,9 +3,9 @@ using System.Reflection;
 using IGroceryStore.Baskets.Entities;
 using IGroceryStore.Baskets.Projectors;
 using IGroceryStore.Baskets.Settings;
+using IGroceryStore.Shared.Abstraction;
 using IGroceryStore.Shared;
 using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Commands;
 using IGroceryStore.Shared.Queries;
 using IGroceryStore.Shared.Settings;
@@ -44,8 +44,8 @@ public class BasketsModule : IModule
     public void Expose(IEndpointRouteBuilder endpoints)
     {
         endpoints.MapGet($"/api/{Name.ToLower()}/health", () => $"{Name} module is healthy")
-            .WithTags(SwaggerTags.HealthChecks);
-        
+            .WithTags(Constants.SwaggerTags.HealthChecks);
+
         endpoints.RegisterEndpoints<BasketsModule>();
     }
 

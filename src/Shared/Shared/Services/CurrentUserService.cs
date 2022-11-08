@@ -1,5 +1,5 @@
 ﻿using System.Security.Claims;
-using IGroceryStore.Shared.Abstraction.Constants;
+using IGroceryStore.Shared.Abstraction;
 using IGroceryStore.Shared.Abstraction.Services;
 using Microsoft.AspNetCore.Http;
 
@@ -15,8 +15,8 @@ public class CurrentUserService : ICurrentUserService
     }
 
     public ClaimsPrincipal? Principal => _httpContextAccessor.HttpContext?.User;
-    public Guid? UserId => Principal?.FindFirstValue(Claims.Name.UserId).ToGuid();
-    public string? UserRole => Principal?.FindFirstValue(Claims.Name.Role);
+    public Guid? UserId => Principal?.FindFirstValue(Constants.Claims.Name.UserId).ToGuid();
+    public string? UserRole => Principal?.FindFirstValue(Constants.Claims.Name.Role);
 }
 
 internal static class Extensions

@@ -2,7 +2,7 @@ using FluentValidation;
 using IGroceryStore.API;
 using IGroceryStore.API.Middlewares;
 using IGroceryStore.API.Services;
-using IGroceryStore.Shared.Abstraction.Constants;
+using IGroceryStore.Shared.Abstraction;
 using IGroceryStore.Shared.Abstraction.Services;
 using IGroceryStore.Shared.Services;
 using IGroceryStore.Shared.Configuration;
@@ -122,7 +122,7 @@ foreach (var module in modules)
 }
 
 app.MapGet("/api/health", () => "IGroceryStore is healthy")
-    .WithTags(SwaggerTags.HealthChecks);
+    .WithTags(Constants.SwaggerTags.HealthChecks);
 
 foreach (var module in modules)
 {

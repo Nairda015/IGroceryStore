@@ -1,8 +1,8 @@
 ﻿using IGroceryStore.Products.Exceptions;
 using IGroceryStore.Products.Persistence.Contexts;
 using IGroceryStore.Products.ReadModels;
+using IGroceryStore.Shared.Abstraction;
 using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Abstraction.Queries;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -15,7 +15,7 @@ internal record GetProduct(ulong Id) : IHttpQuery;
 public class GetProductEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapGet<GetProduct>("api/products/{id}").WithTags(SwaggerTags.Products);
+        endpoints.MapGet<GetProduct>("api/products/{id}").WithTags(Constants.SwaggerTags.Products);
 }
 
 internal class GetProductHandler : IQueryHandler<GetProduct, IResult>

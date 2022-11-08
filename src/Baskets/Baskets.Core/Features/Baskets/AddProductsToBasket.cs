@@ -1,9 +1,9 @@
 using System.Text.Json;
 using EventStore.Client;
 using IGroceryStore.Baskets.Events;
+using IGroceryStore.Shared.Abstraction;
 using IGroceryStore.Shared.Abstraction.Commands;
 using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Constants;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
@@ -20,7 +20,7 @@ public class AddProductsToBasketEndpoint : IEndpoint
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
         endpoints.MapPut<AddProductsToBasket>("api/basket/{basketId}/{productId}")
             .Produces<IWriteResult>()
-            .WithTags(SwaggerTags.Baskets);
+            .WithTags(Constants.SwaggerTags.Baskets);
 }
 
 

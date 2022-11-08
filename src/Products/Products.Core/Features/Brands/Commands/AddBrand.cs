@@ -1,9 +1,9 @@
 ﻿using IGroceryStore.Products.Entities;
 using IGroceryStore.Products.Features.Brands.Queries;
 using IGroceryStore.Products.Persistence.Contexts;
+using IGroceryStore.Shared.Abstraction;
 using IGroceryStore.Shared.Abstraction.Commands;
 using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -20,7 +20,7 @@ public class AddBrandEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
     endpoints.MapPost<AddBrand>("api/brands")
-        .WithTags(SwaggerTags.Products)
+        .WithTags(Constants.SwaggerTags.Products)
         .Produces(201)
         .Produces(400);
     

@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
-using IGroceryStore.Shared.Abstraction.Constants;
+using IGroceryStore.Shared.Abstraction;
 using IGroceryStore.Users.Entities;
 using IGroceryStore.Users.JWT;
 using JWT.Algorithms;
@@ -19,10 +19,10 @@ internal class JwtTokenManager : ITokenManager
         return new JwtBuilder()
             .WithAlgorithm(new HMACSHA256Algorithm())
             .WithSecret(Encoding.ASCII.GetBytes(_settings.Key))
-            .AddClaim(Claims.Name.Expire, DateTimeOffset.UtcNow.AddSeconds(_settings.ExpireSeconds).ToUnixTimeSeconds())
-            .AddClaim(Claims.Name.UserId, user.Id.Value)
+            .AddClaim(Constants.Claims.Name.Expire, DateTimeOffset.UtcNow.AddSeconds(_settings.ExpireSeconds).ToUnixTimeSeconds())
+            .AddClaim(Constants.Claims.Name.UserId, user.Id.Value)
             .Issuer(_settings.Issuer)
-            .Audience(Tokens.Audience.Access)
+            .Audience(Constants.Tokens.Audience.Access)
             .Encode();
     }
 
@@ -46,11 +46,11 @@ internal class JwtTokenManager : ITokenManager
         var jwt = new JwtBuilder()
             .WithAlgorithm(new HMACSHA256Algorithm())
             .WithSecret(_settings.Key)
-            .AddClaim(Claims.Name.Expire, DateTimeOffset.UtcNow.AddHours(4).ToUnixTimeSeconds())
-            .AddClaim(Claims.Name.RefreshToken, refreshToken)
-            .AddClaim(Claims.Name.UserId, user.Id.Value)
+            .AddClaim(Constants.Claims.Name.Expire, DateTimeOffset.UtcNow.AddHours(4).ToUnixTimeSeconds())
+            .AddClaim(Constants.Claims.Name.RefreshToken, refreshToken)
+            .AddClaim(Constants.Claims.Name.UserId, user.Id.Value)
             .Issuer(_settings.Issuer)
-            .Audience(Tokens.Audience.Refresh)
+            .Audience(Constants.Tokens.Audience.Refresh)
             .Encode();
 
         return (refreshToken, jwt);

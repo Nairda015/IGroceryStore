@@ -1,8 +1,8 @@
 ﻿using IGroceryStore.Products.Exceptions;
 using IGroceryStore.Products.Persistence.Contexts;
+using IGroceryStore.Shared.Abstraction;
 using IGroceryStore.Shared.Abstraction.Commands;
 using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.ValueObjects;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -18,7 +18,7 @@ internal record MarkAsObsolete(MarkAsObsolete.MarkAsObsoleteBody Body) : IHttpCo
 public class MarkAsObsoleteEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapPost<MarkAsObsolete>("api/products/mark-as-obsolete/{id}").WithTags(SwaggerTags.Products);
+        endpoints.MapPost<MarkAsObsolete>("api/products/mark-as-obsolete/{id}").WithTags(Constants.SwaggerTags.Products);
 }
 
 internal class MarkAsObsoleteHandler : ICommandHandler<MarkAsObsolete, IResult>

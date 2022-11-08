@@ -2,7 +2,7 @@ using System.Net;
 using System.Net.Http.Json;
 using System.Security.Claims;
 using FluentAssertions;
-using IGroceryStore.Shared.Abstraction.Constants;
+using IGroceryStore.Shared.Abstraction;
 using IGroceryStore.Shared.Tests.Auth;
 using IGroceryStore.Users.ReadModels;
 using Microsoft.AspNetCore.TestHost;
@@ -26,8 +26,8 @@ public class GetUserTests : IAsyncLifetime
                 {
                     services.RegisterUser(new[]
                     {
-                        new Claim(Claims.Name.UserId, "1"),
-                        new Claim(Claims.Name.Expire,
+                        new Claim(Constants.Claims.Name.UserId, "1"),
+                        new Claim(Constants.Claims.Name.Expire,
                             DateTimeOffset.UtcNow.AddSeconds(2137).ToUnixTimeSeconds().ToString())
                     });
                 })); // override authorized user;

@@ -10,19 +10,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <InternalsVisibleTo Include="$(AssemblyName).UnitTests"/>
-    <InternalsVisibleTo Include="$(AssemblyName).IntegrationTests"/>
+    <InternalsVisibleTo Include="$(AssemblyName).UnitTests" />
+    <InternalsVisibleTo Include="$(AssemblyName).IntegrationTests" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Shops.Contracts\Shops.Contracts.csproj"/>
-    <ProjectReference Include="..\..\Users\Users.Contracts\Users.Contracts.csproj"/>
-    <ProjectReference Include="..\..\Products\Products.Contracts\Products.Contracts.csproj"/>
-    <ProjectReference Include="..\..\Shared\Shared\Shared.csproj"/>
+    <ProjectReference Include="..\Shops.Contracts\Shops.Contracts.csproj" />
+    <ProjectReference Include="..\..\Users\Users.Contracts\Users.Contracts.csproj" />
+    <ProjectReference Include="..\..\Products\Products.Contracts\Products.Contracts.csproj" />
+    <ProjectReference Include="..\..\Shared\Shared\Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.100.8"/>
+    <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.100.8" />
   </ItemGroup>
 
 </Project>

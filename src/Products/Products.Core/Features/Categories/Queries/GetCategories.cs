@@ -1,7 +1,7 @@
 ﻿using IGroceryStore.Products.Persistence.Contexts;
 using IGroceryStore.Products.ReadModels;
+using IGroceryStore.Shared.Abstraction;
 using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Abstraction.Queries;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -18,7 +18,7 @@ public class GetCategoriesEndpoint : IEndpoint
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
         endpoints.MapGet<GetCategories>("api/categories")
             .Produces<GetCategoriesResult>()
-            .WithTags(SwaggerTags.Products);
+            .WithTags(Constants.SwaggerTags.Products);
 }
 
 internal class GetCategoriesHandler : IQueryHandler<GetCategories, IResult>

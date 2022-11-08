@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="API + Worker" type="CompoundRunConfigurationType">
+    <toRun name="AspNetCore: Postman" type="LaunchSettings" />
+    <toRun name="Worker" type="DotNetProject" />
+    <method v="2" />
+  </configuration>
+</component>

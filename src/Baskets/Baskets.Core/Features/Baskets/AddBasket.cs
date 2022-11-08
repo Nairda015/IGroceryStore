@@ -2,9 +2,9 @@ using System.Text.Json;
 using EventStore.Client;
 using IGroceryStore.Baskets.Entities;
 using IGroceryStore.Baskets.Events;
+using IGroceryStore.Shared.Abstraction;
 using IGroceryStore.Shared.Abstraction.Commands;
 using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Abstraction.Services;
 using IGroceryStore.Shared.Services;
 using Microsoft.AspNetCore.Builder;
@@ -26,7 +26,7 @@ public class AddBasketEndpoint : IEndpoint
         endpoints.MapPost<AddBasket>("api/basket")
             .RequireAuthorization()
             .Produces<Guid>()
-            .WithTags(SwaggerTags.Baskets);
+            .WithTags(Constants.SwaggerTags.Baskets);
 }
 
 internal class AddBasketHandler : ICommandHandler<AddBasket, IResult>

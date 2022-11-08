@@ -1,7 +1,7 @@
 ﻿using IGroceryStore.Products.Persistence.Contexts;
 using IGroceryStore.Products.ReadModels;
+using IGroceryStore.Shared.Abstraction;
 using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Abstraction.Queries;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -14,7 +14,7 @@ internal record GetCountries : IHttpQuery;
 public class GetCountriesEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapGet<GetCountries>("api/countries").WithTags(SwaggerTags.Products);
+        endpoints.MapGet<GetCountries>("api/countries").WithTags(Constants.SwaggerTags.Products);
 }
 
 internal class GetCountriesHandler : IQueryHandler<GetCountries, IResult>

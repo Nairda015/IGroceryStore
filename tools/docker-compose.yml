@@ -11,10 +11,10 @@ services:
       - POSTGRES_PORT=5432
     ports:
       - 5432:5432
-  
+
   eventstore:
     container_name: eventstore
-    image: eventstore/eventstore:latest
+    image: ghcr.io/eventstore/eventstore:21.10.0-alpha-arm64v8
     environment:
       - EVENTSTORE_CLUSTER_SIZE=1
       - EVENTSTORE_RUN_PROJECTIONS=All

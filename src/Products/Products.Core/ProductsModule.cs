@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
 using IGroceryStore.Products.Persistence.Contexts;
+using IGroceryStore.Shared.Abstraction;
 using IGroceryStore.Shared;
 using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Commands;
 using IGroceryStore.Shared.Queries;
 using IGroceryStore.Shared.Services;
@@ -44,8 +44,8 @@ public class ProductsModule : IModule
     public void Expose(IEndpointRouteBuilder endpoints)
     {
         endpoints.MapGet($"/api/{Name.ToLower()}/health", () => $"{Name} module is healthy")
-            .WithTags(SwaggerTags.HealthChecks);
-        
+            .WithTags(Constants.SwaggerTags.HealthChecks);
+
         endpoints.RegisterEndpoints<ProductsModule>();
     }
 }
