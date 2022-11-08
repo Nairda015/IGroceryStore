@@ -2,6 +2,7 @@
 using System.Reflection;
 using Amazon;
 using Amazon.DynamoDBv2;
+using IGroceryStore.Shared;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Settings;
@@ -49,16 +50,7 @@ public class ShopsModule : IModule
     {
         endpoints.MapGet($"/api/{Name.ToLower()}/health", () => $"{Name} module is healthy")
             .WithTags(SwaggerTags.HealthChecks);
-
-        var assembly = Assembly.GetAssembly(typeof(ShopsModule));
-        var moduleEndpoints = assembly!
-            .GetTypes()
-            .Where(x => typeof(IEndpoint).IsAssignableFrom(x) && x.IsClass)
-            .OrderBy(x => x.Name)
-            .Select(Activator.CreateInstance)
-            .Cast<IEndpoint>()
-            .ToList();
-
-        moduleEndpoints.ForEach(x => x.RegisterEndpoint(endpoints));
+        
+        endpoints.RegisterEndpoints<ShopsModule>();
     }
 }
