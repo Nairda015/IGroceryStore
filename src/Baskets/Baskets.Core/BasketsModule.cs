@@ -3,6 +3,7 @@ using System.Reflection;
 using IGroceryStore.Baskets.Entities;
 using IGroceryStore.Baskets.Projectors;
 using IGroceryStore.Baskets.Settings;
+using IGroceryStore.Shared;
 using IGroceryStore.Shared.Abstraction.Common;
 using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Commands;
@@ -44,17 +45,8 @@ public class BasketsModule : IModule
     {
         endpoints.MapGet($"/api/{Name.ToLower()}/health", () => $"{Name} module is healthy")
             .WithTags(SwaggerTags.HealthChecks);
-
-        var assembly = Assembly.GetAssembly(typeof(BasketsModule));
-        var moduleEndpoints = assembly!
-            .GetTypes()
-            .Where(x => typeof(IEndpoint).IsAssignableFrom(x) && x.IsClass)
-            .OrderBy(x => x.Name)
-            .Select(Activator.CreateInstance)
-            .Cast<IEndpoint>()
-            .ToList();
-
-        moduleEndpoints.ForEach(x => x.RegisterEndpoint(endpoints));
+        
+        endpoints.RegisterEndpoints<BasketsModule>();
     }
 
     private static void RegisterMongoCollections(IServiceCollection services, IConfiguration configuration)
