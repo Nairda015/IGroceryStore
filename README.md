@@ -90,7 +90,7 @@ You can read more about flow [here](https://www.blog.techtious.com/tag/feature-b
 ```terraform init```  
 ```terraform apply```
 - Run ASP and/or Worker Project (add compound configuration in Rider)
-- **img**
+![img](https://user-images.githubusercontent.com/44712992/202317883-be680353-4708-41c9-97c8-eda7c4105fdd.png)
 - API endpoints: localhost:5000/swagger
 - All ports for infrastructure available in docker-compose file
 - To connect to pgadmin from docker use:  
