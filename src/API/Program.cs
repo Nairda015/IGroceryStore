@@ -1,12 +1,14 @@
 using FluentValidation;
 using IGroceryStore.API;
+using IGroceryStore.API.Initializers;
 using IGroceryStore.API.Middlewares;
-using IGroceryStore.API.Services;
 using IGroceryStore.Shared.Abstraction;
+using IGroceryStore.Shared.Abstraction.Queries;
 using IGroceryStore.Shared.Abstraction.Services;
 using IGroceryStore.Shared.Services;
 using IGroceryStore.Shared.Configuration;
 using IGroceryStore.Shared.Settings;
+using IGroceryStore.Shops.Persistence;
 using MassTransit;
 using Npgsql;
 using OpenTelemetry.Resources;
@@ -39,7 +41,12 @@ builder.Services.AddSwaggerGen(c => { c.OrderActionsBy(x => x.HttpMethod); });
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<ICurrentUserService, CurrentUserService>();
-builder.Services.AddSingleton<DbInitializer>();
+builder.Services.AddSingleton<PostgresInitializer>();
+builder.Services.AddScoped<ISnowflakeService, SnowflakeService>();
+
+//Db
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
 
 //Middlewares
 builder.Services.AddScoped<ExceptionMiddleware>();
@@ -98,7 +105,8 @@ var app = builder.Build();
 System.AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 app.UseSwagger();
 
-// Configure the HTTP request pipeline.
+// TODO: is this needed?
+// Configure the HTTP request pipeline. 
 if (!app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
@@ -129,14 +137,16 @@ foreach (var module in modules)
     module.Expose(app);
 }
 
+new MigrateTableEndpoint().RegisterEndpoint(new GroceryStoreRouteBuilder(app));
+
 app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "IGroceryStore"); });
 
 app.MapFallbackToFile("index.html");
 
-var databaseInitializer = app.Services.GetRequiredService<DbInitializer>();
-if (builder.Environment.IsDevelopment() || builder.Environment.IsTestEnvironment())
-{
-    await databaseInitializer.MigrateWithEnsuredDeletedAsync(moduleAssemblies);
-}
+// var databaseInitializer = app.Services.GetRequiredService<PostgresInitializer>();
+// if (builder.Environment.IsDevelopment() || builder.Environment.IsTestEnvironment())
+// {
+//     await databaseInitializer.MigrateWithEnsuredDeletedAsync(moduleAssemblies);
+// }
 
 app.Run();

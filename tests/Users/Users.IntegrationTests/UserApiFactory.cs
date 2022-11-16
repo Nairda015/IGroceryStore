@@ -5,7 +5,6 @@ using DotNet.Testcontainers.Builders;
 using DotNet.Testcontainers.Configurations;
 using DotNet.Testcontainers.Containers;
 using IGroceryStore.API;
-using IGroceryStore.Products.Persistence.Contexts;
 using IGroceryStore.Shared.Abstraction;
 using IGroceryStore.Shared.Services;
 using IGroceryStore.Shared.Tests.Auth;
@@ -68,10 +67,10 @@ public class UserApiFactory : WebApplicationFactory<IApiMarker>, IAsyncLifetime
         builder.ConfigureTestServices(services =>
         {
             services.CleanDbContextOptions<UsersDbContext>();
-            services.CleanDbContextOptions<ProductsDbContext>();
+            //services.CleanDbContextOptions<ProductsDbContext>();
 
             services.AddPostgresContext<UsersDbContext>(_dbContainer);
-            services.AddPostgresContext<ProductsDbContext>(_dbContainer);
+            //services.AddPostgresContext<ProductsDbContext>(_dbContainer);
 
             services.AddTestAuthentication();
 

@@ -3,9 +3,11 @@ using System.Reflection;
 using Amazon;
 using Amazon.DynamoDBv2;
 using IGroceryStore.Shared.Abstraction;
-using IGroceryStore.Shared;
 using IGroceryStore.Shared.Abstraction.Common;
+using IGroceryStore.Shared.Abstraction.Queries;
+using IGroceryStore.Shared.Configuration;
 using IGroceryStore.Shared.Settings;
+using IGroceryStore.Shops.Persistence;
 using IGroceryStore.Shops.Repositories;
 using IGroceryStore.Shops.Settings;
 using Microsoft.AspNetCore.Builder;
@@ -25,6 +27,7 @@ public class ShopsModule : IModule
     {
         services.RegisterOptions<DynamoDbSettings>(configuration);
         var dynamoDbSettings = configuration.GetOptions<DynamoDbSettings>();
+        
         if (dynamoDbSettings.LocalMode)
         {
             services.AddSingleton<IAmazonDynamoDB>(_ => new AmazonDynamoDBClient(new AmazonDynamoDBConfig
@@ -39,6 +42,7 @@ public class ShopsModule : IModule
 
         services.AddSingleton<IUsersRepository, UsersRepository>();
         services.AddSingleton<IProductsRepository, ProductsRepository>();
+        services.AddScoped<MigrateTableHandler>();
     }
 
     public void Use(IApplicationBuilder app)
@@ -51,5 +55,25 @@ public class ShopsModule : IModule
             .WithTags(Constants.SwaggerTags.HealthChecks);
 
         endpoints.RegisterEndpoints<ShopsModule>();
+    }
+}
+
+public static class Temp
+{
+    public static void RegisterEndpoints2<T>(this IGroceryStoreRouteBuilder endpoints)
+        where T : class, IModule
+    {
+        var assembly = Assembly.GetAssembly(typeof(T));
+        var moduleEndpoints = assembly!
+            .GetTypes()
+            .Where(x => typeof(IEndpoint2).IsAssignableFrom(x) && x.IsClass)
+            .OrderBy(x => x.Name)
+            .Select(Activator.CreateInstance)
+            .Cast<IEndpoint2>()
+            .ToList();
+        
+        Console.Write(string.Join(' ', moduleEndpoints.Select(x => x.GetType().FullName)));
+        
+        moduleEndpoints.ForEach(x => x.RegisterEndpoint(endpoints));
     }
 }

@@ -2,11 +2,12 @@
 using IGroceryStore.Shared.Abstraction.Common;
 using Microsoft.AspNetCore.Routing;
 
-namespace IGroceryStore.Shared;
+namespace IGroceryStore.Shared.Configuration;
 
 public static class EndpointsExtensions
 {
-    public static void RegisterEndpoints<T>(this IEndpointRouteBuilder endpoints) where T:class,IModule
+    public static void RegisterEndpoints<T>(this IEndpointRouteBuilder endpoints)
+        where T : class, IModule
     {
         var assembly = Assembly.GetAssembly(typeof(T));
         var moduleEndpoints = assembly!
@@ -16,7 +17,7 @@ public static class EndpointsExtensions
             .Select(Activator.CreateInstance)
             .Cast<IEndpoint>()
             .ToList();
-
+        
         moduleEndpoints.ForEach(x => x.RegisterEndpoint(endpoints));
     }
 }

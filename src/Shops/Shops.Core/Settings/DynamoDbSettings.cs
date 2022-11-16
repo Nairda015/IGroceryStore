@@ -8,7 +8,6 @@ internal class DynamoDbSettings : SettingsBase<DynamoDbSettings>, ISettings
     public static string SectionName => "Shops:DynamoDb";
     public string LocalServiceUrl { get; set; }
     public bool LocalMode { get; set; }
-    public double MaxDelayForTableCreationInSeconds { get; set; }
 
     public DynamoDbSettings()
     {

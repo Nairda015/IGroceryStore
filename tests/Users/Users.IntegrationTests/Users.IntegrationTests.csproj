@@ -12,6 +12,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\src\API\API.csproj" />
+      <ProjectReference Include="..\..\..\src\Users\Users.Core\Users.Core.csproj" />
       <ProjectReference Include="..\..\Shared\Shared.csproj" />
     </ItemGroup>
 

@@ -1,10 +1,9 @@
 {
   "Shops": {
-    "ModuleEnabled": false,
+    "ModuleEnabled": true,
     "DynamoDb": {
       "LocalMode": true,
-      "LocalServiceUrl": "http://localhost:8000",
-      "MaxDelayForTableCreationInSeconds": 5
+      "LocalServiceUrl": "http://localhost:8000"
     }
   }
 }

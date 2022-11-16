@@ -4,7 +4,9 @@ using IGroceryStore.Products.Persistence.Contexts;
 using IGroceryStore.Shared.Abstraction;
 using IGroceryStore.Shared;
 using IGroceryStore.Shared.Abstraction.Common;
+using IGroceryStore.Shared.Abstraction.Queries;
 using IGroceryStore.Shared.Commands;
+using IGroceryStore.Shared.Configuration;
 using IGroceryStore.Shared.Queries;
 using IGroceryStore.Shared.Services;
 using IGroceryStore.Shared.Settings;
@@ -26,15 +28,12 @@ public class ProductsModule : IModule
     {
         services.AddCommands();
         services.AddQueries();
-
-        services.AddScoped<ISnowflakeService, SnowflakeService>();
-
+        
         var options = configuration.GetOptions<PostgresSettings>();
         services.AddDbContext<ProductsDbContext>(ctx =>
             ctx.UseNpgsql(options.ConnectionString)
                 .EnableSensitiveDataLogging(options.EnableSensitiveData));
-        //Db
-        services.AddDatabaseDeveloperPageExceptionFilter();
+        
     }
 
     public void Use(IApplicationBuilder app)

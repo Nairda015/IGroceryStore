@@ -1,7 +1,30 @@
 services:
+
+# general          
+  rabbitmq:
+    image: rabbitmq:latest
+    container_name: rabbitmq
+    volumes:
+      - ../volumes/rabbitmq/data/:/var/lib/rabbitmq
+      - ../volumes/rabbitmq/log/:/var/log/rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+
+  cache:
+    image: redis:latest
+    container_name: redis
+    restart: always
+    ports:
+      - 6379:6379
+    volumes:
+      - ../volumes/redis:/data    
+
+# for modules
   postgres:
     image: postgres:latest
     container_name: postgres
+    profiles: [ "all", "webapi", "users", "baskets" ]
     volumes:
       - ../volumes/postgres:/var/lib/postgresql/data
     environment:
@@ -11,10 +34,11 @@ services:
       - POSTGRES_PORT=5432
     ports:
       - 5432:5432
-
+  
   eventstore:
     container_name: eventstore
     image: ghcr.io/eventstore/eventstore:21.10.0-alpha-arm64v8
+    profiles: ["all", "webapi", "baskets"]
     environment:
       - EVENTSTORE_CLUSTER_SIZE=1
       - EVENTSTORE_RUN_PROJECTIONS=All
@@ -34,6 +58,7 @@ services:
   mongo:
     image: mongo:latest
     container_name: mongo
+    profiles: [ "all", "webapi", "baskets"]
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
@@ -44,46 +69,19 @@ services:
   dynamodb-local:
     command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./data"
     image: amazon/dynamodb-local:latest
+    profiles: [ "all", "webapi", "shops"]
     container_name: dynamodb
     ports:
       - 8000:8000
     volumes:
       - ./docker/dynamodb:/home/dynamodblocal/data
     working_dir: /home/dynamodblocal
-
-  rabbitmq:
-    image: rabbitmq:latest
-    container_name: rabbitmq
-    volumes:
-      - ../volumes/rabbitmq/data/:/var/lib/rabbitmq
-      - ../volumes/rabbitmq/log/:/var/log/rabbitmq
-    ports:
-      - 5672:5672
-      - 15672:15672
-  
-  cassandra:
-    image: cassandra:latest
-    container_name: cassandra
-    ports:
-      - 9042:9042
-    environment:
-      - CASSANDRA_PASSWORD_SEEDER=cassandra
-      - CASSANDRA_PASSWORD=cassandra
-    volumes:
-      - ../volumes/cassandra:/var/lib/cassandra
-  
-  cache:
-    image: redis:latest
-    container_name: redis
-    restart: always
-    ports:
-      - 6379:6379
-    volumes:
-      - ../volumes/redis:/data
     
+# observability    
   jaeger:
     image: jaegertracing/all-in-one:latest
     container_name: jaeger
+    profiles: [ "all", "webapi", "jaeger" ]
     restart: always
     ports:
       - 5775:5775/udp
@@ -99,6 +97,7 @@ services:
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.17.6
     container_name: elasticsearch
+    profiles: ["all", "webapi", "logs", "elastic"]
     ports:
       - 9200:9200/tcp
     environment:
@@ -109,5 +108,6 @@ services:
   kibana:
     image: docker.elastic.co/kibana/kibana:7.17.6
     container_name: kibana
+    profiles: [ "all", "webapi", "logs", "kibana" ]
     ports:
       - 5601:5601/tcp

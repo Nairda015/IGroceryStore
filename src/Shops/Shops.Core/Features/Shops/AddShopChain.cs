@@ -9,7 +9,6 @@ using IGroceryStore.Shops.Contracts.Events;
 using IGroceryStore.Shops.Entities;
 using IGroceryStore.Shops.Repositories;
 using MassTransit;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
