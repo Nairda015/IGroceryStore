@@ -1,25 +1,25 @@
-using IGroceryStore.Shared.Abstraction.Queries;
-
-namespace IGroceryStore.Shops.Persistence;
-
-internal record MigrateTable : IHttpQuery;
-
-public class MigrateTableEndpoint : IEndpoint2
-{
-    public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
-        builder.Shops.MapGet<MigrateTable>("migrate");
-}
-
-internal class MigrateTableHandler //: IHandler<MigrateTable>
-{
-
-    
-}
-
-public interface IEndpoint2
-{
-    void RegisterEndpoint(IGroceryStoreRouteBuilder builder);
-}
+// using IGroceryStore.Shared.Abstraction.Queries;
+//
+// namespace IGroceryStore.Shops.Persistence;
+//
+// internal record MigrateTable : IHttpQuery;
+//
+// public class MigrateTableEndpoint : IEndpoint2
+// {
+//     public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
+//         builder.Shops.MapGet<MigrateTable>("migrate");
+// }
+//
+// internal class MigrateTableHandler //: IHandler<MigrateTable>
+// {
+//
+//     
+// }
+//
+// public interface IEndpoint2
+// {
+//     void RegisterEndpoint(IGroceryStoreRouteBuilder builder);
+// }
 
 // public interface IHandler<in TQuery> where TQuery : IHttpQuery
 // {

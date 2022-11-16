@@ -86,7 +86,7 @@ You can read more about flow [here](https://www.blog.techtious.com/tag/feature-b
 ## How to run
 - From the tools/docker directory run the command:  
 ```docker compose --profiles webapi,jaeger up -d``` (look at profiles section)
-- if you want to run shop module you can create all required resources with terraform  
+- if you want to run shop module you can create all required resources with terraform from tools/terraform/dev directory   
 ```terraform init```  
 ```terraform apply```
 - Run ASP and/or Worker Project (add compound configuration in Rider)
