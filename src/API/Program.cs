@@ -3,12 +3,10 @@ using IGroceryStore.API;
 using IGroceryStore.API.Initializers;
 using IGroceryStore.API.Middlewares;
 using IGroceryStore.Shared.Abstraction;
-using IGroceryStore.Shared.Abstraction.Queries;
 using IGroceryStore.Shared.Abstraction.Services;
 using IGroceryStore.Shared.Services;
 using IGroceryStore.Shared.Configuration;
 using IGroceryStore.Shared.Settings;
-using IGroceryStore.Shops.Persistence;
 using MassTransit;
 using Npgsql;
 using OpenTelemetry.Resources;
@@ -137,7 +135,7 @@ foreach (var module in modules)
     module.Expose(app);
 }
 
-new MigrateTableEndpoint().RegisterEndpoint(new GroceryStoreRouteBuilder(app));
+//new MigrateTableEndpoint().RegisterEndpoint(new GroceryStoreRouteBuilder(app));
 
 app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "IGroceryStore"); });
 
