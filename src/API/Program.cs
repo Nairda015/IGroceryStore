@@ -143,10 +143,10 @@ app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "IGroceryS
 
 app.MapFallbackToFile("index.html");
 
-// var databaseInitializer = app.Services.GetRequiredService<PostgresInitializer>();
-// if (builder.Environment.IsDevelopment() || builder.Environment.IsTestEnvironment())
-// {
-//     await databaseInitializer.MigrateWithEnsuredDeletedAsync(moduleAssemblies);
-// }
+var databaseInitializer = app.Services.GetRequiredService<PostgresInitializer>();
+if (builder.Environment.IsDevelopment() || builder.Environment.IsTestEnvironment())
+{
+    await databaseInitializer.MigrateWithEnsuredDeletedAsync(moduleAssemblies);
+}
 
 app.Run();
