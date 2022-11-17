@@ -21,11 +21,9 @@ internal record ReportCurrentPrice(ReportCurrentPrice.ReportCurrentPriceBody Bod
 
 public class CreateProductEndpoint : IEndpoint
 {
-    public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapPost<ReportCurrentPrice>("api/reportPrice")
-            .RequireAuthorization()
-            .AddEndpointFilter<ValidationFilter<ReportCurrentPrice.ReportCurrentPriceBody>>()
-            .WithTags(Constants.SwaggerTags.Shops);
+    public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
+        builder.Shops.MapPost<ReportCurrentPrice>("reportPrice")
+            .AddEndpointFilter<ValidationFilter<ReportCurrentPrice.ReportCurrentPriceBody>>();
 }
 
 internal class CreateProductHandler : ICommandHandler<ReportCurrentPrice, IResult>

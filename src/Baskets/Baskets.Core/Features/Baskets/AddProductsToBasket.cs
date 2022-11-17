@@ -17,10 +17,9 @@ internal record AddProductsToBasket(AddProductsToBasket.AddProductsToBasketBody 
 
 public class AddProductsToBasketEndpoint : IEndpoint
 {
-    public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapPut<AddProductsToBasket>("api/basket/{basketId}/{productId}")
-            .Produces<IWriteResult>()
-            .WithTags(Constants.SwaggerTags.Baskets);
+    public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
+        builder.Baskets.MapPut<AddProductsToBasket>("{basketId}/{productId}")
+            .Produces<IWriteResult>();
 }
 
 

@@ -16,14 +16,13 @@ internal record GetUser(Guid Id) : IHttpQuery;
 
 public class GetUserEndpoint : IEndpoint
 {
-    public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapGet<GetUser>("api/users/{id}")
+    public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
+        builder.Users.MapGet<GetUser>("{id}")
             .Produces<UserReadModel>()
             .Produces<UserNotFoundException>(404)
             .Produces(401)
             .RequireAuthorization()
-            .WithName(nameof(GetUser))
-            .WithTags(Constants.SwaggerTags.Users);
+            .WithName(nameof(GetUser));
 }
 
 

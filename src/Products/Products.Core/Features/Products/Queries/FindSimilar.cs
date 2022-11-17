@@ -11,8 +11,8 @@ internal record FindSimilar(ulong Id) : IHttpQuery;
 
 public class FindSimilarEndpoint : IEndpoint
 {
-    public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapGet<FindSimilar>("api/products/find-similar/{id}").WithTags(Constants.SwaggerTags.Products);
+    public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
+        builder.Products.MapGet<FindSimilar>("find-similar/{id}");
 }
 
 

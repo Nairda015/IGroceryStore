@@ -13,9 +13,8 @@ internal record GetAllergens : IHttpQuery;
 
 public class GetAllergensEndpoint : IEndpoint
 {
-    public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapGet<GetAllergens>("api/allergens")
-            .WithTags(Constants.SwaggerTags.Products);
+    public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
+        builder.Products.MapGet<GetAllergens>("allergens");
 }
 
 internal class GetAllergensHandler : IQueryHandler<GetAllergens, IResult>

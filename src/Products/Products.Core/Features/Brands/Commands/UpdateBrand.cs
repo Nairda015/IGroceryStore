@@ -15,9 +15,8 @@ internal record UpdateBrand(UpdateBrand.UpdateBrandBody Body, ulong Id) : IHttpC
 
 public class UpdateBrandEndpoint : IEndpoint
 {
-    public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapPut<UpdateBrand>("api/brands/{id}")
-            .WithTags(Constants.SwaggerTags.Products)
+    public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
+        builder.Products.MapPut<UpdateBrand>("brands/{id}")
             .Produces(202)
             .Produces(404);
 }

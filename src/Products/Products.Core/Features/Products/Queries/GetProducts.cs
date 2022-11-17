@@ -15,8 +15,8 @@ internal record GetProducts(uint PageNumber, uint PageSize, ulong CategoryId)
 
 public class GetProductsEndpoint : IEndpoint
 {
-    public void RegisterEndpoint(IEndpointRouteBuilder endpoints) => 
-        endpoints.MapGet<GetProducts>("api/products").WithTags(Constants.SwaggerTags.Products);
+    public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) => 
+        builder.Products.MapGet<GetProducts>("");
 }
 
 internal class GetProductsHandler : IQueryHandler<GetProducts, IResult>

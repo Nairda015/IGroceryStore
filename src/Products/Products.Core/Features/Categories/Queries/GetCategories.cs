@@ -15,10 +15,9 @@ internal record GetCategoriesResult(List<CategoryReadModel> Categories);
 
 public class GetCategoriesEndpoint : IEndpoint
 {
-    public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapGet<GetCategories>("api/categories")
-            .Produces<GetCategoriesResult>()
-            .WithTags(Constants.SwaggerTags.Products);
+    public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
+        builder.Products.MapGet<GetCategories>("categories")
+            .Produces<GetCategoriesResult>();
 }
 
 internal class GetCategoriesHandler : IQueryHandler<GetCategories, IResult>

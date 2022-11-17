@@ -13,8 +13,8 @@ internal record GetCountries : IHttpQuery;
 
 public class GetCountriesEndpoint : IEndpoint
 {
-    public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapGet<GetCountries>("api/countries").WithTags(Constants.SwaggerTags.Products);
+    public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
+        builder.Products.MapGet<GetCountries>("countries");
 }
 
 internal class GetCountriesHandler : IQueryHandler<GetCountries, IResult>

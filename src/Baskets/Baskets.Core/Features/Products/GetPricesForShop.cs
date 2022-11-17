@@ -13,10 +13,9 @@ internal record GetPricesForShop(ulong ProductId, ulong ShopId) : IHttpQuery;
 
 public class GetPricesForShopEndpoint : IEndpoint
 {
-    public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapGet<GetPricesForShop>("api/basket/{shopId}/{productId}")
-            .Produces<ProductProjectionForShop>()
-            .WithTags(Constants.SwaggerTags.Baskets);
+    public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
+        builder.Baskets.MapGet<GetPricesForShop>("{shopId}/{productId}")
+            .Produces<ProductProjectionForShop>();
 }
 
 internal class AddProductsToBasketHandler : IQueryHandler<GetPricesForShop, IResult>

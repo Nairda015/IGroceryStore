@@ -18,6 +18,6 @@ public static class EndpointsExtensions
             .Cast<IEndpoint>()
             .ToList();
         
-        moduleEndpoints.ForEach(x => x.RegisterEndpoint(endpoints));
+        moduleEndpoints.ForEach(x => x.RegisterEndpoint(endpoints.ToGroceryStoreRouteBuilder()));
     }
 }
