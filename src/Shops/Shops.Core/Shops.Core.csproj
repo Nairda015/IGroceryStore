@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.100.8" />
+    <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.100.19" />
     <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.7.2" />
   </ItemGroup>
 

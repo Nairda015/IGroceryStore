@@ -135,8 +135,6 @@ foreach (var module in modules)
     module.Expose(app);
 }
 
-//new MigrateTableEndpoint().RegisterEndpoint(new GroceryStoreRouteBuilder(app));
-
 app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "IGroceryStore"); });
 
 app.MapFallbackToFile("index.html");
