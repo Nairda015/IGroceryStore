@@ -1,8 +1,8 @@
 ﻿using IGroceryStore.Products.Entities;
 using IGroceryStore.Products.Persistence.Contexts;
+using IGroceryStore.Shared.Abstraction;
 using IGroceryStore.Shared.Abstraction.Commands;
 using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -17,7 +17,8 @@ internal record AddAllergen(AddAllergen.AddAllergenBody Body) : IHttpCommand
 public class AddAllergenEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapPost<AddAllergen>("api/allergen").WithTags(SwaggerTags.Products);
+        endpoints.MapPost<AddAllergen>("api/allergen")
+            .WithTags(Constants.SwaggerTags.Products);
 }
 
 internal class AddAllergenHandler : ICommandHandler<AddAllergen, IResult>

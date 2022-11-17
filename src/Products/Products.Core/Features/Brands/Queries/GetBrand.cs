@@ -1,7 +1,7 @@
 ﻿using IGroceryStore.Products.Persistence.Contexts;
 using IGroceryStore.Products.ReadModels;
+using IGroceryStore.Shared.Abstraction;
 using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Abstraction.Queries;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -19,7 +19,7 @@ public class GetBrandEndpoint : IEndpoint
             .Produces<BrandReadModel>()
             .Produces(404)
             .WithName(nameof(GetBrand))
-            .WithTags(SwaggerTags.Products);
+            .WithTags(Constants.SwaggerTags.Products);
 }
 internal class GetBrandHandler : IQueryHandler<GetBrand, IResult>
 {

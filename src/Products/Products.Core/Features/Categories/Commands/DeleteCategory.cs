@@ -1,8 +1,8 @@
 ﻿using IGroceryStore.Products.Exceptions;
 using IGroceryStore.Products.Persistence.Contexts;
+using IGroceryStore.Shared.Abstraction;
 using IGroceryStore.Shared.Abstraction.Commands;
 using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Constants;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +15,7 @@ public class DeleteCategoryEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
         endpoints.MapDelete<DeleteCategory>("api/categories/{id}")
-            .WithTags(SwaggerTags.Products)
+            .WithTags(Constants.SwaggerTags.Products)
             .Produces(204)
             .Produces(400);
 }

@@ -1,6 +1,6 @@
-﻿using IGroceryStore.Shared.Abstraction.Commands;
+﻿using IGroceryStore.Shared.Abstraction;
+using IGroceryStore.Shared.Abstraction.Commands;
 using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Abstraction.Services;
 using IGroceryStore.Shared.ValueObjects;
 using IGroceryStore.Users.Exceptions;
@@ -26,7 +26,7 @@ public class RefreshEndpoint : IEndpoint
             .Produces<TokensReadModel>()
             .Produces<InvalidClaimsException>(400)
             .Produces<UserNotFoundException>(404)
-            .WithTags(SwaggerTags.Users);
+            .WithTags(Constants.SwaggerTags.Users);
 
     private readonly IAuthorizeData[] _authorizeData = {
         new AuthorizeAttribute { AuthenticationSchemes = Audience.Refresh }
@@ -50,7 +50,7 @@ internal class RefreshTokenHandler : ICommandHandler<RefreshToken, IResult>
     
     public async Task<IResult> HandleAsync(RefreshToken command, CancellationToken cancellationToken = default)
     {
-        var tokenClaim = _currentUserService.Principal?.Claims.FirstOrDefault(x => x.Type is Claims.Name.RefreshToken);
+        var tokenClaim = _currentUserService.Principal?.Claims.FirstOrDefault(x => x.Type is Constants.Claims.Name.RefreshToken);
         var userId = _currentUserService.UserId;
 
         if (userId is null) return Results.BadRequest(new InvalidClaimsException("User id not found"));

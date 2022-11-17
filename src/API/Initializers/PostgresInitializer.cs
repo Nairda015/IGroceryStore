@@ -2,13 +2,13 @@
 using IGroceryStore.Shared.Configuration;
 using Microsoft.EntityFrameworkCore;
 
-namespace IGroceryStore.API.Services;
+namespace IGroceryStore.API.Initializers;
 
-internal sealed class DbInitializer
+internal sealed class PostgresInitializer
 {
     private readonly IServiceProvider _serviceProvider;
 
-    public DbInitializer(IServiceProvider serviceProvider)
+    public PostgresInitializer(IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
     }

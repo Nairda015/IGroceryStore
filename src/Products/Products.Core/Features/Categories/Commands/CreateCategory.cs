@@ -2,9 +2,9 @@
 using IGroceryStore.Products.Entities;
 using IGroceryStore.Products.Exceptions;
 using IGroceryStore.Products.Persistence.Contexts;
+using IGroceryStore.Shared.Abstraction;
 using IGroceryStore.Shared.Abstraction.Commands;
 using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Services;
 using IGroceryStore.Shared.Validation;
 using Microsoft.AspNetCore.Http;
@@ -23,7 +23,7 @@ public class CreateCategoryEndpoint : IEndpoint
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
         endpoints.MapPost<CreateCategory>("api/categories")
             .AddEndpointFilter<ValidationFilter<CreateCategory.CreateCategoryBody>>()
-            .WithTags(SwaggerTags.Products)
+            .WithTags(Constants.SwaggerTags.Products)
             .Produces(201)
             .Produces(400);
 }

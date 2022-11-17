@@ -2,9 +2,9 @@
 using IGroceryStore.Products.Contracts.Events;
 using IGroceryStore.Products.Exceptions;
 using IGroceryStore.Products.Persistence.Contexts;
+using IGroceryStore.Shared.Abstraction;
 using IGroceryStore.Shared.Abstraction.Commands;
 using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Validation;
 using MassTransit;
 using Microsoft.AspNetCore.Http;
@@ -23,7 +23,7 @@ public class UpdateCategoryEndpoint : IEndpoint
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
         endpoints.MapPut<UpdateCategory>("api/categories/{id}")
             .AddEndpointFilter<ValidationFilter<UpdateCategory.UpdateCategoryBody>>()
-            .WithTags(SwaggerTags.Products)
+            .WithTags(Constants.SwaggerTags.Products)
             .Produces(202)
             .Produces(400);
 }

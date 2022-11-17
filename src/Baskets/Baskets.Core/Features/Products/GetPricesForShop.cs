@@ -1,7 +1,7 @@
 using IGroceryStore.Baskets.Projectors;
 using IGroceryStore.Baskets.ValueObjects;
+using IGroceryStore.Shared.Abstraction;
 using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Abstraction.Queries;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -16,7 +16,7 @@ public class GetPricesForShopEndpoint : IEndpoint
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
         endpoints.MapGet<GetPricesForShop>("api/basket/{shopId}/{productId}")
             .Produces<ProductProjectionForShop>()
-            .WithTags(SwaggerTags.Baskets);
+            .WithTags(Constants.SwaggerTags.Baskets);
 }
 
 internal class AddProductsToBasketHandler : IQueryHandler<GetPricesForShop, IResult>

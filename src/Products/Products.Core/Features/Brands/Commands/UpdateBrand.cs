@@ -1,7 +1,7 @@
 ﻿using IGroceryStore.Products.Persistence.Contexts;
+using IGroceryStore.Shared.Abstraction;
 using IGroceryStore.Shared.Abstraction.Commands;
 using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Constants;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +17,7 @@ public class UpdateBrandEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
         endpoints.MapPut<UpdateBrand>("api/brands/{id}")
-            .WithTags(SwaggerTags.Products)
+            .WithTags(Constants.SwaggerTags.Products)
             .Produces(202)
             .Produces(404);
 }

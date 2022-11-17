@@ -1,4 +1,4 @@
-﻿namespace IGroceryStore.Shops.Common;
+﻿namespace IGroceryStore.Shops.ValueObjects;
 
 public record DateRange(DateOnly Start, DateOnly End)
 {

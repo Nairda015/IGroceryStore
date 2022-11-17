@@ -2,10 +2,7 @@
   "Shops": {
     "ModuleEnabled": false,
     "DynamoDb": {
-      "LocalMode": true,
-      "LocalServiceUrl": "foo",
-      "UsersTable": "foo",
-      "ProductsTable": "foo"
+      "LocalMode": false
     }
   }
 }

@@ -1,6 +1,6 @@
-﻿using IGroceryStore.Shared.Abstraction.Commands;
+﻿using IGroceryStore.Shared.Abstraction;
+using IGroceryStore.Shared.Abstraction.Commands;
 using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Users.Entities;
 using IGroceryStore.Users.Exceptions;
 using IGroceryStore.Users.Persistence.Contexts;
@@ -30,7 +30,7 @@ public class LoginEndpoint : IEndpoint
             .Produces<LoginResult>()
             .Produces<InvalidCredentialsException>(400)
             .Produces<LoggingTriesExceededException>(400)
-            .WithTags(SwaggerTags.Users);
+            .WithTags(Constants.SwaggerTags.Users);
 }
 
 internal class LoginHandler : ICommandHandler<LoginWithUserAgent, IResult>

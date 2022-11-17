@@ -1,7 +1,7 @@
 ﻿using IGroceryStore.Products.Persistence.Contexts;
 using IGroceryStore.Products.ReadModels;
+using IGroceryStore.Shared.Abstraction;
 using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Abstraction.Queries;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -14,7 +14,8 @@ internal record GetAllergens : IHttpQuery;
 public class GetAllergensEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapGet<GetAllergens>("api/allergens").WithTags(SwaggerTags.Products);
+        endpoints.MapGet<GetAllergens>("api/allergens")
+            .WithTags(Constants.SwaggerTags.Products);
 }
 
 internal class GetAllergensHandler : IQueryHandler<GetAllergens, IResult>

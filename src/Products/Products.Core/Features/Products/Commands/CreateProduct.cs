@@ -5,9 +5,9 @@ using IGroceryStore.Products.Exceptions;
 using IGroceryStore.Products.Persistence.Contexts;
 using IGroceryStore.Products.ReadModels;
 using IGroceryStore.Products.ValueObjects;
+using IGroceryStore.Shared.Abstraction;
 using IGroceryStore.Shared.Abstraction.Commands;
 using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Services;
 using IGroceryStore.Shared.Validation;
 using MassTransit;
@@ -34,7 +34,7 @@ public class CreateProductEndpoint : IEndpoint
         endpoints.MapPost<CreateProduct>("api/products")
             .RequireAuthorization()
             .AddEndpointFilter<ValidationFilter<CreateProduct.CreateProductBody>>()
-            .WithTags(SwaggerTags.Products);
+            .WithTags(Constants.SwaggerTags.Products);
 }
 
 internal class CreateProductHandler : ICommandHandler<CreateProduct, IResult>

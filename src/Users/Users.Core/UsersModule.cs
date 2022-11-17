@@ -1,9 +1,11 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
+using IGroceryStore.Shared.Abstraction;
 using IGroceryStore.Shared;
 using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Constants;
+using IGroceryStore.Shared.Abstraction.Queries;
 using IGroceryStore.Shared.Commands;
+using IGroceryStore.Shared.Configuration;
 using IGroceryStore.Shared.Queries;
 using IGroceryStore.Shared.Settings;
 using IGroceryStore.Users.Factories;
@@ -47,9 +49,9 @@ public class UsersModule : IModule
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
             .AddJwtBearer(jwtBearerOptions =>
-                JwtSettings.Configure(jwtBearerOptions, Tokens.Audience.Access, jwtSettings))
-            .AddJwtBearer(Tokens.Audience.Refresh,
-                jwtBearerOptions => JwtSettings.Configure(jwtBearerOptions, Tokens.Audience.Refresh, jwtSettings));
+                JwtSettings.Configure(jwtBearerOptions, Constants.Tokens.Audience.Access, jwtSettings))
+            .AddJwtBearer(Constants.Tokens.Audience.Refresh,
+                jwtBearerOptions => JwtSettings.Configure(jwtBearerOptions, Constants.Tokens.Audience.Refresh, jwtSettings));
     }
 
     public void Use(IApplicationBuilder app)
@@ -59,7 +61,7 @@ public class UsersModule : IModule
     public void Expose(IEndpointRouteBuilder endpoints)
     {
         endpoints.MapGet($"/api/{Name.ToLower()}/health", () => $"{Name} module is healthy")
-            .WithTags(SwaggerTags.HealthChecks);
+            .WithTags(Constants.SwaggerTags.HealthChecks);
 
         endpoints.RegisterEndpoints<UsersModule>();
     }

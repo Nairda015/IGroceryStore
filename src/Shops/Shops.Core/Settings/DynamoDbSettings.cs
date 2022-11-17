@@ -6,8 +6,6 @@ namespace IGroceryStore.Shops.Settings;
 internal class DynamoDbSettings : SettingsBase<DynamoDbSettings>, ISettings
 {
     public static string SectionName => "Shops:DynamoDb";
-    public string UsersTable { get; set; }
-    public string ProductsTable { get; set; }
     public string LocalServiceUrl { get; set; }
     public bool LocalMode { get; set; }
 
@@ -19,7 +17,7 @@ internal class DynamoDbSettings : SettingsBase<DynamoDbSettings>, ISettings
             {
                 if (!Uri.TryCreate(issuer, UriKind.Absolute, out var uri))
                 {
-                    context.AddFailure("Issuer must be a valid URI");
+                    context.AddFailure($"Issuer must be a valid URI but found {uri}");
                 }
             });
     }

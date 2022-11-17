@@ -1,4 +1,4 @@
-﻿using IGroceryStore.Shops.Common;
+﻿using IGroceryStore.Shops.ValueObjects;
 
 namespace IGroceryStore.Shops.Entities;
 

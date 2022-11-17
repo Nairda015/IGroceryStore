@@ -3,6 +3,7 @@ using System.Text.Json;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DocumentModel;
 using Amazon.DynamoDBv2.Model;
+using IGroceryStore.Shared.Abstraction;
 using IGroceryStore.Shops.Entities;
 using IGroceryStore.Shops.Settings;
 using Microsoft.Extensions.Options;
@@ -34,7 +35,7 @@ internal class ProductsRepository : IProductsRepository
 
         var createItemRequest = new PutItemRequest
         {
-            TableName = _settings.Value.ProductsTable,
+            TableName = Constants.TableNames.Products,
             Item = itemAsAttributes
         };
 
@@ -46,7 +47,7 @@ internal class ProductsRepository : IProductsRepository
     {
         var request = new GetItemRequest
         {
-            TableName = _settings.Value.ProductsTable,
+            TableName = Constants.TableNames.Products,
             Key = new Dictionary<string, AttributeValue>
             {
                 { "pk", new AttributeValue { S = id.ToString() } },
@@ -72,11 +73,11 @@ internal class ProductsRepository : IProductsRepository
 
         var updateItemRequest = new PutItemRequest
         {
-            TableName = _settings.Value.ProductsTable,
+            TableName = Constants.TableNames.Products,
             Item = itemAsAttributes
         };
 
         var response = await _dynamoDb.PutItemAsync(updateItemRequest, cancellationToken);
-        return response.HttpStatusCode == HttpStatusCode.OK;
+        return response.HttpStatusCode is HttpStatusCode.OK;
     }
 }

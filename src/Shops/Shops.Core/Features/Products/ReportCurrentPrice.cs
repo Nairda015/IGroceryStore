@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
+using IGroceryStore.Shared.Abstraction;
 using IGroceryStore.Shared.Abstraction.Commands;
 using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Services;
 using IGroceryStore.Shared.Validation;
 using IGroceryStore.Shops.Contracts.Events;
@@ -19,17 +19,14 @@ internal record ReportCurrentPrice(ReportCurrentPrice.ReportCurrentPriceBody Bod
     internal record ReportCurrentPriceBody(ulong ShopChainId, ulong ShopId, ulong ProductId, decimal Price);
 }
 
-
 public class CreateProductEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
         endpoints.MapPost<ReportCurrentPrice>("api/reportPrice")
             .RequireAuthorization()
             .AddEndpointFilter<ValidationFilter<ReportCurrentPrice.ReportCurrentPriceBody>>()
-            .WithTags(SwaggerTags.Shops);
+            .WithTags(Constants.SwaggerTags.Shops);
 }
-
-
 
 internal class CreateProductHandler : ICommandHandler<ReportCurrentPrice, IResult>
 {

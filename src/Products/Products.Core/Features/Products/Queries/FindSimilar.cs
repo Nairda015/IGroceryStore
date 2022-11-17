@@ -1,6 +1,6 @@
 ﻿using IGroceryStore.Products.Persistence.Contexts;
+using IGroceryStore.Shared.Abstraction;
 using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Abstraction.Queries;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -12,7 +12,7 @@ internal record FindSimilar(ulong Id) : IHttpQuery;
 public class FindSimilarEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapGet<FindSimilar>("api/products/find-similar/{id}").WithTags(SwaggerTags.Products);
+        endpoints.MapGet<FindSimilar>("api/products/find-similar/{id}").WithTags(Constants.SwaggerTags.Products);
 }
 
 

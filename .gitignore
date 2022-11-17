@@ -9,3 +9,8 @@ volumes
 [Mm]igrations/
 FodyWeavers.xml
 FodyWeavers.xsd
+*.tfvars
+*.db
+.terraform/
+.terraform.lock.hcl
+terraform.tfstate*

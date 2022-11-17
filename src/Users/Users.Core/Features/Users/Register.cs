@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
+using IGroceryStore.Shared.Abstraction;
 using IGroceryStore.Shared.Abstraction.Commands;
 using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Constants;
 using IGroceryStore.Shared.Validation;
 using IGroceryStore.Users.Contracts.Events;
 using IGroceryStore.Users.Factories;
@@ -34,7 +34,7 @@ public class RegisterUserEndpoint : IEndpoint
             .Produces<ValidationResult>(400)
             .AddEndpointFilter<ValidationFilter<Register>>()
             .WithName(nameof(Register))
-            .WithTags(SwaggerTags.Users);
+            .WithTags(Constants.SwaggerTags.Users);
 }
 
 internal class RegisterHandler : ICommandHandler<Register, IResult>

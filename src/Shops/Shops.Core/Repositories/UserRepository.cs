@@ -3,6 +3,7 @@ using System.Text.Json;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DocumentModel;
 using Amazon.DynamoDBv2.Model;
+using IGroceryStore.Shared.Abstraction;
 using IGroceryStore.Shops.Repositories.Contracts;
 using IGroceryStore.Shops.Settings;
 using Microsoft.Extensions.Options;
@@ -34,7 +35,7 @@ internal class UsersRepository : IUsersRepository
 
         var createItemRequest = new PutItemRequest
         {
-            TableName = _settings.Value.UsersTable,
+            TableName = Constants.TableNames.Users,
             Item = itemAsAttributes
         };
 
@@ -46,7 +47,7 @@ internal class UsersRepository : IUsersRepository
     {
         var request = new GetItemRequest
         {
-            TableName = _settings.Value.UsersTable,
+            TableName = Constants.TableNames.Users,
             Key = new Dictionary<string, AttributeValue>
             {
                 { "pk", new AttributeValue { S = id.ToString() } },
@@ -69,7 +70,7 @@ internal class UsersRepository : IUsersRepository
 
         var updateItemRequest = new PutItemRequest
         {
-            TableName = _settings.Value.UsersTable,
+            TableName = Constants.TableNames.Users,
             Item = itemAsAttributes
         };
 

@@ -65,19 +65,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shops.UnitTests", "tests\Sh
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Users.UnitTests", "tests\Users\Users.UnitTests\Users.UnitTests.csproj", "{90BAF73D-97DE-4308-894D-4CFBC8546043}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{5DFEA9E6-F600-4B75-BFAB-913D415C5599}"
-	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-		tools\commands.md = tools\commands.md
-		tools\docker-compose.yml = tools\docker-compose.yml
-		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
-		tools\migration.sh = tools\migration.sh
-		tools\tests-migration.sh = tools\tests-migration.sh
-		tools\updateDb.sh = tools\updateDb.sh
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "requests", "requests", "{02241B0B-8C92-40C1-A3AC-F7AC27EDD788}"
 	ProjectSection(SolutionItems) = preProject
+		requests\brands.http = requests\brands.http
 		requests\users.http = requests\users.http
 	EndProjectSection
 EndProject
@@ -96,6 +86,64 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{14E6
 		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
 		.github\workflows\codeql-analysis.yml = .github\workflows\codeql-analysis.yml
 		.github\dependabot.yml = .github\dependabot.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution files", "solution files", "{B17174CD-F9C6-45DF-A724-B51B4F8F9EAA}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+		LICENSE = LICENSE
+		README.md = README.md
+		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{1BC8D1AA-5A74-4E1C-B171-9CF53758AE86}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "terraform", "terraform", "{02396B41-F62C-4CC3-8B8F-B2400BBDD7FC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ef", "ef", "{87FB98F9-9E91-456B-B941-FCB767C4B73F}"
+	ProjectSection(SolutionItems) = preProject
+		tools\ef\updateDb.sh = tools\ef\updateDb.sh
+		tools\ef\migration.sh = tools\ef\migration.sh
+		tools\ef\tests-migration.sh = tools\ef\tests-migration.sh
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{AEE0D06A-2A95-4CB9-AEF8-16DB05EE14F4}"
+	ProjectSection(SolutionItems) = preProject
+		tools\docker\docker-compose.yml = tools\docker\docker-compose.yml
+		tools\docker\docker-compose-tests.yml = tools\docker\docker-compose-tests.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "modules", "modules", "{0DC74329-B279-4FE2-940C-D7224162ED46}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dev", "dev", "{E407196F-7F11-4DF7-838B-A380543A9D58}"
+	ProjectSection(SolutionItems) = preProject
+		tools\terraform\dev\main.tf = tools\terraform\dev\main.tf
+		tools\terraform\dev\terraform.tfvars = tools\terraform\dev\terraform.tfvars
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "prod", "prod", "{9BBCD2B1-7BF6-41DE-AE93-067DCD4343E7}"
+	ProjectSection(SolutionItems) = preProject
+		tools\terraform\prod\main.tf = tools\terraform\prod\main.tf
+		tools\terraform\prod\terraform.tfvars = tools\terraform\prod\terraform.tfvars
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{15F3218D-6C08-49D5-A7A7-D61FA1280565}"
+	ProjectSection(SolutionItems) = preProject
+		tools\terraform\test\main.tf = tools\terraform\test\main.tf
+		tools\terraform\test\terraform.tfvars = tools\terraform\test\terraform.tfvars
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "web-api", "web-api", "{6FA4FE98-D7C9-42AD-BBBF-0B4B2383733F}"
+	ProjectSection(SolutionItems) = preProject
+		tools\terraform\modules\web-api\main.tf = tools\terraform\modules\web-api\main.tf
+		tools\terraform\modules\web-api\variables.tf = tools\terraform\modules\web-api\variables.tf
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "global", "global", "{F0E45EE2-0DD1-4810-B2E7-45CEE54F22AB}"
+	ProjectSection(SolutionItems) = preProject
+		tools\terraform\global\main.tf = tools\terraform\global\main.tf
+		tools\terraform\global\terraform.tfvars = tools\terraform\global\terraform.tfvars
 	EndProjectSection
 EndProject
 Global
@@ -230,6 +278,15 @@ Global
 		{7F1E1F0D-2006-42D0-8AC0-72E40FD709B6} = {C3809CC7-0AF9-4D56-B1AB-EA0E098B0ECF}
 		{E62041C7-7CED-415E-A320-4EB555D3223D} = {E795DE89-913A-4B75-B579-45FFB612EE53}
 		{3778177C-5D1B-413E-8313-BAEFBE5B45AB} = {E62041C7-7CED-415E-A320-4EB555D3223D}
+		{02396B41-F62C-4CC3-8B8F-B2400BBDD7FC} = {1BC8D1AA-5A74-4E1C-B171-9CF53758AE86}
+		{87FB98F9-9E91-456B-B941-FCB767C4B73F} = {1BC8D1AA-5A74-4E1C-B171-9CF53758AE86}
+		{AEE0D06A-2A95-4CB9-AEF8-16DB05EE14F4} = {1BC8D1AA-5A74-4E1C-B171-9CF53758AE86}
+		{0DC74329-B279-4FE2-940C-D7224162ED46} = {02396B41-F62C-4CC3-8B8F-B2400BBDD7FC}
+		{E407196F-7F11-4DF7-838B-A380543A9D58} = {02396B41-F62C-4CC3-8B8F-B2400BBDD7FC}
+		{9BBCD2B1-7BF6-41DE-AE93-067DCD4343E7} = {02396B41-F62C-4CC3-8B8F-B2400BBDD7FC}
+		{15F3218D-6C08-49D5-A7A7-D61FA1280565} = {02396B41-F62C-4CC3-8B8F-B2400BBDD7FC}
+		{6FA4FE98-D7C9-42AD-BBBF-0B4B2383733F} = {0DC74329-B279-4FE2-940C-D7224162ED46}
+		{F0E45EE2-0DD1-4810-B2E7-45CEE54F22AB} = {02396B41-F62C-4CC3-8B8F-B2400BBDD7FC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F83A5637-BD21-4AAC-9087-87AB61B4E0A8}
