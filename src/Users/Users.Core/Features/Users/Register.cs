@@ -1,16 +1,13 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
-using IGroceryStore.Shared.Abstraction;
-using IGroceryStore.Shared.Abstraction.Commands;
-using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Validation;
+using IGroceryStore.Shared.EndpointBuilders;
+using IGroceryStore.Shared.Filters;
 using IGroceryStore.Users.Contracts.Events;
 using IGroceryStore.Users.Factories;
 using IGroceryStore.Users.Persistence.Contexts;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using ValidationResult = FluentValidation.Results.ValidationResult;
 
@@ -28,15 +25,16 @@ internal record Register(Register.RegisterBody Body) : IHttpCommand
 public class RegisterUserEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
-        builder.Users.MapPost<Register>("register")
+        builder.Users.MapPost<Register, RegisterHandler>("register")
             .Produces(202)
             .Produces(400)
             .Produces<ValidationResult>(400)
+            .AllowAnonymous()
             .AddEndpointFilter<ValidationFilter<Register>>()
             .WithName(nameof(Register));
 }
 
-internal class RegisterHandler : ICommandHandler<Register, IResult>
+internal class RegisterHandler : IHttpCommandHandler<Register>
 {
     private readonly IUserFactory _factory;
     private readonly UsersDbContext _context;

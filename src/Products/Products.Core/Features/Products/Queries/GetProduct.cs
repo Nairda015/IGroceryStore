@@ -1,11 +1,8 @@
 ﻿using IGroceryStore.Products.Exceptions;
 using IGroceryStore.Products.Persistence.Contexts;
 using IGroceryStore.Products.ReadModels;
-using IGroceryStore.Shared.Abstraction;
-using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Queries;
+using IGroceryStore.Shared.EndpointBuilders;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Features.Products.Queries;
@@ -15,10 +12,10 @@ internal record GetProduct(ulong Id) : IHttpQuery;
 public class GetProductEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
-        builder.Products.MapGet<GetProduct>("{id}");
+        builder.Products.MapGet<GetProduct, GetProductHandler>("{id}");
 }
 
-internal class GetProductHandler : IQueryHandler<GetProduct, IResult>
+internal class GetProductHandler : IHttpQueryHandler<GetProduct>
 {
     private readonly ProductsDbContext _context;
 
@@ -27,7 +24,7 @@ internal class GetProductHandler : IQueryHandler<GetProduct, IResult>
         _context = context;
     }
 
-    public async Task<IResult> HandleAsync(GetProduct query, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(GetProduct query, CancellationToken cancellationToken)
     {
         var model = await _context.Products
             .Include(x => x.Category)

@@ -1,6 +1,6 @@
 ﻿using System.Text;
 using FluentValidation;
-using IGroceryStore.Shared.Abstraction;
+using IGroceryStore.Shared;
 using IGroceryStore.Shared.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;

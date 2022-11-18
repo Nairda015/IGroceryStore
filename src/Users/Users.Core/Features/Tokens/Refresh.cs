@@ -1,7 +1,6 @@
-﻿using IGroceryStore.Shared.Abstraction;
-using IGroceryStore.Shared.Abstraction.Commands;
-using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Services;
+﻿using IGroceryStore.Shared;
+using IGroceryStore.Shared.EndpointBuilders;
+using IGroceryStore.Shared.Services;
 using IGroceryStore.Shared.ValueObjects;
 using IGroceryStore.Users.Exceptions;
 using IGroceryStore.Users.Persistence.Contexts;
@@ -10,9 +9,8 @@ using IGroceryStore.Users.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
-using Audience = IGroceryStore.Shared.Abstraction.Constants.Tokens.Audience;
+using Audience = IGroceryStore.Shared.Constants.Tokens.Audience;
 
 namespace IGroceryStore.Users.Features.Tokens;
 
@@ -21,7 +19,7 @@ internal record RefreshToken : IHttpCommand;
 public class RefreshEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
-        builder.Users.MapPut<RefreshToken>("tokens/refresh")
+        builder.Users.MapPut<RefreshToken, RefreshTokenHandler>("tokens/refresh")
             .RequireAuthorization(_authorizeData)
             .Produces<TokensReadModel>()
             .Produces<InvalidClaimsException>(400)
@@ -32,7 +30,7 @@ public class RefreshEndpoint : IEndpoint
     };
 }
 
-internal class RefreshTokenHandler : ICommandHandler<RefreshToken, IResult>
+internal class RefreshTokenHandler : IHttpCommandHandler<RefreshToken>
 {
     private readonly ITokenManager _tokenManager;
     private readonly UsersDbContext _context;

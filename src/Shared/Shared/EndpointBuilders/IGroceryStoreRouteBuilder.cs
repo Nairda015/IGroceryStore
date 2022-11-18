@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Routing;
 
-namespace IGroceryStore.Shared.Abstraction.Common;
+namespace IGroceryStore.Shared.EndpointBuilders;
 
 public interface IGroceryStoreRouteBuilder
 {
@@ -10,3 +10,9 @@ public interface IGroceryStoreRouteBuilder
     public IEndpointRouteBuilder Notifications { get; }
     public IEndpointRouteBuilder Users { get; }
 }
+
+// public interface IGroceryStoreRouteBuilder
+// {
+//     IGroceryStoreEndpointBuilder Shops { get; }
+//     IGroceryStoreEndpointBuilder Products { get; }
+// }

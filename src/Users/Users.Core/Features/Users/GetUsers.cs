@@ -1,11 +1,8 @@
-﻿using IGroceryStore.Shared.Abstraction;
-using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Queries;
+﻿using IGroceryStore.Shared.EndpointBuilders;
 using IGroceryStore.Users.Persistence.Contexts;
 using IGroceryStore.Users.ReadModels;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Users.Features.Users;
@@ -17,13 +14,12 @@ internal record UsersReadModel(IEnumerable<UserReadModel> Users, int Count);
 public class GetUsersEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
-        builder.Users.MapGet<GetUsers>("")
+        builder.Users.MapGet<GetUsers, GetUsersHandler>("")
             .Produces<UsersReadModel>()
-            .Produces(401)
-            .RequireAuthorization();
+            .Produces(401);
 }
 
-internal class GetUsersHandler : IQueryHandler<GetUsers, IResult>
+internal class GetUsersHandler : IHttpQueryHandler<GetUsers>
 {
     private readonly UsersDbContext _dbContext;
 

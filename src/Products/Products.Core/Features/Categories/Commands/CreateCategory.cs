@@ -2,13 +2,10 @@
 using IGroceryStore.Products.Entities;
 using IGroceryStore.Products.Exceptions;
 using IGroceryStore.Products.Persistence.Contexts;
-using IGroceryStore.Shared.Abstraction;
-using IGroceryStore.Shared.Abstraction.Commands;
-using IGroceryStore.Shared.Abstraction.Common;
+using IGroceryStore.Shared.EndpointBuilders;
+using IGroceryStore.Shared.Filters;
 using IGroceryStore.Shared.Services;
-using IGroceryStore.Shared.Validation;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Features.Categories.Commands;
@@ -21,13 +18,13 @@ internal record CreateCategory(CreateCategory.CreateCategoryBody Body) : IHttpCo
 public class CreateCategoryEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
-        builder.Products.MapPost<CreateCategory>("categories")
+        builder.Products.MapPost<CreateCategory, CreateCategoryHandler>("categories")
             .AddEndpointFilter<ValidationFilter<CreateCategory.CreateCategoryBody>>()
             .Produces(201)
             .Produces(400);
 }
 
-internal class CreateCategoryHandler : ICommandHandler<CreateCategory, IResult>
+internal class CreateCategoryHandler : IHttpCommandHandler<CreateCategory>
 {
     private readonly ProductsDbContext _productsDbContext;
     private readonly ISnowflakeService _snowFlakeService;

@@ -1,10 +1,7 @@
 ﻿using IGroceryStore.Products.Persistence.Contexts;
 using IGroceryStore.Products.ReadModels;
-using IGroceryStore.Shared.Abstraction;
-using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Queries;
+using IGroceryStore.Shared.EndpointBuilders;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Features.Countries.Queries;
@@ -14,14 +11,14 @@ internal record GetCountries : IHttpQuery;
 public class GetCountriesEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
-        builder.Products.MapGet<GetCountries>("countries");
+        builder.Products.MapGet<GetCountries, GetCountriesHttpHandler>("countries");
 }
 
-internal class GetCountriesHandler : IQueryHandler<GetCountries, IResult>
+internal class GetCountriesHttpHandler : IHttpQueryHandler<GetCountries>
 {
     private readonly ProductsDbContext _productsDbContext;
 
-    public GetCountriesHandler(ProductsDbContext productsDbContext)
+    public GetCountriesHttpHandler(ProductsDbContext productsDbContext)
     {
         _productsDbContext = productsDbContext;
     }

@@ -1,11 +1,8 @@
 ﻿using IGroceryStore.Products.Entities;
 using IGroceryStore.Products.Persistence.Contexts;
-using IGroceryStore.Shared.Abstraction;
-using IGroceryStore.Shared.Abstraction.Commands;
-using IGroceryStore.Shared.Abstraction.Common;
+using IGroceryStore.Shared.EndpointBuilders;
 using IGroceryStore.Shared.Services;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
 
 namespace IGroceryStore.Products.Features.Allergens.Commands;
 
@@ -17,10 +14,10 @@ internal record AddAllergen(AddAllergen.AddAllergenBody Body) : IHttpCommand
 public class AddAllergenEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
-        builder.Products.MapPost<AddAllergen>("allergens");
+        builder.Products.MapPost<AddAllergen, AddAllergenHandler>("allergens");
 }
 
-internal class AddAllergenHandler : ICommandHandler<AddAllergen, IResult>
+internal class AddAllergenHandler : IHttpCommandHandler<AddAllergen>
 {
     private readonly ProductsDbContext _productsDbContext;
     private readonly ISnowflakeService _snowflakeService;

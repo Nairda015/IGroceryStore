@@ -1,5 +1,5 @@
 ﻿using System.Net;
-using IGroceryStore.Shared.Abstraction.Exceptions;
+using IGroceryStore.Shared.Exceptions;
 
 namespace IGroceryStore.Products.ValueObjects;
 

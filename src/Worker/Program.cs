@@ -1,11 +1,9 @@
-﻿using IGroceryStore.Shared.Abstraction.Services;
-using IGroceryStore.Shared.Configuration;
+﻿using IGroceryStore.Shared.Configuration;
 using IGroceryStore.Shared.Services;
 using IGroceryStore.Shared.Settings;
 using IGroceryStore.Worker;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;

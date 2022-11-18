@@ -1,14 +1,13 @@
 ﻿using System.Reflection;
 using IGroceryStore.Products.Entities;
 using IGroceryStore.Products.Persistence.Seeders;
-using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Services;
+using IGroceryStore.Shared.Common;
 using IGroceryStore.Shared.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Persistence.Contexts;
 
-public class ProductsDbContext : DbContext, IGroceryStoreDbContext
+public class ProductsDbContext : DbContext
 {
     private readonly ICurrentUserService _currentUserService;
     private readonly DateTimeService _dateTimeService;
@@ -56,10 +55,5 @@ public class ProductsDbContext : DbContext, IGroceryStoreDbContext
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
         base.OnModelCreating(builder);
-    }
-
-    public async Task Seed()
-    {
-        await this.SeedSampleDataAsync();
     }
 }

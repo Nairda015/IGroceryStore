@@ -2,13 +2,10 @@
 using IGroceryStore.Products.Contracts.Events;
 using IGroceryStore.Products.Exceptions;
 using IGroceryStore.Products.Persistence.Contexts;
-using IGroceryStore.Shared.Abstraction;
-using IGroceryStore.Shared.Abstraction.Commands;
-using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Validation;
+using IGroceryStore.Shared.EndpointBuilders;
+using IGroceryStore.Shared.Filters;
 using MassTransit;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Features.Categories.Commands;
@@ -21,13 +18,13 @@ internal record UpdateCategory(UpdateCategory.UpdateCategoryBody Body, ulong Id)
 public class UpdateCategoryEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
-        builder.Products.MapPut<UpdateCategory>("categories/{id}")
-            .AddEndpointFilter<ValidationFilter<UpdateCategory.UpdateCategoryBody>>()
+        builder.Products.MapPut<UpdateCategory, UpdateCategoryHandler>("categories/{id}")
+            .AddEndpointFilter<ValidationFilter<UpdateCategory.UpdateCategoryBody>>() //TODO: fix this
             .Produces(202)
             .Produces(400);
 }
 
-internal class UpdateCategoryHandler : ICommandHandler<UpdateCategory, IResult>
+internal class UpdateCategoryHandler : IHttpCommandHandler<UpdateCategory>
 {
     private readonly ProductsDbContext _productsDbContext;
     private readonly IBus _bus;

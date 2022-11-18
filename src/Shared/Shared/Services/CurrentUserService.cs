@@ -1,9 +1,14 @@
 ﻿using System.Security.Claims;
-using IGroceryStore.Shared.Abstraction;
-using IGroceryStore.Shared.Abstraction.Services;
 using Microsoft.AspNetCore.Http;
 
 namespace IGroceryStore.Shared.Services;
+
+public interface ICurrentUserService
+{
+    ClaimsPrincipal? Principal { get; }
+    Guid? UserId { get; }
+    string? UserRole { get; }
+}
 
 public class CurrentUserService : ICurrentUserService
 {

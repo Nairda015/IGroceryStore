@@ -1,4 +1,4 @@
-using IGroceryStore.Shared.Abstraction.Exceptions;
+using IGroceryStore.Shared.Exceptions;
 
 namespace IGroceryStore.Baskets.Exceptions;
 

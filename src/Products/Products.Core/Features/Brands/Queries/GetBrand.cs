@@ -1,11 +1,8 @@
 ﻿using IGroceryStore.Products.Persistence.Contexts;
 using IGroceryStore.Products.ReadModels;
-using IGroceryStore.Shared.Abstraction;
-using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Queries;
+using IGroceryStore.Shared.EndpointBuilders;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Features.Brands.Queries;
@@ -15,16 +12,16 @@ internal record GetBrand(ulong id) : IHttpQuery;
 public class GetBrandEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
-        builder.Products.MapGet<GetBrand>("brands/{id}")
+        builder.Products.MapGet<GetBrand, GetBrandHttpHandler>("brands/{id}")
             .Produces<BrandReadModel>()
             .Produces(404)
             .WithName(nameof(GetBrand));
 }
-internal class GetBrandHandler : IQueryHandler<GetBrand, IResult>
+internal class GetBrandHttpHandler : IHttpQueryHandler<GetBrand>
 {
     private readonly ProductsDbContext _productsDbContext;
 
-    public GetBrandHandler(ProductsDbContext productsDbContext)
+    public GetBrandHttpHandler(ProductsDbContext productsDbContext)
     {
         _productsDbContext = productsDbContext;
     }

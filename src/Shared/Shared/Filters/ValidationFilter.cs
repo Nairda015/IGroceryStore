@@ -3,7 +3,7 @@ using System.Diagnostics.Tracing;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 
-namespace IGroceryStore.Shared.Validation;
+namespace IGroceryStore.Shared.Filters;
 
 public class ValidationFilter<T> : IEndpointFilter
     where T : class

@@ -1,6 +1,6 @@
 using System.Security.Claims;
 
-namespace IGroceryStore.Shared.Abstraction;
+namespace IGroceryStore.Shared;
 
 public static class Constants
 {
