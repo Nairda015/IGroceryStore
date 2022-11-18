@@ -20,10 +20,9 @@ internal record UpdateCategory(UpdateCategory.UpdateCategoryBody Body, ulong Id)
 
 public class UpdateCategoryEndpoint : IEndpoint
 {
-    public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapPut<UpdateCategory>("api/categories/{id}")
+    public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
+        builder.Products.MapPut<UpdateCategory>("categories/{id}")
             .AddEndpointFilter<ValidationFilter<UpdateCategory.UpdateCategoryBody>>()
-            .WithTags(Constants.SwaggerTags.Products)
             .Produces(202)
             .Produces(400);
 }

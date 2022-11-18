@@ -14,12 +14,11 @@ internal record GetBrand(ulong id) : IHttpQuery;
 
 public class GetBrandEndpoint : IEndpoint
 {
-    public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapGet<GetBrand>("api/brands/{id}")
+    public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
+        builder.Products.MapGet<GetBrand>("brands/{id}")
             .Produces<BrandReadModel>()
             .Produces(404)
-            .WithName(nameof(GetBrand))
-            .WithTags(Constants.SwaggerTags.Products);
+            .WithName(nameof(GetBrand));
 }
 internal class GetBrandHandler : IQueryHandler<GetBrand, IResult>
 {

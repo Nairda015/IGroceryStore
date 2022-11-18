@@ -23,11 +23,10 @@ internal record AddShopChain(AddShopChain.AddShopChainBody Body) : IHttpCommand
 
 public class CreateProductEndpoint : IEndpoint
 {
-    public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapPost<AddShopChain>("api/shops/shopChain")
+    public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
+        builder.Shops.MapPost<AddShopChain>("shopChain")
             //.RequireAuthorization() //TODO: admin policy
-            .AddEndpointFilter<ValidationFilter<AddShopChain>>()
-            .WithTags(Constants.SwaggerTags.Shops);
+            .AddEndpointFilter<ValidationFilter<AddShopChain>>();
 }
 
 internal class AddShopChainHandler : ICommandHandler<AddShopChain, IResult>

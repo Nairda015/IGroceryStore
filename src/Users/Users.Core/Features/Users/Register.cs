@@ -27,14 +27,13 @@ internal record Register(Register.RegisterBody Body) : IHttpCommand
 
 public class RegisterUserEndpoint : IEndpoint
 {
-    public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapPost<Register>("api/users/register")
+    public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
+        builder.Users.MapPost<Register>("register")
             .Produces(202)
             .Produces(400)
             .Produces<ValidationResult>(400)
             .AddEndpointFilter<ValidationFilter<Register>>()
-            .WithName(nameof(Register))
-            .WithTags(Constants.SwaggerTags.Users);
+            .WithName(nameof(Register));
 }
 
 internal class RegisterHandler : ICommandHandler<Register, IResult>

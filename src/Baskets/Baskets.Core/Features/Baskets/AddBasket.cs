@@ -22,11 +22,10 @@ internal record AddBasket(AddBasket.AddBasketBody Body) : IHttpCommand
 
 public class AddBasketEndpoint : IEndpoint
 {
-    public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapPost<AddBasket>("api/basket")
+    public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
+        builder.Baskets.MapPost<AddBasket>("")
             .RequireAuthorization()
-            .Produces<Guid>()
-            .WithTags(Constants.SwaggerTags.Baskets);
+            .Produces<Guid>();
 }
 
 internal class AddBasketHandler : ICommandHandler<AddBasket, IResult>

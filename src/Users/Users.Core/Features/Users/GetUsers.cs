@@ -16,12 +16,11 @@ internal record UsersReadModel(IEnumerable<UserReadModel> Users, int Count);
 
 public class GetUsersEndpoint : IEndpoint
 {
-    public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapGet<GetUsers>("api/users")
+    public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
+        builder.Users.MapGet<GetUsers>("")
             .Produces<UsersReadModel>()
             .Produces(401)
-            .RequireAuthorization()
-            .WithTags(Constants.SwaggerTags.Users);
+            .RequireAuthorization();
 }
 
 internal class GetUsersHandler : IQueryHandler<GetUsers, IResult>

@@ -25,12 +25,11 @@ internal record LoginResult(Guid UserId, TokensReadModel Tokens);
 
 public class LoginEndpoint : IEndpoint
 {
-    public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapPost<LoginWithUserAgent>("api/tokens/login")
+    public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
+        builder.Users.MapPost<LoginWithUserAgent>("tokens/login")
             .Produces<LoginResult>()
             .Produces<InvalidCredentialsException>(400)
-            .Produces<LoggingTriesExceededException>(400)
-            .WithTags(Constants.SwaggerTags.Users);
+            .Produces<LoggingTriesExceededException>(400);
 }
 
 internal class LoginHandler : ICommandHandler<LoginWithUserAgent, IResult>

@@ -4,5 +4,5 @@ namespace IGroceryStore.Shared.Abstraction.Common;
 
 public interface IEndpoint
 {
-     void RegisterEndpoint(IEndpointRouteBuilder endpoints);
+     void RegisterEndpoint(IGroceryStoreRouteBuilder builder);
 }

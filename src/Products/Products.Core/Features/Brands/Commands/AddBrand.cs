@@ -18,9 +18,8 @@ internal record AddBrand(AddBrand.AddBrandBody Body) : IHttpCommand
 
 public class AddBrandEndpoint : IEndpoint
 {
-    public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-    endpoints.MapPost<AddBrand>("api/brands")
-        .WithTags(Constants.SwaggerTags.Products)
+    public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
+    builder.Products.MapPost<AddBrand>("brands")
         .Produces(201)
         .Produces(400);
     

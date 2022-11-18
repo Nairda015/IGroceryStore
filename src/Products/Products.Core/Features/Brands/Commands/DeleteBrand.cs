@@ -13,9 +13,8 @@ internal record DeleteBrand(ulong Id) : IHttpCommand;
 
 public class DeleteBrandEndpoint : IEndpoint
 {
-    public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapDelete<DeleteBrand>("api/brands/{id}")
-            .WithTags(Constants.SwaggerTags.Products)
+    public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
+        builder.Products.MapDelete<DeleteBrand>("brands/{id}")
             .Produces(204)
             .Produces(400)
             .Produces(404);

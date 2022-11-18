@@ -20,13 +20,12 @@ internal record RefreshToken : IHttpCommand;
 
 public class RefreshEndpoint : IEndpoint
 {
-    public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapPut<RefreshToken>("api/tokens/refresh")
+    public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
+        builder.Users.MapPut<RefreshToken>("tokens/refresh")
             .RequireAuthorization(_authorizeData)
             .Produces<TokensReadModel>()
             .Produces<InvalidClaimsException>(400)
-            .Produces<UserNotFoundException>(404)
-            .WithTags(Constants.SwaggerTags.Users);
+            .Produces<UserNotFoundException>(404);
 
     private readonly IAuthorizeData[] _authorizeData = {
         new AuthorizeAttribute { AuthenticationSchemes = Audience.Refresh }

@@ -13,8 +13,8 @@ internal record GetBrands : IHttpQuery;
 
 public class GetBrandsEndpoint : IEndpoint
 {
-    public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapGet<GetBrands>("api/brands").WithTags(Constants.SwaggerTags.Products);
+    public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
+        builder.Products.MapGet<GetBrands>("brands");
 }
 
 internal class GetBrandsHandler : IQueryHandler<GetBrands, IResult>

@@ -30,11 +30,9 @@ internal record CreateProduct(CreateProduct.CreateProductBody Body) : IHttpComma
 
 public class CreateProductEndpoint : IEndpoint
 {
-    public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapPost<CreateProduct>("api/products")
-            .RequireAuthorization()
-            .AddEndpointFilter<ValidationFilter<CreateProduct.CreateProductBody>>()
-            .WithTags(Constants.SwaggerTags.Products);
+    public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
+        builder.Products.MapPost<CreateProduct>("")
+            .AddEndpointFilter<ValidationFilter<CreateProduct.CreateProductBody>>();
 }
 
 internal class CreateProductHandler : ICommandHandler<CreateProduct, IResult>
