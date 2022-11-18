@@ -1,10 +1,7 @@
 ﻿using IGroceryStore.Products.Exceptions;
 using IGroceryStore.Products.Persistence.Contexts;
-using IGroceryStore.Shared.Abstraction;
-using IGroceryStore.Shared.Abstraction.Commands;
-using IGroceryStore.Shared.Abstraction.Common;
+using IGroceryStore.Shared.EndpointBuilders;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Features.Categories.Commands;
@@ -14,12 +11,12 @@ internal record DeleteCategory(ulong Id) : IHttpCommand;
 public class DeleteCategoryEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
-        builder.Products.MapDelete<DeleteCategory>("categories/{id}")
+        builder.Products.MapDelete<DeleteCategory, DeleteCategoryHandler>("categories/{id}")
             .Produces(204)
             .Produces(400);
 }
 
-internal class DeleteCategoryHandler : ICommandHandler<DeleteCategory, IResult>
+internal class DeleteCategoryHandler : IHttpCommandHandler<DeleteCategory>
 {
     private readonly ProductsDbContext _productsDbContext;
 

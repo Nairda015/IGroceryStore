@@ -1,5 +1,5 @@
 using System.Reflection;
-using IGroceryStore.Shared.Abstraction.Common;
+using IGroceryStore.Shared.Common;
 
 namespace IGroceryStore.Shared.Configuration;
 

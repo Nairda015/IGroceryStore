@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace IGroceryStore.Shared.Abstraction.Exceptions;
+namespace IGroceryStore.Shared.Exceptions;
 
 public abstract class GroceryStoreException : Exception
 {

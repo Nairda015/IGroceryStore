@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace IGroceryStore.Shared.Abstraction.Common;
+namespace IGroceryStore.Shared.Common;
 
 public interface IModule
 {

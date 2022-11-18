@@ -1,9 +1,6 @@
 ﻿using IGroceryStore.Products.Persistence.Contexts;
-using IGroceryStore.Shared.Abstraction;
-using IGroceryStore.Shared.Abstraction.Commands;
-using IGroceryStore.Shared.Abstraction.Common;
+using IGroceryStore.Shared.EndpointBuilders;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Features.Brands.Commands;
@@ -16,12 +13,12 @@ internal record UpdateBrand(UpdateBrand.UpdateBrandBody Body, ulong Id) : IHttpC
 public class UpdateBrandEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
-        builder.Products.MapPut<UpdateBrand>("brands/{id}")
+        builder.Products.MapPut<UpdateBrand, UpdateBrandHandler>("brands/{id}")
             .Produces(202)
             .Produces(404);
 }
 
-internal class UpdateBrandHandler : ICommandHandler<UpdateBrand, IResult>
+internal class UpdateBrandHandler : IHttpCommandHandler<UpdateBrand>
 {
     private readonly ProductsDbContext _productsDbContext;
 

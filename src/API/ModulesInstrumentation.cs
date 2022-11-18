@@ -1,4 +1,4 @@
-using IGroceryStore.Shared.Abstraction.Common;
+using IGroceryStore.Shared.Common;
 using OpenTelemetry.Trace;
 
 namespace IGroceryStore.API;

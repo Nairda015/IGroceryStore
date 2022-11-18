@@ -6,7 +6,7 @@ using DotNet.Testcontainers.Configurations;
 using DotNet.Testcontainers.Containers;
 using IGroceryStore.API;
 using IGroceryStore.Products.Persistence.Contexts;
-using IGroceryStore.Shared.Abstraction;
+using IGroceryStore.Shared;
 using IGroceryStore.Shared.Services;
 using IGroceryStore.Shared.Tests.Auth;
 using IGroceryStore.Users.Contracts.Events;

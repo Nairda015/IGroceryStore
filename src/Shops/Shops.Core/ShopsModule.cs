@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
 using Amazon;
 using Amazon.DynamoDBv2;
-using IGroceryStore.Shared.Abstraction;
-using IGroceryStore.Shared.Abstraction.Common;
+using IGroceryStore.Shared;
+using IGroceryStore.Shared.Common;
 using IGroceryStore.Shared.Configuration;
 using IGroceryStore.Shared.Settings;
 using IGroceryStore.Shops.Repositories;
@@ -22,6 +22,8 @@ public class ShopsModule : IModule
 
     public void Register(IServiceCollection services, IConfiguration configuration)
     {
+        services.RegisterHandlers<ShopsModule>();
+
         services.RegisterOptions<DynamoDbSettings>(configuration);
         var dynamoDbSettings = configuration.GetOptions<DynamoDbSettings>();
         

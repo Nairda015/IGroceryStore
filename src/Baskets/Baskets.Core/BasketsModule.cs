@@ -1,15 +1,10 @@
 ﻿using System.Diagnostics;
-using System.Reflection;
 using IGroceryStore.Baskets.Entities;
 using IGroceryStore.Baskets.Projectors;
 using IGroceryStore.Baskets.Settings;
-using IGroceryStore.Shared.Abstraction;
 using IGroceryStore.Shared;
-using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Queries;
-using IGroceryStore.Shared.Commands;
+using IGroceryStore.Shared.Common;
 using IGroceryStore.Shared.Configuration;
-using IGroceryStore.Shared.Queries;
 using IGroceryStore.Shared.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -27,8 +22,7 @@ public class BasketsModule : IModule
 
     public void Register(IServiceCollection services, IConfiguration configuration)
     {
-        services.AddCommands();
-        services.AddQueries();
+        services.RegisterHandlers<BasketsModule>();
 
         RegisterMongoCollections(services, configuration);
 

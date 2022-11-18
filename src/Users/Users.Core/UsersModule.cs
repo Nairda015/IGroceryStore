@@ -1,12 +1,7 @@
 ﻿using System.Diagnostics;
-using System.Reflection;
-using IGroceryStore.Shared.Abstraction;
 using IGroceryStore.Shared;
-using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Queries;
-using IGroceryStore.Shared.Commands;
+using IGroceryStore.Shared.Common;
 using IGroceryStore.Shared.Configuration;
-using IGroceryStore.Shared.Queries;
 using IGroceryStore.Shared.Settings;
 using IGroceryStore.Users.Factories;
 using IGroceryStore.Users.JWT;
@@ -29,8 +24,8 @@ public class UsersModule : IModule
 
     public void Register(IServiceCollection services, IConfiguration configuration)
     {
-        services.AddCommands();
-        services.AddQueries();
+        services.RegisterHandlers<UsersModule>();
+        
         services.AddSingleton<IUserFactory, UserFactory>();
         services.AddScoped<ITokenManager, JwtTokenManager>();
 
@@ -40,8 +35,7 @@ public class UsersModule : IModule
         services.AddDbContext<UsersDbContext>(ctx =>
             ctx.UseNpgsql(options.ConnectionString)
                 .EnableSensitiveDataLogging(options.EnableSensitiveData));
-
-
+        
         var jwtSettings = configuration.GetOptions<JwtSettings>();
         var authenticationBuilder = services.AddAuthentication(x =>
             {

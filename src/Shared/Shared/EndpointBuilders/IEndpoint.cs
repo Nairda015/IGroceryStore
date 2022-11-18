@@ -1,6 +1,4 @@
-using Microsoft.AspNetCore.Routing;
-
-namespace IGroceryStore.Shared.Abstraction.Common;
+namespace IGroceryStore.Shared.EndpointBuilders;
 
 public interface IEndpoint
 {

@@ -1,10 +1,7 @@
 using IGroceryStore.Baskets.Projectors;
 using IGroceryStore.Baskets.ValueObjects;
-using IGroceryStore.Shared.Abstraction;
-using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Queries;
+using IGroceryStore.Shared.EndpointBuilders;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
 using MongoDB.Driver;
 
 namespace IGroceryStore.Baskets.Features.Products;
@@ -14,15 +11,15 @@ internal record GetPricesForShop(ulong ProductId, ulong ShopId) : IHttpQuery;
 public class GetPricesForShopEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
-        builder.Baskets.MapGet<GetPricesForShop>("{shopId}/{productId}")
+        builder.Baskets.MapGet<GetPricesForShop, AddProductsToBasketHttpHandler>("{shopId}/{productId}")
             .Produces<ProductProjectionForShop>();
 }
 
-internal class AddProductsToBasketHandler : IQueryHandler<GetPricesForShop, IResult>
+internal class AddProductsToBasketHttpHandler : IHttpQueryHandler<GetPricesForShop>
 {
     private readonly IMongoCollection<ProductProjectionForShop> _collection;
 
-    public AddProductsToBasketHandler(IMongoCollection<ProductProjectionForShop> collection)
+    public AddProductsToBasketHttpHandler(IMongoCollection<ProductProjectionForShop> collection)
     {
         _collection = collection;
     }

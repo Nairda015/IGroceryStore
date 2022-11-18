@@ -1,15 +1,11 @@
 ﻿using FluentValidation;
-using IGroceryStore.Shared.Abstraction;
-using IGroceryStore.Shared.Abstraction.Commands;
-using IGroceryStore.Shared.Abstraction.Common;
+using IGroceryStore.Shared.EndpointBuilders;
+using IGroceryStore.Shared.Filters;
 using IGroceryStore.Shared.Services;
-using IGroceryStore.Shared.Validation;
 using IGroceryStore.Shops.Contracts.Events;
 using IGroceryStore.Shops.Repositories;
 using MassTransit;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
 
 namespace IGroceryStore.Shops.Features.Products;
@@ -22,11 +18,11 @@ internal record ReportCurrentPrice(ReportCurrentPrice.ReportCurrentPriceBody Bod
 public class CreateProductEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
-        builder.Shops.MapPost<ReportCurrentPrice>("reportPrice")
+        builder.Shops.MapPost<ReportCurrentPrice, CreateProductHandler>("reportPrice")
             .AddEndpointFilter<ValidationFilter<ReportCurrentPrice.ReportCurrentPriceBody>>();
 }
 
-internal class CreateProductHandler : ICommandHandler<ReportCurrentPrice, IResult>
+internal class CreateProductHandler : IHttpCommandHandler<ReportCurrentPrice>
 {
     private readonly IProductsRepository _productsRepository;
     private readonly ISnowflakeService _snowflakeService;

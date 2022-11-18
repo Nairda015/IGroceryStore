@@ -2,14 +2,10 @@ using System.Text.Json;
 using EventStore.Client;
 using IGroceryStore.Baskets.Entities;
 using IGroceryStore.Baskets.Events;
-using IGroceryStore.Shared.Abstraction;
-using IGroceryStore.Shared.Abstraction.Commands;
-using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Services;
+using IGroceryStore.Shared.EndpointBuilders;
 using IGroceryStore.Shared.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
 
@@ -23,12 +19,11 @@ internal record AddBasket(AddBasket.AddBasketBody Body) : IHttpCommand
 public class AddBasketEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
-        builder.Baskets.MapPost<AddBasket>("")
-            .RequireAuthorization()
+        builder.Baskets.MapPost<AddBasket, AddBasketHandler>("")
             .Produces<Guid>();
 }
 
-internal class AddBasketHandler : ICommandHandler<AddBasket, IResult>
+internal class AddBasketHandler : IHttpCommandHandler<AddBasket>
 {
     private readonly EventStoreClient _client;
     private readonly ILogger<AddBasketHandler> _logger;

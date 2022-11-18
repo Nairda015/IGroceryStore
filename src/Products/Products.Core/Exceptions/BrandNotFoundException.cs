@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using IGroceryStore.Products.ValueObjects;
-using IGroceryStore.Shared.Abstraction.Exceptions;
+using IGroceryStore.Shared.Exceptions;
 
 namespace IGroceryStore.Products.Exceptions;
 

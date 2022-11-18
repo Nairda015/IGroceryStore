@@ -1,12 +1,9 @@
 ﻿using IGroceryStore.Products.Entities;
 using IGroceryStore.Products.Features.Brands.Queries;
 using IGroceryStore.Products.Persistence.Contexts;
-using IGroceryStore.Shared.Abstraction;
-using IGroceryStore.Shared.Abstraction.Commands;
-using IGroceryStore.Shared.Abstraction.Common;
+using IGroceryStore.Shared.EndpointBuilders;
 using IGroceryStore.Shared.Services;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Features.Brands.Commands;
@@ -19,13 +16,13 @@ internal record AddBrand(AddBrand.AddBrandBody Body) : IHttpCommand
 public class AddBrandEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
-    builder.Products.MapPost<AddBrand>("brands")
+    builder.Products.MapPost<AddBrand, AddBrandHandler>("brands")
         .Produces(201)
         .Produces(400);
     
 }
 
-internal class AddBrandHandler : ICommandHandler<AddBrand, IResult>
+internal class AddBrandHandler : IHttpCommandHandler<AddBrand>
 {
     private readonly ProductsDbContext _productsDbContext;
     private readonly ISnowflakeService _snowflakeService;

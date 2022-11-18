@@ -81,7 +81,7 @@ services:
   jaeger:
     image: jaegertracing/all-in-one:latest
     container_name: jaeger
-    profiles: [ "all", "webapi", "jaeger" ]
+    profiles: [ "all", "jaeger" ]
     restart: always
     ports:
       - 5775:5775/udp
@@ -97,7 +97,7 @@ services:
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.17.6
     container_name: elasticsearch
-    profiles: ["all", "webapi", "logs", "elastic"]
+    profiles: ["all", "logs", "elastic"]
     ports:
       - 9200:9200/tcp
     environment:
@@ -108,6 +108,6 @@ services:
   kibana:
     image: docker.elastic.co/kibana/kibana:7.17.6
     container_name: kibana
-    profiles: [ "all", "webapi", "logs", "kibana" ]
+    profiles: [ "all", "logs", "kibana" ]
     ports:
       - 5601:5601/tcp

@@ -1,8 +1,6 @@
 ﻿using System.Diagnostics;
-using System.Reflection;
-using IGroceryStore.Shared.Abstraction;
 using IGroceryStore.Shared;
-using IGroceryStore.Shared.Abstraction.Common;
+using IGroceryStore.Shared.Common;
 using IGroceryStore.Shared.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -19,7 +17,7 @@ public class NotificationsModule : IModule
 
     public void Register(IServiceCollection services, IConfiguration configuration)
     {
-
+        services.RegisterHandlers<NotificationsModule>();
     }
 
     public void Use(IApplicationBuilder app)

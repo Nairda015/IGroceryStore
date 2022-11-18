@@ -1,10 +1,7 @@
 ﻿using IGroceryStore.Products.Exceptions;
 using IGroceryStore.Products.Persistence.Contexts;
-using IGroceryStore.Shared.Abstraction;
-using IGroceryStore.Shared.Abstraction.Commands;
-using IGroceryStore.Shared.Abstraction.Common;
+using IGroceryStore.Shared.EndpointBuilders;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Features.Products.Commands;
@@ -17,10 +14,10 @@ internal record AddAllergenToProduct(AddAllergenToProduct.AddAllergenToProductBo
 public class AddAllergenToProductEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
-        builder.Products.MapPut<AddAllergenToProduct>("add-allergen");
+        builder.Products.MapPut<AddAllergenToProduct, AddAllergenToProductHandler>("add-allergen");
 }
 
-internal class AddAllergenToProductHandler : ICommandHandler<AddAllergenToProduct, IResult>
+internal class AddAllergenToProductHandler : IHttpCommandHandler<AddAllergenToProduct>
 {
     private readonly ProductsDbContext _productsDbContext;
 

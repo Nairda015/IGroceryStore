@@ -1,6 +1,4 @@
-﻿using IGroceryStore.Shared.Abstraction;
-using IGroceryStore.Shared.Abstraction.Commands;
-using IGroceryStore.Shared.Abstraction.Common;
+﻿using IGroceryStore.Shared.EndpointBuilders;
 using IGroceryStore.Users.Entities;
 using IGroceryStore.Users.Exceptions;
 using IGroceryStore.Users.Persistence.Contexts;
@@ -8,7 +6,6 @@ using IGroceryStore.Users.ReadModels;
 using IGroceryStore.Users.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Users.Features.Tokens;
@@ -26,13 +23,13 @@ internal record LoginResult(Guid UserId, TokensReadModel Tokens);
 public class LoginEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
-        builder.Users.MapPost<LoginWithUserAgent>("tokens/login")
+        builder.Users.MapPost<LoginWithUserAgent, LoginHandler>("tokens/login")
             .Produces<LoginResult>()
             .Produces<InvalidCredentialsException>(400)
             .Produces<LoggingTriesExceededException>(400);
 }
 
-internal class LoginHandler : ICommandHandler<LoginWithUserAgent, IResult>
+internal class LoginHandler : IHttpCommandHandler<LoginWithUserAgent>
 {
     private readonly ITokenManager _tokenManager;
     private readonly UsersDbContext _context;

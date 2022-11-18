@@ -1,14 +1,8 @@
 ﻿using System.Diagnostics;
-using System.Reflection;
 using IGroceryStore.Products.Persistence.Contexts;
-using IGroceryStore.Shared.Abstraction;
 using IGroceryStore.Shared;
-using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Queries;
-using IGroceryStore.Shared.Commands;
+using IGroceryStore.Shared.Common;
 using IGroceryStore.Shared.Configuration;
-using IGroceryStore.Shared.Queries;
-using IGroceryStore.Shared.Services;
 using IGroceryStore.Shared.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -26,14 +20,12 @@ public class ProductsModule : IModule
 
     public void Register(IServiceCollection services, IConfiguration configuration)
     {
-        services.AddCommands();
-        services.AddQueries();
+        services.RegisterHandlers<ProductsModule>();
         
         var options = configuration.GetOptions<PostgresSettings>();
         services.AddDbContext<ProductsDbContext>(ctx =>
             ctx.UseNpgsql(options.ConnectionString)
                 .EnableSensitiveDataLogging(options.EnableSensitiveData));
-        
     }
 
     public void Use(IApplicationBuilder app)

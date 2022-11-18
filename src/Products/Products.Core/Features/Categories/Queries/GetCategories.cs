@@ -1,10 +1,7 @@
 ﻿using IGroceryStore.Products.Persistence.Contexts;
 using IGroceryStore.Products.ReadModels;
-using IGroceryStore.Shared.Abstraction;
-using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Queries;
+using IGroceryStore.Shared.EndpointBuilders;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Features.Categories.Queries;
@@ -16,15 +13,15 @@ internal record GetCategoriesResult(List<CategoryReadModel> Categories);
 public class GetCategoriesEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
-        builder.Products.MapGet<GetCategories>("categories")
+        builder.Products.MapGet<GetCategories, GetCategoriesHttpHandler>("categories")
             .Produces<GetCategoriesResult>();
 }
 
-internal class GetCategoriesHandler : IQueryHandler<GetCategories, IResult>
+internal class GetCategoriesHttpHandler : IHttpQueryHandler<GetCategories>
 {
     private readonly ProductsDbContext _productsDbContext;
 
-    public GetCategoriesHandler(ProductsDbContext productsDbContext)
+    public GetCategoriesHttpHandler(ProductsDbContext productsDbContext)
     {
         _productsDbContext = productsDbContext;
     }

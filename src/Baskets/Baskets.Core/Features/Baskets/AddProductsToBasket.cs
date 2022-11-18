@@ -1,11 +1,8 @@
 using System.Text.Json;
 using EventStore.Client;
 using IGroceryStore.Baskets.Events;
-using IGroceryStore.Shared.Abstraction;
-using IGroceryStore.Shared.Abstraction.Commands;
-using IGroceryStore.Shared.Abstraction.Common;
+using IGroceryStore.Shared.EndpointBuilders;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
 
 namespace IGroceryStore.Baskets.Features.Baskets;
@@ -18,12 +15,12 @@ internal record AddProductsToBasket(AddProductsToBasket.AddProductsToBasketBody 
 public class AddProductsToBasketEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
-        builder.Baskets.MapPut<AddProductsToBasket>("{basketId}/{productId}")
+        builder.Baskets.MapPut<AddProductsToBasket, AddProductsToBasketHandler>("{basketId}/{productId}")
             .Produces<IWriteResult>();
 }
 
 
-internal class AddProductsToBasketHandler : ICommandHandler<AddProductsToBasket, IResult>
+internal class AddProductsToBasketHandler : IHttpCommandHandler<AddProductsToBasket>
 {
     private readonly EventStoreClient _client;
     private readonly ILogger<AddProductsToBasketHandler> _logger;

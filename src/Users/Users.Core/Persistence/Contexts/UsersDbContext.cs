@@ -1,6 +1,5 @@
 ﻿using System.Reflection;
-using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Services;
+using IGroceryStore.Shared.Common;
 using IGroceryStore.Shared.Services;
 using IGroceryStore.Users.Entities;
 using IGroceryStore.Users.Persistence.Seeders;

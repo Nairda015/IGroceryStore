@@ -5,15 +5,11 @@ using IGroceryStore.Products.Exceptions;
 using IGroceryStore.Products.Persistence.Contexts;
 using IGroceryStore.Products.ReadModels;
 using IGroceryStore.Products.ValueObjects;
-using IGroceryStore.Shared.Abstraction;
-using IGroceryStore.Shared.Abstraction.Commands;
-using IGroceryStore.Shared.Abstraction.Common;
+using IGroceryStore.Shared.EndpointBuilders;
+using IGroceryStore.Shared.Filters;
 using IGroceryStore.Shared.Services;
-using IGroceryStore.Shared.Validation;
 using MassTransit;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Features.Products.Commands;
@@ -31,11 +27,11 @@ internal record CreateProduct(CreateProduct.CreateProductBody Body) : IHttpComma
 public class CreateProductEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
-        builder.Products.MapPost<CreateProduct>("")
+        builder.Products.MapPost<CreateProduct, CreateProductHandler>("")
             .AddEndpointFilter<ValidationFilter<CreateProduct.CreateProductBody>>();
 }
 
-internal class CreateProductHandler : ICommandHandler<CreateProduct, IResult>
+internal class CreateProductHandler : IHttpCommandHandler<CreateProduct>
 {
     private readonly ProductsDbContext _productsDbContext;
     private readonly ISnowflakeService _snowflakeService;

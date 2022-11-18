@@ -3,9 +3,8 @@ using System.Text.Json;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DocumentModel;
 using Amazon.DynamoDBv2.Model;
-using IGroceryStore.Shared.Abstraction;
+using IGroceryStore.Shared;
 using IGroceryStore.Shops.Entities;
-using IGroceryStore.Shops.Repositories.Contracts;
 using IGroceryStore.Shops.Settings;
 using Microsoft.Extensions.Options;
 

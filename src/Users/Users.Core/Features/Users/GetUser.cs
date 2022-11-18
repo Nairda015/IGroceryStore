@@ -1,13 +1,10 @@
-﻿using IGroceryStore.Shared.Abstraction;
-using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Queries;
+﻿using IGroceryStore.Shared.EndpointBuilders;
 using IGroceryStore.Shared.ValueObjects;
 using IGroceryStore.Users.Exceptions;
 using IGroceryStore.Users.Persistence.Contexts;
 using IGroceryStore.Users.ReadModels;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Users.Features.Users;
@@ -17,20 +14,19 @@ internal record GetUser(Guid Id) : IHttpQuery;
 public class GetUserEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
-        builder.Users.MapGet<GetUser>("{id}")
+        builder.Users.MapGet<GetUser, GetUserHttpHandler>("{id}")
             .Produces<UserReadModel>()
             .Produces<UserNotFoundException>(404)
             .Produces(401)
-            .RequireAuthorization()
             .WithName(nameof(GetUser));
 }
 
 
-internal class GetUserHandler : IQueryHandler<GetUser, IResult>
+internal class GetUserHttpHandler : IHttpQueryHandler<GetUser>
 {
     private readonly UsersDbContext _dbContext;
 
-    public GetUserHandler(UsersDbContext dbContext)
+    public GetUserHttpHandler(UsersDbContext dbContext)
     {
         _dbContext = dbContext;
     }

@@ -1,16 +1,12 @@
 using FluentValidation;
-using IGroceryStore.Shared.Abstraction;
-using IGroceryStore.Shared.Abstraction.Commands;
-using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Services;
+using IGroceryStore.Shared.EndpointBuilders;
+using IGroceryStore.Shared.Filters;
 using IGroceryStore.Shared.Services;
-using IGroceryStore.Shared.Validation;
 using IGroceryStore.Shops.Contracts.Events;
 using IGroceryStore.Shops.Entities;
 using IGroceryStore.Shops.Repositories;
 using MassTransit;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
 
 namespace IGroceryStore.Shops.Features.Shops;
@@ -24,12 +20,12 @@ internal record AddShopChain(AddShopChain.AddShopChainBody Body) : IHttpCommand
 public class CreateProductEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
-        builder.Shops.MapPost<AddShopChain>("shopChain")
+        builder.Shops.MapPost<AddShopChain, AddShopChainHandler>("shopChain")
             //.RequireAuthorization() //TODO: admin policy
             .AddEndpointFilter<ValidationFilter<AddShopChain>>();
 }
 
-internal class AddShopChainHandler : ICommandHandler<AddShopChain, IResult>
+internal class AddShopChainHandler : IHttpCommandHandler<AddShopChain>
 {
     private readonly IShopsRepository _shopsRepository;
     private readonly ISnowflakeService _snowflakeService;

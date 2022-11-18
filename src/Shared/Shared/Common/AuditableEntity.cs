@@ -1,4 +1,4 @@
-﻿namespace IGroceryStore.Shared.Abstraction.Common;
+﻿namespace IGroceryStore.Shared.Common;
 
 public abstract class AuditableEntity
 {

@@ -1,6 +1,6 @@
 ﻿using System.Net;
-using IGroceryStore.Shared.Abstraction.Common;
-using IGroceryStore.Shared.Abstraction.Exceptions;
+using IGroceryStore.Shared.Common;
+using IGroceryStore.Shared.Exceptions;
 using IGroceryStore.Shared.ValueObjects;
 using IGroceryStore.Users.Exceptions;
 using IGroceryStore.Users.Services;

@@ -1,5 +1,5 @@
 ﻿using IGroceryStore.Products.ValueObjects;
-using IGroceryStore.Shared.Abstraction.Common;
+using IGroceryStore.Shared.Common;
 
 namespace IGroceryStore.Products.Entities;
 

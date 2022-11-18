@@ -1,10 +1,6 @@
-﻿using IGroceryStore.Products.Exceptions;
-using IGroceryStore.Products.Persistence.Contexts;
-using IGroceryStore.Shared.Abstraction;
-using IGroceryStore.Shared.Abstraction.Commands;
-using IGroceryStore.Shared.Abstraction.Common;
+﻿using IGroceryStore.Products.Persistence.Contexts;
+using IGroceryStore.Shared.EndpointBuilders;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Products.Features.Brands.Commands;
@@ -14,13 +10,13 @@ internal record DeleteBrand(ulong Id) : IHttpCommand;
 public class DeleteBrandEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
-        builder.Products.MapDelete<DeleteBrand>("brands/{id}")
+        builder.Products.MapDelete<DeleteBrand, DeleteBrandHandler>("brands/{id}")
             .Produces(204)
             .Produces(400)
             .Produces(404);
 
 }
-internal class DeleteBrandHandler : ICommandHandler<DeleteBrand, IResult>
+internal class DeleteBrandHandler : IHttpCommandHandler<DeleteBrand>
 {
     private readonly ProductsDbContext _productsDbContext;
 
