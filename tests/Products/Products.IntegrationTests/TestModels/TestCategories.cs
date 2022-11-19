@@ -1,13 +1,14 @@
 ﻿using Bogus;
 using IGroceryStore.Products.Entities;
+using IGroceryStore.Products.Features.Categories.Commands;
 using IGroceryStore.Products.ValueObjects;
 
-namespace Products.IntegrationTests;
+namespace IGroceryStore.Products.IntegrationTests.TestModels;
 
 internal static class TestCategories
 {
     private static readonly Faker<Category> CategoryGenerator = new CategoryFaker();
-    
+
     public static readonly List<Category> Categories = CategoryGenerator.Generate(10);
     public static readonly Category Category = Categories.First();
 
@@ -20,9 +21,10 @@ internal static class TestCategories
 
         private Category ResolveConstructor(Faker faker)
         {
-            return new Category()
+            return new Category
             {
-                Id = new CategoryId((ulong)faker.UniqueIndex), Name = faker.Commerce.Categories(1).First()
+                Id = new CategoryId((ulong)faker.UniqueIndex),
+                Name = faker.Commerce.Categories(1).First()
             };
         }
     }

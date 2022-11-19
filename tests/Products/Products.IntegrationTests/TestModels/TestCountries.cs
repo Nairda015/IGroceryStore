@@ -2,7 +2,7 @@
 using IGroceryStore.Products.Entities;
 using IGroceryStore.Products.ValueObjects;
 
-namespace Products.IntegrationTests;
+namespace IGroceryStore.Products.IntegrationTests.TestModels;
 
 internal static class TestCountries
 {

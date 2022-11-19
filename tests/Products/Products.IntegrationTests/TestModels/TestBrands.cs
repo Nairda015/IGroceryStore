@@ -2,7 +2,7 @@
 using IGroceryStore.Products.Entities;
 using IGroceryStore.Products.ValueObjects;
 
-namespace Products.IntegrationTests;
+namespace IGroceryStore.Products.IntegrationTests.TestModels;
 
 internal static class TestBrands
 {
@@ -21,7 +21,7 @@ internal static class TestBrands
         private Brand ResolveConstructor(Faker faker)
         {
             var brand = new Brand { Id = new BrandId((ulong)faker.UniqueIndex), Name = faker.Company.CompanyName() };
-            
+
             return brand;
         }
     }

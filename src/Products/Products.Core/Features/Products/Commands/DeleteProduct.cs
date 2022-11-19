@@ -14,7 +14,7 @@ internal record DeleteProduct(ulong Id) : IHttpCommand;
 public class DeleteProductEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IEndpointRouteBuilder endpoints) =>
-        endpoints.MapDelete<DeleteProduct>("products/{id}")
+        endpoints.MapDelete<DeleteProduct>("api/products/{id}")
             //.RequireAuthorization()
             .WithTags(SwaggerTags.Products)
             .Produces(204)

@@ -35,7 +35,7 @@ public class CreateProductEndpoint : IEndpoint
             .AddEndpointFilter<ValidationFilter<CreateProduct>>()
             .WithTags(SwaggerTags.Products)
             .Produces(400)
-            .Produces(202);;
+            .Produces(202);
 }
 
 internal class CreateProductHandler : ICommandHandler<CreateProduct, IResult>
