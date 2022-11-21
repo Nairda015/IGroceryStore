@@ -24,7 +24,7 @@ services:
   postgres:
     image: postgres:latest
     container_name: postgres
-    profiles: [ "all", "webapi", "users", "baskets" ]
+    profiles: [ "all", "webapi", "users", "products" ]
     volumes:
       - ../volumes/postgres:/var/lib/postgresql/data
     environment:

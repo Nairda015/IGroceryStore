@@ -7,6 +7,58 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
+    },
+    "Users": {
+      "commandName": "Project",
+      "launchBrowser": false,
+      "applicationUrl": "http://localhost:5000",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ModuleName_Users__ModuleEnabled": true,
+        "ModuleName_Shops__ModuleEnabled": false,
+        "ModuleName_Products__ModuleEnabled": false,
+        "ModuleName_Baskets__ModuleEnabled": false,
+        "ModuleName_Notifications__ModuleEnabled": false
+      }
+    },
+    "Shops": {
+      "commandName": "Project",
+      "launchBrowser": false,
+      "applicationUrl": "http://localhost:5000",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ModuleName_Users__ModuleEnabled": false,
+        "ModuleName_Shops__ModuleEnabled": true,
+        "ModuleName_Products__ModuleEnabled": false,
+        "ModuleName_Baskets__ModuleEnabled": false,
+        "ModuleName_Notifications__ModuleEnabled": false
+      }
+    },
+    "Products": {
+      "commandName": "Project",
+      "launchBrowser": false,
+      "applicationUrl": "http://localhost:5000",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ModuleName_Users__ModuleEnabled": false,
+        "ModuleName_Shops__ModuleEnabled": false,
+        "ModuleName_Products__ModuleEnabled": true,
+        "ModuleName_Baskets__ModuleEnabled": false,
+        "ModuleName_Notifications__ModuleEnabled": false
+      }
+    },
+    "Baskets": {
+      "commandName": "Project",
+      "launchBrowser": false,
+      "applicationUrl": "http://localhost:5000",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ModuleName_Users__ModuleEnabled": false,
+        "ModuleName_Shops__ModuleEnabled": false,
+        "ModuleName_Products__ModuleEnabled": false,
+        "ModuleName_Baskets__ModuleEnabled": true,
+        "ModuleName_Notifications__ModuleEnabled": false
+      }
     }
   }
 }

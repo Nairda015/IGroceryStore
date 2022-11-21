@@ -20,6 +20,12 @@ public static class Extensions
             }
         });
 
+    public static void ConfigureEnvironmentVariables(this IHostBuilder builder) =>
+        builder.ConfigureAppConfiguration((ctx, cfg) =>
+        {
+            cfg.AddEnvironmentVariables(prefix: "ModuleName_");
+        });
+    
     private static IEnumerable<string> GetSettings(this HostBuilderContext ctx) =>
         Directory.EnumerateFiles(ctx.HostingEnvironment.GetPath(),
             "modulesettings.json", SearchOption.AllDirectories);
@@ -30,8 +36,8 @@ public static class Extensions
 
     private static string GetPath(this IHostEnvironment env) =>
         env.ContentRootPath.Split("src").First();
-    
-    
+
+
     public static Type[] TryGetTypes(this Assembly assembly)
     {
         Type[] types;
@@ -43,6 +49,7 @@ public static class Extensions
         {
             types = e.Types!;
         }
+
         return types;
     }
 }
