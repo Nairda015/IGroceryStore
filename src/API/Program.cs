@@ -15,6 +15,7 @@ using Serilog.Sinks.Elasticsearch;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host.ConfigureModules();
+builder.Host.ConfigureEnvironmentVariables();
 
 var (assemblies, moduleAssemblies, modules) = AppInitializer.Initialize(builder);
 
