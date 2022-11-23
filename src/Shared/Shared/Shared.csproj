@@ -19,7 +19,7 @@
       <PackageReference Include="IdGen" Version="3.0.2" />
       <PackageReference Include="MassTransit" Version="8.0.9-develop.658" />
       <PackageReference Include="MassTransit.AspNetCore" Version="7.3.1" />
-      <PackageReference Include="MassTransit.RabbitMQ" Version="8.0.9-develop.658" />
+      <PackageReference Include="MassTransit.RabbitMQ" Version="8.0.9-develop.663" />
       <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
       <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.0">
