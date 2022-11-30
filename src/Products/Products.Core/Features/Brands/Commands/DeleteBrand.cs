@@ -25,7 +25,7 @@ internal class DeleteBrandHandler : IHttpCommandHandler<DeleteBrand>
         _productsDbContext = productsDbContext;
     }
 
-    public async Task<IResult> HandleAsync(DeleteBrand command, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(DeleteBrand command, CancellationToken cancellationToken)
     {
         var brand =
             await _productsDbContext.Brands.FirstOrDefaultAsync(x => x.Id.Equals(command.Id), cancellationToken);

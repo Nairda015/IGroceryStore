@@ -1,6 +1,13 @@
 namespace IGroceryStore.Shared.Services;
 
-public sealed class DateTimeService
+public interface IDateTimeProvider
+{
+    DateTime Now { get; }
+    DateOnly NowDateOnly { get; }
+    TimeOnly NowTimeOnly { get; }
+}
+
+public sealed class DateTimeProvider : IDateTimeProvider
 {
     public DateTime Now => DateTime.UtcNow;
     public DateOnly NowDateOnly => DateOnly.FromDateTime(DateTime.UtcNow);

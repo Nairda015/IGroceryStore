@@ -45,7 +45,7 @@ internal class AddBasketHandler : IHttpCommandHandler<AddBasket>
         _usersCollection = usersCollection;
     }
 
-    public async Task<IResult> HandleAsync(AddBasket command, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(AddBasket command, CancellationToken cancellationToken)
     {
         var userId = _currentUserService.UserId;
         var user = await _usersCollection

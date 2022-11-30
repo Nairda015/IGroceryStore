@@ -9,13 +9,13 @@ namespace IGroceryStore.Products.Features.Products.Commands;
 
 internal record MarkAsObsolete(MarkAsObsolete.MarkAsObsoleteBody Body) : IHttpCommand
 {
-    internal record MarkAsObsoleteBody(ProductId Id);
+    internal record MarkAsObsoleteBody(ulong Id);
 }
 
 public class MarkAsObsoleteEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
-        builder.Products.MapPost<MarkAsObsolete, MarkAsObsoleteHandler>("mark-as-obsolete/{id}");
+        builder.Products.MapPost<MarkAsObsolete, MarkAsObsoleteHandler>("mark-as-obsolete");
 }
 
 internal class MarkAsObsoleteHandler : IHttpCommandHandler<MarkAsObsolete>
@@ -27,7 +27,7 @@ internal class MarkAsObsoleteHandler : IHttpCommandHandler<MarkAsObsolete>
         _productsDbContext = productsDbContext;
     }
 
-    public async Task<IResult> HandleAsync(MarkAsObsolete command, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(MarkAsObsolete command, CancellationToken cancellationToken)
     {
         var product = await _productsDbContext.Products.FirstOrDefaultAsync(x => x.Id == command.Body.Id, cancellationToken);
         if (product == null) throw new ProductNotFoundException(command.Body.Id);

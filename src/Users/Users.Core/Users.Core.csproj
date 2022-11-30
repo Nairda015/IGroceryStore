@@ -25,6 +25,7 @@
     <PackageReference Include="JWT" Version="10.0.0-beta9" />
     <PackageReference Include="JWT.Extensions.AspNetCore" Version="10.0.0-beta4" />
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+    <PackageReference Include="MongoDB.Driver" Version="2.18.0" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.0" />
   </ItemGroup>
 

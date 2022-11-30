@@ -21,10 +21,8 @@ public interface IShopsRepository
 internal class ShopsRepository : IShopsRepository
 {
     private readonly IAmazonDynamoDB _dynamoDb;
-    private readonly IOptions<DynamoDbSettings> _settings;
-    public ShopsRepository(IOptions<DynamoDbSettings> settings, IAmazonDynamoDB dynamoDb)
+    public ShopsRepository(IAmazonDynamoDB dynamoDb)
     {
-        _settings = settings;
         _dynamoDb = dynamoDb;
     }
     

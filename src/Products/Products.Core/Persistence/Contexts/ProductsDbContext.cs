@@ -10,15 +10,15 @@ namespace IGroceryStore.Products.Persistence.Contexts;
 public class ProductsDbContext : DbContext
 {
     private readonly ICurrentUserService _currentUserService;
-    private readonly DateTimeService _dateTimeService;
+    private readonly IDateTimeProvider _dateTimeProvider;
     
     public ProductsDbContext(DbContextOptions<ProductsDbContext> options, 
         ICurrentUserService currentUserService,
-        DateTimeService dateTimeService)
+        IDateTimeProvider dateTimeProvider)
         : base(options)
     {
         _currentUserService = currentUserService;
-        _dateTimeService = dateTimeService;
+        _dateTimeProvider = dateTimeProvider;
     }
 
     internal DbSet<Product> Products => Set<Product>();
@@ -35,12 +35,12 @@ public class ProductsDbContext : DbContext
             {
                 case EntityState.Added:
                     entry.Entity.CreatedBy = _currentUserService.UserId;
-                    entry.Entity.Created = _dateTimeService.Now;
+                    entry.Entity.Created = _dateTimeProvider.Now;
                     break;
 
                 case EntityState.Modified:
                     entry.Entity.LastModifiedBy = _currentUserService.UserId;
-                    entry.Entity.LastModified = _dateTimeService.Now;
+                    entry.Entity.LastModified = _dateTimeProvider.Now;
                     break;
             }
         }

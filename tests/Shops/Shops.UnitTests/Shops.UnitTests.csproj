@@ -6,16 +6,13 @@
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
         <LangVersion>preview</LangVersion>
+        <AssemblyName>IGroceryStore.Shops.UnitTests</AssemblyName>
+        <RootNamespace>IGroceryStore.Shops.UnitTests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\src\Shops\Shops.Core\Shops.Core.csproj" />
       <ProjectReference Include="..\..\Shared\Shared.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-      <Compile Remove="Usings.cs" />
-      <Compile Remove="UnitTest1.cs" />
-    </ItemGroup>
-
+  
 </Project>

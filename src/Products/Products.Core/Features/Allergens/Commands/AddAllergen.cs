@@ -28,7 +28,7 @@ internal class AddAllergenHandler : IHttpCommandHandler<AddAllergen>
         _snowflakeService = snowflakeService;
     }
 
-    public async Task<IResult> HandleAsync(AddAllergen command, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(AddAllergen command, CancellationToken cancellationToken)
     {
         var allergen = new Allergen
         {

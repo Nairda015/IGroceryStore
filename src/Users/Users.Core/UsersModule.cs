@@ -3,11 +3,7 @@ using IGroceryStore.Shared;
 using IGroceryStore.Shared.Common;
 using IGroceryStore.Shared.Configuration;
 using IGroceryStore.Shared.Settings;
-using IGroceryStore.Users.Factories;
-using IGroceryStore.Users.JWT;
 using IGroceryStore.Users.Persistence.Contexts;
-using IGroceryStore.Users.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -25,27 +21,11 @@ public class UsersModule : IModule
     public void Register(IServiceCollection services, IConfiguration configuration)
     {
         services.RegisterHandlers<UsersModule>();
-        
-        services.AddSingleton<IUserFactory, UserFactory>();
-        services.AddScoped<ITokenManager, JwtTokenManager>();
-
-        services.AddAuthorization();
 
         var options = configuration.GetOptions<PostgresSettings>();
         services.AddDbContext<UsersDbContext>(ctx =>
             ctx.UseNpgsql(options.ConnectionString)
                 .EnableSensitiveDataLogging(options.EnableSensitiveData));
-        
-        var jwtSettings = configuration.GetOptions<JwtSettings>();
-        var authenticationBuilder = services.AddAuthentication(x =>
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(jwtBearerOptions =>
-                JwtSettings.Configure(jwtBearerOptions, Constants.Tokens.Audience.Access, jwtSettings))
-            .AddJwtBearer(Constants.Tokens.Audience.Refresh,
-                jwtBearerOptions => JwtSettings.Configure(jwtBearerOptions, Constants.Tokens.Audience.Refresh, jwtSettings));
     }
 
     public void Use(IApplicationBuilder app)
@@ -54,7 +34,7 @@ public class UsersModule : IModule
 
     public void Expose(IEndpointRouteBuilder endpoints)
     {
-        endpoints.MapGet($"/api/{Name.ToLower()}/health", () => $"{Name} module is healthy")
+        endpoints.MapGet($"/api/health/{Name.ToLower()}", () => $"{Name} module is healthy")
             .WithTags(Constants.SwaggerTags.HealthChecks);
 
         endpoints.RegisterEndpoints<UsersModule>();

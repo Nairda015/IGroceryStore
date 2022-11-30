@@ -1,11 +1,5 @@
 {
   "Users": {
-    "ModuleEnabled": false,
-    "JwtSettings": {
-      "Key": "foo",
-      "ExpireSeconds": 0,
-      "Issuer": "foo",
-      "ClockSkew": 0
-    }
+    "ModuleEnabled": false
   }
 }

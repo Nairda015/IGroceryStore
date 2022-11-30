@@ -27,7 +27,7 @@ internal class UpdateBrandHandler : IHttpCommandHandler<UpdateBrand>
         _productsDbContext = productsDbContext;
     }
 
-    public async Task<IResult> HandleAsync(UpdateBrand command, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(UpdateBrand command, CancellationToken cancellationToken)
     {
         var brand =
             await _productsDbContext.Brands

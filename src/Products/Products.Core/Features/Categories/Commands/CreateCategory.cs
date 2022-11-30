@@ -35,7 +35,7 @@ internal class CreateCategoryHandler : IHttpCommandHandler<CreateCategory>
         _snowFlakeService = snowFlakeService;
     }
 
-    public async Task<IResult> HandleAsync(CreateCategory command, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(CreateCategory command, CancellationToken cancellationToken)
     {
         var isExists = await _productsDbContext.Categories.AnyAsync(x => x.Name.Equals(command.Body.Name), cancellationToken);
 

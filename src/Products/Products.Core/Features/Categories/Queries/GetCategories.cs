@@ -26,7 +26,7 @@ internal class GetCategoriesHttpHandler : IHttpQueryHandler<GetCategories>
         _productsDbContext = productsDbContext;
     }
 
-    public async Task<IResult> HandleAsync(GetCategories query, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(GetCategories query, CancellationToken cancellationToken)
     {
         var categories = await _productsDbContext.Categories
             .Select(c => new CategoryReadModel(c.Id, c.Name))

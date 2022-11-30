@@ -1,3 +1,3 @@
 ﻿namespace IGroceryStore.Users.ValueObjects;
 
-public record RefreshToken(string UserAgent, string Value);
+internal sealed record RefreshToken(string Value, DateTime ExpiresAt, Guid Jti);

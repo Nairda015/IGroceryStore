@@ -1,135 +1,56 @@
-﻿using System.Net;
+﻿using System.Diagnostics;
+using System.Net;
 using IGroceryStore.Shared.Common;
 using IGroceryStore.Shared.Exceptions;
 using IGroceryStore.Shared.ValueObjects;
-using IGroceryStore.Users.Exceptions;
 using IGroceryStore.Users.Services;
 using IGroceryStore.Users.ValueObjects;
-using OneOf;
 
 namespace IGroceryStore.Users.Entities;
 
-public sealed class User : AuditableEntity
+internal sealed class User : AuditableEntity
 {
-    private User()
+    public User(PasswordHash passwordHash)
     {
-    }
-
-    internal User(UserId id,
-        FirstName firstName,
-        LastName lastName,
-        Email email,
-        PasswordHash passwordHash)
-    {
-        Id = id;
-        FirstName = firstName;
-        LastName = lastName;
-        Email = email;
-        _passwordHash = passwordHash;
-    }
-
-    private const int MaxLoginTry = 5;
-    private PasswordHash _passwordHash;
-    private List<RefreshToken> _refreshTokens = new();
-    private ushort _accessFailedCount;
-    private DateTime _lockoutEnd;
-    public UserId Id { get; }
-    public FirstName FirstName { get; private set; }
-    public LastName LastName { get; private set; }
-    public Email Email { get; private set; }
-    public bool TwoFactorEnabled { get; private set; }
-    public bool EmailConfirmed { get; private set; }
-    public bool LockoutEnabled { get; private set; }
-    private void UpdatePassword(string password, string oldPassword)
-    {
-        if (!HashingService.ValidatePassword(oldPassword, _passwordHash.Value))
-        {
-            _accessFailedCount++;
-            throw new IncorrectPasswordException();
-        }
-        _passwordHash = HashingService.HashPassword(password);
+        PasswordHash = passwordHash;
     }
     
-    private void UpdateEmail(string email)
-    {
-        Email = email;
-    }
+    public required UserId Id { get; init; }
+    public required FirstName FirstName { get; set; }
+    public required LastName LastName { get; set; }
+    public required Email Email { get; set; }
+    public PasswordHash PasswordHash { get; private set; }
+    public LoginMetadata LoginMetadata { get; init; } = new();
+    public TokenStore TokenStore { get; init; } = new();
+    public SecurityMetadata SecurityMetadata { get; init; } = new();
+    public Preferences Preferences { get; init; } = new();
     
-    private void ConfirmEmail()
+    public bool UpdatePassword(string password, string oldPassword)
     {
-        EmailConfirmed = true;
-    }
-
-    internal bool EnableTwoTwoFactor()
-    {
-        TwoFactorEnabled = true;
-        throw new NotImplementedException();
-        return true;
-    }
-
-    private void Lock()
-    {
-        LockoutEnabled = true;
-        _lockoutEnd = DateTime.UtcNow.AddMinutes(5);
-    }
-    
-    private void Unlock()
-    {
-        LockoutEnabled = false;
-        _accessFailedCount = 0;
-    }
-
-    private bool TryUnlock()
-    {
-        if (_lockoutEnd > DateTime.UtcNow) return false;
-        Unlock();
-        return true;
-    }
-
-    internal OneOf<bool, LoggingTriesExceededException> Login(string password)
-    {
-        if (!TryUnlock()) return new LoggingTriesExceededException(MaxLoginTry);
+        if (!HashingService.ValidatePassword(oldPassword, PasswordHash.Value)) return false;
         
-        if (!HashingService.ValidatePassword(password, _passwordHash.Value))
-        {
-            _accessFailedCount++;
-            return false;
-        }
-        if (_accessFailedCount <= MaxLoginTry) return true;
-        Lock();
+        PasswordHash = HashingService.HashPassword(password);
+        return true;
+    }
+    public bool IsPasswordCorrect(string password)
+    {
+        if (IsLocked()) throw new UnreachableException(
+            "This should be checked before",
+            new LoggingTriesExceededException());
+        
+        if (HashingService.ValidatePassword(password, PasswordHash.Value)) return true;
+        LoginMetadata.ReportLoginFailure();
         return false;
     }
-
-    internal void AddRefreshToken(RefreshToken refreshToken)
-    {
-        _refreshTokens.Add(refreshToken);
-    }
-
-    public bool TokenExist(RefreshToken refreshToken)
-        => _refreshTokens.Exists(x => x.Equals(refreshToken));
-    public bool TokenExist(string token)
-        => _refreshTokens.Exists(x => x.Value == token);
     
-    public void UpdateRefreshToken(string oldTokenValue, string newTokenValue)
-    {
-        var token = _refreshTokens.First(x => x.Value == oldTokenValue);
-        var newToken = token with {Value = newTokenValue};
-        _refreshTokens.RemoveAll(x => x.Value == oldTokenValue);
-        _refreshTokens.Add(newToken);
-    }
-
-    public void TryRemoveOldRefreshToken(string userAgent)
-    {
-        if (!_refreshTokens.Exists(x => x.UserAgent == userAgent)) return;
-        _refreshTokens.RemoveAll(x => x.UserAgent == userAgent);
-    }
+    public bool IsLocked() => LoginMetadata.IsLocked;
 }
 
 internal class LoggingTriesExceededException : GroceryStoreException
 {
-    public LoggingTriesExceededException(int maxLoginTry) : base("Try again after 5 min")
+    public LoggingTriesExceededException() : base("Try again after 5 min")
     {
     }
 
-    public override HttpStatusCode StatusCode => HttpStatusCode.Forbidden;
+    public override HttpStatusCode StatusCode => HttpStatusCode.BadRequest;
 }

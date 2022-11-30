@@ -15,10 +15,8 @@ internal record AddProductsToBasket(AddProductsToBasket.AddProductsToBasketBody 
 public class AddProductsToBasketEndpoint : IEndpoint
 {
     public void RegisterEndpoint(IGroceryStoreRouteBuilder builder) =>
-        builder.Baskets.MapPut<AddProductsToBasket, AddProductsToBasketHandler>("{basketId}/{productId}")
-            .Produces<IWriteResult>();
+        builder.Baskets.MapPut<AddProductsToBasket, AddProductsToBasketHandler>("add-products-to-basket");
 }
-
 
 internal class AddProductsToBasketHandler : IHttpCommandHandler<AddProductsToBasket>
 {

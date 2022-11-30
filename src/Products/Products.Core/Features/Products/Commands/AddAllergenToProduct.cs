@@ -26,7 +26,7 @@ internal class AddAllergenToProductHandler : IHttpCommandHandler<AddAllergenToPr
         _productsDbContext = productsDbContext;
     }
 
-    public async Task<IResult> HandleAsync(AddAllergenToProduct command, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(AddAllergenToProduct command, CancellationToken cancellationToken)
     {
         var (productId, allergenId) = command.Body;
         var product =

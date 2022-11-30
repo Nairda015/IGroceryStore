@@ -1,11 +1,9 @@
-using System.Diagnostics;
+using IGroceryStore.Shared.Settings;
 using MassTransit;
-using OpenTelemetry;
-using OpenTelemetry.Trace;
 
-namespace IGroceryStore.API;
+namespace IGroceryStore.API.Configuration;
 
-public static class Extensions
+public static class MassTransitConfiguration
 {
     static bool? _isRunningInContainer;
 
@@ -29,22 +27,23 @@ public static class Extensions
             cfg.ConfigureEndpoints(context);
         });
     }
-    
-    public static TracerProviderBuilder AddJaeger(this TracerProviderBuilder builder)
+
+    public static void ConfigureMassTransit(this WebApplicationBuilder builder)
     {
-        return builder.AddJaegerExporter(o =>
+        var rabbitSettings = builder.Configuration.GetOptions<RabbitSettings>();
+        builder.Services.AddMassTransit(bus =>
         {
-            o.AgentHost = /*Extensions.IsRunningInContainer ? "jaeger" : */"localhost";
-            o.AgentPort = 6831;
-            o.MaxPayloadSizeInBytes = 4096;
-            o.ExportProcessorType = ExportProcessorType.Batch;
-            o.BatchExportProcessorOptions = new BatchExportProcessorOptions<Activity>
+            bus.SetKebabCaseEndpointNameFormatter();
+            bus.UsingRabbitMq((ctx, cfg) =>
             {
-                MaxQueueSize = 2048,
-                ScheduledDelayMilliseconds = 5000,
-                ExporterTimeoutMilliseconds = 30000,
-                MaxExportBatchSize = 512,
-            };
+                cfg.Host(rabbitSettings.Host, rabbitSettings.VirtualHost, h =>
+                {
+                    h.Username(rabbitSettings.Username);
+                    h.Password(rabbitSettings.Password);
+                });
+
+                cfg.ConfigureEndpoints(ctx);
+            });
         });
     }
 }

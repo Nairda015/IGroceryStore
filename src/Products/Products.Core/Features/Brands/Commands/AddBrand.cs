@@ -33,7 +33,7 @@ internal class AddBrandHandler : IHttpCommandHandler<AddBrand>
         _snowflakeService = snowflakeService;
     }
 
-    public async Task<IResult> HandleAsync(AddBrand command, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(AddBrand command, CancellationToken cancellationToken)
     {
         var alreadyExists = await _productsDbContext.Brands.AnyAsync(b => b.Name.Equals(command.Body.Name), cancellationToken);
 

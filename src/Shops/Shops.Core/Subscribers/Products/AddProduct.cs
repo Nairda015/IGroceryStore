@@ -12,15 +12,15 @@ public class AddProduct : IConsumer<ProductAdded>
 {
     private readonly ILogger<AddProduct> _logger;
     private readonly IProductsRepository _productsRepository;
-    private readonly DateTimeService _dateTimeService;
+    private readonly IDateTimeProvider _dateTimeProvider;
 
     public AddProduct(ILogger<AddProduct> logger,
         IProductsRepository productsRepository,
-        DateTimeService dateTimeService)
+        IDateTimeProvider dateTimeProvider)
     {
         _logger = logger;
         _productsRepository = productsRepository;
-        _dateTimeService = dateTimeService;
+        _dateTimeProvider = dateTimeProvider;
     }
 
     public async Task Consume(ConsumeContext<ProductAdded> context)
@@ -31,7 +31,7 @@ public class AddProduct : IConsumer<ProductAdded>
         {
             Id = productId,
             Name = name,
-            LastUpdated = _dateTimeService.NowDateOnly
+            LastUpdated = _dateTimeProvider.NowDateOnly
         };
         
         var result = await _productsRepository.AddAsync(product, context.CancellationToken);

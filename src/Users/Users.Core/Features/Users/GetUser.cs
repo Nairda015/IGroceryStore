@@ -31,7 +31,7 @@ internal class GetUserHttpHandler : IHttpQueryHandler<GetUser>
         _dbContext = dbContext;
     }
 
-    public async Task<IResult> HandleAsync(GetUser query, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(GetUser query, CancellationToken cancellationToken)
     {
         var user = await _dbContext.Users
             .FirstOrDefaultAsync(x => x.Id == new UserId(query.Id), cancellationToken);

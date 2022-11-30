@@ -28,7 +28,7 @@ foreach (var module in modules)
 }
 
 //Services
-builder.Services.AddSingleton<DateTimeService>();
+builder.Services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
 //Messaging
 var rabbitSettings = builder.Configuration.GetOptions<RabbitSettings>();

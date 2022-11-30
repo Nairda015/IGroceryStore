@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Text.Json;
 using IGroceryStore.Shared.Exceptions;
 
@@ -17,6 +18,29 @@ internal sealed class ExceptionMiddleware : IMiddleware
         try
         {
             await next(context);
+        }
+        catch (UnreachableException ex)
+        {
+            context.Response.StatusCode = 500;
+            context.Response.Headers.Add("content-type", "application/json");
+
+            if (ex.InnerException is null)
+            {
+                var json = JsonSerializer.Serialize(new
+                {
+                    ErrorCode = nameof(UnreachableException), 
+                    Message = "Something went wrong. Please contact support."
+                });
+                await context.Response.WriteAsync(json);
+            }
+            else
+            {
+                var errorCode = ToUnderscoreCase(ex.InnerException.GetType().Name.Replace("Exception", string.Empty));
+                var json = JsonSerializer.Serialize(new { ErrorCode = errorCode, ex.InnerException.Message });
+                await context.Response.WriteAsync(json);
+            }
+
+            _logger.LogCritical(ex, "UnreachableException Message: {Message}",  ex.Message);
         }
         catch (GroceryStoreException ex)
         {
@@ -61,7 +85,7 @@ internal sealed class ExceptionMiddleware : IMiddleware
             var json = JsonSerializer.Serialize(new {ErrorCode = errorCode, ex.Message});
             await context.Response.WriteAsync(json);
             
-            _logger.LogCritical(ex, "{error} Message: {message}", ex.GetType().Name, ex.Message);
+            _logger.LogCritical(ex, "{Exception} Message: {Message}", ex.GetType().Name, ex.Message);
         }
     }
     private static string ToUnderscoreCase(string value)

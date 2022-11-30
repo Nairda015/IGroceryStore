@@ -23,7 +23,7 @@ internal class GetCountriesHttpHandler : IHttpQueryHandler<GetCountries>
         _productsDbContext = productsDbContext;
     }
 
-    public async Task<IResult> HandleAsync(GetCountries query, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(GetCountries query, CancellationToken cancellationToken)
     {
         var countries = await _productsDbContext.Countries
             .Select(c => new CountryReadModel(c.Id, c.Name, c.Code))

@@ -28,7 +28,7 @@ internal class GetUsersHandler : IHttpQueryHandler<GetUsers>
         _dbContext = dbContext;
     }
 
-    public async Task<IResult> HandleAsync(GetUsers query, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(GetUsers query, CancellationToken cancellationToken)
     {
         var users = await _dbContext.Users
             .Select(x => new UserReadModel(x.Id, x.FirstName, x.LastName, x.Email))

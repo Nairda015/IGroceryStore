@@ -41,7 +41,7 @@ public class ShopsModule : IModule
 
         services.AddSingleton<IUsersRepository, UsersRepository>();
         services.AddSingleton<IProductsRepository, ProductsRepository>();
-        //services.AddScoped<MigrateTableHandler>();
+        services.AddSingleton<IShopsRepository, ShopsRepository>();
     }
 
     public void Use(IApplicationBuilder app)
@@ -50,29 +50,9 @@ public class ShopsModule : IModule
 
     public void Expose(IEndpointRouteBuilder endpoints)
     {
-        endpoints.MapGet($"/api/{Name.ToLower()}/health", () => $"{Name} module is healthy")
+        endpoints.MapGet($"/api/health/{Name.ToLower()}", () => $"{Name} module is healthy")
             .WithTags(Constants.SwaggerTags.HealthChecks);
 
         endpoints.RegisterEndpoints<ShopsModule>();
     }
 }
-
-// public static class Temp
-// {
-//     public static void RegisterEndpoints2<T>(this IGroceryStoreRouteBuilder endpoints)
-//         where T : class, IModule
-//     {
-//         var assembly = Assembly.GetAssembly(typeof(T));
-//         var moduleEndpoints = assembly!
-//             .GetTypes()
-//             .Where(x => typeof(IEndpoint2).IsAssignableFrom(x) && x.IsClass)
-//             .OrderBy(x => x.Name)
-//             .Select(Activator.CreateInstance)
-//             .Cast<IEndpoint2>()
-//             .ToList();
-//         
-//         Console.Write(string.Join(' ', moduleEndpoints.Select(x => x.GetType().FullName)));
-//         
-//         moduleEndpoints.ForEach(x => x.RegisterEndpoint(endpoints));
-//     }
-// }

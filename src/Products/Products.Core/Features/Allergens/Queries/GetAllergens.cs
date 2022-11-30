@@ -24,7 +24,7 @@ internal class GetAllergensHttpHandler : IHttpQueryHandler<GetAllergens>
     }
 
     public async Task<IResult> HandleAsync(GetAllergens query,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken)
     {
         var allergens =  await _context.Allergens
             .Select(x => new AllergenReadModel(x.Id, x.Name))

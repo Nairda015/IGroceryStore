@@ -8,6 +8,7 @@
     <RootNamespace>IGroceryStore.API</RootNamespace>
     <LangVersion>preview</LangVersion>
     <AssemblyName>IGroceryStore.API</AssemblyName>
+    <UserSecretsId>f57debf8-2b9a-43cc-b82a-3b5be9176885</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,10 +26,10 @@
     <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.0.0-rc9.9" />
     <PackageReference Include="OpenTelemetry.Instrumentation.EntityFrameworkCore" Version="1.0.0-beta.3" />
     <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.0.0-rc9.9" />
-    <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.0.0" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.1.0-beta.1" />
     <PackageReference Include="OpenTelemetry.Instrumentation.SqlClient" Version="1.0.0-rc9.9" />
     <PackageReference Include="Serilog" Version="2.12.1-dev-01587" />
-    <PackageReference Include="Serilog.AspNetCore" Version="6.1.0-dev-00285" />
+    <PackageReference Include="Serilog.AspNetCore" Version="6.1.0-dev-00289" />
     <PackageReference Include="Serilog.Enrichers.Environment" Version="2.2.1-dev-00787" />
     <PackageReference Include="Serilog.Settings.Configuration" Version="3.5.0-dev-00359" />
     <PackageReference Include="Serilog.Sinks.Console" Version="4.1.1-dev-00896" />

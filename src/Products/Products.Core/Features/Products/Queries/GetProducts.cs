@@ -25,7 +25,7 @@ internal class GetProductsHandler : IHttpQueryHandler<GetProducts>
         _productsDbContext = productsDbContext;
     }
 
-    public async Task<IResult> HandleAsync(GetProducts query, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(GetProducts query, CancellationToken cancellationToken)
     {
         var (pageNumber, pageSize, categoryId) = query;
         var products = _productsDbContext.Products

@@ -23,7 +23,7 @@ internal class GetBrandsHttpHandler : IHttpQueryHandler<GetBrands>
         _productsDbContext = productsDbContext;
     }
 
-    public async Task<IResult> HandleAsync(GetBrands query, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(GetBrands query, CancellationToken cancellationToken)
     {
         var brands = await _productsDbContext.Brands
             .Select(c => new BrandReadModel(c.Id, c.Name))

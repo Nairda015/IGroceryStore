@@ -2,7 +2,6 @@
 using IGroceryStore.Shared.Common;
 using IGroceryStore.Shared.Services;
 using IGroceryStore.Users.Entities;
-using IGroceryStore.Users.Persistence.Seeders;
 using Microsoft.EntityFrameworkCore;
 
 namespace IGroceryStore.Users.Persistence.Contexts;
@@ -10,15 +9,15 @@ namespace IGroceryStore.Users.Persistence.Contexts;
 internal class UsersDbContext : DbContext
 {
     private readonly ICurrentUserService _currentUserService;
-    private readonly DateTimeService _dateTimeService;
+    private readonly IDateTimeProvider _dateTimeProvider;
     
     public UsersDbContext(DbContextOptions<UsersDbContext> options, 
         ICurrentUserService currentUserService,
-        DateTimeService dateTimeService)
+        IDateTimeProvider dateTimeProvider)
         : base(options)
     {
         _currentUserService = currentUserService;
-        _dateTimeService = dateTimeService;
+        _dateTimeProvider = dateTimeProvider;
     }
 
     public DbSet<User> Users => Set<User>();
@@ -31,12 +30,12 @@ internal class UsersDbContext : DbContext
             {
                 case EntityState.Added:
                     entry.Entity.CreatedBy = _currentUserService.UserId;
-                    entry.Entity.Created = _dateTimeService.Now;
+                    entry.Entity.Created = _dateTimeProvider.Now;
                     break;
 
                 case EntityState.Modified:
                     entry.Entity.LastModifiedBy = _currentUserService.UserId;
-                    entry.Entity.LastModified = _dateTimeService.Now;
+                    entry.Entity.LastModified = _dateTimeProvider.Now;
                     break;
             }
         }
@@ -51,10 +50,5 @@ internal class UsersDbContext : DbContext
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
         base.OnModelCreating(builder);
-    }
-
-    public async Task Seed()
-    {
-        await this.SeedSampleDataAsync();
     }
 }

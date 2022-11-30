@@ -44,7 +44,7 @@ internal class CreateProductHandler : IHttpCommandHandler<CreateProduct>
         _snowflakeService = snowflakeService;
     }
 
-    public async Task<IResult> HandleAsync(CreateProduct command, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(CreateProduct command, CancellationToken cancellationToken)
     {
         var (name, quantityReadModel, brandId, countryId, categoryId, description) = command.Body;
         var categoryName = await _productsDbContext.Categories

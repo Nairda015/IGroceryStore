@@ -40,7 +40,7 @@ internal class CreateProductHandler : IHttpCommandHandler<ReportCurrentPrice>
         _logger = logger;
     }
 
-    public async Task<IResult> HandleAsync(ReportCurrentPrice command, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(ReportCurrentPrice command, CancellationToken cancellationToken)
     {
         //from ui user will click on map and select shop
         var (shopChainId, shopId, productId, price) = command.Body;

@@ -6,6 +6,7 @@ using IGroceryStore.Shared;
 using IGroceryStore.Shared.Tests.Auth;
 using IGroceryStore.Users.ReadModels;
 using Microsoft.AspNetCore.TestHost;
+using Microsoft.IdentityModel.JsonWebTokens;
 
 namespace IGroceryStore.Users.IntegrationTests.Users;
 
@@ -27,7 +28,7 @@ public class GetUserTests : IAsyncLifetime
                     services.RegisterUser(new[]
                     {
                         new Claim(Constants.Claims.Name.UserId, "1"),
-                        new Claim(Constants.Claims.Name.Expire,
+                        new Claim(JwtRegisteredClaimNames.Exp,
                             DateTimeOffset.UtcNow.AddSeconds(2137).ToUnixTimeSeconds().ToString())
                     });
                 })); // override authorized user;

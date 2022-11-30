@@ -26,7 +26,7 @@ internal class GetBrandHttpHandler : IHttpQueryHandler<GetBrand>
         _productsDbContext = productsDbContext;
     }
 
-    public async Task<IResult> HandleAsync(GetBrand query, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(GetBrand query, CancellationToken cancellationToken)
     {
         var brand = await _productsDbContext.Brands
             .FirstOrDefaultAsync(x => x.Id == query.id, cancellationToken);

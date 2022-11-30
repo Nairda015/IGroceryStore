@@ -22,7 +22,7 @@ internal class FindSimilarHttpHandler : IHttpQueryHandler<FindSimilar>
         _context = context;
     }
 
-    public Task<IResult> HandleAsync(FindSimilar query, CancellationToken cancellationToken = default)
+    public Task<IResult> HandleAsync(FindSimilar query, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }

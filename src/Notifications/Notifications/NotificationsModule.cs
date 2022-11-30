@@ -26,7 +26,7 @@ public class NotificationsModule : IModule
 
     public void Expose(IEndpointRouteBuilder endpoints)
     {
-        endpoints.MapGet($"/api/{Name.ToLower()}/health", () => $"{Name} module is healthy")
+        endpoints.MapGet($"/api/health/{Name.ToLower()}", () => $"{Name} module is healthy")
             .WithTags(Constants.SwaggerTags.HealthChecks);
         
         endpoints.RegisterEndpoints<NotificationsModule>();

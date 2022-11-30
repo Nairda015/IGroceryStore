@@ -25,7 +25,7 @@ internal class DeleteCategoryHandler : IHttpCommandHandler<DeleteCategory>
         _productsDbContext = productsDbContext;
     }
 
-    public async Task<IResult> HandleAsync(DeleteCategory command, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(DeleteCategory command, CancellationToken cancellationToken)
     {
         var category =
             await _productsDbContext.Categories.FirstOrDefaultAsync(x => x.Id.Equals(command.Id), cancellationToken);

@@ -35,7 +35,7 @@ internal class UpdateCategoryHandler : IHttpCommandHandler<UpdateCategory>
         _bus = bus;
     }
 
-    public async Task<IResult> HandleAsync(UpdateCategory command, CancellationToken cancellationToken = default)
+    public async Task<IResult> HandleAsync(UpdateCategory command, CancellationToken cancellationToken)
     {
         var category =
             await _productsDbContext.Categories
