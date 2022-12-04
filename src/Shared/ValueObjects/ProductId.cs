@@ -14,5 +14,4 @@ public record ProductId
     
     public static implicit operator ulong(ProductId id) => id.Value;
     public static implicit operator ProductId(ulong id) => new(id);
-    
 }

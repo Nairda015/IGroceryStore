@@ -1,5 +1,9 @@
 {
   "Products": {
     "ModuleEnabled": false
+  },
+  "Postgres": {
+    "ConnectionString": "foo",
+    "EnableSensitiveData": false
   }
 }

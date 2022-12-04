@@ -1,8 +1,9 @@
 ﻿using System.Reflection;
 using IGroceryStore.Shared.Configuration;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace IGroceryStore.API.Initializers;
+namespace IGroceryStore.Products.Persistence;
 
 internal sealed class PostgresInitializer
 {

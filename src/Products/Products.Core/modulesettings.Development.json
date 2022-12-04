@@ -1,5 +1,9 @@
 {
   "Products": {
     "ModuleEnabled": true
+  },
+  "Postgres": {
+    "ConnectionString": "User ID = postgres; Password = admin; Server = localhost; Port = 5432; Database = IGroceryStoreDb; Integrated Security = true; Pooling = true;",
+    "EnableSensitiveData": true
   }
 }

@@ -1,5 +1,5 @@
 ﻿using IGroceryStore.Baskets.Entities;
-using IGroceryStore.Users.Contracts.Events;
+using IGroceryStore.Shared.Contracts;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using MongoDB.Driver;

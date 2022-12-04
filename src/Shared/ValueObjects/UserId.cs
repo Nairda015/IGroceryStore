@@ -4,7 +4,6 @@ namespace IGroceryStore.Shared.ValueObjects;
 
 public record UserId
 {
-    
     public UserId()
     {
     }
@@ -18,5 +17,4 @@ public record UserId
     
     public static implicit operator Guid(UserId id) => id.Value;
     public static implicit operator UserId(Guid id) => new(id);
-    
 }

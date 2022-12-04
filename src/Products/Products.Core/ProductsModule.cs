@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using IGroceryStore.Products.Persistence;
 using IGroceryStore.Products.Persistence.Contexts;
 using IGroceryStore.Shared;
 using IGroceryStore.Shared.Common;
@@ -21,7 +22,9 @@ public class ProductsModule : IModule
     public void Register(IServiceCollection services, IConfiguration configuration)
     {
         services.RegisterHandlers<ProductsModule>();
-        
+        services.AddSingleton<PostgresInitializer>();
+        System.AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
         var options = configuration.GetOptions<PostgresSettings>();
         services.AddDbContext<ProductsDbContext>(ctx =>
             ctx.UseNpgsql(options.ConnectionString)

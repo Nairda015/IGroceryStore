@@ -13,3 +13,6 @@ public sealed class DateTimeProvider : IDateTimeProvider
     public DateOnly NowDateOnly => DateOnly.FromDateTime(DateTime.UtcNow);
     public TimeOnly NowTimeOnly => TimeOnly.FromDateTime(DateTime.UtcNow);
 }
+
+public delegate DateTime UtcNow();
+public delegate DateOnly DateOnlyUtcNot();

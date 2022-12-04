@@ -1,7 +1,7 @@
+using IGroceryStore.Shared.Contracts;
 using IGroceryStore.Shops.Exceptions;
 using IGroceryStore.Shops.Repositories;
 using IGroceryStore.Shops.Repositories.Contracts;
-using IGroceryStore.Users.Contracts.Events;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 

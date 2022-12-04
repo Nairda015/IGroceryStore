@@ -1,6 +1,5 @@
 using FluentValidation;
 using IGroceryStore.API.Configuration;
-using IGroceryStore.API.Initializers;
 using IGroceryStore.API.Middlewares;
 using IGroceryStore.Shared;
 using IGroceryStore.Shared.Services;
@@ -28,7 +27,6 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 builder.Services.AddSingleton<ICurrentUserService, CurrentUserService>();
 builder.Services.AddScoped<ISnowflakeService, SnowflakeService>();
-builder.Services.AddSingleton<PostgresInitializer>();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -39,7 +37,6 @@ builder.Services.AddValidatorsFromAssemblies(moduleAssemblies, includeInternalTy
 var app = builder.Build();
 //**********************************//
 
-System.AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 app.UseSwagger();
 
 if (app.Environment.IsDevelopment())

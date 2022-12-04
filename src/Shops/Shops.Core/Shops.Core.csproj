@@ -18,12 +18,13 @@
     <ProjectReference Include="..\Shops.Contracts\Shops.Contracts.csproj" />
     <ProjectReference Include="..\..\Users\Users.Contracts\Users.Contracts.csproj" />
     <ProjectReference Include="..\..\Products\Products.Contracts\Products.Contracts.csproj" />
-    <ProjectReference Include="..\..\Shared\Shared\Shared.csproj" />
+    <ProjectReference Include="..\..\Shared\Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.100.25" />
     <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.7.2" />
+    <PackageReference Include="AWSSDK.SQS" Version="3.7.100.27" />
   </ItemGroup>
 
 </Project>
