@@ -11,13 +11,13 @@ namespace IGroceryStore.Shared.Tests.Auth
         {
             services.AddAuthorization(options =>
             {
-                options.DefaultPolicy = new AuthorizationPolicyBuilder(AuthConstants.Scheme)
+                options.DefaultPolicy = new AuthorizationPolicyBuilder(TestConstants.Auth.Scheme)
                     .RequireAuthenticatedUser()
                     .Build();
             });
 
-            services.AddAuthentication(AuthConstants.Scheme)
-                .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>(AuthConstants.Scheme, options => { });
+            services.AddAuthentication(TestConstants.Auth.Scheme)
+                .AddScheme<AuthenticationSchemeOptions, TestAuthHandler>(TestConstants.Auth.Scheme, options => { });
 
             return services;
         }

@@ -24,7 +24,7 @@ services:
   postgres:
     image: postgres:latest
     container_name: postgres
-    profiles: [ "all", "webapi", "users", "products" ]
+    profiles: [ "all", "webapi", "products" ]
     volumes:
       - ../volumes/postgres:/var/lib/postgresql/data
     environment:
@@ -74,7 +74,7 @@ services:
     ports:
       - 8000:8000
     volumes:
-      - ./docker/dynamodb:/home/dynamodblocal/data
+      - ../volumes/dynamodb:/home/dynamodblocal/data
     working_dir: /home/dynamodblocal
     
 # observability    

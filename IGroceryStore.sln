@@ -49,12 +49,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Products.UnitTests", "tests
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shops.UnitTests", "tests\Shops\Shops.UnitTests\Shops.UnitTests.csproj", "{5F1ACEEE-21C2-4F25-AC1E-B7FE4C5BF2D9}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "requests", "requests", "{02241B0B-8C92-40C1-A3AC-F7AC27EDD788}"
-	ProjectSection(SolutionItems) = preProject
-		requests\brands.http = requests\brands.http
-		requests\users.http = requests\users.http
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notifications", "Notifications", "{C3809CC7-0AF9-4D56-B1AB-EA0E098B0ECF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notifications", "src\Notifications\Notifications\Notifications.csproj", "{7F1E1F0D-2006-42D0-8AC0-72E40FD709B6}"

@@ -26,9 +26,9 @@ namespace IGroceryStore.Shared.Tests.Auth
             if (_mockAuthUser.Claims.Count == 0)
                 return Task.FromResult(AuthenticateResult.Fail("Mock auth user not configured."));
 
-            var identity = new ClaimsIdentity(_mockAuthUser.Claims, AuthConstants.Scheme);
+            var identity = new ClaimsIdentity(_mockAuthUser.Claims, TestConstants.Auth.Scheme);
             var principal = new ClaimsPrincipal(identity);
-            var ticket = new AuthenticationTicket(principal, AuthConstants.Scheme);
+            var ticket = new AuthenticationTicket(principal, TestConstants.Auth.Scheme);
 
             var result = AuthenticateResult.Success(ticket);
             return Task.FromResult(result);

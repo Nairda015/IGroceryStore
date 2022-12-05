@@ -32,7 +32,6 @@ public static class AuthenticationConfiguration
             o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
         }).AddJwtBearer(o =>
         {
-            //Is this validated automatically by asp.net core?
             o.Authority = options.ValidIssuer;
             o.Audience = options.ValidAudience;
         });

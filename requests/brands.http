@@ -1,6 +1,0 @@
-PUT http://localhost:5000/api/brands/1
-Content-Type: application/json
-{
-    "name" : "updated-name"
-}
-
