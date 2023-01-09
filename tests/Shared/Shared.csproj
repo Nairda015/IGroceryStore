@@ -20,7 +20,7 @@
     <PackageReference Include="Serilog.AspNetCore" Version="6.1.0-dev-00285" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.1-dev-00947" />
     <PackageReference Include="Testcontainers" Version="2.2.0" />
-    <PackageReference Include="Verify.Xunit" Version="19.1.0" />
+    <PackageReference Include="Verify.Xunit" Version="19.6.0" />
     <PackageReference Include="xunit" Version="2.4.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
