@@ -5,18 +5,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using IGroceryStore.Products.Entities;
+using IGroceryStore.Shared.Common;
 
 namespace IGroceryStore.Products.ValueObjects
 {
     internal sealed class AllergenCollection : IEnumerable<Allergen>, IEquatable<AllergenCollection>
     {
-        private ISet<Allergen> _allergens;
+        private HashSet<Allergen> _allergens;
+        private int? _hashCode;
         public static AllergenCollection Empty => new(Enumerable.Empty<Allergen>());
 
         public IReadOnlySet<Allergen> Allergens
         {
-            get { return (IReadOnlySet<Allergen>)_allergens; }
-            private set { _allergens = (ISet<Allergen>)value; }
+            get { return _allergens.AsReadOnly(); }
+            private set { _allergens = value.ToHashSet(); }
         }
 
         public AllergenCollection(IEnumerable<Allergen> allergens)
@@ -24,42 +26,31 @@ namespace IGroceryStore.Products.ValueObjects
             _allergens = allergens.ToHashSet();
         }
 
-        public bool Equals(AllergenCollection? other)
-        {
-            if (other == null) return false;
+        public bool Equals(AllergenCollection? other) => 
+            other != null && _allergens.SetEquals(other!._allergens);
 
-            return _allergens.SetEquals(other!._allergens);
-        }
-
-        public override bool Equals(object? other)
-        {
-            return Equals(other as AllergenCollection);
-        }
-        public IEnumerator<Allergen> GetEnumerator()
-        {
-            return _allergens.GetEnumerator();
-        }
+        public override bool Equals(object? other) => 
+            Equals(other as AllergenCollection);
+        public IEnumerator<Allergen> GetEnumerator() => 
+            _allergens.GetEnumerator();
         public override int GetHashCode()
         {
-            return _allergens.Select(x => x != null ? x.GetHashCode() : 0).Aggregate((x, y) => x ^ y);
+            if (_hashCode != null) return _hashCode.Value;
+
+            var hashCode = new HashCode();
+            foreach(var allergen in _allergens)
+            {
+                hashCode.Add(allergen.GetHashCode());
+            }
+
+            return _hashCode ??= hashCode.ToHashCode();
         }
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-        public static bool operator ==(AllergenCollection? left, AllergenCollection? right)
-        {
-            return left != null && left.Equals(right);
-        }
-        public static bool operator !=(AllergenCollection? left, AllergenCollection? right)
-        {
-            return left == null || !left.Equals(right);
-        }
-        public void Add(Allergen allergen)
-        {
-            var allergens = Allergens.ToHashSet();
-            allergens.Add(allergen);
-            Allergens = allergens;
-        }
+        
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        public static bool operator ==(AllergenCollection? left, AllergenCollection? right) =>
+            left != null && left.Equals(right);
+        public static bool operator !=(AllergenCollection? left, AllergenCollection? right) =>
+            left == null || !left.Equals(right);
+        public void Add(Allergen allergen) => _allergens.Add(allergen);
     }
 }
