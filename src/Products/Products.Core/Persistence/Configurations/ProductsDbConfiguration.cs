@@ -4,6 +4,7 @@ using IGroceryStore.Products.ValueObjects;
 using IGroceryStore.Shared.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using static IGroceryStore.Products.Entities.Product;
 
 namespace IGroceryStore.Products.Persistence.Configurations;
 
@@ -48,7 +49,7 @@ internal sealed class ProductsDbConfiguration : IEntityTypeConfiguration<Product
             .IsRequired(false)
             .HasConversion(
                 x => JsonSerializer.Serialize(x, new JsonSerializerOptions()),
-                x => JsonSerializer.Deserialize<HashSet<Allergen>>(x, new JsonSerializerOptions()) ?? new HashSet<Allergen>());
+                x => JsonSerializer.Deserialize<AllergenCollection>(x, new JsonSerializerOptions()) ?? AllergenCollection.Empty);
         
         builder.HasOne(x => x.Brand)
             .WithMany()

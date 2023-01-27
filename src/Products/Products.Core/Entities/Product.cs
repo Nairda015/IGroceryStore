@@ -1,4 +1,6 @@
-﻿using IGroceryStore.Products.ValueObjects;
+﻿using System.Collections;
+using System.Collections.Immutable;
+using IGroceryStore.Products.ValueObjects;
 using IGroceryStore.Shared.Common;
 using IGroceryStore.Shared.ValueObjects;
 
@@ -20,7 +22,11 @@ internal class Product : AuditableEntity
     public Brand Brand { get; set; }
     public CategoryId CategoryId { get; set; }
     public Category Category { get; set; }
-    public HashSet<Allergen> Allergens { get; private set; } = new();
+    public AllergenCollection Allergens { get; set; }
+
+    internal Product()
+    {
+    }
     
     public void MarkAsObsolete()
     {
@@ -29,7 +35,6 @@ internal class Product : AuditableEntity
     
     public void AddAllergen(Allergen allergen)
     {
-        if (Allergens.Contains(allergen)) return;
         Allergens.Add(allergen);
     }
 }
