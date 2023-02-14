@@ -15,7 +15,7 @@
 
     <ItemGroup>
       <PackageReference Include="Bogus" Version="34.0.2" />
-      <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.3.0" />
+      <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.5.0" />
       <PackageReference Include="IdGen" Version="3.0.2" />
       <PackageReference Include="MassTransit" Version="8.0.9-develop.663" />
       <PackageReference Include="MassTransit.AspNetCore" Version="7.3.1" />
