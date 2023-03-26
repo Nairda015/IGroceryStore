@@ -19,10 +19,4 @@
       <Folder Include="Tokens" />
     </ItemGroup>
 
-    <ItemGroup>
-      <None Update="Users\RegisterTests.Register_CreatesUser_WhenDataIsValid.verified.txt">
-        <DependentUpon>RegisterTests.cs</DependentUpon>
-      </None>
-    </ItemGroup>
-
 </Project>
