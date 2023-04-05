@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using FluentValidation;
 using IGroceryStore.Shared;
 using IGroceryStore.Shared.Common;
 using IGroceryStore.Shared.Configuration;
@@ -24,8 +25,9 @@ public class UsersModule : IModule
 
     public void Register(IServiceCollection services, IConfiguration configuration)
     {
+        services.AddValidatorsFromAssemblyContaining<UsersModule>(ServiceLifetime.Scoped, null, includeInternalTypes: true);
         services.RegisterHandlers<UsersModule>();
-        
+
         services.AddSingleton<IUserFactory, UserFactory>();
         services.AddScoped<ITokenManager, JwtTokenManager>();
 
@@ -35,7 +37,7 @@ public class UsersModule : IModule
         services.AddDbContext<UsersDbContext>(ctx =>
             ctx.UseNpgsql(options.ConnectionString)
                 .EnableSensitiveDataLogging(options.EnableSensitiveData));
-        
+
         var jwtSettings = configuration.GetOptions<JwtSettings>();
         var authenticationBuilder = services.AddAuthentication(x =>
             {
