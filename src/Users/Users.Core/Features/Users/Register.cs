@@ -55,35 +55,44 @@ internal class RegisterHandler : IHttpCommandHandler<Register>
         await _context.Users.AddAsync(user, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
         await _bus.Publish(new UserCreated(user.Id, firstName, lastName), cancellationToken: cancellationToken);
-        return Results.AcceptedAtRoute(nameof(GetUser),new {Id = user.Id.Value});
+        return Results.AcceptedAtRoute(nameof(GetUser), new { Id = user.Id.Value });
     }
 }
 
 internal class CreateProductValidator : AbstractValidator<Register>
 {
-    public CreateProductValidator(UsersDbContext usersDbContext)
+    public CreateProductValidator(IValidator<Register.RegisterBody> bodyValidator)
     {
-        RuleFor(x => x.Body.Password)
+        RuleFor(x => x.Body)
+            .SetValidator(bodyValidator);
+    }
+}
+
+internal class RegisterBodyValidator : AbstractValidator<Register.RegisterBody>
+{
+    public RegisterBodyValidator(UsersDbContext usersDbContext)
+    {
+        RuleFor(x => x.Password)
             .NotEmpty()
             .MinimumLength(8);
 
-        RuleFor(x => x.Body.ConfirmPassword)
-            .Equal(x => x.Body.Password);
+        RuleFor(x => x.ConfirmPassword)
+            .Equal(x => x.Password);
 
-        RuleFor(x => x.Body.Email)
+        RuleFor(x => x.Email)
             .NotEmpty()
             .EmailAddress()
             .CustomAsync(async (email, context, cancellationToken) =>
             {
                 var user = await usersDbContext.Users.FirstOrDefaultAsync(x => x.Email == email, cancellationToken);
                 if (user is null) return;
-                context.AddFailure(new ValidationFailure(nameof(Register.Body.Email), "Email already exists"));
+                context.AddFailure(new ValidationFailure(nameof(Register.RegisterBody.Email), "Email already exists"));
             });
 
-        RuleFor(x => x.Body.FirstName)
+        RuleFor(x => x.FirstName)
             .NotEmpty();
 
-        RuleFor(x => x.Body.LastName)
+        RuleFor(x => x.LastName)
             .NotEmpty();
     }
 }
