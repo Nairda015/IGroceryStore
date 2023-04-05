@@ -3,10 +3,11 @@ using IGroceryStore.API;
 using IGroceryStore.API.Initializers;
 using IGroceryStore.API.Middlewares;
 using IGroceryStore.Shared;
-using IGroceryStore.Shared.Services;
 using IGroceryStore.Shared.Configuration;
+using IGroceryStore.Shared.Services;
 using IGroceryStore.Shared.Settings;
 using MassTransit;
+using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Npgsql;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
@@ -34,8 +35,10 @@ if (!builder.Environment.IsDevelopment() && !builder.Environment.IsTestEnvironme
 builder.Services.AddSingleton<DateTimeService>();
 
 //Services
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c => { c.OrderActionsBy(x => x.HttpMethod); });
+builder.Services.AddFluentValidationRulesToSwagger();
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSingleton<ICurrentUserService, CurrentUserService>();
@@ -44,7 +47,6 @@ builder.Services.AddScoped<ISnowflakeService, SnowflakeService>();
 
 //Db
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
 
 //Middlewares
 builder.Services.AddScoped<ExceptionMiddleware>();
@@ -104,7 +106,7 @@ System.AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 app.UseSwagger();
 
 // TODO: is this needed?
-// Configure the HTTP request pipeline. 
+// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
